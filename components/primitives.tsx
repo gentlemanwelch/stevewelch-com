@@ -233,6 +233,21 @@ export function StatGrid({
 }) {
   const valueColor = tone === "dark" ? "text-white" : "text-[var(--color-blue)]";
   const labelColor = tone === "dark" ? "text-white/70" : "text-[var(--color-ink-soft)]";
+
+  /*
+    Column count follows the number of stats rather than being fixed at four.
+    Hardcoding four split a three-stat block into four narrow columns — and
+    inside the narrow card on /about/ that squeezed the values until they
+    overlapped and read as "225+57,000M+". Written out in full because Tailwind
+    scans source text for class names and cannot see an interpolated one.
+  */
+  const columns =
+    stats.length <= 2
+      ? "sm:grid-cols-2"
+      : stats.length === 3
+        ? "grid-cols-1 sm:grid-cols-3"
+        : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
+
   return (
     <div>
       {heading && (
@@ -240,12 +255,15 @@ export function StatGrid({
           {heading}
         </h2>
       )}
-      <dl className={`${heading ? "mt-10" : ""} grid gap-8 sm:grid-cols-2 lg:grid-cols-4`}>
+      <dl className={`${heading ? "mt-10" : ""} grid gap-8 ${columns}`}>
         {stats.map((s) => (
           <div key={s.label} className="text-center">
             {/* aria-hidden on the split halves so assistive tech reads the
                 whole sentence below rather than the fragments twice. */}
-            <dt className={`text-4xl font-bold sm:text-5xl ${valueColor}`} aria-hidden="true">
+            <dt
+              className={`text-3xl font-bold leading-none tabular-nums sm:text-4xl ${valueColor}`}
+              aria-hidden="true"
+            >
               {s.value}
             </dt>
             <dd className={`mt-2 text-sm leading-snug ${labelColor}`} aria-hidden="true">

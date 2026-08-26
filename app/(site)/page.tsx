@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
@@ -45,30 +46,47 @@ export default function HomePage() {
       <JsonLd data={speakingServiceSchema()} />
 
       {/* ------------------------------------------------------------- Hero */}
-      <section
-        className="relative bg-[var(--color-navy)] text-white"
-        style={{
-          backgroundImage: `url(${img.homeHero})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center right",
-        }}
-      >
-        {/* The hero art carries Steve on the left, so the panel sits right and
-            the scrim keeps the type legible before the image loads (or if it
-            has not been downloaded yet). */}
-        <div className="bg-[var(--color-navy)]/80 md:bg-gradient-to-r md:from-[var(--color-navy)] md:via-[var(--color-navy)]/90 md:to-transparent">
-          <Container className="py-24 sm:py-32 lg:py-40">
-            <div className="max-w-xl md:ml-auto md:text-right">
-              <h1 className="text-white">{heroHeading}</h1>
-              <div className="mt-8 flex flex-wrap gap-3 md:justify-end">
-                <Button href="/speaking/">Book Steve to Speak</Button>
-                <Button href="/about/" variant="secondary">
-                  More About Steve
-                </Button>
-              </div>
+      {/*
+        The hero art is a 1920x1023 photograph with Steve seated in the LEFT
+        third against the Restore wall; the right two-thirds is room. Two things
+        follow from that and both were wrong in the first cut:
+
+          - object-position must be LEFT. Cropping toward centre-right pushes
+            him out of frame entirely on narrow viewports.
+          - the scrim must darken the RIGHT, where the type sits. A gradient
+            running the other way dims the subject and leaves the text fighting
+            a busy background.
+
+        next/image rather than a CSS background: this is the LCP element, the
+        source is a 1 MB PNG, and Next will serve a far smaller AVIF/WebP at the
+        right size. LCP is a Core Web Vital, which feeds both organic ranking
+        and the Landing Page Experience half of Google Ads Quality Score, so the
+        saving is worth the explicit element. `priority` opts it out of lazy
+        loading — it is above the fold on every visit.
+      */}
+      <section className="relative isolate bg-[var(--color-navy)] text-white">
+        <Image
+          src={img.homeHero}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-left"
+        />
+        <div className="absolute inset-0 bg-[var(--color-navy)]/75 md:bg-transparent md:bg-gradient-to-l md:from-[var(--color-navy)] md:via-[var(--color-navy)]/80 md:to-transparent" />
+
+        <Container className="relative py-24 sm:py-32 lg:py-40">
+          <div className="max-w-xl md:ml-auto md:text-right">
+            <h1 className="text-white">{heroHeading}</h1>
+            <div className="mt-8 flex flex-wrap gap-3 md:justify-end">
+              <Button href="/speaking/">Book Steve to Speak</Button>
+              <Button href="/about/" variant="secondary">
+                More About Steve
+              </Button>
             </div>
-          </Container>
-        </div>
+          </div>
+        </Container>
       </section>
 
       {/* -------------------------------------------------- Newsletter strip */}
@@ -107,8 +125,14 @@ export default function HomePage() {
                   >
                     <span
                       aria-hidden="true"
-                      className="absolute inset-0 bg-cover bg-center opacity-45 transition-opacity duration-300 group-hover:opacity-25"
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                       style={{ backgroundImage: `url(${image})` }}
+                    />
+                    {/* Scrim only where the type sits, so the photograph stays
+                        legible above it and the copy stays readable over it. */}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)] via-[var(--color-navy)]/75 to-[var(--color-navy)]/10"
                     />
                     <span className="relative">
                       <span className="block text-2xl font-bold">{role.title}</span>
@@ -139,15 +163,17 @@ export default function HomePage() {
       </Section>
 
       {/* -------------------------------------------------- Speaking panel */}
-      <section
-        className="relative bg-[var(--color-navy)] text-white"
-        style={{
-          backgroundImage: `url(${img.speakingBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="bg-[var(--color-navy)]/85">
+      <section className="relative isolate bg-[var(--color-navy)] text-white">
+        <Image
+          src={img.speakingBg}
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="100vw"
+          className="object-cover object-left"
+        />
+        <div className="absolute inset-0 bg-[var(--color-navy)]/80 md:bg-transparent md:bg-gradient-to-l md:from-[var(--color-navy)] md:via-[var(--color-navy)]/85 md:to-transparent" />
+        <div className="relative">
           <Container className="py-20 sm:py-24">
             <div className="max-w-xl md:ml-auto">
               <Eyebrow>{speakingPanel.eyebrow}</Eyebrow>

@@ -54,7 +54,7 @@ export default function AboutPage() {
           backgroundPosition: "bottom center",
         }}
       >
-        <div className="bg-[var(--color-navy)]/85">
+        <div className="bg-[var(--color-navy)]/70">
           <Container className="py-24 sm:py-32">
             <Eyebrow>{aboutHero.eyebrow}</Eyebrow>
             <h1 className="max-w-3xl text-white">{aboutHero.heading}</h1>
@@ -85,8 +85,12 @@ export default function AboutPage() {
                 >
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 bg-cover bg-center opacity-45"
+                    className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: `url(${image})` }}
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)] via-[var(--color-navy)]/75 to-[var(--color-navy)]/10"
                   />
                   <span className="relative">
                     <span className="block text-2xl font-bold">{box.title}</span>
@@ -104,15 +108,19 @@ export default function AboutPage() {
       {/* Restore: where it came from, and where it is now. */}
       <Section>
         <Container>
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div>
-              <Eyebrow>{restoreOrigin.heading}</Eyebrow>
-              <h2>Restore Hyper Wellness</h2>
-              <p className="mt-4 text-lg leading-relaxed">{restoreOrigin.body}</p>
-            </div>
-            <div className="rounded-[var(--radius-card)] bg-[var(--color-navy)] p-8 sm:p-10">
-              <StatGrid stats={restoreToday} tone="dark" />
-            </div>
+          {/*
+            Counters get their own full-width row rather than half a two-column
+            grid. Three large numbers in a ~430px card had nowhere to go and ran
+            into each other, and the original site renders its counter blocks
+            full-width for the same reason.
+          */}
+          <div className="max-w-3xl">
+            <Eyebrow>{restoreOrigin.heading}</Eyebrow>
+            <h2>Restore Hyper Wellness</h2>
+            <p className="mt-4 text-lg leading-relaxed">{restoreOrigin.body}</p>
+          </div>
+          <div className="mt-10 rounded-[var(--radius-card)] bg-[var(--color-navy)] p-8 sm:p-12">
+            <StatGrid stats={restoreToday} tone="dark" />
           </div>
         </Container>
       </Section>
