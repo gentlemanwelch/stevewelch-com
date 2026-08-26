@@ -10,6 +10,16 @@
  * That pulls all 155 files from the live site into public/media/. Until it is
  * run, every component that consumes this file falls back gracefully: no broken
  * image icons, no layout collapse. The site is fully functional without them.
+ *
+ * FILENAME COLLISIONS: six files were uploaded to WordPress twice, into
+ * different month folders, under identical names. The download script gives the
+ * EARLIEST upload of each the bare filename and prefixes the later one with its
+ * YYYY-MM. Every path below refers to the bare name, which is the copy the
+ * original pages reference — `speakingReelPoster` is the case that matters, and
+ * it resolves to attachment 1861 (2024/05), the one the speaking page used.
+ *
+ * If you ever repoint one of these at a `2024-07-`-prefixed file, check the
+ * original page first: the two copies are not guaranteed to be identical.
  */
 
 const base = "/media";
