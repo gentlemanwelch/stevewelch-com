@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ *
+ * Every colour, font and rhythm value on the site resolves to one of these.
+ * That is deliberate and it is the point: the visual design is meant to be
+ * re-skinned to match the existing WordPress site (or replaced outright)
+ * by editing this block alone, without opening a single component.
+ *
+ * If you are matching the old theme: pull its hex values with a colour picker
+ * and paste them over `--color-ink` through `--color-accent`, then swap the two
+ * font families in app/layout.tsx. That is the whole job.
+ */
+@theme {
+  /* Palette lifted from the WordPress export — the ACF block data and the
+     theme's custom CSS, not guessed. Where a value appears below, the comment
+     names where it came from so it can be checked.
+
+     To re-skin the whole site, edit this block. Nothing else needs to change. */
+  --color-navy: #042e43;         /* hero_background_color, home hero */
+  --color-blue: #348cbb;         /* section background_color; GDPR button border */
+  --color-blue-deep: #055577;    /* custom CSS, ordered-list headings */
+  --color-tint: #edf5f9;         /* image-text-section text_bg */
+  --color-tint-warm: #f4f9fb;    /* books page content_background */
+
+  --color-ink: #042e43;          /* headings — the navy doubles as text */
+  --color-ink-soft: #46586a;     /* body copy */
+  --color-ink-faint: #7b8b98;    /* captions, meta */
+  --color-canvas: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-alt: var(--color-tint);
+  --color-line: #d9e6ee;
+  --color-accent: var(--color-blue);
+  --color-accent-soft: var(--color-tint);
+
+  /* Poppins, from the theme's custom CSS. One family for everything, which is
+     what the original does — there is no display serif on this site. */
+  --font-display: var(--font-body-family), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-body-family), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shape, from the theme's custom CSS:
+       buttons  border-radius: 40px            (.mgbutton)
+       cards    border-radius: 16px
+                box-shadow: 0 4px 20px rgba(0,0,0,.25)   (#logo-holder .cell) */
+  --radius-pill: 40px;
+  --radius-card: 16px;
+  --shadow-card: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
+
+  --container-measure: 44rem;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/*
+ * Base element styles MUST live inside `@layer base`.
+ *
+ * Tailwind puts its utilities in a cascade layer, and in CSS an UNLAYERED rule
+ * beats a layered one regardless of specificity. Written outside a layer, the
+ * `a { color: inherit }` below silently overrode every text-colour utility on
+ * every link on the site — which rendered `text-white` button labels as
+ * dark-on-dark and invisible. The heading rule did the same to the white
+ * heading in the dark call-to-action band.
+ *
+ * It looks like a specificity problem and is not one. Keep these in the layer.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink-soft);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  /* The original theme sizes its headings with clamp() against a vw scaler
+     rather than at breakpoints — see the `--minFontSize / --scaler /
+     --maxFontSize` triples in its custom CSS. Same technique here, so type
+     scales continuously instead of stepping. */
+  h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
+  h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
+  h3 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+
+  /* Long-form paragraphs read better with no orphaned last word. `pretty`
+     costs nothing where it is unsupported. */
+  p { text-wrap: pretty; }
+
+  a { color: inherit; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * Focus styling is defined once, visibly, and never removed. A meaningful part
+ * of this audience navigates by keyboard, and an event organizer who cannot tab
+ * to the booking form does not send an email about it — they leave.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: #fff;
+}
