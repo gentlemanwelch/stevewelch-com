@@ -7,8 +7,9 @@ import {
   speakingPanel, pillars, optIn, restorePanel,
 } from "@/content/home";
 import { credentials } from "@/content/bio";
-import { books } from "@/content/books";
+import { featuredBook, getBook, freeChapter } from "@/content/books";
 import { img, speakingEngagementLogos } from "@/content/media-manifest";
+import { BookFeature } from "@/components/BookFeature";
 import { Container, Section, Eyebrow, Button, JsonLd, LogoWall } from "@/components/primitives";
 import { speakingServiceSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
@@ -268,37 +269,28 @@ export default function HomePage() {
       </Section>
 
       {/* ------------------------------------------------------------ Books */}
-      <Section tone="alt">
-        <Container>
-          <h2 className="text-center">Books</h2>
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
-            {books.map((book) => (
-              <li key={book.slug}>
-                <Link
-                  href={`/books/${book.slug}/`}
-                  className="group flex h-full flex-col rounded-[var(--radius-card)] bg-white p-7 shadow-[var(--shadow-card)]"
-                >
-                  <h3>{book.title}</h3>
-                  {book.subtitle && (
-                    <p className="mt-1 text-sm text-[var(--color-ink-faint)]">{book.subtitle}</p>
-                  )}
-                  <p className="mt-3 flex-1 leading-relaxed">{book.blurb}</p>
-                  <span className="mt-5 text-sm font-semibold text-[var(--color-accent)]">
-                    About this book →
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </Section>
+      {/*
+        The original runs a featured-book block here, not a pair of text cards:
+        cover art, the argument for the book, and two actions. Replacing the
+        cards with it is the single biggest visual correction on this page.
+      */}
+      <BookFeature
+        eyebrow={featuredBook.eyebrow}
+        title={featuredBook.title}
+        subtitle={featuredBook.subtitle}
+        body={featuredBook.body}
+        learnMoreHref={featuredBook.learnMoreHref}
+        buyUrl={getBook(featuredBook.slug)?.buyUrl}
+        desktopArt={img.restoreBookBg}
+        mobileArt={img.restoreBookBgMobile}
+      />
 
       {/* ------------------------------------------------- Free chapter CTA */}
       <section className="bg-[var(--color-blue)]">
         <Container className="py-14 text-center">
           <h2 className="mx-auto max-w-2xl text-white">{optIn.heading}</h2>
           <div className="mt-7 flex justify-center">
-            <Button href="/contact/" variant="secondary">
+            <Button href={freeChapter.pdfHref} variant="secondary">
               {optIn.cta}
             </Button>
           </div>
@@ -306,25 +298,58 @@ export default function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------- Restore */}
-      <Section>
-        <Container>
-          <div className="rounded-[var(--radius-card)] bg-[var(--color-tint)] p-8 sm:p-12">
-            <h2>{restorePanel.heading}</h2>
-            <p className="mt-4 max-w-3xl leading-relaxed">{restorePanel.body}</p>
-            <a
-              href={restorePanel.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-block font-semibold text-[var(--color-accent)] underline underline-offset-4"
-            >
-              {restorePanel.linkLabel}
-            </a>
+      {/*
+        The original heads this with the Restore wordmark rather than setting
+        the company name in Poppins, and pairs it with two therapy photographs.
+        Those two images arrive already composited into a single transparent
+        PNG, so the offset overlap needs no CSS to rebuild.
+      */}
+      <section className="bg-[var(--color-tint)]">
+        <Container className="py-16 sm:py-24">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <h2 className="sr-only">{restorePanel.heading}</h2>
+              <Image
+                src={img.restoreLogo}
+                alt={restorePanel.heading}
+                width={320}
+                height={110}
+                className="h-auto w-[15rem] sm:w-[18rem]"
+              />
+              <p className="mt-6 text-lg leading-relaxed text-[var(--color-ink-soft)]">
+                {restorePanel.body}
+              </p>
+              <a
+                href={restorePanel.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-block font-semibold text-[var(--color-blue)] underline underline-offset-4 hover:text-[var(--color-blue-deep)]"
+              >
+                {restorePanel.linkLabel}
+              </a>
+            </div>
+            <Image
+              src={img.restoreComposite}
+              alt="Infrared sauna and red light therapy at Restore Hyper Wellness"
+              width={1074}
+              height={826}
+              className="h-auto w-full"
+            />
           </div>
         </Container>
-      </Section>
+      </section>
 
       {/* ------------------------------------------------------ Credentials */}
-      <Section tone="alt">
+      {/*
+        White, not the tint. The Restore section above it is #edf5f9 — that
+        value is from the original's own block data — so a tinted strip here
+        merged the two into one long band with a dead gap in the middle.
+
+        REVIEW: this strip is not on the original homepage at all; it was added
+        by the first build. Kept for now pending a decision, but it is the one
+        block on this page with no counterpart in the WordPress version.
+      */}
+      <Section>
         <Container>
           <h2 className="sr-only">Background</h2>
           <dl className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">

@@ -42,6 +42,26 @@ export const img = {
   aboutWork: `${base}/Restore-36-scaled-aspect-ratio-800-600-2.jpg`,
 
   speakingReelPoster: `${base}/DSC_0503-scaled.jpg`,
+
+  /*
+    Book feature artwork. Each is a full-bleed background: a pale-blue field
+    with the 3D cover and its decorative wellness icons sitting on the RIGHT and
+    the left two-thirds left empty for the copy to sit in. The mobile variants
+    are recomposed portrait, cover above the text — not the same file scaled.
+  */
+  restoreBookBg: `${base}/restore-book-bg.svg`,
+  restoreBookBgMobile: `${base}/restore-book__m.svg`,
+  entrepreneursBookBg: `${base}/book-2-bg.svg`,
+  entrepreneursBookBgMobile: `${base}/ep-book_mobile.svg`,
+
+  /* The Restore wordmark, which the original uses in place of a text heading. */
+  restoreLogo: `${base}/restore_hyper-wellness_logo.svg`,
+  /* Two therapy photographs, already composited into one transparent PNG —
+     the offset overlap is baked into the file, so it needs no CSS to rebuild. */
+  restoreComposite: `${base}/home-restore-img-2.png`,
+
+  /* The lead magnet the opt-in has been promising and not delivering. */
+  freeChapterPdf: `${base}/RestoreChapter1_HyperWellness.pdf`,
 } as const;
 
 export type LogoRef = { name: string; file: string };

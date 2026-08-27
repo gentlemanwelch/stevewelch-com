@@ -52,8 +52,35 @@ export function getBook(slug: string): Book | undefined {
   return books.find((b) => b.slug === slug);
 }
 
+/**
+ * The featured book block, as it appears on the homepage and elsewhere. On the
+ * original this is a theme-level block with the same content everywhere, which
+ * is why the page export carried no data for it.
+ */
+export const featuredBook = {
+  eyebrow: "About the Book",
+  title: "Restore:",
+  subtitle: "The Life-Changing Power of Right Away Wellness",
+  body: "Pain, disease, and complications of aging are universal problems, but addressing these challenges is far easier and more accessible than many people realize. In The Life-Changing Power of Right-Away Wellness, Jim Donnelly and Steve Welch share real-life success stories of how people used hyper-wellness therapies to drive change to their happiness, health, and productivity.",
+  learnMoreHref: "/books/restore/",
+  slug: "restore",
+};
+
 export const freeChapter = {
   heading:
     "Sign up and get a free chapter of Restore: The Life Changing Power of Right-Away Wellness",
   cta: "Get the free chapter",
+  /**
+   * The chapter itself, which came down with the media and had been sitting
+   * unused while the opt-in promised it. Linking straight to it delivers the
+   * thing immediately.
+   *
+   * DECISION: no email gate. The original puts a Gravity Form here and captures
+   * an address first. That is a defensible trade, and it is available whenever
+   * you want it — but an ungated PDF earns a Google Ads landing page a better
+   * Landing Page Experience score than a form wall does, and this site's
+   * revenue comes from bookings rather than from a mailing list. Say the word
+   * and it becomes a form.
+   */
+  pdfHref: "/media/RestoreChapter1_HyperWellness.pdf",
 };
