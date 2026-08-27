@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
-  heroHeading, newsletterBar, intro, roles, rolesFooter,
+  hero, newsletterBar, intro, roles, rolesFooter,
   speakingPanel, pillars, optIn, restorePanel,
 } from "@/content/home";
 import { credentials } from "@/content/bio";
@@ -48,23 +48,15 @@ export default function HomePage() {
       {/* ------------------------------------------------------------- Hero */}
       {/*
         The hero art is a 1920x1023 photograph with Steve seated in the LEFT
-        third against the Restore wall; the right two-thirds is room. Two things
-        follow from that and both were wrong in the first cut:
+        third against the Restore wall, so object-position is left and the scrim
+        darkens the RIGHT, where the type sits.
 
-          - object-position must be LEFT. Cropping toward centre-right pushes
-            him out of frame entirely on narrow viewports.
-          - the scrim must darken the RIGHT, where the type sits. A gradient
-            running the other way dims the subject and leaves the text fighting
-            a busy background.
-
-        next/image rather than a CSS background: this is the LCP element, the
-        source is a 1 MB PNG, and Next will serve a far smaller AVIF/WebP at the
-        right size. LCP is a Core Web Vital, which feeds both organic ranking
-        and the Landing Page Experience half of Google Ads Quality Score, so the
-        saving is worth the explicit element. `priority` opts it out of lazy
-        loading — it is above the fold on every visit.
+        next/image rather than a CSS background: this is the LCP element and the
+        source is a 1 MB PNG, so Next serves a far smaller AVIF/WebP at the right
+        size. LCP feeds organic ranking and the Landing Page Experience half of
+        Ads Quality Score alike.
       */}
-      <section className="relative isolate bg-[var(--color-navy)] text-white">
+      <section className="hero-viewport relative isolate flex items-center bg-[var(--color-navy)] text-white">
         <Image
           src={img.homeHero}
           alt=""
@@ -76,37 +68,64 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-[var(--color-navy)]/75 md:bg-transparent md:bg-gradient-to-l md:from-[var(--color-navy)] md:via-[var(--color-navy)]/80 md:to-transparent" />
 
-        <Container className="relative py-24 sm:py-32 lg:py-40">
-          <div className="max-w-xl md:ml-auto md:text-right">
-            <h1 className="text-white">{heroHeading}</h1>
-            <div className="mt-8 flex flex-wrap gap-3 md:justify-end">
-              <Button href="/speaking/">Book Steve to Speak</Button>
-              <Button href="/about/" variant="secondary">
-                More About Steve
-              </Button>
+        <Container className="relative w-full py-20">
+          {/*
+            The block sits on the right half but its text is LEFT aligned inside
+            it — both lines and the rule start on the same vertical edge. The
+            first build right-aligned the whole thing, which reads as a different
+            layout even though the words are identical.
+          */}
+          <div className="max-w-2xl md:ml-auto">
+            {/*
+              One <h1> containing both tiers, so the accessible name and the
+              text a crawler reads are still the whole sentence.
+            */}
+            <h1 className="!text-[2.6rem] leading-[1.05] sm:!text-[3.75rem] lg:!text-[4.5rem]">
+              <span className="block text-white">{hero.headingLead}</span>
+              <span className="mt-2 block text-[0.62em] leading-[1.15] text-white">
+                {hero.headingRest}
+              </span>
+            </h1>
+
+            {/*
+              The rule under the headline: a cyan bar ending in a ring. Purely
+              decorative, so it is hidden from assistive technology.
+            */}
+            <div aria-hidden="true" className="mt-7 flex items-center">
+              <span className="h-[3px] w-full max-w-[19rem] bg-[var(--color-cyan)]" />
+              <span className="-ml-px h-4 w-4 shrink-0 rounded-full border-[3px] border-[var(--color-cyan)] bg-[var(--color-navy)]" />
             </div>
+
+            {/*
+              No buttons here. The original hero carries none — the headline and
+              the photograph do the work, and the first action is the newsletter
+              bar immediately below. Adding CTAs was an invention of the first
+              build.
+            */}
           </div>
         </Container>
       </section>
 
       {/* -------------------------------------------------- Newsletter strip */}
+      {/* Centred and stacked, as on the original — not a left/right split. */}
       <section className="bg-[var(--color-blue)]">
-        <Container className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
-          <p className="text-lg font-semibold text-white">{newsletterBar.heading}</p>
-          <Button href={site.social.substack} variant="secondary">
-            {newsletterBar.cta}
-          </Button>
+        <Container className="py-10 text-center">
+          <p className="text-2xl font-bold text-white sm:text-3xl">{newsletterBar.heading}</p>
+          <div className="mt-6 flex justify-center">
+            <Button href={site.social.substack}>{newsletterBar.cta}</Button>
+          </div>
         </Container>
       </section>
 
       {/* ------------------------------------------------------------ Intro */}
       <Section>
-        <Container size="measure">
-          <div className="space-y-5 text-lg leading-relaxed">
-            {intro.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
+        <Container className="text-center">
+          <p className="mx-auto max-w-4xl text-[1.5rem] font-semibold leading-snug text-[var(--color-blue-deep)] sm:text-[2rem]">
+            {intro.lead}
+          </p>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-ink-soft)]">
+            {intro.body}
+          </p>
         </Container>
       </Section>
 
@@ -201,7 +220,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[var(--color-navy)]/80 md:bg-transparent md:bg-gradient-to-l md:from-[var(--color-navy)] md:via-[var(--color-navy)]/85 md:to-transparent" />
         <div className="relative">
           <Container className="py-20 sm:py-24">
-            <div className="max-w-xl md:ml-auto">
+            <div className="max-w-2xl md:ml-auto">
               <Eyebrow>{speakingPanel.eyebrow}</Eyebrow>
               <h2 className="text-white">{speakingPanel.heading}</h2>
               <ul className="mt-6 space-y-3">

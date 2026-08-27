@@ -121,6 +121,20 @@
   a { color: inherit; }
 }
 
+/*
+ * Hero height.
+ *
+ * Written here rather than as a Tailwind arbitrary value so the vh fallback can
+ * precede the svh version — `svh` is the small-viewport unit, which on a phone
+ * measures against the browser chrome at its TALLEST, so the hero never gets
+ * clipped by a toolbar that slides in on scroll. Browsers without svh take the
+ * first declaration and are no worse off than before.
+ */
+.hero-viewport {
+  min-height: calc(100vh - 4.5rem);
+  min-height: calc(100svh - 4.5rem);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

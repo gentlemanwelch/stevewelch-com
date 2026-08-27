@@ -13,17 +13,37 @@
  * a list of topics.
  */
 
-export const heroHeading = "Driving Change Through Purpose, People, Process";
+/**
+ * The hero headline is set in two tiers on the original: "Driving Change" large,
+ * the rest noticeably smaller beneath it. Split here so the components do not
+ * have to slice the string — and so the whole phrase still reads as one
+ * sentence to a screen reader and to a crawler, since both halves live inside
+ * a single <h1>.
+ */
+export const hero = {
+  headingLead: "Driving Change",
+  headingRest: "Through Purpose, People, Process",
+};
+
+/** The full phrase, for <title>, metadata and anywhere it is needed unsplit. */
+export const heroHeading = `${hero.headingLead} ${hero.headingRest}`;
 
 export const newsletterBar = {
   heading: "Get thoughts and Insights",
   cta: "Get The Newsletter",
 };
 
-export const intro = [
-  "Steve Welch is a successful entrepreneur and investor, who has founded and exited businesses in the healthcare and consumer industries.",
-  "Currently as the CEO of Restore Hyper Wellness, Steve is expanding the accessibility of wellness therapies that provide lasting health benefits to consumers.",
-];
+/**
+ * The intro is also two tiers on the original: the first sentence is a large,
+ * centred, navy statement — not body copy — and the second sits beneath it
+ * smaller and darker. Setting both at body size, left aligned, as the first
+ * build did, threw away the only moment on the page where the positioning is
+ * stated outright.
+ */
+export const intro = {
+  lead: "Steve Welch is a successful entrepreneur and investor, who has founded and exited businesses in the healthcare and consumer industries.",
+  body: "Currently as the CEO of Restore Hyper Wellness, Steve is expanding the accessibility of wellness therapies that provide lasting health benefits to consumers.",
+};
 
 export type RoleBox = {
   title: string;
