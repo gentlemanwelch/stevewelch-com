@@ -114,6 +114,24 @@ export default function HomePage() {
       <Section tone="alt">
         <Container>
           <h2 className="sr-only">What Steve does</h2>
+          {/*
+            Role tiles: photograph at full strength with the title over it, and
+            the description revealed on hover.
+
+            The first build showed everything all the time behind a flat 45%
+            wash, which dimmed three good photographs to make room for copy
+            nobody had asked for yet. The original lets the images do the
+            opening work and holds the words back until someone shows interest.
+
+            Two things this has to get right that a hover effect usually gets
+            wrong:
+
+              - TOUCH. There is no hover on a phone, and most of this traffic is
+                phones. Below `md` the description is simply always visible, so
+                nothing is unreachable.
+              - KEYBOARD. `focus-within` mirrors every hover rule, so tabbing to
+                the tile reveals the same content a mouse would.
+          */}
           <ul className="grid gap-6 md:grid-cols-3 md:items-stretch">
             {roles.map((role, i) => {
               const image = [img.investor, img.executive, img.speaker][i];
@@ -121,22 +139,30 @@ export default function HomePage() {
                 <li key={role.title} className="flex">
                   <Link
                     href={role.href}
-                    className="group relative flex w-full min-h-[19rem] flex-col justify-end overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] p-7 text-white shadow-[var(--shadow-card)]"
+                    className="group relative flex w-full min-h-[20rem] flex-col items-center justify-center overflow-hidden rounded-lg bg-[var(--color-navy)] p-7 text-center text-white"
                   >
                     <span
                       aria-hidden="true"
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      className="absolute inset-0 bg-cover bg-center"
                       style={{ backgroundImage: `url(${image})` }}
                     />
-                    {/* Scrim only where the type sits, so the photograph stays
-                        legible above it and the copy stays readable over it. */}
+                    {/* A light veil at rest so white type stays legible over a
+                        busy photograph; the full navy wash only on reveal. */}
                     <span
                       aria-hidden="true"
-                      className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)] via-[var(--color-navy)]/75 to-[var(--color-navy)]/10"
+                      className="absolute inset-0 bg-[var(--color-navy)]/25 transition-colors duration-300 md:group-hover:bg-[var(--color-navy)]/85 md:group-focus-within:bg-[var(--color-navy)]/85 max-md:bg-[var(--color-navy)]/80"
                     />
+
                     <span className="relative">
-                      <span className="block text-2xl font-bold">{role.title}</span>
-                      <span className="mt-3 block text-[0.95rem] leading-relaxed text-white/85">
+                      <span className="block text-3xl font-bold drop-shadow-sm">
+                        {role.title}
+                      </span>
+                      {/* The cyan rule under the title. */}
+                      <span
+                        aria-hidden="true"
+                        className="mx-auto mt-2 block h-[3px] w-full bg-[var(--color-cyan)]"
+                      />
+                      <span className="mt-4 block text-[0.95rem] leading-relaxed text-white/90 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
                         {role.content}
                       </span>
                     </span>

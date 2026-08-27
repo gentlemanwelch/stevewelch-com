@@ -92,15 +92,23 @@ type ButtonProps = {
 };
 
 export function Button({ href, children, variant = "primary", className = "" }: ButtonProps) {
+  /*
+    Buttons are coral. On the original every call to action is, and against a
+    site this navy-heavy that contrast is the whole reason they read as
+    clickable — a blue button on a blue site is decoration.
+
+    `secondary` stays white-on-navy for the cases where coral would compete
+    with a primary action sitting next to it.
+  */
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.95rem] font-semibold transition-colors duration-200";
+    "inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] px-7 py-3 text-[0.95rem] font-bold transition-colors duration-200";
   const variants = {
     primary:
-      "bg-[var(--color-accent)] text-white hover:bg-[var(--color-ink)]",
+      "bg-[var(--color-coral)] text-white hover:bg-[var(--color-coral-dark)]",
     secondary:
-      "border border-[var(--color-line)] bg-[var(--color-surface)] text-[var(--color-ink)] hover:border-[var(--color-ink)]",
+      "border-2 border-white bg-white text-[var(--color-navy)] hover:bg-transparent hover:text-white",
     ghost:
-      "text-[var(--color-accent)] hover:text-[var(--color-ink)] px-0",
+      "text-[var(--color-coral)] hover:text-[var(--color-coral-dark)] px-0",
   };
   const isExternal = href.startsWith("http");
 

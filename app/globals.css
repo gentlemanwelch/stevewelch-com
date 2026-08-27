@@ -24,6 +24,21 @@
   --color-tint: #edf5f9;         /* image-text-section text_bg */
   --color-tint-warm: #f4f9fb;    /* books page content_background */
 
+  /* The action colour. Every CTA on the original is coral, not blue — that is
+     what makes them jump off the page against all that navy, and it never
+     reached us because it lives in the theme's stylesheet rather than in page
+     content, and a WordPress WXR export carries no theme CSS.
+
+     REVIEW: sampled by eye from a screenshot. To make it exact, inspect the
+     "Get The Newsletter" button on stevewelch.com and paste its computed
+     background-color here — it is the only place the value appears. */
+  --color-coral: #f26b5a;
+  --color-coral-dark: #d9543f;   /* hover */
+
+  /* The underline accent beneath the role-box titles. This IS in the export —
+     it appears on /writings-media/ — but went unused in the first build. */
+  --color-cyan: #53bcd7;
+
   --color-ink: #042e43;          /* headings — the navy doubles as text */
   --color-ink-soft: #46586a;     /* body copy */
   --color-ink-faint: #7b8b98;    /* captions, meta */
@@ -31,7 +46,7 @@
   --color-surface: #ffffff;
   --color-surface-alt: var(--color-tint);
   --color-line: #d9e6ee;
-  --color-accent: var(--color-blue);
+  --color-accent: var(--color-coral);
   --color-accent-soft: var(--color-tint);
 
   /* Poppins, from the theme's custom CSS. One family for everything, which is
