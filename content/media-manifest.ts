@@ -33,6 +33,13 @@ export const img = {
   homeHeroMobile: `${base}/steve_hero-mobile-1.png`,
   speakingBg: `${base}/steve-welch_speaking-bg.png`,
 
+  // The /speaking/ hero. Its block names attachment 1932 — speaking_hero-1.png,
+  // the shot of Steve on stage — with 1906 (speaking-hero-bg-m.png) as the
+  // mobile alternative. The first build pointed the hero at speakingBg, which
+  // is a different picture and belongs to the home page's speaking panel.
+  speakingHero: `${base}/speaking_hero-1.png`,
+  speakingHeroMobile: `${base}/speaking-hero-bg-m.png`,
+
   investor: `${base}/investor-img.png`,
   executive: `${base}/executive-img.png`,
   speaker: `${base}/speaker-img.png`,

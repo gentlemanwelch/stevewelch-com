@@ -51,23 +51,55 @@ export default function SpeakingPage() {
         ])}
       />
 
-      <section
-        className="relative bg-[var(--color-navy)] text-white"
-        style={{
-          backgroundImage: `url(${img.speakingBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="bg-[var(--color-navy)]/80">
-          <Container className="py-24 sm:py-32">
-            <Eyebrow>{speakingHero.eyebrow}</Eyebrow>
-            <h1 className="max-w-3xl text-white">{speakingHero.heading}</h1>
-            <div className="mt-8">
-              <Button href="/contact/">{speakingHero.cta}</Button>
-            </div>
-          </Container>
-        </div>
+      {/*
+        The hero, rebuilt from its block. Three things were wrong before:
+
+        1. THE PICTURE. The block names `hero_image: 1932` — speaking_hero-1.png,
+           Steve on stage under blue light with the audience in silhouette. The
+           first build used speakingBg, a different photograph that belongs to
+           the home page's speaking panel.
+        2. THE ALIGNMENT. `hero_text_width_position: "full-width-txt"`, so the
+           label, the heading and the button are centred, not ranged left.
+        3. THE WASH. It was at 0.80, which buried the stage lighting.
+
+        On the wash: the block does say `hero_overlay_tint: rgba(0,0,0,0)`, and
+        on the HOME hero that is the literal truth — measured, the photograph
+        carries white type on its own. Here it cannot. This picture is a
+        brightly lit curtain, and centred white type over the middle of it
+        measures 1.94:1. The original must darken it by some route the export
+        does not carry, so rather than strip the wash and ship unreadable type,
+        this is set to the measured minimum: 0.46 is the floor at 1440 (the
+        worst of the breakpoints), 0.52 leaves a margin at 5.3:1. Ninety percent
+        of the picture the 0.80 was hiding comes back.
+
+        The crop moves on mobile. This is a 2560x853 banner, so a 390-wide
+        window shows 31% of it, and centred that is curtain with Steve nowhere
+        in the frame — his own speaking hero without him in it, on the widths
+        most of the traffic arrives at. 75% puts him in the middle of the window
+        and measures 5.12:1 under the wash. One image, one download: shifting
+        object-position beats serving a second file on the LCP path.
+
+        Wants a screenshot of the live page to settle exactly.
+      */}
+      <section className="relative isolate bg-[var(--color-navy)] text-white">
+        <Image
+          src={img.speakingHero}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[75%_50%] md:object-center"
+        />
+        <div className="absolute inset-0 bg-[var(--color-navy)]/52" />
+
+        <Container className="relative py-24 text-center sm:py-32">
+          <Eyebrow tone="onDark">{speakingHero.eyebrow}</Eyebrow>
+          <h1 className="mx-auto max-w-3xl text-white">{speakingHero.heading}</h1>
+          <div className="mt-8">
+            <Button href="/contact/">{speakingHero.cta}</Button>
+          </div>
+        </Container>
       </section>
 
       <Section>

@@ -1,6 +1,8 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { faqs } from "@/content/faq";
+import { img } from "@/content/media-manifest";
 import { InquiryForm } from "@/components/InquiryForm";
 import { Container, Section, Eyebrow, JsonLd } from "@/components/primitives";
 import { breadcrumbSchema, faqSchema } from "@/lib/jsonld";
@@ -33,13 +35,47 @@ export default function ContactPage() {
         ])}
       />
 
-      <section className="border-b border-[var(--color-line)]">
-        <Container className="py-16 sm:py-20">
-          <Eyebrow>Booking</Eyebrow>
-          <h1 className="max-w-3xl text-[2.4rem] leading-[1.06] sm:text-[3.2rem]">
+      {/*
+        A photo hero, which this page was missing entirely — it opened on a
+        plain white band. The block gives `hero_image: 1915`, the same
+        photograph as the home hero, with `full-width-txt` so everything is
+        centred.
+
+        object-top, not centre: this band is short, and the vertical middle of a
+        1920x1023 frame cuts Steve off at the eyes. Anchoring to the top keeps
+        his face whole and fills the right of the band — where the centred type
+        sits — with the dot-pattern wall. On mobile the window narrows to 44% of
+        the frame and centring it clips him to a shoulder, so it shifts to 15%,
+        which holds him centred with wall either side and measures 6.69:1.
+
+        Same wash caveat as /speaking/: the block says the tint is transparent,
+        but centred white type over the middle of this frame lands on Steve
+        himself and measures 1.14:1. The floor for 4.5:1 is 0.61 at 1440;
+        0.70 leaves margin for the paragraph, which is white at 90%.
+
+        The words are the ones already here rather than the export's, which
+        gives the h1 as the single word "Contact" twice over — that block is
+        the one saved in `mode: "edit"`, and in any case direct-booking copy
+        earns its place on the page an organiser actually converts on.
+      */}
+      <section className="relative isolate bg-[var(--color-navy)] text-white">
+        <Image
+          src={img.homeHero}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[15%_0%] md:object-top"
+        />
+        <div className="absolute inset-0 bg-[var(--color-navy)]/70" />
+
+        <Container className="relative py-20 text-center sm:py-24">
+          <Eyebrow tone="onDark">Booking</Eyebrow>
+          <h1 className="mx-auto max-w-3xl text-white text-[2.4rem] leading-[1.06] sm:text-[3.2rem]">
             This goes straight to Steve.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-ink-soft)]">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
             No agency, no bureau fee, no three-week relay through an assistant. Tell him the date,
             who is in the room, and what the session needs to accomplish — you will normally hear
             back within two business days.

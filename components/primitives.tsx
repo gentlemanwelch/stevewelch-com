@@ -76,12 +76,30 @@ export function Section({
  * spending a heading level on it — the h2 underneath stays the real one, which
  * keeps the document outline clean for both screen readers and crawlers.
  */
-export function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
-      {children}
-    </p>
-  );
+/**
+ * The small label above a heading.
+ *
+ * `tone="onDark"` is for the photo heroes. Coral on navy measures 3.7:1, under
+ * the 4.5:1 that 12px text needs, and it is not what the original does anyway —
+ * the export styles these labels `color-white text-uppercase border-underline`,
+ * i.e. white with a rule under it. That is what this renders.
+ */
+export function Eyebrow({
+  children,
+  tone = "default",
+}: {
+  children: ReactNode;
+  tone?: "default" | "onDark";
+}) {
+  const base = "mb-3 text-xs font-semibold uppercase tracking-[0.16em]";
+  if (tone === "onDark") {
+    return (
+      <p className={`${base} text-white`}>
+        <span className="inline-block border-b-2 border-white/70 pb-1">{children}</span>
+      </p>
+    );
+  }
+  return <p className={`${base} text-[var(--color-accent)]`}>{children}</p>;
 }
 
 type ButtonProps = {
