@@ -61,6 +61,21 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
           author: { "@id": `${site.url}/#person` },
           description: book.blurb,
           url: `${site.url}/books/${book.slug}/`,
+          /*
+            Where the book can actually be bought. This is the half of "buy the
+            book" a crawler can read: an assistant asked where to get Restore has
+            somewhere to send the person, rather than only a page that mentions
+            it. No `price` — it moves, and there is no source for it here; a
+            guessed number on a credibility document is worse than none.
+          */
+          ...(book.buyUrl && {
+            offers: {
+              "@type": "Offer",
+              url: book.buyUrl,
+              availability: "https://schema.org/InStock",
+              seller: { "@type": "Organization", name: "Amazon" },
+            },
+          }),
           ...(endorsements.length > 0 && {
             review: endorsements.map((t) => ({
               "@type": "Review",

@@ -130,6 +130,16 @@ export function booksSchema() {
         name: book.subtitle ? `${book.title}: ${book.subtitle}` : book.title,
         author: { "@id": PERSON_ID },
         url: `${site.url}/books`,
+        // The retail link, same as on each book's own page. Deliberately no
+        // price: it changes, and nothing here is a source for it.
+        ...(book.buyUrl && {
+          offers: {
+            "@type": "Offer",
+            url: book.buyUrl,
+            availability: "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: "Amazon" },
+          },
+        }),
       },
     })),
   };

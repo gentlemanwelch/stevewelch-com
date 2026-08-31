@@ -64,11 +64,17 @@ export function BookFeature({
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-blue-deep)]">
             {eyebrow}
           </p>
+          {/*
+            Both lines are the SAME size. The export has this as a single <h2>
+            with "Restore:" and the full title as consecutive lines inside it —
+            one heading, one size — and the live page renders it that way. The
+            first build stepped the second line down to 0.72em, which reads as a
+            title-and-subtitle pair rather than one title that happens to break.
+            The span is here only to force the line break; it carries no size.
+          */}
           <h2 className="mt-3 text-[var(--color-blue-deep)]">
             {title}
-            {subtitle && (
-              <span className="mt-1 block text-[0.72em] leading-tight">{subtitle}</span>
-            )}
+            {subtitle && <span className="block leading-tight">{subtitle}</span>}
           </h2>
           <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">
             {body.map((part, i) =>
