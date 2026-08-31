@@ -60,6 +60,7 @@ export const img = {
   restoreBookBgMobile: `${base}/restore-book__m.svg`,
   entrepreneursBookBg: `${base}/book-2-bg.svg`,
   entrepreneursBookBgMobile: `${base}/ep-book_mobile.svg`,
+  mailingListIcon: `${base}/mailing-list-icon.svg`,
 
   /* The Restore wordmark, which the original uses in place of a text heading. */
   restoreLogo: `${base}/restore_hyper-wellness_logo.svg`,

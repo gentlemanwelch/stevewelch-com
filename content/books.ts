@@ -52,6 +52,24 @@ export const books: Book[] = [
   },
 ];
 
+/**
+ * The second featured-book block, which /books/ carries under the opt-in bar.
+ * Transcribed from its own block: the heading breaks after "Born", there is an
+ * <hr /> under it, and the only button is "Buy the Book" — no "Learn More",
+ * which is why `learnMoreHref` is absent rather than empty.
+ */
+export const featuredEntrepreneurs = {
+  title: "We Are All Born",
+  subtitle: "Entrepreneurs",
+  body: [
+    {
+      text:
+        "We Are All Born Entrepreneurs explains why so many of us have a deep-rooted desire to be entrepreneurs, while using vivid examples of how so many entrepreneurs have succeeded in the face of adversity. Written by a successful entrepreneur in the biotech field, Steve Welch, WAABE demonstrates that there is no single path to follow to achieve one\u2019s dreams and in fact every path is different. Through hundreds of interviews Steve uses his story and those from a vast array of other entrepreneurs to explain what drives them, while sharing lessons learned from the success \u2014 and failures \u2014 of entrepreneurs.",
+    },
+  ],
+  slug: "we-are-all-born-entrepreneurs",
+};
+
 export function getBook(slug: string): Book | undefined {
   return books.find((b) => b.slug === slug);
 }
@@ -82,8 +100,10 @@ export const featuredBook = {
 };
 
 export const freeChapter = {
-  heading:
-    "Sign up and get a free chapter of Restore: The Life Changing Power of Right-Away Wellness",
+  /* Two lines: the ask, then the book's title in italic, which is how the
+     original sets it — `<em>` inside the same heading. */
+  heading: "Sign up and get a free chapter of Restore:",
+  headingEm: "The Life Changing Power of Right-Away Wellness",
   cta: "Get the free chapter",
   /**
    * The chapter itself, which came down with the media and had been sitting

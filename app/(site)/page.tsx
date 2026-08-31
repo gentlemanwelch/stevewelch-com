@@ -4,11 +4,12 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
   hero, newsletterBar, intro, roles, rolesFooter,
-  speakingPanel, pillars, optIn, restorePanel,
+  speakingPanel, pillars, restorePanel,
 } from "@/content/home";
-import { featuredBook, getBook, freeChapter } from "@/content/books";
+import { featuredBook, getBook } from "@/content/books";
 import { img, speakingEngagementLogos } from "@/content/media-manifest";
 import { BookFeature } from "@/components/BookFeature";
+import { OptInBar } from "@/components/OptInBar";
 import { Container, Section, Eyebrow, Button, JsonLd, LogoWall } from "@/components/primitives";
 import { speakingServiceSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
@@ -342,16 +343,7 @@ export default function HomePage() {
       />
 
       {/* ------------------------------------------------- Free chapter CTA */}
-      <section className="bg-[var(--color-blue)]">
-        <Container className="py-14 text-center">
-          <h2 className="mx-auto max-w-2xl text-white">{optIn.heading}</h2>
-          <div className="mt-7 flex justify-center">
-            <Button href={freeChapter.pdfHref} variant="secondary">
-              {optIn.cta}
-            </Button>
-          </div>
-        </Container>
-      </section>
+      <OptInBar />
 
       {/* ---------------------------------------------------------- Restore */}
       {/*

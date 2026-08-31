@@ -1,9 +1,35 @@
 import type { Metadata } from "next";
-import { books, freeChapter } from "@/content/books";
-import { Container, Section, Button, JsonLd } from "@/components/primitives";
+import { featuredBook, featuredEntrepreneurs, getBook } from "@/content/books";
+import { img } from "@/content/media-manifest";
+import { BookFeature } from "@/components/BookFeature";
+import { OptInBar } from "@/components/OptInBar";
+import { JsonLd } from "@/components/primitives";
 import { booksSchema, breadcrumbSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
+/**
+ * /books/ — rebuilt against its own block list in the export, which is three
+ * blocks and nothing else:
+ *
+ *   acf/book-cta                          the Restore feature
+ *   two-column-content-section  opt-in    the free-chapter band
+ *   overlay-content-section     entrepeneurs-book
+ *
+ * NO PAGE HERO. The first build opened on a navy band with "Books" and a line
+ * of copy I wrote; the original has no such block, and the band pushed both
+ * covers below the fold on a laptop. The page starts on the Restore artwork,
+ * which is the point of it.
+ *
+ * The <h1> survives that as screen-reader-only text. A page with no h1 at all
+ * is a real cost — it is the strongest single signal of what a page is about,
+ * and both these books are things people search by name — but it does not have
+ * to be a visible band to count. Crawlers read it; the layout is the original's.
+ *
+ * The first build also rendered both books as text-only rows with the covers
+ * missing entirely. A book's cover is the argument for the book. Both blocks
+ * now carry theirs, mirrored the way the original mirrors them: Restore with
+ * the cover right, Entrepreneurs with the cover left.
+ */
 export const metadata: Metadata = buildMetadata({
   title: "Books",
   description:
@@ -27,70 +53,38 @@ export default function BooksPage() {
         ])}
       />
 
-      <section className="bg-[var(--color-navy)] text-white">
-        <Container className="py-24 sm:py-32">
-          <h1 className="text-white">Books</h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-            One about why people start things. One about whether they have the energy to finish
-            them.
-          </p>
-        </Container>
-      </section>
+      <h1 className="sr-only">Books by Steve Welch</h1>
 
-      <Section>
-        <Container>
-          <div className="space-y-14">
-            {books.map((book) => (
-              <article
-                key={book.slug}
-                className="grid gap-8 border-b border-[var(--color-line)] pb-14 last:border-0 last:pb-0 lg:grid-cols-[1fr_1.6fr]"
-              >
-                <div>
-                  <h2>{book.title}</h2>
-                  {book.subtitle && (
-                    <p className="mt-2 text-lg text-[var(--color-ink-faint)]">{book.subtitle}</p>
-                  )}
-                  <p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-accent)]">
-                    {book.role}
-                  </p>
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    <Button href={`/books/${book.slug}/`}>About this book</Button>
-                    {book.buyUrl && (
-                      <Button href={book.buyUrl} variant="secondary">
-                        Buy the Book
-                      </Button>
-                    )}
-                  </div>
-                </div>
-                <div className="space-y-4 leading-relaxed">
-                  {book.description.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </Section>
+      <BookFeature
+        eyebrow={featuredBook.eyebrow}
+        title={featuredBook.title}
+        subtitle={featuredBook.subtitle}
+        body={featuredBook.body}
+        learnMoreHref={featuredBook.learnMoreHref}
+        buyUrl={getBook(featuredBook.slug)?.buyUrl}
+        desktopArt={img.restoreBookBg}
+        mobileArt={img.restoreBookBgMobile}
+      />
 
-      <section className="bg-[var(--color-blue)]">
-        <Container className="py-14 text-center">
-          <h2 className="mx-auto max-w-2xl text-white">{freeChapter.heading}</h2>
-          <div className="mt-7 flex justify-center">
-            <Button href="/contact/" variant="secondary">{freeChapter.cta}</Button>
-          </div>
-        </Container>
-      </section>
+      <OptInBar />
 
-      <Section tone="ink">
-        <Container className="text-center">
-          <h2 className="text-white">Bring the ideas to your stage.</h2>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button href="/speaking/">See the speaking page</Button>
-            <Button href="/contact/" variant="secondary">Check availability</Button>
-          </div>
-        </Container>
-      </Section>
+      {/*
+        The mirror. `content_position: "right"` in its block, so the copy is on
+        the right and the cover on the left; an <hr /> under the heading, which
+        Restore does not have; and one button, "Buy the Book" — no "Learn More",
+        which is why none is passed. The book's own page is still reachable: each
+        book page links to the other, so it is not orphaned by the omission.
+      */}
+      <BookFeature
+        title={featuredEntrepreneurs.title}
+        subtitle={featuredEntrepreneurs.subtitle}
+        body={featuredEntrepreneurs.body}
+        rule
+        buyUrl={getBook(featuredEntrepreneurs.slug)?.buyUrl}
+        desktopArt={img.entrepreneursBookBg}
+        mobileArt={img.entrepreneursBookBgMobile}
+        side="right"
+      />
     </>
   );
 }
