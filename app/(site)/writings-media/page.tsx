@@ -138,8 +138,25 @@ export default async function WritingsMediaPage() {
         is 38% of the frame and centring it leaves him out of the picture
         entirely, so it shifts to 11%, which centres him; measured there, even a
         0.38 wash holds 5:1, so mobile keeps its own light too.
+
+        HEIGHT IS SET IN vw, NOT PIXELS, and that is the point rather than a
+        flourish. From md the band is narrower than 0.46 of its width, so
+        object-fit scales the photograph by WIDTH — meaning the fraction of
+        Steve the band reveals depends entirely on its height as a ratio of its
+        width, and a fixed pixel height would cut him at a different place on
+        every screen. At 37.5vw he comes down to his shoes at any desktop width.
+        The 620px cap keeps a very wide monitor from turning a page header into
+        a full-bleed poster; above that width he crops at the thigh again, which
+        is the trade.
+
+        Mobile is the other regime and needs its own floor. There the band is
+        TALLER than 0.46 of its width, so the scale is HEIGHT-driven: the whole
+        frame is in view top to bottom and the band's height decides how big
+        Steve is rather than how much of him shows. Shrink the band and he
+        shrinks with it — at 310px he was a figure behind the heading. 26rem
+        renders him at about 90px wide on a 390px screen, which reads.
       */}
-      <section className="relative isolate bg-[var(--color-navy)] text-white">
+      <section className="relative isolate flex min-h-[26rem] items-center bg-[var(--color-navy)] text-white md:min-h-[min(37.5vw,620px)]">
         <Image
           src={img.speakingBg}
           alt=""
@@ -162,7 +179,7 @@ export default async function WritingsMediaPage() {
         <div className="absolute inset-0 bg-[var(--color-navy)]/38 md:hidden" />
         <div className="absolute inset-0 hidden md:block bg-[linear-gradient(to_right,rgba(4,46,67,0.12)_0%,rgba(4,46,67,0.12)_30%,rgba(4,46,67,0.60)_44%,rgba(4,46,67,0.60)_100%)]" />
 
-        <Container className="relative py-24 sm:py-28">
+        <Container className="relative w-full py-16 sm:py-20">
           <div className="md:ml-auto md:w-[60%]">
             <h1 className="text-white">Writings + Media</h1>
             <p className="mt-6 text-lg leading-relaxed text-white/90">{mediaIntro}</p>
