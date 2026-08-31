@@ -1,12 +1,12 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import {
-  aboutHero, byTheNumbers, restoreToday, lifeBoxesEyebrow, lifeBoxesHeading, lifeBoxes,
-  restoreOrigin, dreamitOrigin, investmentVehicles, bioLong,
+  aboutHero, byTheNumbers, lifeBoxesEyebrow, lifeBoxesHeading, lifeBoxes,
+  investmentVehicles,
 } from "@/content/bio";
 import { img, selectedInvestmentLogos, workedWithLogos } from "@/content/media-manifest";
 import {
-  Container, Section, Eyebrow, Button, Prose, JsonLd, LogoWall, StatGrid,
+  Container, Section, JsonLd, LogoWall,
 } from "@/components/primitives";
 import { CountUp } from "@/components/CountUp";
 import { Timeline } from "@/components/Timeline";
@@ -214,50 +214,6 @@ export default function AboutPage() {
       */}
       <Timeline />
 
-      {/* Restore: where it came from, and where it is now. */}
-      <Section>
-        <Container>
-          {/*
-            Counters get their own full-width row rather than half a two-column
-            grid. Three large numbers in a ~430px card had nowhere to go and ran
-            into each other, and the original site renders its counter blocks
-            full-width for the same reason.
-          */}
-          <div className="max-w-3xl">
-            <Eyebrow>{restoreOrigin.heading}</Eyebrow>
-            <h2>Restore Hyper Wellness</h2>
-            <p className="mt-4 text-lg leading-relaxed">{restoreOrigin.body}</p>
-          </div>
-          <div className="mt-10 rounded-[var(--radius-card)] bg-[var(--color-navy)] p-8 sm:p-12">
-            <StatGrid stats={restoreToday} tone="dark" />
-          </div>
-        </Container>
-      </Section>
-
-      {/* Dreamit: the same shape — why it started, what he wanted from it. */}
-      <Section tone="alt">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-2">
-            <div>
-              <Eyebrow>{dreamitOrigin.heading}</Eyebrow>
-              <h2>Dreamit Ventures</h2>
-              <p className="mt-4 text-lg leading-relaxed">{dreamitOrigin.body}</p>
-            </div>
-            <div>
-              <p className="font-semibold text-[var(--color-ink)]">I wanted to:</p>
-              <ul className="mt-4 space-y-3">
-                {dreamitOrigin.wantedTo.map((item) => (
-                  <li key={item} className="flex gap-3 leading-relaxed">
-                    <span aria-hidden="true" className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-blue)]" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
       <Section>
         <Container>
           <LogoWall heading="Selected Investments" logos={selectedInvestmentLogos} />
@@ -270,71 +226,69 @@ export default function AboutPage() {
         </Container>
       </Section>
 
+      {/*
+        Steve's Investment Vehicles — and the last thing on the page, as it is
+        the last block on the original.
+
+        Two panels per card, the way the original draws them: the fund's mark on
+        white above, and the copy on navy below with the stage, the name under a
+        cyan rule, and the link. The white panel is a fixed height so both navy
+        panels begin on the same line whatever the logos' proportions are.
+
+        The name still ships as an <h3> in text beneath the mark rather than
+        living only inside the image. A logo is not a heading, and a crawler
+        reading this page should find "Dreamit Ventures" as words.
+      */}
       <Section>
         <Container>
-          <h2 className="text-center">{investmentVehicles.heading}</h2>
-          <ul className="mt-10 grid gap-6 md:grid-cols-2">
+          <h2 className="text-center text-[1.6rem] uppercase tracking-[0.08em] text-[var(--color-blue-deep)]">
+            {investmentVehicles.heading}
+          </h2>
+          <ul className="mt-10 grid gap-8 md:grid-cols-2 md:items-stretch">
             {investmentVehicles.vehicles.map((v) => (
               <li
                 key={v.name}
-                className="rounded-[var(--radius-card)] bg-white p-7 shadow-[var(--shadow-card)]"
+                className="flex flex-col overflow-hidden border border-[var(--color-navy)]"
               >
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-accent)]">
-                  {v.stage}
-                </p>
-                {/*
-                  The fund's own mark, as on the original. The name still ships
-                  as an <h3> beneath it rather than living only inside the
-                  image — a logo is not a heading, and a crawler reading this
-                  page should still find "Dreamit Ventures" as text.
-                */}
-                {v.logo && (
-                  <Image
-                    src={v.logo}
-                    alt=""
-                    aria-hidden="true"
-                    width={240}
-                    height={80}
-                    className="mt-4 h-10 w-auto"
-                  />
-                )}
-                <h3 className="mt-3">{v.name}</h3>
-                <p className="mt-3 leading-relaxed">{v.body}</p>
-                {v.href && (
-                  <a
-                    href={v.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-block text-sm font-semibold text-[var(--color-accent)] underline underline-offset-4"
-                  >
-                    {v.linkLabel}
-                  </a>
-                )}
+                <div className="flex h-56 items-center justify-center bg-white p-10">
+                  {v.logo && (
+                    <Image
+                      src={v.logo}
+                      alt=""
+                      aria-hidden="true"
+                      width={480}
+                      height={200}
+                      className="h-auto max-h-full w-auto max-w-[17rem]"
+                    />
+                  )}
+                </div>
+
+                <div className="flex-1 bg-[var(--color-navy)] px-8 py-9 text-center text-white">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em]">{v.stage}</p>
+                  <h3 className="mt-3 text-white">
+                    <span className="mx-auto block w-fit">
+                      {v.name}
+                      <span
+                        aria-hidden="true"
+                        className="mt-1 block h-[3px] w-full bg-[var(--color-cyan)]"
+                      />
+                    </span>
+                  </h3>
+                  <p className="mt-5 leading-relaxed text-white/90">{v.body}</p>
+                  {v.href && (
+                    <a
+                      href={v.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-block underline underline-offset-4 hover:text-[var(--color-cyan)]"
+                    >
+                      {v.linkLabel}
+                    </a>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
-        </Container>
-      </Section>
-
-      <Section tone="alt">
-        <Container size="measure">
-          <h2>The longer version</h2>
-          <div className="mt-6">
-            <Prose paragraphs={bioLong} />
-          </div>
-        </Container>
-      </Section>
-
-      <Section tone="ink">
-        <Container className="text-center">
-          <h2 className="text-white">Looking for a speaker?</h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/70">
-            Purpose, People, Process — delivered on multiple continents.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button href="/speaking/">See the speaking page</Button>
-            <Button href="/contact/" variant="secondary">Check availability</Button>
-          </div>
         </Container>
       </Section>
     </>

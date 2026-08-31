@@ -193,11 +193,23 @@ export const investmentVehicles = {
       logo: "/media/dreamIT_logo.svg",
       body: "Dreamit Ventures invests in transformative early-stage companies focused on scaling revenues.",
       href: "https://www.dreamit.com",
-      linkLabel: "dreamit.com",
+      linkLabel: "www.dreamit.com",
     },
     {
       stage: "Late stage",
       name: "Shark Skin Capital",
+      /*
+        REVIEW: this is the blue "SHARK SKIN capital" mark that came down with
+        the WordPress media, and it is what the live site shows. Steve has a
+        newer one — an orange hammerhead beside navy type reading "SHARK SKIN
+        VENTURES" — which did not reach this session as a file, only as an image
+        in the chat. Drop the file at public/media/shark-skin_ventures.svg (or
+        .png) and repoint this line; nothing else has to change.
+
+        Note the wording while you are there: the new mark says VENTURES where
+        this card, and the original page, say Capital. If the entity has been
+        renamed, `name` and `body` need it too.
+      */
       logo: "/media/shark-skin_logo.svg",
       body: "Shark Skin Capital invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
     },
