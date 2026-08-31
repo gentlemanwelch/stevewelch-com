@@ -77,7 +77,13 @@ export async function POST(request: Request) {
   ];
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
+  // The From address is not optional. Guessing website@<site domain> looks
+  // helpful and is not: if that domain is not the one verified in Resend, the
+  // send is rejected and the failure reads like a bad key. Better to say the
+  // thing is unconfigured than to fail in a way that sends the next person
+  // hunting the wrong problem.
+  const from = process.env.INQUIRY_FROM_EMAIL;
+  if (!apiKey || !from) {
     return NextResponse.json(
       { error: "Email is not configured yet.", fallbackEmail: site.email },
       { status: 503 },
@@ -98,7 +104,7 @@ export async function POST(request: Request) {
       method: "POST",
       headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
       body: JSON.stringify({
-        from: process.env.INQUIRY_FROM_EMAIL ?? `website@${new URL(site.url).hostname}`,
+        from,
         to: [process.env.INQUIRY_TO_EMAIL ?? site.email],
         reply_to: email,
         subject: `Foundation enquiry — ${organization}`,
