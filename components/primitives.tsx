@@ -302,6 +302,12 @@ export function VideoEmbed({
   title: string;
   poster?: string;
 }) {
+  /*
+     Prefer a local poster. The i.ytimg.com fallback still works, but it is a
+     third-party request on page load for an image we usually already own, and
+     it is the only thing on the site that reaches outside our own origin
+     before someone has asked for a video.
+  */
   const thumb = poster ?? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
   return (
     <div className="overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] shadow-[var(--shadow-card)]">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import {
   speakingHero, speakingIntro, exploreHeading, speakingPillars,
@@ -142,11 +143,30 @@ export default function SpeakingPage() {
         </Container>
       </section>
 
+      {/*
+        The anvil line with its masthead. It is a Philadelphia Inquirer quote,
+        and the original sets the masthead beneath it — which is what turns the
+        sentence from a slogan into a citation. The publication is also named in
+        text for anything that cannot read the image.
+      */}
       <Section>
         <Container size="measure">
-          <blockquote className="text-center text-2xl leading-snug font-semibold text-[var(--color-ink)] sm:text-3xl">
-            “{anvilQuote}”
-          </blockquote>
+          <figure className="text-center">
+            <blockquote className="text-2xl font-semibold leading-snug text-[var(--color-ink)] sm:text-3xl">
+              “{anvilQuote}”
+            </blockquote>
+            <figcaption className="mt-7 flex flex-col items-center gap-2">
+              <Image
+                src={img.inquirerLogo}
+                alt=""
+                aria-hidden="true"
+                width={320}
+                height={44}
+                className="h-7 w-auto opacity-80 sm:h-8"
+              />
+              <span className="sr-only">The Philadelphia Inquirer</span>
+            </figcaption>
+          </figure>
         </Container>
       </Section>
 

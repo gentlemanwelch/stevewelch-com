@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { site } from "@/content/site";
 import {
   mediaIntro, videos, podcasts, publications, expertTalks, podcastNote,
@@ -31,32 +32,67 @@ export const metadata: Metadata = buildMetadata({
 });
 
 /** One row of the appearance lists. */
-function AppearanceList({ items }: { items: readonly { outlet: string; title: string; url: string; action: string }[] }) {
+/**
+ * One row of an appearance list.
+ *
+ * Each entry carries its own artwork on the original — an episode thumbnail for
+ * a podcast, a masthead for a publication — and the first build rendered all of
+ * these as plain text. A masthead does work no amount of copy can: "The
+ * Washington Post" set in Poppins is a claim, the masthead is evidence.
+ *
+ * `image` is optional, so a row without artwork degrades to the text-only
+ * layout rather than leaving a gap.
+ */
+function AppearanceList({
+  items,
+}: {
+  items: readonly { outlet: string; title: string; url: string; action: string; image?: string }[];
+}) {
   return (
     <ul className="divide-y divide-[var(--color-line)] border-t border-[var(--color-line)]">
       {items.map((item) => (
-        <li key={item.url + item.title} className="py-6">
-          <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-accent)]">
-            {item.outlet}
-          </p>
-          <h3 className="mt-2 text-xl">
+        <li key={item.url + item.title} className="flex items-start gap-5 py-6">
+          {item.image && (
             <a
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline-offset-4 hover:text-[var(--color-accent)] hover:underline"
+              className="hidden shrink-0 sm:block"
+              tabIndex={-1}
+              aria-hidden="true"
             >
-              {item.title}
+              <Image
+                src={item.image}
+                alt=""
+                width={160}
+                height={160}
+                className="h-24 w-24 rounded-lg bg-white object-contain p-2 shadow-[var(--shadow-card)]"
+              />
             </a>
-          </h3>
-          <a
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-block text-sm font-semibold text-[var(--color-accent)]"
-          >
-            {item.action} →
-          </a>
+          )}
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-accent)]">
+              {item.outlet}
+            </p>
+            <h3 className="mt-2 text-xl">
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-offset-4 hover:text-[var(--color-accent)] hover:underline"
+              >
+                {item.title}
+              </a>
+            </h3>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-block text-sm font-semibold text-[var(--color-accent)]"
+            >
+              {item.action} →
+            </a>
+          </div>
         </li>
       ))}
     </ul>
@@ -95,7 +131,7 @@ export default function WritingsMediaPage() {
           <ul className="mt-10 grid gap-6 lg:grid-cols-3">
             {videos.map((video) => (
               <li key={video.youtubeId}>
-                <VideoEmbed youtubeId={video.youtubeId} title={video.title} />
+                <VideoEmbed youtubeId={video.youtubeId} title={video.title} poster={video.poster} />
                 <p className="mt-3 font-semibold leading-snug">{video.title}</p>
               </li>
             ))}

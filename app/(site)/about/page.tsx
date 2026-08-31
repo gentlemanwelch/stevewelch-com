@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import {
   aboutHero, byTheNumbers, restoreToday, lifeBoxesHeading, lifeBoxes,
@@ -49,9 +50,11 @@ export default function AboutPage() {
       <section
         className="relative bg-[var(--color-navy)] text-white"
         style={{
-          backgroundImage: `url(${img.aboutWork})`,
+          /* The original's About hero. The first build used a Restore studio
+             photo here, which was simply the wrong file. */
+          backgroundImage: `url(${img.aboutHero})`,
           backgroundSize: "cover",
-          backgroundPosition: "bottom center",
+          backgroundPosition: "center",
         }}
       >
         <div className="bg-[var(--color-navy)]/70">
@@ -173,7 +176,23 @@ export default function AboutPage() {
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-accent)]">
                   {v.stage}
                 </p>
-                <h3 className="mt-2">{v.name}</h3>
+                {/*
+                  The fund's own mark, as on the original. The name still ships
+                  as an <h3> beneath it rather than living only inside the
+                  image — a logo is not a heading, and a crawler reading this
+                  page should still find "Dreamit Ventures" as text.
+                */}
+                {v.logo && (
+                  <Image
+                    src={v.logo}
+                    alt=""
+                    aria-hidden="true"
+                    width={240}
+                    height={80}
+                    className="mt-4 h-10 w-auto"
+                  />
+                )}
+                <h3 className="mt-3">{v.name}</h3>
                 <p className="mt-3 leading-relaxed">{v.body}</p>
                 {v.href && (
                   <a

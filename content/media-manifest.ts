@@ -60,6 +60,19 @@ export const img = {
      the offset overlap is baked into the file, so it needs no CSS to rebuild. */
   restoreComposite: `${base}/home-restore-img-2.png`,
 
+  /* The About hero. The first build used a Restore studio photo here, which was
+     simply the wrong file — the original's hero is this one. */
+  aboutHero: `${base}/W19_5845-scaled.jpg`,
+
+  /* Investment vehicle marks, for the two cards on /about/. */
+  dreamitLogo: `${base}/dreamIT_logo.svg`,
+  sharkSkinLogo: `${base}/shark-skin_logo.svg`,
+
+  /* Sits beside the "sparks off an anvil" quote on /speaking/, which is where
+     the original puts it — the line is a Philadelphia Inquirer quote, and the
+     masthead is what makes it read as a citation rather than a slogan. */
+  inquirerLogo: `${base}/The-Philadelphia-Inquirer-Logo.svg`,
+
   /* The lead magnet the opt-in has been promising and not delivering. */
   freeChapterPdf: `${base}/RestoreChapter1_HyperWellness.pdf`,
 } as const;

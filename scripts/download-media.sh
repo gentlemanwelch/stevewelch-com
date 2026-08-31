@@ -32,6 +32,11 @@ mkdir -p "$DEST"
 ok=0; skip=0; fail=0
 failed_list=""
 
+# Two source filenames contain U+202F, a NARROW NO-BREAK SPACE, sitting
+# invisibly before "PM". It is not a normal space: it percent-encodes to
+# %E2%80%AF, so every hand-written reference to it 404s and the mistake is
+# impossible to see in a directory listing. Those two are written with a hyphen
+# instead, which is what content/media.ts refers to.
 fetch() {
   local url="$1" name="$2"
   if [ -s "$DEST/$name" ]; then
@@ -109,8 +114,8 @@ fetch "https://stevewelch.com/wp-content/uploads/2024/07/Restore-36-scaled_1600x
 fetch "https://stevewelch.com/wp-content/uploads/2024/06/RestoreChapter1_HyperWellness.pdf" "RestoreChapter1_HyperWellness.pdf"
 fetch "https://stevewelch.com/wp-content/uploads/2024/05/SDW_5892-scaled.jpg" "SDW_5892-scaled.jpg"
 fetch "https://stevewelch.com/wp-content/uploads/2024/07/SDW_8971.jpg" "SDW_8971.jpg"
-fetch "https://stevewelch.com/wp-content/uploads/2024/06/Screenshot-2024-06-03-at-6.28.09 PM.png" "Screenshot-2024-06-03-at-6.28.09 PM.png"
-fetch "https://stevewelch.com/wp-content/uploads/2024/06/Screenshot-2024-06-03-at-6.29.44 PM.png" "Screenshot-2024-06-03-at-6.29.44 PM.png"
+fetch "https://stevewelch.com/wp-content/uploads/2024/06/Screenshot-2024-06-03-at-6.28.09 PM.png" "Screenshot-2024-06-03-at-6.28.09-PM.png"
+fetch "https://stevewelch.com/wp-content/uploads/2024/06/Screenshot-2024-06-03-at-6.29.44 PM.png" "Screenshot-2024-06-03-at-6.29.44-PM.png"
 fetch "https://stevewelch.com/wp-content/uploads/2024/07/Seatgeek-removebg-preview.png" "Seatgeek-removebg-preview.png"
 fetch "https://stevewelch.com/wp-content/uploads/2024/06/Seatgeek.jpg" "Seatgeek.jpg"
 fetch "https://stevewelch.com/wp-content/uploads/2024/05/Singtel_logo.svg" "Singtel_logo.svg"

@@ -87,6 +87,8 @@ export type Vehicle = {
   body: string;
   href?: string;
   linkLabel?: string;
+  /** The fund's mark, from the original's card. */
+  logo?: string;
 };
 
 export const investmentVehicles = {
@@ -95,6 +97,7 @@ export const investmentVehicles = {
     {
       stage: "Early stage",
       name: "Dreamit Ventures",
+      logo: "/media/dreamIT_logo.svg",
       body: "Dreamit Ventures invests in transformative early-stage companies focused on scaling revenues.",
       href: "https://www.dreamit.com",
       linkLabel: "dreamit.com",
@@ -102,6 +105,7 @@ export const investmentVehicles = {
     {
       stage: "Late stage",
       name: "Shark Skin Capital",
+      logo: "/media/shark-skin_logo.svg",
       body: "Shark Skin Capital invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
     },
   ] as Vehicle[],
