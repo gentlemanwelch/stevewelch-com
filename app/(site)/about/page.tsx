@@ -1,5 +1,3 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import Image from "next/image";
 import type { Metadata } from "next";
 import {
@@ -40,29 +38,6 @@ export const metadata: Metadata = buildMetadata({
   ],
   type: "profile",
 });
-
-/**
- * Pick the first of `candidates` that is actually a file in public/, else fall
- * back to whatever the entry already had.
- *
- * This exists so a logo can be replaced by adding a file rather than by editing
- * code — Shark Skin's current mark reached this project only as an image in a
- * chat, and pointing next/image at a path with nothing behind it would ship a
- * broken picture rather than an out-of-date one.
- *
- * Safe to read the filesystem here: this is a server component on a statically
- * generated page, so the check runs once at build time and never at request
- * time. It must not move into content/ or components/ — those are imported by
- * client components, where `node:fs` will not resolve.
- */
-function resolveLogo(logo: string | undefined, candidates: string[] = []) {
-  for (const candidate of candidates) {
-    if (existsSync(join(process.cwd(), "public", candidate.replace(/^\//, "")))) {
-      return candidate;
-    }
-  }
-  return logo;
-}
 
 export default function AboutPage() {
   return (
@@ -258,17 +233,15 @@ export default function AboutPage() {
             {investmentVehicles.heading}
           </h2>
           <ul className="mt-10 grid gap-8 md:grid-cols-2 md:items-stretch">
-            {investmentVehicles.vehicles.map((v) => {
-              const logo = resolveLogo(v.logo, v.logoCandidates);
-              return (
+            {investmentVehicles.vehicles.map((v) => (
               <li
                 key={v.name}
                 className="flex flex-col overflow-hidden border border-[var(--color-navy)]"
               >
                 <div className="flex h-56 items-center justify-center bg-white p-10">
-                  {logo && (
+                  {v.logo && (
                     <Image
-                      src={logo}
+                      src={v.logo}
                       alt=""
                       aria-hidden="true"
                       width={480}
@@ -302,8 +275,7 @@ export default function AboutPage() {
                   )}
                 </div>
               </li>
-              );
-            })}
+            ))}
           </ul>
         </Container>
       </Section>

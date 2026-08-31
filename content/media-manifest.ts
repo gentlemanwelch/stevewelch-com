@@ -94,7 +94,7 @@ export const img = {
 
   /* Investment vehicle marks, for the two cards on /about/. */
   dreamitLogo: `${base}/dreamIT_logo.svg`,
-  sharkSkinLogo: `${base}/shark-skin_logo.svg`,
+  sharkSkinLogo: `${base}/shark-skin_ventures.svg`,
 
   /* Sits beside the "sparks off an anvil" quote on /speaking/, which is where
      the original puts it — the line is a Philadelphia Inquirer quote, and the
