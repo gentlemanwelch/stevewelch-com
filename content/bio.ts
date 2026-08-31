@@ -24,28 +24,40 @@ export type Stat = {
    * nationwide" reach a parser as two unrelated fragments.
    */
   sentence?: string;
+  /**
+   * The magnitude the counter animates to — the number actually shown, not the
+   * raw figure. "$10B+" counts 0..10 and keeps its "$" and "B+"; the export
+   * stores 10000000000 in the same field, which would count to a twelve-digit
+   * number the page never displays. Omit it and the value simply does not move.
+   */
+  to?: number;
 };
 
 /** The "By the numbers" counter block. */
 export const byTheNumbers: Stat[] = [
-  { value: "4", label: "Successful Companies founded", sentence: "Steve Welch has founded 4 successful companies." },
-  { value: "400+", label: "Companies Invested In", sentence: "Steve Welch has invested in over 400 companies." },
-  { value: "$10B+", label: "Invested Companies Market Cap", sentence: "The companies Steve Welch has invested in have a combined market capitalization exceeding $10 billion." },
-  { value: "10M+", label: "Consumers Impacted", sentence: "Steve Welch's companies have impacted more than 10 million consumers." },
+  { value: "4", to: 4, label: "Successful Companies Founded", sentence: "Steve Welch has founded 4 successful companies." },
+  { value: "400+", to: 400, label: "Companies Invested In", sentence: "Steve Welch has invested in over 400 companies." },
+  { value: "$10B+", to: 10, label: "Invested Companies Market Cap", sentence: "The companies Steve Welch has invested in have a combined market capitalization exceeding $10 billion." },
+  { value: "10M+", to: 10, label: "Consumers Impacted", sentence: "Steve Welch's companies have impacted more than 10 million consumers." },
 ];
 
 /** The Restore "Today" counter block. */
 export const restoreToday: Stat[] = [
-  { value: "225+", label: "studios nationwide", sentence: "Restore Hyper Wellness operates more than 225 studios nationwide." },
-  { value: "57,000", label: "members", sentence: "Restore Hyper Wellness serves 57,000 members." },
-  { value: "3M+", label: "therapies delivered in 2024", sentence: "Restore Hyper Wellness delivered more than 3 million therapies in 2024." },
+  { value: "225+", to: 225, label: "studios nationwide", sentence: "Restore Hyper Wellness operates more than 225 studios nationwide." },
+  { value: "57,000", to: 57000, label: "members", sentence: "Restore Hyper Wellness serves 57,000 members." },
+  { value: "3M+", to: 3, label: "therapies delivered in 2024", sentence: "Restore Hyper Wellness delivered more than 3 million therapies in 2024." },
 ];
 
 export type LifeBox = { title: string; content: string };
 
 /** The "3 buckets" — Family, Himself, Work. */
-export const lifeBoxesHeading =
-  "Achieving success in business starts with a happy, healthy lifestyle";
+/*
+  One heading in the original, set as an uppercase 21px line over a full-size
+  one. Its live text reads "a happy, health lifestyle" — a typo on the source
+  page, kept as "healthy" here rather than reproduced.
+*/
+export const lifeBoxesEyebrow = "Achieving success in business";
+export const lifeBoxesHeading = "Starts with a happy, healthy lifestyle";
 
 export const lifeBoxes: LifeBox[] = [
   {

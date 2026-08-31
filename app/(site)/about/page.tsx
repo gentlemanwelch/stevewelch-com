@@ -1,13 +1,14 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import {
-  aboutHero, byTheNumbers, restoreToday, lifeBoxesHeading, lifeBoxes,
+  aboutHero, byTheNumbers, restoreToday, lifeBoxesEyebrow, lifeBoxesHeading, lifeBoxes,
   restoreOrigin, dreamitOrigin, investmentVehicles, bioLong,
 } from "@/content/bio";
 import { img, selectedInvestmentLogos, workedWithLogos } from "@/content/media-manifest";
 import {
   Container, Section, Eyebrow, Button, Prose, JsonLd, LogoWall, StatGrid,
 } from "@/components/primitives";
+import { CountUp } from "@/components/CountUp";
 import { breadcrumbSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
@@ -47,44 +48,124 @@ export default function AboutPage() {
         ])}
       />
 
-      <section
-        className="relative bg-[var(--color-navy)] text-white"
-        style={{
-          /* The original's About hero. The first build used a Restore studio
-             photo here, which was simply the wrong file. */
-          backgroundImage: `url(${img.aboutHero})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="bg-[var(--color-navy)]/70">
-          <Container className="py-24 sm:py-32">
-            <Eyebrow>{aboutHero.eyebrow}</Eyebrow>
-            <h1 className="max-w-3xl text-white">{aboutHero.heading}</h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">
-              {aboutHero.body}
+      {/*
+        The hero. It was under a flat 70% navy wash, which turned a turquoise
+        sea into a grey-green field and put Steve in the background of his own
+        photograph — the same mistake as the homepage hero, and the reason this
+        one is being redone.
+
+        The homepage answer does not transfer, though: there the picture was
+        already dark enough to carry white type unaided, and here it is the
+        opposite. This frame is bright water and white spray, and the copy lands
+        on the brightest part of it. The export says rgba(0,0,0,0.23), and at
+        that value the worst text-sized block behind the copy measures 2.17:1 —
+        the original's own body copy is hard to read for the same reason.
+
+        So the darkening is horizontal instead of flat: 58% black over the left,
+        easing to 10% by the time it reaches Steve. Measured, that clears the
+        copy at 5.1:1 while leaving an average of 14% over him — LESS than the
+        original's own flat 23%. He comes out brighter than on the live site and
+        the words are still readable, which a single flat value cannot do.
+
+        object-bottom, per `background_position: "bottom-center"`.
+      */}
+      <section className="relative isolate bg-[var(--color-navy)] text-white">
+        <Image
+          src={img.aboutHero}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-bottom"
+        />
+        {/* Mobile: the crop is narrow and the copy crosses the spray, so a flat
+            52% is the measured floor (5.2:1). The ramp takes over from md. */}
+        <div className="absolute inset-0 bg-black/52 md:hidden" />
+        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(to_right,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.58)_44%,rgba(0,0,0,0.10)_64%,rgba(0,0,0,0.10)_100%)]" />
+
+        <Container className="relative py-24 sm:py-28">
+          <div className="md:max-w-[54%]">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-white">
+              {aboutHero.eyebrow}
             </p>
-          </Container>
-        </div>
+            <h1 className="text-white">{aboutHero.heading}</h1>
+            <p className="mt-6 text-lg leading-relaxed text-white/90">{aboutHero.body}</p>
+          </div>
+        </Container>
       </section>
 
-      <Section>
-        <Container>
-          <StatGrid heading="By the numbers" stats={byTheNumbers} />
-        </Container>
-      </Section>
+      {/*
+        "By the numbers". Its block is a counter-block on #edf5f9 — the tint,
+        not white — and each figure counts up when it scrolls into view. The
+        first build rendered four small centred numbers on white with no motion,
+        which is a table where the original has an achievement.
 
-      {/* The "3 buckets" — Family, Himself, Work. */}
+        Each figure carries a cyan rule down its left edge, as the original
+        does. The number animates; the label does not.
+      */}
+      <section className="bg-[var(--color-tint)]">
+        <Container className="py-20 sm:py-24">
+          <h2 className="text-center text-[var(--color-blue-deep)]">By the numbers</h2>
+          <dl className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {byTheNumbers.map((s) => (
+              <div key={s.label} className="border-l-[3px] border-[var(--color-cyan)] pl-5">
+                {/* aria-hidden on the halves so assistive tech reads the whole
+                    sentence once rather than the fragments twice. */}
+                <dt
+                  className="text-[2.6rem] font-bold leading-none text-[var(--color-blue-deep)]"
+                  aria-hidden="true"
+                >
+                  {s.to ? <CountUp to={s.to} display={s.value} /> : s.value}
+                </dt>
+                <dd
+                  className="mt-3 text-[0.78rem] font-semibold uppercase leading-snug tracking-[0.08em] text-[var(--color-blue-deep)]"
+                  aria-hidden="true"
+                >
+                  {s.label}
+                </dd>
+                <dd className="sr-only">{s.sentence ?? `${s.value} ${s.label}`}</dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      </section>
+
+      {/*
+        The "3 buckets" — Family, Himself, Work. Its block is literally called
+        acf/hover-content-boxes: the title sits alone on the photograph and the
+        copy appears on hover. The first build showed every word from the start
+        under a heavy bottom-up gradient, which buried three good photographs
+        and gave the section nothing to do.
+
+        Same construction as the homepage's Investor / Executive / Speaker
+        tiles, for the same reason: the copy is different lengths, it stays in
+        flow even when transparent, and centring the whole stack lands each
+        title somewhere else — which is exactly what "the bars don't line up"
+        was. Three rows at md, minmax(0,1fr) either side of the title, so the
+        titles and their rules resolve onto the same line whatever the copy does.
+
+        The rest wash is 20% — `bg_overlay: "rgba(0,0,0,0.2)"` in the block —
+        deepening on reveal so the copy can be read over the picture.
+
+        tabIndex on the card because, unlike the homepage tiles, these are not
+        links and so have nothing focusable to hang focus-within on. The copy is
+        in the DOM at all times regardless, so a screen reader always reaches it.
+      */}
       <Section tone="alt">
         <Container>
-          <h2 className="text-center">{lifeBoxesHeading}</h2>
+          <p className="text-center text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-blue-deep)]">
+            {lifeBoxesEyebrow}
+          </p>
+          <h2 className="mt-3 text-center text-[var(--color-blue-deep)]">{lifeBoxesHeading}</h2>
           <ul className="mt-12 grid gap-6 md:grid-cols-3 md:items-stretch">
             {lifeBoxes.map((box, i) => {
               const image = [img.aboutFamily, img.aboutHimself, img.aboutWork][i];
               return (
                 <li
                   key={box.title}
-                  className="relative flex min-h-[19rem] flex-col justify-end overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] p-7 text-white shadow-[var(--shadow-card)]"
+                  tabIndex={0}
+                  className="group relative flex min-h-[19rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] p-7 text-center text-white shadow-[var(--shadow-card)] md:grid md:min-h-[24rem] md:grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)]"
                 >
                   <span
                     aria-hidden="true"
@@ -93,13 +174,21 @@ export default function AboutPage() {
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)] via-[var(--color-navy)]/75 to-[var(--color-navy)]/10"
+                    className="absolute inset-0 bg-black/20 transition-colors duration-300 max-md:bg-[var(--color-navy)]/75 md:group-hover:bg-[var(--color-navy)]/80 md:group-focus:bg-[var(--color-navy)]/80"
                   />
-                  <span className="relative">
-                    <span className="block text-2xl font-bold">{box.title}</span>
-                    <span className="mt-3 block text-[0.95rem] leading-relaxed text-white/85">
-                      {box.content}
+
+                  <span className="relative mx-auto w-fit md:row-start-2">
+                    <span className="block text-[1.7rem] font-bold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:text-[2rem]">
+                      {box.title}
                     </span>
+                    <span
+                      aria-hidden="true"
+                      className="mt-2 block h-[3px] w-full bg-[var(--color-cyan)]"
+                    />
+                  </span>
+
+                  <span className="relative mt-4 block text-[0.95rem] leading-relaxed text-white/90 transition-opacity duration-300 md:row-start-3 md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100">
+                    {box.content}
                   </span>
                 </li>
               );

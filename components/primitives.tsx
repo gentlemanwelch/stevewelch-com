@@ -11,6 +11,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
+import { CountUp } from "@/components/CountUp";
 import type { ReactNode } from "react";
 
 /** Standard page gutter. One value, one place. */
@@ -254,7 +255,7 @@ export function StatGrid({
   tone = "light",
 }: {
   heading?: string;
-  stats: readonly { value: string; label: string; sentence?: string }[];
+  stats: readonly { value: string; label: string; sentence?: string; to?: number }[];
   tone?: "light" | "dark";
 }) {
   const valueColor = tone === "dark" ? "text-white" : "text-[var(--color-blue)]";
@@ -290,7 +291,7 @@ export function StatGrid({
               className={`text-3xl font-bold leading-none tabular-nums sm:text-4xl ${valueColor}`}
               aria-hidden="true"
             >
-              {s.value}
+              {s.to ? <CountUp to={s.to} display={s.value} /> : s.value}
             </dt>
             <dd className={`mt-2 text-sm leading-snug ${labelColor}`} aria-hidden="true">
               {s.label}
