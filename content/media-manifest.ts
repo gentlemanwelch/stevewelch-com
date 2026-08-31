@@ -62,6 +62,17 @@ export const img = {
   entrepreneursBookBgMobile: `${base}/ep-book_mobile.svg`,
   mailingListIcon: `${base}/mailing-list-icon.svg`,
 
+  /* Welch Family Foundation. The three partner logos come out of WordPress
+     under opaque generated filenames, so they are named here by what they
+     actually are — rendered and identified rather than guessed from the file. */
+  foundationHero: `${base}/Steve-Welch-by-Weston-Carls-familyfoundation.jpg`,
+  foundationStory: `${base}/Steve-Welch-by-Weston-Carls-125-scaled.jpg`,
+  foundationClassroom: `${base}/Nicole-and-kids.jpg`,
+  foundationWhatWeDoBg: `${base}/IkfcY_znLTBHpqpXYurYLOGrP4njGCdRzg.jpeg`,
+  foundationLogoDestinationImagination: `${base}/boUmBooWylhi_hh7Fvam136AyN15WU4GQ.png`,
+  foundationLogoUatx: `${base}/N58XcIu44uDTfk5xABEo1cHj1rKmRsLuPA.png`,
+  foundationLogoIsTexas: `${base}/W7iHgeGemmW130DBLNQJGpz2q6JretgSOw.jpeg`,
+
   /*
     The About-page timeline, in order. Each name is the attachment_url the
     export records for the id the timeline block references — NOT the `url`

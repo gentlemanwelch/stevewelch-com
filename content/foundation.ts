@@ -38,4 +38,44 @@ export const foundation = {
       "Check sizes can be as small as $100 to as much as $100,000.",
     ],
   },
+
+  /*
+    The three organisations whose logos close the page. WordPress stores them
+    under generated filenames, so each is named here by what it actually is —
+    rendered and read, not inferred from the file.
+  */
+  partners: [
+    { name: "Destination Imagination Texas", image: "foundationLogoDestinationImagination" },
+    { name: "UATX", image: "foundationLogoUatx" },
+    { name: "The International School of Texas", image: "foundationLogoIsTexas" },
+  ],
+
+  /*
+    The partnership enquiry form.
+
+    ORIGIN: the original page embeds `[gravityform id="4"]` — Gravity Forms,
+    a WordPress plugin, not a Google Form. That distinction matters, because a
+    Gravity Forms definition lives in the WordPress database and a WXR export
+    carries pages, posts and media only. The fields below are transcribed from
+    Steve's screenshot of the live form's FIRST step, which is all that screen
+    showed; its steps two and three are not recoverable from anything in this
+    repo. See the note where the form renders.
+  */
+  form: {
+    heading: "Tell us about your organization",
+    body: "The Foundation backs people and programs that get children into science, technology, engineering and mathematics. Tell us who you are and what you are building, and Steve and Nicole will read it themselves.",
+    fields: {
+      organization: "Organization name",
+      contact: "Contact person (name and title)",
+      email: "Email",
+      phone: "Phone number",
+      url: "Organization website",
+      street: "Street address",
+      city: "City",
+      region: "State / province / region",
+      postalCode: "ZIP / postal code",
+      country: "Country",
+    },
+    submit: "Send to the Foundation",
+  },
 } as const;

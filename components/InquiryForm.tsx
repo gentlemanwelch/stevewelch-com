@@ -53,7 +53,10 @@ export function InquiryForm() {
     const payload = Object.fromEntries(formData.entries());
 
     try {
-      const res = await fetch("/api/inquiry", {
+      // Trailing slash on purpose: next.config sets trailingSlash, so posting
+      // to the bare path answers 308 and the browser has to send the whole body
+      // twice. A redirect on the one request that carries a real enquiry.
+      const res = await fetch("/api/inquiry/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
