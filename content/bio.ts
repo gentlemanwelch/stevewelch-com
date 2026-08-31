@@ -182,6 +182,13 @@ export type Vehicle = {
   linkLabel?: string;
   /** The fund's mark, from the original's card. */
   logo?: string;
+  /**
+   * Paths tried BEFORE `logo`, in order, and used if the file is actually
+   * there. This is how a replacement mark gets in without a code change: drop
+   * the file at one of these names and the next build picks it up. See the
+   * note on Shark Skin's entry.
+   */
+  logoCandidates?: string[];
 };
 
 export const investmentVehicles = {
@@ -199,16 +206,27 @@ export const investmentVehicles = {
       stage: "Late stage",
       name: "Shark Skin Ventures",
       /*
-        REVIEW — THE ONLY THING STILL WRONG ON THIS CARD. The fund is Shark Skin
-        VENTURES, confirmed by Steve, and every word on the site now says so.
-        The image does not: this is the blue "SHARK SKIN capital" mark that came
-        down with the WordPress media. The current one — an orange hammerhead
-        beside navy type — reached this session only as an image in the chat,
-        which leaves no file to commit.
+        THE MARK. The fund is Shark Skin VENTURES and every word on the site
+        says so; the picture is the last thing that does not. The current logo —
+        an orange hammerhead beside navy type — has only ever existed in this
+        project as an image pasted into a chat, which leaves no bytes to commit.
+        A hand-traced approximation was not an option: a brand mark that is
+        nearly right is worse than one that is plainly old.
 
-        Drop it at public/media/shark-skin_ventures.svg (or .png) and repoint
-        this one line. Nothing else needs touching; the name is already right.
+        So this does not need a code change to fix. Drop the real file at any of
+        the names in `logoCandidates` — public/media/shark-skin_ventures.svg is
+        the one to use — and the next build serves it. Until then the card falls
+        back to `logo`, the blue "SHARK SKIN capital" mark that came down with
+        the WordPress media, so nothing is ever broken.
+
+        Once the new file is in, delete shark-skin_logo.svg and this fallback.
       */
+      logoCandidates: [
+        "/media/shark-skin_ventures.svg",
+        "/media/shark-skin_ventures.png",
+        "/media/shark-skin_ventures.webp",
+        "/media/shark-skin_ventures.jpg",
+      ],
       logo: "/media/shark-skin_logo.svg",
       body: "Shark Skin Ventures invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
     },
