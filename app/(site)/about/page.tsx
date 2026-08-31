@@ -4,9 +4,9 @@ import {
   aboutHero, byTheNumbers, lifeBoxesEyebrow, lifeBoxesHeading, lifeBoxes,
   investmentVehicles,
 } from "@/content/bio";
-import { img, selectedInvestmentLogos, workedWithLogos } from "@/content/media-manifest";
+import { img } from "@/content/media-manifest";
 import {
-  Container, Section, Button, JsonLd, LogoWall,
+  Container, Section, Button, JsonLd,
 } from "@/components/primitives";
 import { CountUp } from "@/components/CountUp";
 import { Timeline } from "@/components/Timeline";
@@ -213,18 +213,6 @@ export default function AboutPage() {
         the hover boxes, and the first build dropped all eleven entries.
       */}
       <Timeline />
-
-      <Section>
-        <Container>
-          <LogoWall heading="Selected Investments" logos={selectedInvestmentLogos} />
-        </Container>
-      </Section>
-
-      <Section tone="alt">
-        <Container>
-          <LogoWall heading="Selected Companies I have worked with" logos={workedWithLogos} />
-        </Container>
-      </Section>
 
       {/*
         Steve's Investment Vehicles — and the last thing on the page, as it is
