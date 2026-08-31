@@ -147,6 +147,29 @@
  * clipped by a toolbar that slides in on scroll. Browsers without svh take the
  * first declaration and are no worse off than before.
  */
+/*
+ * The /speaking/ hero's light on Steve.
+ *
+ * He is on stage in a dark jacket against a lit curtain, at about 73% across
+ * the frame, and the centred headline sits well to his left. So the page stacks
+ * a SECOND copy of the same photograph over the first, brightened, and masks it
+ * to the right — the light lands on him and nowhere near the type. Same src as
+ * the layer beneath, so it is one download, not two.
+ *
+ * The mask lives here rather than in a utility because it needs the -webkit-
+ * prefix for older Safari, and because a browser that supports neither simply
+ * shows the unlifted photograph, which is the correct thing to fall back to.
+ *
+ * Desktop only, and that is measured rather than assumed: on a phone the crop
+ * is Steve almost edge to edge, so any lift raises the background under the
+ * type as much as him. Lifting there needs the wash at 0.66 to stay readable
+ * against 0.52 without it — the same picture, more machinery, no gain.
+ */
+.hero-lift-right {
+  -webkit-mask-image: linear-gradient(to right, transparent 58%, black 74%);
+          mask-image: linear-gradient(to right, transparent 58%, black 74%);
+}
+
 .hero-viewport {
   min-height: calc(100vh - 4.5rem);
   min-height: calc(100svh - 4.5rem);

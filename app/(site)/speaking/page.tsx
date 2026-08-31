@@ -91,7 +91,32 @@ export default function SpeakingPage() {
           sizes="100vw"
           className="object-cover object-[75%_50%] md:object-center"
         />
-        <div className="absolute inset-0 bg-[var(--color-navy)]/52" />
+        {/*
+          The light on Steve: the same photograph again, brighter, masked to the
+          right where he stands. Same src, so the browser serves it from cache —
+          one request, two layers. See .hero-lift-right in globals.css.
+        */}
+        <Image
+          src={img.speakingHero}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="hero-lift-right hidden object-cover object-center [filter:brightness(1.30)_contrast(1.06)_saturate(1.10)] md:block"
+        />
+
+        {/*
+          The wash. Flat on mobile, where the crop is Steve almost edge to edge
+          and there is nowhere to grade it to. From md it is graded instead: 60%
+          across the left and centre, where the headline is, easing to 12% by
+          the time it reaches him. Measured, the worst text-sized block behind
+          the heading is 5.4:1, and he keeps almost all of his own stage light —
+          the flat 52% it replaces was taking the same bite out of him as out of
+          the empty curtain.
+        */}
+        <div className="absolute inset-0 bg-[var(--color-navy)]/52 md:hidden" />
+        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(to_right,rgba(4,46,67,0.60)_0%,rgba(4,46,67,0.60)_60%,rgba(4,46,67,0.12)_76%,rgba(4,46,67,0.12)_100%)]" />
 
         <Container className="relative py-24 text-center sm:py-32">
           <Eyebrow tone="onDark">{speakingHero.eyebrow}</Eyebrow>
