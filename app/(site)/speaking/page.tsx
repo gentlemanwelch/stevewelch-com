@@ -127,9 +127,26 @@ export default function SpeakingPage() {
         </Container>
       </section>
 
+      {/*
+        The opening statement. Its block sets it at 30px, centred, medium
+        weight, in the dark blue — `font-size: 30px` and
+        `class="font-poppins weight-medium color-blue-dark"`, both verbatim from
+        the export. The first build rendered it as 18px left-aligned body copy
+        in a narrow measure, which turns the one sentence that establishes the
+        claim into a caption.
+
+        Scaled down on small screens: 30px centred on a 390px phone wraps this
+        sentence to nine lines.
+
+        max-w-3xl because the original wraps it to four lines with the longest
+        near 750px, and a centred paragraph running the full container width
+        would read as a slab rather than a statement.
+      */}
       <Section>
-        <Container size="measure">
-          <p className="text-lg leading-relaxed">{speakingIntro}</p>
+        <Container>
+          <p className="mx-auto max-w-3xl text-center text-[1.4rem] font-medium leading-snug text-[var(--color-blue-deep)] sm:text-[1.875rem]">
+            {speakingIntro}
+          </p>
         </Container>
       </Section>
 
