@@ -170,6 +170,13 @@
           mask-image: linear-gradient(to right, transparent 58%, black 74%);
 }
 
+/* The same idea mirrored, for /writings-media/ — Steve is on the LEFT of that
+   frame and the heading sits to his right. */
+.hero-lift-left {
+  -webkit-mask-image: linear-gradient(to left, transparent 60%, black 76%);
+          mask-image: linear-gradient(to left, transparent 60%, black 76%);
+}
+
 .hero-viewport {
   min-height: calc(100vh - 4.5rem);
   min-height: calc(100svh - 4.5rem);

@@ -109,20 +109,57 @@ export default function WritingsMediaPage() {
         ])}
       />
 
-      <section
-        className="relative bg-[var(--color-navy)] text-white"
-        style={{
-          backgroundImage: `url(${img.speakingBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="bg-[var(--color-navy)]/80">
-          <Container className="py-24 sm:py-32">
+      {/*
+        The hero. It was a CSS background under a flat 80% navy wash — the
+        heaviest on the site — which left Steve a silhouette on his own stage.
+        Same treatment as /speaking/, mirrored, because this frame is the mirror
+        of that one: he stands at about 21-31% across, on the LEFT, and the
+        block puts the heading on the right (`content_position: "right"`, 60%).
+
+        So the wash grades the other way: 12% over him, rising to 60% under the
+        heading. Measured, the worst text-sized block behind the h1 is 8.9:1 —
+        it was 11.5:1 at the flat 80%, and the difference bought back the whole
+        photograph. A second copy of the same file sits over the first,
+        brightened and masked to the left, so the light lands on him.
+
+        The heading moves right with it. That is not a separate change: grading
+        the wash makes the left side the bright side, and a heading left there
+        would sit on top of him over the brightest part of the frame.
+
+        object-top per `background_position: "top-center"`. On mobile the window
+        is 38% of the frame and centring it leaves him out of the picture
+        entirely, so it shifts to 11%, which centres him; measured there, even a
+        0.38 wash holds 5:1, so mobile keeps its own light too.
+      */}
+      <section className="relative isolate bg-[var(--color-navy)] text-white">
+        <Image
+          src={img.speakingBg}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[11%_top] md:object-top"
+        />
+        <Image
+          src={img.speakingBg}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="hero-lift-left hidden object-cover object-top [filter:brightness(1.32)_contrast(1.08)_saturate(1.10)] md:block"
+        />
+
+        <div className="absolute inset-0 bg-[var(--color-navy)]/38 md:hidden" />
+        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(to_right,rgba(4,46,67,0.12)_0%,rgba(4,46,67,0.12)_30%,rgba(4,46,67,0.60)_44%,rgba(4,46,67,0.60)_100%)]" />
+
+        <Container className="relative py-24 sm:py-28">
+          <div className="md:ml-auto md:w-[60%]">
             <h1 className="text-white">Writings + Media</h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/80">{mediaIntro}</p>
-          </Container>
-        </div>
+            <p className="mt-6 text-lg leading-relaxed text-white/90">{mediaIntro}</p>
+          </div>
+        </Container>
       </section>
 
       <Section>
