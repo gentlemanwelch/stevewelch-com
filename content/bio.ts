@@ -197,21 +197,20 @@ export const investmentVehicles = {
     },
     {
       stage: "Late stage",
-      name: "Shark Skin Capital",
+      name: "Shark Skin Ventures",
       /*
-        REVIEW: this is the blue "SHARK SKIN capital" mark that came down with
-        the WordPress media, and it is what the live site shows. Steve has a
-        newer one — an orange hammerhead beside navy type reading "SHARK SKIN
-        VENTURES" — which did not reach this session as a file, only as an image
-        in the chat. Drop the file at public/media/shark-skin_ventures.svg (or
-        .png) and repoint this line; nothing else has to change.
+        REVIEW — THE ONLY THING STILL WRONG ON THIS CARD. The fund is Shark Skin
+        VENTURES, confirmed by Steve, and every word on the site now says so.
+        The image does not: this is the blue "SHARK SKIN capital" mark that came
+        down with the WordPress media. The current one — an orange hammerhead
+        beside navy type — reached this session only as an image in the chat,
+        which leaves no file to commit.
 
-        Note the wording while you are there: the new mark says VENTURES where
-        this card, and the original page, say Capital. If the entity has been
-        renamed, `name` and `body` need it too.
+        Drop it at public/media/shark-skin_ventures.svg (or .png) and repoint
+        this one line. Nothing else needs touching; the name is already right.
       */
       logo: "/media/shark-skin_logo.svg",
-      body: "Shark Skin Capital invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
+      body: "Shark Skin Ventures invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
     },
   ] as Vehicle[],
 };
@@ -229,7 +228,7 @@ export const bioShort = `Steve Welch is a successful entrepreneur and investor w
 export const bioLong: string[] = [
   "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 350 companies.",
   "He founded Mitos in 2001 and built it into a global company in biotech manufacturing, developing innovations and patents that changed how biological drugs and vaccines are made. He sold it at the age of 30 to Parker (NYSE: PH).",
-  "He then partnered with two mentors and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After fifteen years, Dreamit has invested in over 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Capital, which scales later-stage healthcare and consumer companies in short sprints.",
+  "He then partnered with two mentors and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After fifteen years, Dreamit has invested in over 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures, which scales later-stage healthcare and consumer companies in short sprints.",
   "Steve is currently CEO of Restore Hyper Wellness, which began with a problem he had himself: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. Restore now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
   'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness" with Jim Donnelly. He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
 ];

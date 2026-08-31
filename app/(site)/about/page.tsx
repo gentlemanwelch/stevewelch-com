@@ -6,7 +6,7 @@ import {
 } from "@/content/bio";
 import { img, selectedInvestmentLogos, workedWithLogos } from "@/content/media-manifest";
 import {
-  Container, Section, JsonLd, LogoWall,
+  Container, Section, Button, JsonLd, LogoWall,
 } from "@/components/primitives";
 import { CountUp } from "@/components/CountUp";
 import { Timeline } from "@/components/Timeline";
@@ -289,6 +289,27 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+        </Container>
+      </Section>
+
+      {/*
+        The booking ask. Not on the original — /about/ there simply stops after
+        the vehicles — and it was taken out when the page was trimmed to end on
+        them. Steve put it back, and it earns its place: this is the second most
+        visited page on the site and it had no way to a booking on it at all.
+        Everything above is the case for him; this is the only thing that lets
+        someone act on it.
+      */}
+      <Section tone="ink">
+        <Container className="text-center">
+          <h2 className="text-white">Looking for a speaker?</h2>
+          <p className="mx-auto mt-4 max-w-xl text-white/70">
+            Purpose, People, Process — delivered on multiple continents.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button href="/speaking/">See the speaking page</Button>
+            <Button href="/contact/" variant="secondary">Check availability</Button>
+          </div>
         </Container>
       </Section>
     </>
