@@ -4,9 +4,11 @@
  * Restore keeps its own page at /books/restore/ because that URL exists and is
  * indexed on the original; the other book gets the same treatment.
  *
- * REVIEW: `buyUrl` is empty on both. The original renders a "Buy the Book"
- * button, but the export stores the label without a resolvable destination.
- * Add the retailer links and the buttons switch on everywhere at once.
+ * `buyUrl` on both books is the Amazon link the original's own "Buy the Book"
+ * button points at, read straight out of the export's block markup. Setting it
+ * switches the button on in all four places at once — the homepage feature, the
+ * books index, and each book's own page — because every one of them is gated on
+ * this field.
  */
 
 export type Book = {
@@ -31,7 +33,8 @@ export const books: Book[] = [
       "Written by a successful entrepreneur in the biotech field, WAABE demonstrates that there is no single path to follow to achieve one's dreams — and in fact every path is different.",
       "Through hundreds of interviews Steve uses his story and those from a vast array of other entrepreneurs to explain what drives them, while sharing lessons learned from the successes — and the failures — of entrepreneurs.",
     ],
-    // buyUrl: "", // REVIEW: add retailer link
+    buyUrl:
+      "https://www.amazon.com/We-Are-All-Born-Entrepreneurs-ebook/dp/B003BNZRC4/",
   },
   {
     slug: "restore",
@@ -44,7 +47,8 @@ export const books: Book[] = [
       "Pain, disease, and complications of aging are universal problems, but addressing these challenges is far easier and more accessible than many people realize.",
       "In The Life-Changing Power of Right-Away Wellness, Jim Donnelly and Steve Welch share real-life success stories of how people used hyper-wellness therapies to drive change to their happiness, health, and productivity.",
     ],
-    // buyUrl: "", // REVIEW: add retailer link
+    buyUrl:
+      "https://www.amazon.com/Restore-Life-Changing-Power-Right-Away-Wellness/dp/1637745095",
   },
 ];
 
@@ -61,7 +65,18 @@ export const featuredBook = {
   eyebrow: "About the Book",
   title: "Restore:",
   subtitle: "The Life-Changing Power of Right Away Wellness",
-  body: "Pain, disease, and complications of aging are universal problems, but addressing these challenges is far easier and more accessible than many people realize. In The Life-Changing Power of Right-Away Wellness, Jim Donnelly and Steve Welch share real-life success stories of how people used hyper-wellness therapies to drive change to their happiness, health, and productivity.",
+  /*
+    Three parts so the book title can be set in italic, which is what the
+    original does — the export wraps it in <em>. The first build ran it as one
+    string and opened the clause with "In", a word that is on no version of the
+    page; the live page names the book, "Restore: The Life-Changing Power of
+    Right-Away Wellness".
+  */
+  body: [
+    { text: "Pain, disease, and complications of aging are universal problems, but addressing these challenges is far easier and more accessible than many people realize. " },
+    { text: "Restore: The Life-Changing Power of Right-Away Wellness", em: true },
+    { text: ", Jim Donnelly and Steve Welch share real-life success stories of how people used hyper-wellness therapies to drive change to their happiness, health, and productivity." },
+  ],
   learnMoreHref: "/books/restore/",
   slug: "restore",
 };

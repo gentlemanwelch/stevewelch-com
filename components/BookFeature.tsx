@@ -35,7 +35,8 @@ export function BookFeature({
   eyebrow: string;
   title: string;
   subtitle?: string;
-  body: string;
+  /* Runs of copy; `em` marks the ones set in italic — the book's title. */
+  body: { text: string; em?: boolean }[];
   learnMoreHref: string;
   buyUrl?: string;
   desktopArt: string;
@@ -69,7 +70,11 @@ export function BookFeature({
               <span className="mt-1 block text-[0.72em] leading-tight">{subtitle}</span>
             )}
           </h2>
-          <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">{body}</p>
+          <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">
+            {body.map((part, i) =>
+              part.em ? <em key={i}>{part.text}</em> : <span key={i}>{part.text}</span>,
+            )}
+          </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
@@ -79,10 +84,12 @@ export function BookFeature({
               Learn More
             </Link>
             {/*
-              "Buy the Book" appears only once a retailer link exists. The
-              original renders it unconditionally, but shipping a button that
-              goes nowhere is worse than shipping one fewer button — see the
-              REVIEW note on `buyUrl` in content/books.ts.
+              "Buy the Book" is still gated on the link existing — a button that
+              goes nowhere is worse than one fewer button — but the link is real
+              now, so it renders. It is the Amazon URL the original's own button
+              points at, and it opens in a new tab as the original does: this is
+              the one place on the site that sends a visitor away, and the rest
+              of the page is what a booking enquiry comes from.
             */}
             {buyUrl && (
               <a
