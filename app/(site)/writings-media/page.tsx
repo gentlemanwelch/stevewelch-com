@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { site } from "@/content/site";
 import {
   mediaIntro, videos, podcasts, publications, expertTalks, podcastNote,
 } from "@/content/media";
 import { img } from "@/content/media-manifest";
 import {
-  Container, Section, Eyebrow, Button, JsonLd, VideoEmbed,
+  Container, Section, Button, JsonLd, VideoEmbed,
 } from "@/components/primitives";
 import { breadcrumbSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
+import { getSubstackPosts } from "@/lib/substack";
+import { SubstackSection } from "@/components/SubstackSection";
 
 /**
  * /writings-media/ — rebuilt against the WordPress original.
@@ -99,7 +100,14 @@ function AppearanceList({
   );
 }
 
-export default function WritingsMediaPage() {
+export default async function WritingsMediaPage() {
+  /*
+    Read on the server so the posts are in the HTML. The fetch revalidates
+    hourly and can never throw — see lib/substack.ts — so a Substack outage
+    costs this page three cards, not the page.
+  */
+  const posts = await getSubstackPosts(3);
+
   return (
     <>
       <JsonLd
@@ -162,6 +170,8 @@ export default function WritingsMediaPage() {
         </Container>
       </section>
 
+      <SubstackSection posts={posts} />
+
       <Section>
         <Container>
           <h2>Videos</h2>
@@ -199,19 +209,6 @@ export default function WritingsMediaPage() {
           <h2>Expert Talks</h2>
           <div className="mt-8">
             <AppearanceList items={expertTalks} />
-          </div>
-        </Container>
-      </Section>
-
-      <Section>
-        <Container size="measure" className="text-center">
-          <Eyebrow>Newsletter</Eyebrow>
-          <h2>Steve writes regularly.</h2>
-          <p className="mt-4 text-[var(--color-ink-soft)]">
-            Thoughts and insights, straight to your inbox.
-          </p>
-          <div className="mt-7 flex justify-center">
-            <Button href={site.social.substack}>Get The Newsletter</Button>
           </div>
         </Container>
       </Section>
