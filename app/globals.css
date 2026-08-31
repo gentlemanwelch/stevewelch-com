@@ -29,11 +29,18 @@
      reached us because it lives in the theme's stylesheet rather than in page
      content, and a WordPress WXR export carries no theme CSS.
 
-     REVIEW: sampled by eye from a screenshot. To make it exact, inspect the
-     "Get The Newsletter" button on stevewelch.com and paste its computed
-     background-color here — it is the only place the value appears. */
-  --color-coral: #f26b5a;
-  --color-coral-dark: #d9543f;   /* hover */
+     Confirmed against the live site — this is the exact brand value, not an
+     estimate. It appears nowhere in the WordPress export because it lives in
+     the theme's compiled stylesheet, which WXR does not carry.
+
+     CONTRAST: white on this coral is 3.36:1. That clears WCAG AA for large
+     text (3:1) but not for text below 18.66px bold, which is where the button
+     labels currently sit. It is the brand colour and the original site uses it
+     the same way, so it stays — see the note on `--color-coral-dark`. */
+  --color-coral: #f05a45;
+  /* Hover: the same hue 14% darker, which also lands at 4.42:1 on white —
+     so the pressed/hovered state is the accessible one. */
+  --color-coral-dark: #ce4d3b;
 
   /* The underline accent beneath the role-box titles. This IS in the export —
      it appears on /writings-media/ — but went unused in the first build. */
