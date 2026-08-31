@@ -40,13 +40,35 @@ export const site = {
    * Booking inquiries. This address is the conversion point of the whole site:
    * the entire SEO effort exists to put qualified event organizers here.
    */
-  email: "steve@stevewelch.com", // REVIEW: confirm the address that should receive booking inquiries.
+  /**
+   * Booking inquiries. This address is the conversion point of the whole site.
+   *
+   * Confirmed: this is the inbox Steve reads. It is also the fallback the
+   * inquiry API uses when INQUIRY_TO_EMAIL is unset, so the form still reaches
+   * a real person even if that variable is forgotten in Vercel.
+   */
+  email: "steve@stevewelch.com",
 
+  /**
+   * Home base. Feeds the PostalAddress in the Person schema, and would anchor
+   * any future "keynote speaker in <city>" pages.
+   *
+   * REVIEW — GENUINELY UNRESOLVED, and the evidence points two ways:
+   *   Austin, TX      — Restore Hyper Wellness is headquartered there and he
+   *                     is its CEO.
+   *   Philadelphia PA — Dreamit Ventures, the Philadelphia Inquirer quote, and
+   *                     the foundation's work with a Montessori school in
+   *                     Valley Forge all sit in south-eastern Pennsylvania.
+   *
+   * Austin is the current guess. Getting this wrong tells search engines the
+   * wrong service area for a speaker who travels for a living, so it is worth
+   * one word of confirmation rather than a coin flip.
+   */
   location: {
     city: "Austin",
     region: "TX",
     country: "US",
-  }, // REVIEW: confirm home base — it matters for "keynote speaker in <city>" searches.
+  },
 
   /**
    * Portrait for the homepage hero and the press kit.
