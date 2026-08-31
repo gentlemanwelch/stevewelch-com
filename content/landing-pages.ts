@@ -54,12 +54,12 @@ export const landingPages: LandingPage[] = [
     campaign: "Brand + generic keynote terms",
     headline: "Book a Keynote Speaker Who Has Actually Run the Companies",
     subhead:
-      "Steve Welch has founded four companies, invested in 400+, and runs a national health business today. He speaks to leadership teams about driving change through purpose, people, and process — and inquiries reach him directly, with no bureau in between.",
+      "Steve Welch has founded four companies, invested in 400+, and runs a national health business today. He speaks to leadership teams about driving change through purpose, people, and process — and inquiries reach his team directly, with no bureau in between.",
     title: "Book Steve Welch — Keynote Speaker",
     bullets: [
       "45–60 minute keynote, tailored on a call before your event",
       "Corporate, association, and founder audiences on multiple continents",
-      "Booking goes straight to Steve — no agency, no bureau fee",
+      "Booking goes straight to Steve’s team — no agency, no bureau fee",
       "Straight answer on availability and fee within two business days",
     ],
     proof: [

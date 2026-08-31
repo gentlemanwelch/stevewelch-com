@@ -9,6 +9,10 @@
  * For humans, every question answered here is an email that does not need to
  * be sent — which is the actual reason a direct-booking site can compete with
  * a bureau. The bureau's whole value proposition is that they answer these.
+ *
+ * NOTE ON WORDING: these say the inquiry reaches Steve's TEAM, never Steve
+ * personally. Cutting out the bureau is the claim; implying he answers his own
+ * booking mail is a different one, and it is not true. Keep the distinction.
  */
 
 export type Faq = {
@@ -20,7 +24,7 @@ export const faqs: Faq[] = [
   {
     question: "How do I book Steve Welch to speak at my event?",
     answer:
-      "Send the details through the booking form on the contact page — date, city, audience, and what you need the session to accomplish. Inquiries go directly to Steve, not to an agency, and you will normally hear back within two business days.",
+      "Send the details through the booking form on the contact page — date, city, audience, and what you need the session to accomplish. Inquiries go directly to Steve’s team, not to an agency, and you will normally hear back within two business days.",
   },
   {
     question: "What does it cost to book Steve as a keynote speaker?",

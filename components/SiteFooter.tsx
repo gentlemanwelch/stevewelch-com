@@ -58,7 +58,7 @@ export function SiteFooter() {
           <div className="lg:text-right">
             <h2 className="text-2xl text-white sm:text-3xl">Book Steve to Speak</h2>
             <p className="mt-3 text-[0.95rem] leading-relaxed text-white/70">
-              Inquiries come directly to Steve — there is no agency in between.
+              Inquiries come directly to Steve’s team — there is no agency in between.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-4 lg:justify-end">
               <Link

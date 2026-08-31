@@ -4,7 +4,7 @@ The speaking site, rebuilt off WordPress as a Next.js app so it can be changed,
 measured, and experimented on without a plugin in the way.
 
 Its single job is to convert an event organizer who found it through search into
-a booking inquiry that reaches Steve directly, with no bureau in between.
+a booking inquiry that reaches Steve's team directly, with no bureau in between.
 
 ---
 

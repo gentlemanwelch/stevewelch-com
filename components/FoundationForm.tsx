@@ -64,7 +64,7 @@ export function FoundationForm() {
       <div className="rounded-[var(--radius-card)] bg-white p-8 text-center shadow-[var(--shadow-card)]">
         <h3 className="text-[var(--color-blue-deep)]">Thank you — that reached us.</h3>
         <p className="mt-3 leading-relaxed text-[var(--color-ink-soft)]">
-          Steve and Nicole read these themselves. You will hear back.
+          This goes straight to the Foundation. You will hear back.
         </p>
       </div>
     );

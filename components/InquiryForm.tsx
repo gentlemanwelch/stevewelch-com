@@ -76,7 +76,7 @@ export function InquiryForm() {
   if (status === "sent") {
     return (
       <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-8">
-        <h2 className="text-2xl">Thank you — that came straight to Steve.</h2>
+        <h2 className="text-2xl">Thank you — that went straight to Steve’s team.</h2>
         <p className="mt-3 text-[var(--color-ink-soft)]">
           You will normally hear back within two business days. If your event is on a
           tight timeline, reply to the confirmation or email{" "}

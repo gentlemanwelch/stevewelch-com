@@ -63,7 +63,7 @@ export const foundation = {
   */
   form: {
     heading: "Tell us about your organization",
-    body: "The Foundation backs people and programs that get children into science, technology, engineering and mathematics. Tell us who you are and what you are building, and Steve and Nicole will read it themselves.",
+    body: "The Foundation backs people and programs that get children into science, technology, engineering and mathematics. Tell us who you are and what you are building, and it goes straight to the Foundation.",
     fields: {
       organization: "Organization name",
       contact: "Contact person (name and title)",

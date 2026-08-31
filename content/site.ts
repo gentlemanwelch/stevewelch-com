@@ -43,7 +43,7 @@ export const site = {
   /**
    * Booking inquiries. This address is the conversion point of the whole site.
    *
-   * Confirmed: this is the inbox Steve reads. It is also the fallback the
+   * Confirmed: this is the inbox Steve's team works. It is also the fallback the
    * inquiry API uses when INQUIRY_TO_EMAIL is unset, so the form still reaches
    * a real person even if that variable is forgotten in Vercel.
    */

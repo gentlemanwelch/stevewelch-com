@@ -102,7 +102,7 @@ export default async function LandingPageRoute({
             <div id="inquire" className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-card)] sm:p-8">
               <h2 className="text-2xl">{page.ctaLabel}</h2>
               <p className="mt-2 text-sm text-[var(--color-ink-faint)]">
-                Goes straight to Steve. Reply within two business days.
+                Goes straight to Steve’s team. Reply within two business days.
               </p>
               <div className="mt-6">
                 <LandingInquiryForm campaign={page.slug} ctaLabel={page.ctaLabel} />

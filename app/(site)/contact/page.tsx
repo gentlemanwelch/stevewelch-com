@@ -12,14 +12,14 @@ import { buildMetadata } from "@/lib/seo";
  * The conversion page. Everything else on this site is upstream of this form.
  *
  * The one thing it does differently from a standard contact page is say
- * plainly, above the form, that inquiries reach Steve rather than an agency.
+ * plainly, above the form, that inquiries reach Steve’s team rather than an agency.
  * That is the whole competitive argument against a bureau listing, and it only
  * works if it is stated.
  */
 export const metadata: Metadata = buildMetadata({
   title: "Book Steve Welch",
   description:
-    "Check availability and fees for a keynote by Steve Welch. Inquiries go directly to Steve — no agency, no bureau fee — with a reply normally within two business days.",
+    "Check availability and fees for a keynote by Steve Welch. Inquiries go directly to Steve’s team — no agency, no bureau fee — with a reply normally within two business days.",
   path: "/contact/",
   keywords: ["book Steve Welch", "hire keynote speaker", "speaker booking inquiry", "keynote speaker availability"],
 });
@@ -73,12 +73,12 @@ export default function ContactPage() {
         <Container className="relative py-20 text-center sm:py-24">
           <Eyebrow tone="onDark">Booking</Eyebrow>
           <h1 className="mx-auto max-w-3xl text-white text-[2.4rem] leading-[1.06] sm:text-[3.2rem]">
-            This goes straight to Steve.
+            This goes straight to Steve’s team.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
-            No agency, no bureau fee, no three-week relay through an assistant. Tell him the date,
-            who is in the room, and what the session needs to accomplish — you will normally hear
-            back within two business days.
+            No agency, no bureau fee, no three-week relay. Tell us the date, who is in the room,
+            and what the session needs to accomplish — you will normally hear back within two
+            business days.
           </p>
         </Container>
       </section>

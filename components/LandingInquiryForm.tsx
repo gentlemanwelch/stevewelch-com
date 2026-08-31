@@ -118,7 +118,7 @@ export function LandingInquiryForm({
     return (
       <div className="rounded-[var(--radius-card)] bg-[var(--color-tint)] p-6">
         <p className="text-lg font-bold text-[var(--color-ink)]">
-          Thank you — that went straight to Steve.
+          Thank you — that went straight to Steve’s team.
         </p>
         <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
           You will normally hear back within two business days. On a tight timeline?

@@ -9,7 +9,7 @@ The personal site of Steve Welch — entrepreneur, investor, CEO of Restore Hype
 Wellness, and paid keynote speaker. It replaced a WordPress site in August 2026.
 
 **Its one job is to convert an event organizer who found it through search into
-a booking inquiry that reaches Steve directly, with no speaker bureau in
+a booking inquiry that reaches Steve's team directly, with no speaker bureau in
 between.** Talks are in the $10–20k range, so a single additional booking pays
 for a great deal of work here. Judge changes against that outcome.
 
