@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { books, getBook, freeChapter } from "@/content/books";
@@ -123,12 +124,29 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
                   <blockquote className="flex-1 leading-relaxed text-[var(--color-ink-soft)]">
                     {t.quote}
                   </blockquote>
-                  <p className="mt-5 border-t border-[var(--color-line)] pt-4">
-                    <span className="block font-bold text-[var(--color-ink)]">{t.name}</span>
-                    <span className="mt-1 block text-sm text-[var(--color-ink-faint)]">
-                      {t.title}
-                    </span>
-                  </p>
+                  <div className="mt-5 flex items-center gap-4 border-t border-[var(--color-line)] pt-5">
+                    {t.image && (
+                      /*
+                        aria-hidden with an empty alt: the person's name sits
+                        immediately beside it in text, so announcing the image
+                        too would just read the name twice.
+                      */
+                      <Image
+                        src={t.image}
+                        alt=""
+                        aria-hidden="true"
+                        width={400}
+                        height={400}
+                        className="h-14 w-14 shrink-0 rounded-full object-cover"
+                      />
+                    )}
+                    <p className="min-w-0">
+                      <span className="block font-bold text-[var(--color-ink)]">{t.name}</span>
+                      <span className="mt-0.5 block text-sm leading-snug text-[var(--color-ink-faint)]">
+                        {t.title}
+                      </span>
+                    </p>
+                  </div>
                 </li>
               ))}
             </ul>
