@@ -46,6 +46,16 @@
      it appears on /writings-media/ — but went unused in the first build. */
   --color-cyan: #53bcd7;
 
+  /*
+    The light blue for SMALL TEXT ON THE TINT — the labels under the counters
+    on /about/. Those need to read lighter than the figure above them, and the
+    brand blue #348cbb does that but measures 3.39:1 against #edf5f9, under the
+    4.5:1 that 12px text needs. This is 40% of the way from #348cbb to
+    #055577: 4.57:1, and still visibly the lighter of the pair. Use the brand
+    blue for anything large, and this for anything small on the tint.
+  */
+  --color-blue-muted: #2176a0;
+
   --color-ink: #042e43;          /* headings — the navy doubles as text */
   --color-ink-soft: #46586a;     /* body copy */
   --color-ink-faint: #7b8b98;    /* captions, meta */

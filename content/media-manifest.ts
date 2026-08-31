@@ -62,6 +62,26 @@ export const img = {
   entrepreneursBookBgMobile: `${base}/ep-book_mobile.svg`,
   mailingListIcon: `${base}/mailing-list-icon.svg`,
 
+  /*
+    The About-page timeline, in order. Each name is the attachment_url the
+    export records for the id the timeline block references — NOT the `url`
+    inside the block's own JSON, which for Dreamit is stale: it says
+    Dreamit-Team.jpg where the attachment is Dreamit-Team-e1723084112124.jpg,
+    WordPress's edited copy. Trusting the inline url would have shipped one
+    broken image out of eleven.
+  */
+  timelinePennState: `${base}/AF302759-0ECC-49A9-BF66-0AA257E0F2A9_1_105_c.jpeg`,
+  timelineMitosFounded: `${base}/DSCN1593.jpg`,
+  timelineSaratoga: `${base}/DSCN1199.jpg`,
+  timelineWedding: `${base}/Foto-015-s022-scaled.jpg`,
+  timelineMitosSold: `${base}/DSCN1645.jpg`,
+  timelineDreamitStart: `${base}/DSC_0503-scaled.jpg`,
+  timelineDreamitTeam: `${base}/Dreamit-Team-e1723084112124.jpg`,
+  timelineHealth: `${base}/SDW_8971.jpg`,
+  timelineRestoreStart: `${base}/W16_3327-scaled.jpg`,
+  timelineRestoreScaled: `${base}/DSC_0119-scaled.jpg`,
+  timelineFamilyToday: `${base}/W19_2980-scaled.jpg`,
+
   /* The Restore wordmark, which the original uses in place of a text heading. */
   restoreLogo: `${base}/restore_hyper-wellness_logo.svg`,
   /* Two therapy photographs, already composited into one transparent PNG —

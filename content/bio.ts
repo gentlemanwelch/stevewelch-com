@@ -48,6 +48,87 @@ export const restoreToday: Stat[] = [
   { value: "3M+", to: 3, label: "therapies delivered in 2024", sentence: "Restore Hyper Wellness delivered more than 3 million therapies in 2024." },
 ];
 
+export type TimelineEntry = {
+  /** Key into `img` in content/media-manifest.ts. */
+  image: string;
+  /** Written in Steve's own first person, exactly as the block has it. */
+  text: string;
+  /** What the photograph shows, for alt text — the export stores none. */
+  alt: string;
+};
+
+/*
+  The About page's timeline, transcribed from its qi-blocks/timeline block. It
+  sits directly after the three buckets, and the first build dropped it
+  entirely — eleven entries and eleven photographs, which is the whole account
+  of how Steve got here and by some distance the most persuasive thing on the
+  page for someone deciding whether to book him.
+
+  First person throughout, because that is how it is written. Do not rewrite it
+  into third person to match the rest of the page; the shift in voice is the
+  point of the section.
+
+  The alt text is written here rather than taken from the export, which stores
+  an empty alt on every one of them.
+*/
+export const timeline: TimelineEntry[] = [
+  {
+    image: "timelinePennState",
+    alt: "Steve as a student with two friends in a college house",
+    text: "My entrepreneurial journey began by paying most of my way through Penn State engineering by scalping tickets and selling carpets to freshman. Successful but not scalable.",
+  },
+  {
+    image: "timelineMitosFounded",
+    alt: "Two people in cleanroom suits holding a Mitos Technologies banner",
+    text: "At 23, I founded Mitos because I saw a problem in the biotech industry and knew I could solve it. I got my customers to pay for my product before it was even built. Validation of true product market fit. What started out as one solution grew into many, and we created enormous value for our customers",
+  },
+  {
+    image: "timelineSaratoga",
+    alt: "Bedding laid out in the back of a car",
+    text: "Once a week, I slept in my car in Saratoga, NY as I grew Mitos without a cent to my name. It gets cold in Saratoga in the winter. Sacrifice it part of success.",
+  },
+  {
+    image: "timelineWedding",
+    alt: "Steve carrying Nicole on their wedding day",
+    text: "I married the woman who I had been in love with since I first kissed her at the age of 15. After breaking up with her when I was 16, it took a decade to win her back. Success takes patience.",
+  },
+  {
+    image: "timelineMitosSold",
+    alt: "A tray of stainless steel bioprocessing components made by Mitos",
+    text: "I sold Mitos at the age of 30, to Parker (NYSE: PH). I was motivated, happy, and fulfilled when I was poor. I was now rich and still motivated, happy, and fulfilled. This is because in both scenarios I had purpose.",
+  },
+  {
+    image: "timelineDreamitStart",
+    alt: "Steve on stage in front of a Dreamit Ventures screen",
+    text: "I partnered with two amazing mentors and started Dreamit Ventures to help take our lessons learned to aspiring entrepreneurs. This allowed me to work with amazing people building amazing companies. In the end, I learned more from them than they did from me.",
+  },
+  {
+    image: "timelineDreamitTeam",
+    alt: "The Dreamit Ventures team on stage",
+    text: "After 15 years, Dreamit has invested in over 400 companies, and we developed a process to create value for companies through innovation. Today, the total market cap of Dreamit companies exceeds $10B.",
+  },
+  {
+    image: "timelineHealth",
+    alt: "Steve wakeboarding, mid-air off the water",
+    text: "In my late 30\u2019s, I was starting to have less energy and more aches and pains. I was in shape and looked fine on the outside, but decades of fast food and sodas had turned my insides to mush. I was prediabetic, with extremely high cholesterol, and short of many key micronutrients. Nothing works if your health is not working.",
+  },
+  {
+    image: "timelineRestoreStart",
+    alt: "A ribbon-cutting outside an early Restore Hyper Wellness studio",
+    text: "I partnered with another great entrepreneur to start Restore Hyper Wellness because there was a clear problem that needed to be solved. People need a way to understand and invest in their health while they are healthy as opposed to waiting until they are sick.",
+  },
+  {
+    image: "timelineRestoreScaled",
+    alt: "An on-stage session under an \u014cURA and Restore Hyper Wellness banner",
+    text: "Scaled Restore by building an organization aligned around purpose with the right people who were process driven. Restore is the largest retail health wellness business in the world with over 225 locations.",
+  },
+  {
+    image: "timelineFamilyToday",
+    alt: "Steve, Nicole and their four children in a field of bluebonnets",
+    text: "Continue to share the journey with my partner for life with 4 kids in tow.",
+  },
+];
+
 export type LifeBox = { title: string; content: string };
 
 /** The "3 buckets" — Family, Himself, Work. */

@@ -9,6 +9,7 @@ import {
   Container, Section, Eyebrow, Button, Prose, JsonLd, LogoWall, StatGrid,
 } from "@/components/primitives";
 import { CountUp } from "@/components/CountUp";
+import { Timeline } from "@/components/Timeline";
 import { breadcrumbSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
@@ -118,8 +119,15 @@ export default function AboutPage() {
                 >
                   {s.to ? <CountUp to={s.to} display={s.value} /> : s.value}
                 </dt>
+                {/* The label is the LIGHTER blue. Setting it in blue-deep like
+                    the figure above it flattened the pair into one block of the
+                    same colour and the number stopped carrying the row.
+
+                    blue-muted rather than the brand blue: at 12px on the tint
+                    #348cbb measures 3.39:1, under what small text needs. See
+                    the token's note in globals.css. */}
                 <dd
-                  className="mt-3 text-[0.78rem] font-semibold uppercase leading-snug tracking-[0.08em] text-[var(--color-blue-deep)]"
+                  className="mt-3 text-[0.78rem] font-semibold uppercase leading-snug tracking-[0.08em] text-[var(--color-blue-muted)]"
                   aria-hidden="true"
                 >
                   {s.label}
@@ -152,7 +160,10 @@ export default function AboutPage() {
         links and so have nothing focusable to hang focus-within on. The copy is
         in the DOM at all times regardless, so a screen reader always reaches it.
       */}
-      <Section tone="alt">
+      {/* White, not the tint. The counter band above it is #edf5f9 and the two
+          together read as one long coloured field with a seam in the middle;
+          the original changes back to white here. */}
+      <Section>
         <Container>
           <p className="text-center text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-blue-deep)]">
             {lifeBoxesEyebrow}
@@ -196,6 +207,12 @@ export default function AboutPage() {
           </ul>
         </Container>
       </Section>
+
+      {/*
+        The timeline. Its block sits exactly here in the export, directly after
+        the hover boxes, and the first build dropped all eleven entries.
+      */}
+      <Timeline />
 
       {/* Restore: where it came from, and where it is now. */}
       <Section>
