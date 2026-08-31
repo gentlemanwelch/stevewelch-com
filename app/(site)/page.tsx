@@ -49,8 +49,18 @@ export default function HomePage() {
       {/* ------------------------------------------------------------- Hero */}
       {/*
         The hero art is a 1920x1023 photograph with Steve seated in the LEFT
-        third against the Restore wall, so object-position is left and the scrim
-        darkens the RIGHT, where the type sits.
+        third against the Restore wall, so object-position is left.
+
+        NO OVERLAY ON DESKTOP. The WordPress block sets
+        `"hero_overlay_tint":"rgba(0,0,0,0)"` — fully transparent — on this hero
+        and on the speaking and contact heroes too. The first build invented a
+        navy gradient over the right half "so the type would read"; it was never
+        needed and it flattened the whole photograph. Measured on the source
+        file: across the band the headline occupies, the WORST text-sized block
+        is 9.97:1 against white and not one block falls under 4.5:1. The picture
+        is already dark enough. Do not add a scrim back here.
+
+        The mobile wash below is a different case and is measured separately.
 
         next/image rather than a CSS background: this is the LCP element and the
         source is a 1 MB PNG, so Next serves a far smaller AVIF/WebP at the right
@@ -67,7 +77,21 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover object-left"
         />
-        <div className="absolute inset-0 bg-[var(--color-navy)]/75 md:bg-transparent md:bg-gradient-to-l md:from-[var(--color-navy)] md:via-[var(--color-navy)]/80 md:to-transparent" />
+        {/*
+          Mobile only, and it is load-bearing here in a way it never was on
+          desktop. At 390x772 the cover crop puts the headline squarely over
+          Steve's white shirt: measured on the render, the worst text-sized block
+          is 1.18:1 against white type — unreadable. Sweeping the alpha, 0.55
+          still fails at 3.94:1 and 0.62 is the first step that clears 4.5:1
+          (4.78:1). Hence this value, rather than the 0.75 the first build used
+          at every width.
+
+          Re-measure if the crop changes. In particular the export sets
+          `alternative_mobile_image: "1"` with `hero_mobile_image: 1908`
+          (steve_hero-mobile-1.png), which this does not yet serve — wiring that
+          in changes what sits behind the type and invalidates the number above.
+        */}
+        <div className="absolute inset-0 bg-[var(--color-navy)]/62 md:hidden" />
 
         <Container className="relative w-full py-20">
           {/*
@@ -83,19 +107,21 @@ export default function HomePage() {
             */}
             <h1 className="!text-[2.6rem] leading-[1.05] sm:!text-[3.75rem] lg:!text-[4.5rem]">
               <span className="block text-white">{hero.headingLead}</span>
-              <span className="mt-2 block text-[0.62em] leading-[1.15] text-white">
+              <span className="mt-2 block text-[0.722em] leading-[1.15] text-white">
                 {hero.headingRest}
               </span>
             </h1>
 
             {/*
-              The rule under the headline: a cyan bar ending in a ring. Purely
-              decorative, so it is hidden from assistive technology.
+              The rule under the headline. The export's `hero_text` ends in a
+              bare `<hr />`, and the live page renders it as a plain solid bar —
+              so that is what this is. The first build drew a thin line ending in
+              an open ring, which is on no version of the original.
             */}
-            <div aria-hidden="true" className="mt-7 flex items-center">
-              <span className="h-[3px] w-full max-w-[19rem] bg-[var(--color-cyan)]" />
-              <span className="-ml-px h-4 w-4 shrink-0 rounded-full border-[3px] border-[var(--color-cyan)] bg-[var(--color-navy)]" />
-            </div>
+            <hr
+              aria-hidden="true"
+              className="mt-7 h-[5px] w-full max-w-[25rem] border-0 bg-[var(--color-cyan)]"
+            />
 
             {/*
               No buttons here. The original hero carries none — the headline and
