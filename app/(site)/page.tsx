@@ -185,7 +185,7 @@ export default function HomePage() {
                 <li key={role.title} className="flex">
                   <Link
                     href={role.href}
-                    className="group relative flex w-full min-h-[20rem] flex-col items-center justify-center overflow-hidden rounded-lg bg-[var(--color-navy)] p-7 text-center text-white"
+                    className="group relative flex w-full min-h-[20rem] flex-col items-center justify-center overflow-hidden rounded-lg bg-[var(--color-navy)] p-7 text-center text-white md:grid md:min-h-[28rem] md:grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)]"
                   >
                     <span
                       aria-hidden="true"
@@ -199,18 +199,49 @@ export default function HomePage() {
                       className="absolute inset-0 bg-[var(--color-navy)]/25 transition-colors duration-300 md:group-hover:bg-[var(--color-navy)]/85 md:group-focus-within:bg-[var(--color-navy)]/85 max-md:bg-[var(--color-navy)]/80"
                     />
 
-                    <span className="relative">
-                      <span className="block text-3xl font-bold drop-shadow-sm">
+                    {/*
+                      The three titles must sit at exactly the same height, and
+                      centring the whole stack does not achieve that: the
+                      descriptions are different lengths, they stay in flow even
+                      at rest (opacity-0, not display:none), and a taller one
+                      pushes its title up. Executive's copy is the longest, which
+                      is why its title floated a line above the other two.
+
+                      So at md the card is a three-row grid — flexible, title,
+                      flexible — with BOTH flexible rows minmax(0,1fr). The li
+                      elements are already the same height, and the title rows
+                      are the same height, so the top spacers resolve equal and
+                      the titles land on the same line whatever the copy does.
+                      The description sits in row three and no longer moves it.
+
+                      Below md there is one column, nothing to align, and the
+                      description is always visible — so it stays a centred flex
+                      column there.
+
+                      md:min-h-[28rem] is not decoration. Row three is
+                      minmax(0,1fr), so its minimum is zero — it will not grow to
+                      fit its own content, it will let it overflow and the card's
+                      overflow-hidden will cut it off. The height has to come from
+                      somewhere, and that somewhere is this min-height. At 26rem
+                      Executive's copy landed flush on the content edge with zero
+                      to spare; 28rem gives it room. Re-measure if the copy grows.
+                    */}
+                    <span className="relative mx-auto w-fit md:row-start-2">
+                      <span className="block text-[1.9rem] font-bold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:text-[2.4rem]">
                         {role.title}
                       </span>
-                      {/* The cyan rule under the title. */}
+                      {/* The cyan rule under the title. w-fit on the wrapper
+                          above makes this the width of the WORD — the first
+                          build stretched it to the description's width, which
+                          reads as a different component. */}
                       <span
                         aria-hidden="true"
-                        className="mx-auto mt-2 block h-[3px] w-full bg-[var(--color-cyan)]"
+                        className="mt-2 block h-[3px] w-full bg-[var(--color-cyan)]"
                       />
-                      <span className="mt-4 block text-[0.95rem] leading-relaxed text-white/90 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
-                        {role.content}
-                      </span>
+                    </span>
+
+                    <span className="relative mt-4 block text-[0.95rem] leading-relaxed text-white/90 transition-opacity duration-300 md:row-start-3 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
+                      {role.content}
                     </span>
                   </Link>
                 </li>
