@@ -67,16 +67,23 @@ export function SiteFooter() {
               >
                 Check availability
               </Link>
+              {/*
+                A labelled button, not an icon. The original footer carries a
+                blue pill reading "Follow on LinkedIn" beside the booking ask;
+                the first build shrank it to a bare glyph in a circle, which
+                loses both the word and the weight. LinkedIn is where Steve is
+                actually active, so it earns a button.
+
+                Blue rather than coral: "Check availability" beside it is the
+                primary action and has to stay the loudest thing in the footer.
+              */}
               <a
                 href={site.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Steve Welch on LinkedIn"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[var(--color-navy)]"
+                className="inline-flex rounded-[var(--radius-pill)] bg-[var(--color-blue)] px-7 py-3 font-bold text-white transition-colors hover:bg-[var(--color-blue-deep)]"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.65h.05c.53-.95 1.83-1.95 3.76-1.95 4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.6c0-1.34-.02-3.06-1.9-3.06-1.9 0-2.19 1.45-2.19 2.96V21h-4z" />
-                </svg>
+                Follow on LinkedIn
               </a>
             </div>
             <a

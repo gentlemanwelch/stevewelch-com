@@ -6,7 +6,6 @@ import {
   hero, newsletterBar, intro, roles, rolesFooter,
   speakingPanel, pillars, optIn, restorePanel,
 } from "@/content/home";
-import { credentials } from "@/content/bio";
 import { featuredBook, getBook, freeChapter } from "@/content/books";
 import { img, speakingEngagementLogos } from "@/content/media-manifest";
 import { BookFeature } from "@/components/BookFeature";
@@ -396,36 +395,6 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ------------------------------------------------------ Credentials */}
-      {/*
-        White, not the tint. The Restore section above it is #edf5f9 — that
-        value is from the original's own block data — so a tinted strip here
-        merged the two into one long band with a dead gap in the middle.
-
-        DECIDED, KEEP. This strip has no counterpart on the WordPress homepage —
-        it was added by the first build — and Steve confirmed it stays. Noting
-        that here so it does not read as an oversight to whoever diffs the two
-        sites next, or get "corrected" away by someone restoring fidelity.
-
-        It earns its place: an organizer who has scrolled this far is the most
-        qualified visitor on the site, and four checkable facts immediately
-        above the booking ask is a better last impression than white space.
-      */}
-      <Section>
-        <Container>
-          <h2 className="sr-only">Background</h2>
-          <dl className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {credentials.map((item) => (
-              <div key={item.label}>
-                <dt className="text-lg font-bold text-[var(--color-ink)]">{item.label}</dt>
-                <dd className="mt-1 text-sm leading-relaxed text-[var(--color-ink-faint)]">
-                  {item.detail}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </Container>
-      </Section>
     </>
   );
 }

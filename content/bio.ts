@@ -131,7 +131,18 @@ export const bioLong: string[] = [
 
 export type Credential = { label: string; detail: string };
 
-/** The credibility strip. Every figure below is on the original site. */
+/*
+  The credibility strip. PRESS KIT ONLY — it was on the homepage above the
+  footer and Steve took it off; it is not on his homepage and it read as
+  something that had wandered in. A press kit is where a journalist goes
+  looking for exactly this, so it stays there.
+
+  Every figure is his own, from his own site: "350+ companies over the last 25
+  years" is the homepage's Investor card; "the total market cap of Dreamit
+  companies exceeds $10B" and the 400+ investments are the About page timeline,
+  which also carries a stat counter labelled "Invested Companies Market Cap";
+  the Restore numbers are the Restore section. Nothing here was inferred.
+*/
 export const credentials: Credential[] = [
   { label: "350+ companies", detail: "Built from scratch or first investor, over 25 years" },
   { label: "Sold Mitos at 30", detail: "Acquired by Parker (NYSE: PH)" },
