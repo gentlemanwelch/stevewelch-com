@@ -59,7 +59,12 @@ The order is the safety. Vercel has to be ready to answer for the domain
 
 In IONOS DNS, change the TTL on the two A records from 3600 to 300. Wait an
 hour. This makes every later step, including a rollback, take five minutes
-instead of an hour. Skip it if you would rather not make two trips.
+instead of an hour.
+
+**Skipped on 2026-09-01 deliberately.** Traffic is low enough that up to an
+hour of the old site and the new site both being served — depending on whose
+DNS cache is whose — costs nothing worth a second trip. Worth doing on a site
+with real traffic; not worth it here.
 
 ### 2. Confirm what is about to go live
 
@@ -82,6 +87,13 @@ the whole site will advertise a hostname it does not serve.
 
 Vercel will show both as **Invalid Configuration**. That is correct and
 expected — DNS has not moved yet.
+
+> **Vercel will also offer to take over the domain's nameservers. Decline it.**
+> It is presented as the simpler option and for a bare domain it would be. Here
+> it would move the entire zone to Vercel, and every MX, SPF, DMARC and DKIM
+> record above would have to be recreated there by hand — which is precisely
+> the way to break Steve's email while trying to move a website. Stay with
+> individual A/CNAME records at IONOS.
 
 ### 4. Read the records Vercel asks for
 
@@ -201,19 +213,33 @@ indexed and the booking form has taken at least one real inquiry.
 Neither blocks anything. Both concern email, so they are recorded here rather
 than lost.
 
-**The root SPF record authorises HubSpot and nothing else, with a hard fail:**
+**The root SPF record authorises HubSpot, which is not in use, and hard-fails
+everything else:**
 
 ```
 v=spf1 include:46304657.spf07.hubspotemail.net -all
 ```
 
-`-all` instructs receivers to reject anything from another source. Mail sent
-*from* `steve@stevewelch.com` through IONOS webmail is not covered by that
-include, so it fails SPF. This predates the rebuild and is not affected by it —
-the booking form sends from `send.stevewelch.com`, which has its own record —
-but if outbound mail from that address has ever landed oddly, this is why. The
-fix is adding IONOS's include; worth confirming with IONOS what it should be
-rather than guessing.
+Steve confirmed on 2026-09-01 that HubSpot is not used at all — the newsletter
+runs through Substack. So this record grants sending authority to a service
+that never sends, and `-all` tells receivers to reject everything that is not
+it. Mail sent *from* `steve@stevewelch.com` through IONOS webmail is not
+covered, so it fails SPF.
+
+Nothing here is urgent and none of it is touched by the cutover:
+
+- The **booking form** sends from `send.stevewelch.com`, a subdomain with its
+  own SPF and DKIM. Unaffected.
+- **Substack** sends from Substack's own domain unless a custom sending domain
+  has been configured there. Unaffected by this record either way.
+- What *is* affected is Steve's own outbound mail from `steve@stevewelch.com`.
+
+The fix is a separate operation from the cutover and should stay separate —
+editing SPF on a live mail domain has its own blast radius, and doing it in the
+same sitting as a DNS move makes it impossible to tell which change caused a
+problem. When it happens: drop the HubSpot include, add IONOS's, keep `-all`.
+Get IONOS's exact include value from IONOS rather than guessing it; providers
+publish different ones per region and they have changed over time.
 
 **DMARC is `p=none`** — monitoring only, no enforcement. That is the safe
 setting and the right place to start. Tightening it to `quarantine` is a later
