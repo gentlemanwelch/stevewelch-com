@@ -74,7 +74,15 @@ through it once.
 
 ### 3. Add the domains in Vercel — before touching IONOS
 
-Project → Settings → Domains.
+**Project** → Settings → Domains — not the account-level Domains page in the
+sidebar. The account page offers "Buy", "Transfer In" and "Connect External"
+and no plain Add button; the project page gives you an input field and an Add
+button, and attaches the domain to the right project in one step.
+
+If you do end up on the account page: **Connect External** is the correct
+choice there. **Never Transfer In** — that moves the domain's *registration*
+away from IONOS, takes five to seven days, needs an auth code, and drags the
+whole DNS zone with it, MX records included.
 
 - Add `www.stevewelch.com` first. Set it as the **primary** domain.
 - Then add `stevewelch.com`, and choose the option to **redirect it to
