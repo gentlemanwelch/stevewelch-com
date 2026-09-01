@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { foundation } from "@/content/foundation";
+import { buttonClasses } from "@/lib/buttonStyles";
 import { site } from "@/content/site";
 
 /**
@@ -125,7 +126,7 @@ export function FoundationForm() {
         <button
           type="submit"
           disabled={state === "sending"}
-          className="inline-flex rounded-[var(--radius-pill)] bg-[var(--color-coral)] px-7 py-3 font-bold text-white transition-colors hover:bg-[var(--color-coral-dark)] disabled:opacity-60"
+          className={buttonClasses("primary")}
         >
           {state === "sending" ? "Sending…" : foundation.form.submit}
         </button>

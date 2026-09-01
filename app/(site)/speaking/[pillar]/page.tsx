@@ -105,9 +105,9 @@ export default async function PillarPage({
         <Container className="py-14 sm:py-20">
           <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="flex flex-wrap items-center gap-2 text-sm text-[var(--color-ink-faint)]">
-              <li><Link href="/" className="hover:text-[var(--color-accent)]">Home</Link></li>
+              <li><Link href="/" className="inline-block py-1.5 hover:text-[var(--color-accent)]">Home</Link></li>
               <li aria-hidden="true">/</li>
-              <li><Link href="/speaking/" className="hover:text-[var(--color-accent)]">Speaking</Link></li>
+              <li><Link href="/speaking/" className="inline-block py-1.5 hover:text-[var(--color-accent)]">Speaking</Link></li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="text-[var(--color-ink)]">{entry.name}</li>
             </ol>
@@ -133,7 +133,7 @@ export default async function PillarPage({
 
               {entry.points.length > 0 && (
                 <>
-                  <h2 className="mt-14 text-2xl sm:text-3xl">What it covers</h2>
+                  <h2 className="mt-14">What it covers</h2>
                   <ul className="mt-6 space-y-3">
                     {entry.points.map((point) => (
                       <li key={point} className="flex gap-3 leading-relaxed">
@@ -151,7 +151,7 @@ export default async function PillarPage({
                 <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
                   Built for
                 </h2>
-                <ul className="mt-3 space-y-2 text-[0.95rem] text-[var(--color-ink-soft)]">
+                <ul className="mt-3 space-y-2 text-ui text-[var(--color-ink-soft)]">
                   {entry.audiences.map((a) => <li key={a}>{a}</li>)}
                 </ul>
               </div>
@@ -161,7 +161,7 @@ export default async function PillarPage({
                 </blockquote>
                 <Link
                   href="/contact/"
-                  className="mt-4 inline-block text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
+                  className="mt-4 inline-block py-2 text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
                 >
                   Start a conversation →
                 </Link>
@@ -173,7 +173,7 @@ export default async function PillarPage({
 
       <Section tone="alt">
         <Container>
-          <h2 className="text-2xl sm:text-3xl">The rest of the framework</h2>
+          <h2>The rest of the framework</h2>
           <ul className="mt-8 grid gap-5 sm:grid-cols-3">
             {others.map((other) => (
               <li key={other.slug}>

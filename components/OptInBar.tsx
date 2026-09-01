@@ -36,7 +36,7 @@ export function OptInBar() {
             className="h-20 w-20 shrink-0 sm:h-[6.5rem] sm:w-[6.5rem]"
           />
           <div>
-            <h2 className="text-white text-[1.35rem] leading-snug sm:text-[1.6rem]">
+            <h2 className="text-white text-xl leading-snug sm:text-2xl">
               {freeChapter.heading}
               <span className="block italic">{freeChapter.headingEm}</span>
             </h2>

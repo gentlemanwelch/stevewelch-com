@@ -20,8 +20,14 @@ import { img } from "@/content/media-manifest";
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
+  /*
+   * `py-1.5` is not spacing, it is target size. These rendered 21px tall on a
+   * phone, well under the 44px that reads as comfortable and under WCAG 2.2's
+   * 24px minimum. The padding is invisible against the navy and doubles the
+   * area a thumb can land on.
+   */
   const linkClass =
-    "text-[0.95rem] text-white/75 transition-colors hover:text-white";
+    "inline-block py-1.5 text-ui text-white/75 transition-colors hover:text-white";
 
   return (
     <footer className="bg-[var(--color-navy)] text-white">
@@ -57,7 +63,7 @@ export function SiteFooter() {
           {/* The closing ask. */}
           <div className="lg:text-right">
             <h2 className="text-2xl text-white sm:text-3xl">Book Steve to Speak</h2>
-            <p className="mt-3 text-[0.95rem] leading-relaxed text-white/70">
+            <p className="mt-3 text-ui leading-relaxed text-white/70">
               Inquiries come directly to Steve’s team — there is no agency in between.
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-4 lg:justify-end">
@@ -90,7 +96,7 @@ export function SiteFooter() {
               href={site.social.substack}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-5 inline-block text-[0.95rem] text-white/75 underline underline-offset-4 hover:text-white"
+              className="mt-5 inline-block py-1.5 text-ui text-white/75 underline underline-offset-4 hover:text-white"
             >
               Get the newsletter
             </a>
@@ -99,10 +105,15 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col gap-2 border-t border-white/15 pt-6 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <p>© {year} {site.name}. All rights reserved.</p>
-          <p className="flex flex-wrap gap-x-4 gap-y-1">
-            <Link href="/privacy-policy/" className="hover:text-white">Privacy Policy</Link>
-            <Link href="/terms-and-conditions/" className="hover:text-white">Terms &amp; Conditions</Link>
-            <a href={`mailto:${site.email}`} className="hover:text-white">{site.email}</a>
+          {/*
+            These were 16px tall with 4px between them — small enough to fail
+            WCAG 2.2's minimum target size outright, and too tightly packed to
+            claim the spacing exception. py-1.5 and a wider gap fix both.
+          */}
+          <p className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="/privacy-policy/" className="inline-block py-1.5 hover:text-white">Privacy Policy</Link>
+            <Link href="/terms-and-conditions/" className="inline-block py-1.5 hover:text-white">Terms &amp; Conditions</Link>
+            <a href={`mailto:${site.email}`} className="inline-block py-1.5 hover:text-white">{site.email}</a>
           </p>
         </div>
       </div>

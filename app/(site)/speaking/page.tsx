@@ -144,7 +144,7 @@ export default function SpeakingPage() {
       */}
       <Section>
         <Container>
-          <p className="mx-auto max-w-3xl text-center text-[1.4rem] font-medium leading-snug text-[var(--color-blue-deep)] sm:text-[1.875rem]">
+          <p className="mx-auto max-w-3xl text-left text-2xl font-medium leading-snug text-[var(--color-blue-deep)] sm:text-center sm:text-3xl">
             {speakingIntro}
           </p>
         </Container>
@@ -179,7 +179,7 @@ export default function SpeakingPage() {
                   </ul>
                   <Link
                     href={`/speaking/${pillar.slug}/`}
-                    className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
+                    className="mt-5 inline-block py-2 text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
                   >
                     More on {pillar.name} →
                   </Link>
@@ -198,7 +198,7 @@ export default function SpeakingPage() {
             <p className="mt-4 max-w-3xl text-lg leading-relaxed">{hyperWellness.statement}</p>
             <Link
               href={`/speaking/${hyperWellness.slug}/`}
-              className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
+              className="mt-5 inline-block py-2 text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
             >
               More on Hyper Wellness →
             </Link>

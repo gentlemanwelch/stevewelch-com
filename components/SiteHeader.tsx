@@ -74,7 +74,7 @@ export function SiteHeader() {
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`text-[1.02rem] font-semibold transition-colors hover:text-[var(--color-coral)] ${
+                  className={`text-base font-semibold transition-colors hover:text-[var(--color-coral)] ${
                     isActive(item.href) ? "text-[var(--color-coral)]" : "text-[var(--color-navy)]"
                   }`}
                 >
@@ -91,7 +91,7 @@ export function SiteHeader() {
           aria-expanded={open}
           aria-controls="site-menu"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="-mr-2 p-2 text-[var(--color-navy)] lg:hidden"
+          className="-mr-2 p-3 text-[var(--color-navy)] lg:hidden"
         >
           <svg width="30" height="24" viewBox="0 0 30 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
             {open ? (

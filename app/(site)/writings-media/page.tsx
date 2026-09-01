@@ -89,7 +89,7 @@ function AppearanceList({
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-block text-sm font-semibold text-[var(--color-accent)]"
+              className="mt-2 inline-block py-2 text-sm font-semibold text-[var(--color-accent)]"
             >
               {item.action} →
             </a>

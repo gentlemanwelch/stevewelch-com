@@ -4,15 +4,43 @@
  * Both draw from `public/media/`, whose files arrive via
  * scripts/download-media.sh and may legitimately be absent — next/image throws
  * at build time on a missing local file, which would make a missing logo break
- * the deploy instead of degrading to alt text. These are also small, lazily
- * loaded, and never the LCP element, so the optimisation the rule is protecting
- * is not worth a brittle build.
+ * the deploy instead of degrading to alt text.
+ *
+ * That reasoning still holds, but the second half of the original note — "these
+ * are small, so the optimisation is not worth a brittle build" — was wrong
+ * about the posters. An audit on 2026-09-01 measured two of them at 888 KB and
+ * 1,165 KB, loading together on /writings-media/, which shipped 2.6 MB of
+ * images to a phone.
+ *
+ * So both now render <picture> with a WebP <source> (see webpSibling below and
+ * scripts/optimise-media.mjs) and the original as the <img> fallback. That
+ * keeps the graceful degradation the first paragraph is about, and takes ~90%
+ * off the bytes. It also means the <img> is inside a <picture>, which satisfies
+ * @next/next/no-img-element on its own — hence no eslint-disable here any more.
  */
-/* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
 import { CountUp } from "@/components/CountUp";
 import type { ReactNode } from "react";
+import { buttonClasses, type ButtonVariant } from "@/lib/buttonStyles";
+
+/*
+ * The WebP sibling of a local raster, or null if there cannot be one.
+ *
+ * scripts/optimise-media.mjs writes `<name>.webp` beside every oversized PNG
+ * or JPEG in public/media — the audit found photographs stored as PNG costing
+ * up to 1.1 MB each where the same picture is ~120 KB as WebP.
+ *
+ * Used as a <source> inside <picture>, so if the WebP is not there the browser
+ * quietly falls back to the original <img>, and if THAT is not there it renders
+ * the alt text. That is the whole reason these stay plain <img> rather than
+ * next/image, which throws at build time on a missing local file.
+ */
+function webpSibling(src: string): string | null {
+  if (!src.startsWith("/media/")) return null; // remote (a YouTube thumbnail)
+  if (!/\.(png|jpe?g)$/i.test(src)) return null;
+  return src.replace(/\.(png|jpe?g)$/i, ".webp");
+}
 
 /** Standard page gutter. One value, one place. */
 export function Container({
@@ -106,29 +134,11 @@ export function Eyebrow({
 type ButtonProps = {
   href: string;
   children: ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: ButtonVariant;
   className?: string;
 };
 
 export function Button({ href, children, variant = "primary", className = "" }: ButtonProps) {
-  /*
-    Buttons are coral. On the original every call to action is, and against a
-    site this navy-heavy that contrast is the whole reason they read as
-    clickable — a blue button on a blue site is decoration.
-
-    `secondary` stays white-on-navy for the cases where coral would compete
-    with a primary action sitting next to it.
-  */
-  const base =
-    "inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] px-7 py-3 text-[0.95rem] font-bold transition-colors duration-200";
-  const variants = {
-    primary:
-      "bg-[var(--color-coral)] text-white hover:bg-[var(--color-coral-dark)]",
-    secondary:
-      "border-2 border-white bg-white text-[var(--color-navy)] hover:bg-transparent hover:text-white",
-    ghost:
-      "text-[var(--color-coral)] hover:text-[var(--color-coral-dark)] px-0",
-  };
   const isExternal = href.startsWith("http");
 
   if (isExternal) {
@@ -137,14 +147,14 @@ export function Button({ href, children, variant = "primary", className = "" }: 
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`${base} ${variants[variant]} ${className}`}
+        className={buttonClasses(variant, className)}
       >
         {children}
       </a>
     );
   }
   return (
-    <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
+    <Link href={href} className={buttonClasses(variant, className)}>
       {children}
     </Link>
   );
@@ -153,7 +163,7 @@ export function Button({ href, children, variant = "primary", className = "" }: 
 /** Renders a paragraph array from `content/` at a comfortable measure. */
 export function Prose({ paragraphs, className = "" }: { paragraphs: readonly string[]; className?: string }) {
   return (
-    <div className={`space-y-5 text-[1.0625rem] leading-[1.75] ${className}`}>
+    <div className={`space-y-5 text-body leading-[1.75] ${className}`}>
       {paragraphs.map((text, i) => (
         <p key={i}>{text}</p>
       ))}
@@ -222,12 +232,17 @@ export function LogoWall({
             <span className="px-2 text-center text-sm font-semibold text-[var(--color-ink-faint)]">
               {logo.name}
             </span>
-            <img
-              src={logo.file}
-              alt={logo.name}
-              loading="lazy"
-              className="absolute inset-0 m-auto h-[56px] w-[calc(100%-3rem)] bg-white object-contain object-center sm:h-[64px]"
-            />
+            <picture>
+              {webpSibling(logo.file) && (
+                <source srcSet={webpSibling(logo.file) as string} type="image/webp" />
+              )}
+              <img
+                src={logo.file}
+                alt={logo.name}
+                loading="lazy"
+                className="absolute inset-0 m-auto h-[56px] w-[calc(100%-3rem)] bg-white object-contain object-center sm:h-[64px]"
+              />
+            </picture>
           </li>
         ))}
       </ul>
@@ -332,13 +347,24 @@ export function VideoEmbed({
     <div className="overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] shadow-[var(--shadow-card)]">
       <details className="group">
         <summary className="relative flex aspect-video cursor-pointer list-none items-center justify-center">
-          <img
-            src={thumb}
-            alt=""
-            aria-hidden="true"
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity group-open:hidden"
-          />
+          {/*
+            The video posters were the single heaviest thing on the site — two
+            of them are 2410x1340 screenshots stored as PNG at 888 KB and
+            1,165 KB, and they load on /writings-media/ together. As WebP they
+            are 95 KB and 120 KB.
+          */}
+          <picture>
+            {webpSibling(thumb) && (
+              <source srcSet={webpSibling(thumb) as string} type="image/webp" />
+            )}
+            <img
+              src={thumb}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity group-open:hidden"
+            />
+          </picture>
           <span className="relative z-10 flex flex-col items-center gap-3 group-open:hidden">
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/95">
               <svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true">

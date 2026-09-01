@@ -86,12 +86,31 @@ export default function HomePage() {
           (4.78:1). Hence this value, rather than the 0.75 the first build used
           at every width.
 
-          Re-measure if the crop changes. In particular the export sets
+          RE-MEASURED 2026-09-01, after the mobile hero was trimmed from 100svh
+          to 82svh so the newsletter bar reaches the fold. A shorter band is a
+          different object-cover crop, so this number had to be earned again.
+
+          Sampling the background with the headline hidden — the only way to
+          measure what is actually behind the type rather than its own
+          antialiasing, which contaminated the first attempt and produced a
+          scary 2.44:1 that was not real:
+
+            alpha   median   p95     worst pixel
+            0.62    11.55    4.72    4.30   clears 3:1, thin margin
+            0.66    11.90    5.31    4.88   clears 4.5:1
+            0.70    12.24    6.02    5.58
+
+          The h1 is 41.6px, so 3:1 is the bar that applies and 0.62 still
+          passed. It passed by 1.3 though, where before the crop change it had
+          room to spare, so this is 0.66 — enough to clear even the small-text
+          bar, at a difference nobody looking at the page can see.
+
+          Re-measure if the crop changes again. In particular the export sets
           `alternative_mobile_image: "1"` with `hero_mobile_image: 1908`
           (steve_hero-mobile-1.png), which this does not yet serve — wiring that
-          in changes what sits behind the type and invalidates the number above.
+          in changes what sits behind the type and invalidates the numbers above.
         */}
-        <div className="absolute inset-0 bg-[var(--color-navy)]/62 md:hidden" />
+        <div className="absolute inset-0 bg-[var(--color-navy)]/66 md:hidden" />
 
         <Container className="relative w-full py-20">
           {/*
@@ -105,6 +124,10 @@ export default function HomePage() {
               One <h1> containing both tiers, so the accessible name and the
               text a crawler reads are still the whole sentence.
             */}
+            {/* The one sanctioned off-scale size on the site: the homepage
+                hero headline is deliberately larger than the h1 clamp, because
+                it is the only headline that has a full screen to itself.
+                Everything else uses the scale in globals.css. */}
             <h1 className="!text-[2.6rem] leading-[1.05] sm:!text-[3.75rem] lg:!text-[4.5rem]">
               <span className="block text-white">{hero.headingLead}</span>
               <span className="mt-2 block text-[0.722em] leading-[1.15] text-white">
@@ -147,10 +170,10 @@ export default function HomePage() {
       {/* ------------------------------------------------------------ Intro */}
       <Section>
         <Container className="text-center">
-          <p className="mx-auto max-w-4xl text-[1.5rem] font-semibold leading-snug text-[var(--color-blue-deep)] sm:text-[2rem]">
+          <p className="mx-auto max-w-4xl text-left text-2xl font-semibold leading-snug text-[var(--color-blue-deep)] sm:text-center sm:text-3xl">
             {intro.lead}
           </p>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-ink-soft)]">
+          <p className="mx-auto mt-6 max-w-2xl text-left text-lg leading-relaxed text-[var(--color-ink-soft)] sm:text-center">
             {intro.body}
           </p>
         </Container>
@@ -187,10 +210,17 @@ export default function HomePage() {
                     href={role.href}
                     className="group relative flex w-full min-h-[20rem] flex-col items-center justify-center overflow-hidden rounded-lg bg-[var(--color-navy)] p-7 text-center text-white md:grid md:min-h-[28rem] md:grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)]"
                   >
-                    <span
+                    {/* next/image rather than a CSS background: a background
+                        cannot go through the image optimiser, so the browser
+                        pulls the full-size file however small the tile is.
+                        Same fix as the life boxes on /about/. */}
+                    <Image
+                      src={image}
+                      alt=""
                       aria-hidden="true"
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: `url(${image})` }}
+                      fill
+                      sizes="(min-width: 768px) 32vw, 92vw"
+                      className="object-cover object-center"
                     />
                     {/* A light veil at rest so white type stays legible over a
                         busy photograph; the full navy wash only on reveal. */}
@@ -227,7 +257,7 @@ export default function HomePage() {
                       to spare; 28rem gives it room. Re-measure if the copy grows.
                     */}
                     <span className="relative mx-auto w-fit md:row-start-2">
-                      <span className="block text-[1.9rem] font-bold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:text-[2.4rem]">
+                      <span className="block text-3xl font-bold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:text-4xl">
                         {role.title}
                       </span>
                       {/* The cyan rule under the title. w-fit on the wrapper
@@ -240,7 +270,7 @@ export default function HomePage() {
                       />
                     </span>
 
-                    <span className="relative mt-4 block text-[0.95rem] leading-relaxed text-white/90 transition-opacity duration-300 md:row-start-3 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
+                    <span className="relative mt-4 block text-ui leading-relaxed text-white/90 transition-opacity duration-300 md:row-start-3 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
                       {role.content}
                     </span>
                   </Link>
@@ -315,7 +345,7 @@ export default function HomePage() {
                 <p className="mt-3 leading-relaxed">{pillar.home}</p>
                 <Link
                   href={`/speaking/${pillar.slug}/`}
-                  className="mt-4 inline-block text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
+                  className="mt-4 inline-block py-2 text-sm font-semibold text-[var(--color-accent)] hover:text-[var(--color-ink)]"
                 >
                   More on {pillar.name} →
                 </Link>
@@ -371,7 +401,7 @@ export default function HomePage() {
                 href={restorePanel.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-block font-semibold text-[var(--color-blue)] underline underline-offset-4 hover:text-[var(--color-blue-deep)]"
+                className="mt-5 inline-block py-2 font-semibold text-[var(--color-blue)] underline underline-offset-4 hover:text-[var(--color-blue-deep)]"
               >
                 {restorePanel.linkLabel}
               </a>

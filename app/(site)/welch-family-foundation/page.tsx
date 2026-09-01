@@ -82,7 +82,7 @@ export default function FoundationPage() {
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14">
             <div>
               <RuledHeading>{foundation.storyBegins.heading}</RuledHeading>
-              <p className="mt-6 text-[1.35rem] font-semibold leading-snug text-[var(--color-blue-deep)]">
+              <p className="mt-6 text-xl font-semibold leading-snug text-[var(--color-blue-deep)]">
                 {foundation.storyBegins.body[0]}
               </p>
               <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">
@@ -112,7 +112,7 @@ export default function FoundationPage() {
               className="h-auto w-full rounded-[var(--radius-card)] md:order-1"
             />
             <div className="md:order-2">
-              <p className="text-[1.35rem] font-semibold leading-snug text-[var(--color-blue-deep)]">
+              <p className="text-xl font-semibold leading-snug text-[var(--color-blue-deep)]">
                 {foundation.pastDecade[0]}
               </p>
               <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">
@@ -141,10 +141,10 @@ export default function FoundationPage() {
         <Container className="relative py-16 sm:py-24">
           <div className="mx-auto max-w-4xl rounded-[var(--radius-card)] bg-[var(--color-tint)] p-8 text-center shadow-[var(--shadow-card)] sm:p-12">
             <RuledHeading center>{foundation.whatWeDo.heading}</RuledHeading>
-            <p className="mt-6 text-[1.25rem] font-semibold leading-snug text-[var(--color-blue-deep)]">
+            <p className="mt-6 text-left text-xl font-semibold leading-snug text-[var(--color-blue-deep)] sm:text-center">
               {foundation.whatWeDo.body[0]}
             </p>
-            <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">
+            <p className="mt-5 text-left leading-relaxed text-[var(--color-ink-soft)] sm:text-center">
               {foundation.whatWeDo.body[1]}
             </p>
           </div>
@@ -156,10 +156,10 @@ export default function FoundationPage() {
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <RuledHeading center>{foundation.howToHelp.heading}</RuledHeading>
-            <p className="mt-6 text-[1.25rem] font-semibold leading-snug text-[var(--color-blue-deep)]">
+            <p className="mt-6 text-left text-xl font-semibold leading-snug text-[var(--color-blue-deep)] sm:text-center">
               {foundation.howToHelp.body[0]}
             </p>
-            <p className="mt-4 leading-relaxed text-[var(--color-ink-soft)]">
+            <p className="mt-4 text-left leading-relaxed text-[var(--color-ink-soft)] sm:text-center">
               {foundation.howToHelp.body[1]}
             </p>
             <p className="mt-6 font-bold text-[var(--color-blue)]">
@@ -171,7 +171,7 @@ export default function FoundationPage() {
             <h3 className="text-center text-[var(--color-blue-deep)]">
               {foundation.form.heading}
             </h3>
-            <p className="mx-auto mt-3 max-w-2xl text-center leading-relaxed text-[var(--color-ink-soft)]">
+            <p className="mx-auto mt-3 max-w-2xl text-left leading-relaxed text-[var(--color-ink-soft)] sm:text-center">
               {foundation.form.body}
             </p>
             <div className="mt-8">

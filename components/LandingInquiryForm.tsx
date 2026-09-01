@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
+import { buttonClasses } from "@/lib/buttonStyles";
 
 /**
  * The paid-search inquiry form.
@@ -132,8 +133,10 @@ export function LandingInquiryForm({
     );
   }
 
+  // 16px minimum — under that iOS Safari zooms the page on focus and stays
+  // zoomed. See the longer note in InquiryForm.
   const field =
-    "w-full rounded-lg border border-[var(--color-line)] bg-white px-4 py-3 text-[0.95rem] text-[var(--color-ink)] placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
+    "w-full rounded-lg border border-[var(--color-line)] bg-white px-4 py-3 text-base text-[var(--color-ink)] placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -183,7 +186,7 @@ export function LandingInquiryForm({
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-[var(--radius-pill)] bg-[var(--color-blue)] px-6 py-3.5 font-bold text-white transition-colors hover:bg-[var(--color-navy)] disabled:opacity-60"
+        className={buttonClasses("blue", "w-full")}
       >
         {status === "sending" ? "Sending…" : ctaLabel}
       </button>

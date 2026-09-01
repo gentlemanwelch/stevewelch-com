@@ -72,7 +72,7 @@ export default function ContactPage() {
 
         <Container className="relative py-20 text-center sm:py-24">
           <Eyebrow tone="onDark">Booking</Eyebrow>
-          <h1 className="mx-auto max-w-3xl text-white text-[2.4rem] leading-[1.06] sm:text-[3.2rem]">
+          <h1 className="mx-auto max-w-3xl text-white leading-[1.06]">
             This goes straight to Steve’s team.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/90">
@@ -108,7 +108,7 @@ export default function ContactPage() {
                 <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
                   What helps most
                 </h2>
-                <ul className="mt-3 space-y-2 text-[0.95rem] leading-relaxed text-[var(--color-ink)]">
+                <ul className="mt-3 space-y-2 text-ui leading-relaxed text-[var(--color-ink)]">
                   <li>The date, or the window you are working in</li>
                   <li>Who is in the room and how many</li>
                   <li>What should be different when they walk out</li>
@@ -120,7 +120,7 @@ export default function ContactPage() {
                 <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
                   Also available for
                 </h2>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-[var(--color-ink-soft)]">
+                <p className="mt-3 text-ui leading-relaxed text-[var(--color-ink-soft)]">
                   A selected number of podcasts and media interviews. Mention the show and format in
                   your message.
                 </p>
@@ -132,7 +132,7 @@ export default function ContactPage() {
 
       <Section tone="alt">
         <Container size="measure">
-          <h2 className="text-3xl">Before you write</h2>
+          <h2>Before you write</h2>
           <dl className="mt-8 divide-y divide-[var(--color-line)] border-t border-[var(--color-line)]">
             {faqs.slice(0, 5).map((faq) => (
               <div key={faq.question} className="py-6">

@@ -61,7 +61,7 @@ export default function MediaPage() {
       <section className="border-b border-[var(--color-line)]">
         <Container className="py-16 sm:py-24">
           <Eyebrow>Press kit</Eyebrow>
-          <h1 className="max-w-3xl text-[2.4rem] leading-[1.06] sm:text-[3.2rem]">
+          <h1 className="max-w-3xl leading-[1.06]">
             Everything you need to promote the event.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-ink-soft)]">
@@ -73,7 +73,7 @@ export default function MediaPage() {
 
       <Section>
         <Container size="measure">
-          <h2 className="text-3xl">Biographies</h2>
+          <h2>Biographies</h2>
 
           <div className="mt-8 space-y-8">
             <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
@@ -106,7 +106,7 @@ export default function MediaPage() {
 
       <Section tone="alt">
         <Container size="measure">
-          <h2 className="text-3xl">Stage introduction</h2>
+          <h2>Stage introduction</h2>
           <p className="mt-3 text-[var(--color-ink-soft)]">
             Roughly 40 seconds, written to be read aloud.
           </p>
@@ -120,12 +120,12 @@ export default function MediaPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
-              <h2 className="text-3xl">Topics</h2>
+              <h2>Topics</h2>
               <ul className="mt-6 space-y-4">
                 {[...speakingPillars, { ...hyperWellness, statement: hyperWellness.statement }].map((pillar) => (
                   <li key={pillar.slug}>
                     <p className="text-lg font-bold text-[var(--color-ink)]">{pillar.name}</p>
-                    <p className="mt-1 text-[0.95rem] leading-relaxed text-[var(--color-ink-faint)]">
+                    <p className="mt-1 text-ui leading-relaxed text-[var(--color-ink-faint)]">
                       {pillar.statement}
                     </p>
                   </li>
@@ -134,7 +134,7 @@ export default function MediaPage() {
             </div>
 
             <div>
-              <h2 className="text-3xl">Technical requirements</h2>
+              <h2>Technical requirements</h2>
               <ul className="mt-6 space-y-3">
                 {avRequirements.map((item) => (
                   <li key={item} className="flex gap-3 leading-relaxed">
@@ -144,7 +144,7 @@ export default function MediaPage() {
                 ))}
               </ul>
 
-              <h2 className="mt-12 text-3xl">Photography</h2>
+              <h2 className="mt-12">Photography</h2>
               <p className="mt-4 leading-relaxed text-[var(--color-ink-soft)]">
                 {/*
                   REVIEW: replace this paragraph with direct download links once
@@ -182,7 +182,7 @@ export default function MediaPage() {
 
       <Section tone="ink">
         <Container className="text-center">
-          <h2 className="text-3xl text-white sm:text-[2.6rem]">Need something else?</h2>
+          <h2 className="text-white">Need something else?</h2>
           <p className="mx-auto mt-4 max-w-xl text-white/70">
             Ask and it will be sent the same day.
           </p>

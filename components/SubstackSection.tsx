@@ -68,7 +68,7 @@ export function SubstackSection({ posts }: { posts: SubstackPost[] }) {
                         {post.date}
                       </time>
                     )}
-                    <h3 className="mt-2 text-[1.35rem] leading-snug text-[var(--color-blue-deep)] group-hover:text-[var(--color-accent)]">
+                    <h3 className="mt-2 text-xl leading-snug text-[var(--color-blue-deep)] group-hover:text-[var(--color-accent)]">
                       {post.title}
                     </h3>
                     {post.excerpt && (
@@ -107,7 +107,7 @@ export function SubstackSection({ posts }: { posts: SubstackPost[] }) {
               href={site.social.substack}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-[var(--color-accent)] underline underline-offset-4"
+              className="inline-block py-2 font-semibold text-[var(--color-accent)] underline underline-offset-4"
             >
               Read every post on Substack
             </a>

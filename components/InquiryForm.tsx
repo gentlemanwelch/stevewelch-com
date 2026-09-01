@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { site } from "@/content/site";
+import { buttonClasses } from "@/lib/buttonStyles";
 
 /**
  * The booking inquiry form.
@@ -89,8 +90,15 @@ export function InquiryForm() {
     );
   }
 
+  /*
+   * 16px is a floor, not a preference. iOS Safari force-zooms the page when a
+   * field's text is under 16px and does not zoom back out, so an organizer
+   * tapping "Your name" on an iPhone gets a magnified page they have to pinch
+   * their way out of, halfway through the one form on this site that earns
+   * anything. This was 0.95rem and did exactly that. Do not shrink it.
+   */
   const field =
-    "w-full rounded-lg border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-[0.95rem] text-[var(--color-ink)] transition-colors placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
+    "w-full rounded-lg border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-base text-[var(--color-ink)] transition-colors placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
   const label = "mb-1.5 block text-sm font-medium text-[var(--color-ink)]";
 
   return (
@@ -188,7 +196,7 @@ export function InquiryForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-full bg-[var(--color-accent)] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[var(--color-ink)] disabled:opacity-60 sm:w-auto sm:px-10"
+        className={buttonClasses("primary", "w-full sm:w-auto sm:px-10")}
       >
         {status === "sending" ? "Sending…" : "Send inquiry"}
       </button>

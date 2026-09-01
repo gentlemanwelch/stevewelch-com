@@ -97,9 +97,9 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
         <Container className="py-16 sm:py-24">
           <nav aria-label="Breadcrumb" className="mb-8">
             <ol className="flex flex-wrap items-center gap-2 text-sm text-white/60">
-              <li><Link href="/" className="hover:text-white">Home</Link></li>
+              <li><Link href="/" className="inline-block py-1.5 hover:text-white">Home</Link></li>
               <li aria-hidden="true">/</li>
-              <li><Link href="/books/" className="hover:text-white">Books</Link></li>
+              <li><Link href="/books/" className="inline-block py-1.5 hover:text-white">Books</Link></li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="text-white">{book.title}</li>
             </ol>
@@ -181,7 +181,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
       {other && (
         <Section>
           <Container>
-            <h2 className="text-2xl sm:text-3xl">The other book</h2>
+            <h2>The other book</h2>
             <Link
               href={`/books/${other.slug}/`}
               className="group mt-8 block max-w-xl rounded-[var(--radius-card)] bg-white p-7 shadow-[var(--shadow-card)]"

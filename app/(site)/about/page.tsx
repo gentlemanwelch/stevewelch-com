@@ -114,7 +114,7 @@ export default function AboutPage() {
                 {/* aria-hidden on the halves so assistive tech reads the whole
                     sentence once rather than the fragments twice. */}
                 <dt
-                  className="text-[2.6rem] font-bold leading-none text-[var(--color-blue-deep)]"
+                  className="text-stat font-bold leading-none text-[var(--color-blue-deep)]"
                   aria-hidden="true"
                 >
                   {s.to ? <CountUp to={s.to} display={s.value} /> : s.value}
@@ -127,7 +127,7 @@ export default function AboutPage() {
                     #348cbb measures 3.39:1, under what small text needs. See
                     the token's note in globals.css. */}
                 <dd
-                  className="mt-3 text-[0.78rem] font-semibold uppercase leading-snug tracking-[0.08em] text-[var(--color-blue-muted)]"
+                  className="mt-3 text-xs font-semibold uppercase leading-snug tracking-[0.08em] text-[var(--color-blue-muted)]"
                   aria-hidden="true"
                 >
                   {s.label}
@@ -178,10 +178,25 @@ export default function AboutPage() {
                   tabIndex={0}
                   className="group relative flex min-h-[19rem] flex-col items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] p-7 text-center text-white shadow-[var(--shadow-card)] md:grid md:min-h-[24rem] md:grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)]"
                 >
-                  <span
+                  {/*
+                    next/image, not a CSS background-image.
+                    
+                    These were `style={{ backgroundImage: url(...) }}`, and a
+                    CSS background cannot go through the image optimiser at
+                    all — the browser fetches the file at full size whatever
+                    the element measures. The three source photographs are
+                    2560x1920 and 2377x1783, and they were being downloaded
+                    whole to fill a card that is 342x257 on a phone: 661 KB of
+                    the 940 KB this page shipped. As an <Image> with `sizes`,
+                    Next serves a WebP at the width actually needed.
+                  */}
+                  <Image
+                    src={image}
+                    alt=""
                     aria-hidden="true"
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${image})` }}
+                    fill
+                    sizes="(min-width: 768px) 32vw, 92vw"
+                    className="object-cover object-center"
                   />
                   <span
                     aria-hidden="true"
@@ -189,7 +204,7 @@ export default function AboutPage() {
                   />
 
                   <span className="relative mx-auto w-fit md:row-start-2">
-                    <span className="block text-[1.7rem] font-bold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:text-[2rem]">
+                    <span className="block text-2xl font-bold leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)] md:text-3xl">
                       {box.title}
                     </span>
                     <span
@@ -198,7 +213,7 @@ export default function AboutPage() {
                     />
                   </span>
 
-                  <span className="relative mt-4 block text-[0.95rem] leading-relaxed text-white/90 transition-opacity duration-300 md:row-start-3 md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100">
+                  <span className="relative mt-4 block text-left text-ui leading-relaxed text-white/90 transition-opacity duration-300 md:row-start-3 md:text-center md:opacity-0 md:group-hover:opacity-100 md:group-focus:opacity-100">
                     {box.content}
                   </span>
                 </li>
@@ -229,7 +244,7 @@ export default function AboutPage() {
       */}
       <Section>
         <Container>
-          <h2 className="text-center text-[1.6rem] uppercase tracking-[0.08em] text-[var(--color-blue-deep)]">
+          <h2 className="text-center text-2xl uppercase tracking-[0.08em] text-[var(--color-blue-deep)]">
             {investmentVehicles.heading}
           </h2>
           <ul className="mt-10 grid gap-8 md:grid-cols-2 md:items-stretch">
@@ -262,13 +277,13 @@ export default function AboutPage() {
                       />
                     </span>
                   </h3>
-                  <p className="mt-5 leading-relaxed text-white/90">{v.body}</p>
+                  <p className="mt-5 text-left leading-relaxed text-white/90 sm:text-center">{v.body}</p>
                   {v.href && (
                     <a
                       href={v.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 inline-block underline underline-offset-4 hover:text-[var(--color-cyan)]"
+                      className="mt-4 inline-block py-2 underline underline-offset-4 hover:text-[var(--color-cyan)]"
                     >
                       {v.linkLabel}
                     </a>

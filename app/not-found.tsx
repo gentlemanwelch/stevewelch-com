@@ -16,7 +16,7 @@ export default function NotFound() {
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-accent)]">
         404
       </p>
-      <h1 className="mt-3 text-[2.4rem] leading-tight sm:text-[3rem]">
+      <h1 className="mt-3 leading-tight">
         That page has moved on.
       </h1>
       <p className="mt-5 max-w-xl text-lg text-[var(--color-ink-soft)]">
@@ -29,7 +29,7 @@ export default function NotFound() {
           <li key={talk.slug}>
             <Link
               href={`/speaking/${talk.slug}/`}
-              className="block rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-4 text-[0.95rem] font-medium text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)]"
+              className="block rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)] px-5 py-4 text-ui font-medium text-[var(--color-ink)] transition-colors hover:border-[var(--color-ink)]"
             >
               {talk.title}
             </Link>

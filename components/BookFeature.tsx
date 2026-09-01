@@ -79,7 +79,7 @@ export function BookFeature({
           src={mobileArt}
           alt=""
           aria-hidden="true"
-          className={`mx-auto block h-auto w-full max-w-[19rem] px-6 pt-14 md:absolute md:inset-0 md:mx-0 md:h-full md:w-full md:max-w-none md:px-0 md:pt-0 md:object-contain ${
+          className={`mx-auto block h-auto w-full max-w-[19rem] px-6 pt-8 md:absolute md:inset-0 md:mx-0 md:h-full md:w-full md:max-w-none md:px-0 md:pt-0 md:object-contain ${
             copyRight ? "md:object-left" : "md:object-right"
           }`}
         />

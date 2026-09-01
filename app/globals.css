@@ -79,6 +79,28 @@
   --radius-card: 16px;
   --shadow-card: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
 
+  /*
+   * THE TYPE SCALE.
+   *
+   * Tailwind's own steps (text-xs 12 · sm 14 · xl 20 · 2xl 24 · 3xl 30 ·
+   * 4xl 36) carry most of the site, and the h1/h2/h3 clamps below carry the
+   * headings. These three fill the gaps that kept getting written as one-off
+   * arbitrary values instead.
+   *
+   * An audit on 2026-09-01 counted TWENTY distinct rendered font sizes across
+   * the site, produced by 19 hand-written `text-[…rem]` values sitting beside
+   * Tailwind's scale — 1.02rem here, 0.95rem there, 0.78rem once. None of them
+   * were decisions; they were drift, and the result was `h2` rendering at six
+   * different sizes depending on which page you were on.
+   *
+   * Use these three plus Tailwind's steps. Reach for `text-[…rem]` only for a
+   * genuine one-off (the homepage hero headline is the only one left), and
+   * write down why.
+   */
+  --text-ui: 0.9375rem;    /* 15px — buttons, form fields, footer, meta */
+  --text-body: 1.0625rem;  /* 17px — the body default, for when it is set explicitly */
+  --text-stat: 2.5rem;     /* 40px — the display numerals on /about/ */
+
   --container-measure: 44rem;
 }
 
@@ -131,6 +153,22 @@
   h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
   h3 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
 
+  /*
+   * CENTRING AND COLUMN WIDTH.
+   *
+   * Centred text has a ragged left edge, so the eye has to hunt for the start
+   * of each line; the convention is to centre at most two or three of them.
+   * That holds at desktop width and quietly stops holding on a phone, where
+   * the same paragraph reflows to three times as many lines — an audit found
+   * a 14-line centred block on the Foundation page and three 11-line ones on
+   * /about/.
+   *
+   * So where a block is centred by design, it is written `text-left
+   * sm:text-center`: centred where it reads as a statement, left-aligned
+   * where it has become a paragraph. Short headline-like statements stay
+   * centred at every width.
+   */
+
   /* Long-form paragraphs read better with no orphaned last word. `pretty`
      costs nothing where it is unsupported. */
   p { text-wrap: pretty; }
@@ -178,8 +216,34 @@
 }
 
 .hero-viewport {
-  min-height: calc(100vh - 4.5rem);
-  min-height: calc(100svh - 4.5rem);
+  /*
+   * On a phone a full-viewport hero means the entire first screen is a
+   * photograph and a headline: nothing to read, nothing to press, and no
+   * evidence the page continues. Measured at 390x844 the hero came to 772px,
+   * which is exactly the usable viewport under the header.
+   *
+   * 82svh leaves roughly 150px of the newsletter bar showing at the fold, so
+   * the first action on the page — the original's own first action, not an
+   * invented one — is visible without scrolling, and the edge of a second
+   * section tells the reader there is more.
+   *
+   * Desktop keeps the full height: there the intro sits close enough below,
+   * and a full-bleed opening is what the original does.
+   *
+   * NOTE: changing these values changes the object-cover crop, which changes
+   * what sits behind the white headline. The wash alpha in the homepage hero
+   * was chosen against a measurement of the rendered pixels. Re-measure it if
+   * you touch this.
+   */
+  min-height: calc(82vh - 4.5rem);
+  min-height: calc(82svh - 4.5rem);
+}
+
+@media (min-width: 768px) {
+  .hero-viewport {
+    min-height: calc(100vh - 4.5rem);
+    min-height: calc(100svh - 4.5rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

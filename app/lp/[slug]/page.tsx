@@ -148,7 +148,7 @@ export default async function LandingPageRoute({
       <footer className="bg-white py-8">
         <Container className="text-center text-xs text-[var(--color-ink-faint)]">
           © {new Date().getFullYear()} {site.name} ·{" "}
-          <a href="/privacy-policy/" className="underline underline-offset-2">Privacy Policy</a>
+          <a href="/privacy-policy/" className="inline-block py-2 underline underline-offset-2">Privacy Policy</a>
         </Container>
       </footer>
     </>
