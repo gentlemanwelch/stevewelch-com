@@ -168,19 +168,26 @@ export async function GET(request: Request) {
   // The end-to-end proof. Opt in, because it puts a real message in the inbox.
   if (url.searchParams.get("send") === "1" && apiKey && from) {
     try {
+      /*
+       * Deliberately the SAME payload shape the booking form sends — same
+       * fields, reply_to included, html rather than text. A simpler test send
+       * can succeed where the real one fails, which would send whoever is
+       * debugging in exactly the wrong direction.
+       */
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
         body: JSON.stringify({
           from,
           to: [to],
+          reply_to: to,
           subject: "Test — the booking form can send email",
-          text:
-            "This is the email delivery self-test on stevewelch.com.\n\n" +
-            "If you are reading this, the booking form works end to end: the key is " +
-            "good, the sending domain is verified, and inquiries will arrive here.\n\n" +
-            "Nobody filled in a form to produce this. It came from " +
-            "/api/health/email/?send=1.\n",
+          html:
+            "<h2>Email delivery self-test</h2>" +
+            "<p>If you are reading this, the booking form works end to end: the key is " +
+            "good, the sending domain is verified, and inquiries will arrive here.</p>" +
+            "<p>Nobody filled in a form to produce this. It came from " +
+            "<code>/api/health/email/?send=1</code>.</p>",
         }),
       });
       if (res.ok) {
@@ -193,7 +200,9 @@ export async function GET(request: Request) {
         checks.push({
           label: "A real test message was sent",
           ok: false,
-          detail: `No — Resend answered ${res.status}: ${(await res.text().catch(() => "")).slice(0, 400)}`,
+          detail:
+            `No — Resend answered ${res.status}. Its exact words: ` +
+            `${(await res.text().catch(() => "")).slice(0, 800) || "(empty response)"}`,
         });
       }
     } catch (err) {
