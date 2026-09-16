@@ -1,7 +1,13 @@
 # Cutting stevewelch.com over from IONOS WordPress to Vercel
 
-Written 2026-09-01, from DNS read live that day. The point of this document is
-that the website moves and **the email does not notice**.
+Written 2026-09-01, from DNS read live that day; cutover completed the same
+day. The point of this document was that the website moves and **the email does
+not notice**, and that held — the MX records were never touched and mail never
+stopped.
+
+Kept because the outstanding email work at the end is still outstanding, and
+because the zone's quirks are worth knowing before anyone edits it again.
+Verified against IONOS's authoritative nameservers on 2026-09-16.
 
 ---
 
@@ -216,7 +222,104 @@ indexed and the booking form has taken at least one real inquiry.
 
 ---
 
-## Two things found while reading the DNS, unrelated to the cutover
+## Cutover: done 2026-09-01
+
+```
+A  stevewelch.com      216.150.1.1     (Vercel)
+A  www.stevewelch.com  216.150.1.1     (Vercel)
+MX stevewelch.com      mx00/mx01.ionos.com   — never touched, mail uninterrupted
+```
+
+One deviation from the plan, and it is fine. Vercel asked for a CNAME on
+`www` (`04c6ff936478f0c8.vercel-dns-016.com`). IONOS's webhosting service had
+its own records at `www`, and since a CNAME cannot coexist with anything else
+at the same name (RFC 1034/2181), adding it triggered IONOS's "the service will
+be disabled" warning and, briefly, a zone holding both a CNAME and an A at
+`www`. That was resolved by keeping the A record at Vercel's IP and dropping
+the CNAME.
+
+An A record works. What it does not do is follow Vercel if they change the IP
+behind that hostname — a CNAME would. Worth switching one day; not worth
+touching a working zone for.
+
+The apex A record disappeared for a while during that, apparently taken by the
+webhosting disable, and had to be re-added by hand. Expect that if this is ever
+repeated.
+
+---
+
+## Outstanding: the email records
+
+None of this was caused by the cutover. All of it was found while reading the
+zone, and all of it predates the rebuild. State verified against IONOS's
+authoritative nameservers on 2026-09-16.
+
+### 1. The SPF record authorises the wrong sender — fix first
+
+```
+now:     v=spf1 include:46304657.spf07.hubspotemail.net -all
+should:  v=spf1 include:_spf-us.ionos.com ~all
+```
+
+HubSpot is not in use — the newsletter runs through Substack. So this
+authorises a service that never sends, and `-all` instructs receivers to
+reject everything that is not it, **including Steve's own mail from
+steve@stevewelch.com through IONOS**. Outbound from that address is failing
+SPF today.
+
+The replacement is not a guess. IONOS already publishes exactly that record on
+the `email` subdomain of this same zone, and the include resolves:
+
+```
+_spf-us.ionos.com → v=spf1 ip4:74.208.4.192/26 ip4:82.165.159.128/27 ?all
+```
+
+`~all` rather than `-all` because it is what IONOS uses here, and because a
+softfail marks unexpected senders instead of bouncing them. Tighten to `-all`
+only after confirming nothing else sends as the domain.
+
+Substack does not need to be in this record: there are no Substack DNS records
+in the zone, so it sends from its own domain.
+
+### 2. Resend's bounce records sit one level too deep
+
+```
+MX  send.send.stevewelch.com → feedback-smtp.us-east-1.amazonses.com
+TXT send.send.stevewelch.com → v=spf1 include:amazonses.com ~all
+                ^^^^ should be send.stevewelch.com
+```
+
+IONOS appends the domain to the host field, so `send` became `send.send`. The
+DKIM record at `resend._domainkey.send` landed correctly, which is why Resend
+verified the domain and the booking form sends. What is misplaced is bounce
+handling and the return-path SPF, which costs deliverability rather than
+function.
+
+Fix by editing the Host name on both rows from `send.send` to `send`.
+
+### 3. Dead HubSpot DKIM records
+
+```
+CNAME hs1-46304657._domainkey → stevewelch-com.hs06a.dkim.hubspotemail.net
+CNAME hs2-46304657._domainkey → stevewelch-com.hs06b.dkim.hubspotemail.net
+```
+
+Same dead setup as the SPF include. Harmless, but delete them so the next
+person reading this zone is not misled about which services are live.
+
+### 4. DMARC — after the above, not before
+
+`v=DMARC1; p=none;` is monitoring with no reporting address, so it currently
+does nothing at all. Adding `rua=mailto:steve@stevewelch.com` starts the
+reports. Moving to `p=quarantine` is a later decision, and only once SPF is
+correct — tightening DMARC while SPF authorises the wrong sender is how you
+quarantine your own mail.
+
+### Order
+
+1 and 2, then send a test from steve@stevewelch.com and confirm it reaches an
+inbox rather than a spam folder. Then 3. Then 4 whenever.
+## Appendix: how these findings were first recorded
 
 Neither blocks anything. Both concern email, so they are recorded here rather
 than lost.
