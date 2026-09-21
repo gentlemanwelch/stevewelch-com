@@ -27,15 +27,31 @@ import { buildMetadata } from "@/lib/seo";
  * made, and Purpose/People/Process gives a booker the actual framework instead
  * of a list of topics.
  */
+/*
+ * The title names the category, which it did not before.
+ *
+ * It read "Driving Change Through Purpose, People, Process" — the h1, which is
+ * a good headline and a poor title tag, because a title tag competes in a list
+ * of ten and has to say what the page is. "Keynote Speaker on Driving Change |
+ * Steve Welch" is 46 characters, inside the ~60 Google renders, and carries the
+ * term an organizer actually types.
+ *
+ * The description is page-specific for the same reason: site.description
+ * describes an entrepreneur and investor and never mentions that he is
+ * bookable, which is the one thing this snippet has to do. The fee floor is
+ * deliberately in it — a snippet that qualifies is a click not paid for.
+ */
 export const metadata: Metadata = buildMetadata({
-  title: "Driving Change Through Purpose, People, Process",
-  description: site.description,
+  title: "Keynote Speaker on Driving Change",
+  description:
+    "Keynote speaker on driving change through purpose, people, and process — including driving change in the age of AI. Booked directly. Engagements start at $20,000.",
   path: "/",
   keywords: [
     "Steve Welch",
     "keynote speaker",
     "entrepreneurship keynote speaker",
     "organizational change keynote speaker",
+    "ai change management speaker",
     "wellness keynote speaker",
     "Restore Hyper Wellness",
   ],
@@ -67,7 +83,13 @@ export default function HomePage() {
         size. LCP feeds organic ranking and the Landing Page Experience half of
         Ads Quality Score alike.
       */}
-      <section className="hero-viewport relative isolate flex items-center bg-[var(--color-navy)] text-white">
+      {/* overflow-hidden is load-bearing, not tidiness: the scrim on the
+          positioning line below extends 96px past the container on each side,
+          and on a phone that is 96px past the VIEWPORT. Without this the page
+          scrolled sideways 72px at 390 wide — measured at 320, 390, 414 and
+          768 before it was clipped. The fill image is already exactly this
+          section, so clipping costs nothing. */}
+      <section className="hero-viewport relative isolate flex items-center overflow-hidden bg-[var(--color-navy)] text-white">
         <Image
           src={img.homeHero}
           alt=""
@@ -111,6 +133,28 @@ export default function HomePage() {
           in changes what sits behind the type and invalidates the numbers above.
         */}
         <div className="absolute inset-0 bg-[var(--color-navy)]/66 md:hidden" />
+        {/*
+          AND A LIGHT ONE FROM md UP, WHICH THIS HERO DID NOT USED TO HAVE.
+
+          The note above is emphatic that the desktop hero needs no scrim, and
+          for what was on it that was true and measured: the worst text-sized
+          block behind the HEADLINE is 9.97:1 on the bare photograph. What
+          changed on 2026-09-21 is that the hero gained a positioning line and a
+          button below the rule, and below the rule is Steve’s white shirt.
+
+          This is 0.38 — the lightest wash anywhere on the site (/speaking/ runs
+          0.52, /contact/ 0.70) and, on its own, nowhere near enough: a flat wash
+          cannot beat a white shirt without killing the picture. Swept alone it
+          still failed at three widths even at 0.62. It works here only in
+          combination with the ellipse on the type itself, where 0.38 buys the
+          margin that turns a thin pass into a comfortable one. See the table on
+          that element.
+
+          Do not read this as licence to reach for a wash next time. It was
+          reached for fifth, after four shaped alternatives were measured and
+          rejected.
+        */}
+        <div className="absolute inset-0 hidden bg-[var(--color-navy)]/38 md:block" />
 
         <Container className="relative w-full py-20">
           {/*
@@ -120,6 +164,91 @@ export default function HomePage() {
             layout even though the words are identical.
           */}
           <div className="max-w-2xl md:ml-auto">
+            {/*
+              A SOFT DARK ELLIPSE BEHIND THE LOWER HALF OF THIS BLOCK, md AND UP.
+
+              This is not the full-hero scrim the note above forbids, and the
+              distinction is the whole point. That one was a navy gradient over
+              the right half of the picture, added on a hunch, and it flattened a
+              photograph that measured 9.97:1 on its own. This one is the size of
+              two lines of type, it is sized by measurement, and it exists
+              because the type it sits under is new.
+
+              The headline was measured in September and passed on the bare
+              photograph. The positioning line added on 2026-09-21 sits one line
+              lower, and one line lower is Steve’s white shirt. Measured with all
+              hero type hidden — the only way to sample the picture rather than
+              the glyphs’ own antialiasing — the band behind this paragraph read:
+
+                width   worst   p01    p05    median
+                768     1.04    1.12   1.33   7.34    white on a white shirt
+                1440    2.22    2.52   4.89   15.74
+                390     4.30    4.57   5.21   10.64   (mobile wash, untouched)
+
+              18px at weight 400 needs 4.5:1. At 768 the middle of the sentence
+              was invisible, not merely marginal — and it would have shipped,
+              because the headline a few pixels above it was fine.
+
+              The ellipse is attached to THIS GROUP — the line and the button —
+              not to the whole hero block, and that is the second thing this note
+              is for. The first attempt anchored it at 74% of the block, which
+              works only while the headline wraps to the number of lines it
+              happens to wrap to; at 1024 the headline wrapped differently, the
+              ellipse landed high, and the worst pixel behind the sentence was
+              still 1.96:1. Anchored to the type, it tracks the type at every
+              width.
+
+              The headline keeps its clean photograph either way — the ellipse
+              starts below the rule and fades to nothing inside its own bounds,
+              so there is no edge to see.
+
+              1024 IS THE CASE THAT DECIDES THIS, and it is not obvious from
+              looking at the page. There the sentence’s left edge falls exactly
+              on Steve’s shirt collar, which is the brightest thing in the frame
+              and the furthest point from the centre of any ellipse centred on
+              the type. Eleven shapes were swept; worst pixel behind the
+              sentence, at five widths:
+
+                                            1440   1280   1024    900    768
+                ellipse, short fade          5.81   7.27   2.86   5.64   8.62
+                ellipse, long fade           9.10  10.04   6.74   9.01   9.15
+                ellipse, seamless inset      4.94   6.81   2.19   5.91   9.42
+                full-width bottom gradient   6.25   6.25   3.91   2.92   2.63
+                flat wash 0.50, no ellipse   4.95   4.95   2.97   2.80   2.88
+                flat wash 0.62, no ellipse   6.13   6.13   4.03   3.83   3.93
+                flat 0.28 + this ellipse     7.49   8.71   4.62   7.58   9.29
+                flat 0.38 + this ellipse     8.07   9.23   5.32   8.06   9.69  ←
+
+              The two lessons worth keeping. A FULL-WIDTH GRADIENT IS THE WRONG
+              TOOL: the type sits at a different fraction of the hero’s height
+              at every width, so any band tuned for one width misses at another.
+              A FLAT WASH ALONE CANNOT BEAT A WHITE SHIRT: 0.62 — heavy enough
+              to visibly kill the photograph — still failed at three widths.
+
+              What works is the pair: a light wash that lifts the whole frame a
+              little, and a soft ellipse that does the real work exactly where
+              the type is. 0.38 + this shape clears 4.5:1 everywhere with margin
+              to spare. Re-measure if this copy moves or the crop changes.
+
+              MOBILE GETS THE SAME SHAPE AT 35%. It was excluded at first, on the
+              grounds that the flat 0.66 wash measured in September was already
+              there — but measured, the sentence came back at 4.30 worst, which
+              is under the 4.5 an 18px paragraph needs. (That the headline was
+              accepted at the same 4.30 is not a precedent: a 41.6px headline
+              only has to clear 3.)
+
+              At full strength the ellipse compounds with the 0.66 wash and
+              visibly buries the photograph. At 35% it is invisible on the page
+              and still moves the worst pixel a long way:
+
+                        320    390    414    600
+                off     —      4.30   —      —
+                35%     5.53   5.81   5.64   5.91   ←
+                45%     5.89   6.32   6.11   6.52
+                60%     6.50   7.17   6.94   7.45
+                100%    8.29   9.93   9.55  10.22   too dark to look at
+            */}
+            <div className="relative">
             {/*
               One <h1> containing both tiers, so the accessible name and the
               text a crawler reads are still the whole sentence.
@@ -147,11 +276,57 @@ export default function HomePage() {
             />
 
             {/*
-              No buttons here. The original hero carries none — the headline and
-              the photograph do the work, and the first action is the newsletter
-              bar immediately below. Adding CTAs was an invention of the first
-              build.
+              THE POSITIONING LINE AND THE ONE ACTION.
+
+              This previously said: "No buttons here. The original hero carries
+              none — the headline and the photograph do the work, and the first
+              action is the newsletter bar immediately below." That was the right
+              rule while the job was rebuilding a WordPress page faithfully. It
+              is the wrong rule now that the page has a job the original never
+              had, which is converting event organizers into paid bookings, some
+              of whom will arrive on a click that cost money.
+
+              Two specific problems it left:
+
+                - The h1, "Driving Change Through Purpose, People, Process", is a
+                  strong line that does not say what is for sale. A visitor who
+                  reads only the first screen — and roughly 80% of them read only
+                  the first screen of a service page — leaves without learning
+                  that Steve is bookable. Hence the line below, which names the
+                  category and the audience in one sentence.
+
+                - The first action above the fold was "Get The Newsletter". That
+                  is a fine second action and a poor first one on a site whose
+                  single commercial purpose is bookings. The newsletter bar is
+                  still immediately below; it has just stopped being the only
+                  thing on offer.
+
+              ONE button, not two. A second CTA here would compete with this one
+              rather than add to it, and every additional choice above the fold
+              costs some of the visitors who would have taken the first.
+
+              The hero is a fixed 82svh on mobile with its content vertically
+              centred, so these two elements eat into that band rather than
+              extending it. Measured after adding them — see the note in
+              globals.css on .hero-viewport — the block still clears the newsletter
+              bar into view at 390x772. Re-measure if this copy grows.
             */}
+            <div className="relative mt-7">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-x-24 -inset-y-14 opacity-[0.35] md:opacity-100 bg-[radial-gradient(ellipse_at_center,rgba(4,46,67,0.92)_0%,rgba(4,46,67,0.90)_30%,rgba(4,46,67,0.86)_46%,rgba(4,46,67,0.74)_57%,rgba(4,46,67,0.52)_67%,rgba(4,46,67,0.28)_77%,rgba(4,46,67,0.10)_87%,rgba(4,46,67,0)_97%)]"
+              />
+              <div className="relative">
+                <p className="max-w-xl text-lg leading-relaxed text-white/90">
+                  Keynote speaker on driving organizational change — for leadership
+                  teams, conferences, and associations worldwide.
+                </p>
+                <div className="mt-7">
+                  <Button href="/contact/">Book Steve to Speak</Button>
+                </div>
+              </div>
+            </div>
+            </div>
           </div>
         </Container>
       </section>
@@ -286,7 +461,11 @@ export default function HomePage() {
                 href={site.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline underline-offset-4 hover:text-[var(--color-accent)]"
+                /* inline-block + py-2 to clear the 24px minimum target size:
+                   the bare inline link measured 389x20 at tablet and desktop,
+                   which the mobile audit missed because it only sampled the
+                   widths where this sits inside a wrapping paragraph. */
+                className="inline-block py-2 underline underline-offset-4 hover:text-[var(--color-accent)]"
               >
                 {rolesFooter.note}
               </a>
