@@ -17,7 +17,7 @@ import { buildMetadata } from "@/lib/seo";
  * works if it is stated.
  */
 export const metadata: Metadata = buildMetadata({
-  title: "Book Steve Welch",
+  title: "Check Availability and Fees",
   description:
     "Check availability and fees for a keynote by Steve Welch. Engagements start at $20,000. Inquiries go directly to Steve’s team — no agency, no bureau fee — and you are acknowledged immediately.",
   path: "/contact/",
@@ -92,24 +92,23 @@ export default function ContactPage() {
             </div>
 
             <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-              {/* First card in the column on purpose: an organizer deciding
-                  whether to spend ten minutes on this form should learn the
-                  floor before they start, not after. */}
-              {site.fee.showPublicly && (
-                <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-tint)] p-6">
-                  <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
-                    Investment
-                  </h2>
-                  <p className="mt-3 font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--color-ink)]">
-                    {site.fee.label}
-                  </p>
-                  <p className="mt-2 text-ui leading-relaxed text-[var(--color-ink-soft)]">
-                    The final figure depends on date, location, format and how much
-                    tailoring the session needs. Travel outside North America is quoted
-                    separately.
-                  </p>
-                </div>
-              )}
+              {/*
+                NO “Investment” CARD HERE. There was one, stating the floor beside
+                the form; Steve removed it on 2026-09-21 because the form already
+                carries the same information — the budget dropdown now opens at
+                “$20,000 – $30,000”, so an organizer learns the floor at the moment
+                they have to answer for it, which is the moment it does its work.
+                Saying it twice on one page reads as a price tag rather than a
+                qualifier.
+
+                The floor is still PUBLISHED, which is the thing that matters for
+                paid clicks — it is in this page’s meta description (so it
+                qualifies before the click is paid for), in the “Before you write”
+                FAQ below, in the /speaking/ hero, on every /lp/ page, in the
+                booking auto-reply, and in the Offer schema. Do not read this
+                deletion as a reversal of that decision; see the note on
+                site.fee.
+              */}
 
               <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
                 <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
