@@ -21,11 +21,12 @@ import { readAttribution } from "@/lib/attribution";
  * which is measuring the wrong thing when one booking pays for a year of ads.
  */
 
+/* Must match InquiryForm and site.fee — see the note there. This is the form
+   reached by paid clicks, so an under-budget option here costs real money. */
 const BUDGET_RANGES = [
-  "Under $10,000",
-  "$10,000 – $15,000",
-  "$15,000 – $25,000",
-  "Over $25,000",
+  "$20,000 – $30,000",
+  "$30,000 – $50,000",
+  "Over $50,000",
   "Not yet determined",
 ];
 
@@ -126,7 +127,8 @@ export function LandingInquiryForm({
           Thank you — that went straight to Steve’s team.
         </p>
         <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-          You will normally hear back within two business days. On a tight timeline?
+          A confirmation is on its way to your inbox. Steve reads these himself and
+          will reply personally. On a tight timeline?
           Email{" "}
           <a className="underline underline-offset-2" href={`mailto:${site.email}`}>
             {site.email}

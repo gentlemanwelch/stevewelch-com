@@ -117,19 +117,55 @@ export const site = {
   },
 
   /**
-   * Speaking fee. Kept out of the public pages by default.
+   * Links the booking auto-reply offers, when they exist.
    *
-   * Publishing a range filters out unqualified inquiries but also anchors
-   * every negotiation to the bottom of it, and removes the reason for an
-   * organizer to make contact at all. The recommendation is to leave
-   * `showPublicly` false and let the inquiry form ask for the event's budget
-   * instead — you learn their number before quoting yours.
+   * Both are EMPTY until the real thing is ready, and the auto-reply simply
+   * omits whatever is missing. An email promising a showreel that 404s is
+   * worse than an email that never mentions one.
+   *
+   *   reelUrl      — the 90-second keynote reel, once cut
+   *   calendarUrl  — a Calendly/Cal.com link to a 15-minute inquiry call
+   */
+  booking: {
+    reelUrl: "",
+    calendarUrl: "",
+  },
+
+  /**
+   * Speaking fee. PUBLISHED, as a floor.
+   *
+   * This used to be hidden, on the reasoning that publishing a number anchors
+   * every negotiation to the bottom of it and removes a reason for the
+   * organizer to make contact. That argument holds for a site funded entirely
+   * by organic traffic, where an extra inquiry costs nothing.
+   *
+   * It stops holding the moment clicks are being paid for. A click from an
+   * organizer with $6,000 costs exactly the same as one from an organizer with
+   * $40,000, and the cheap one costs again in the reply it takes to decline.
+   * A stated floor turns those away before they spend either. It also reads as
+   * a tier signal: speakers who publish a floor are read as more established
+   * than speakers who make you ask.
+   *
+   * Steve set the floor at $20,000 on 2026-09-16. It is a FLOOR, not a range —
+   * there is deliberately no ceiling here, so a larger budget is never capped
+   * by a number on a web page.
+   *
+   * The known cost: the occasional university or nonprofit booking at $12,000
+   * that would previously have started a conversation now does not. That is
+   * the intended trade, not an oversight.
+   *
+   * `BUDGET_RANGES` in components/InquiryForm.tsx must stay consistent with
+   * this. Publishing a floor beside a dropdown offering "Under $10,000" invites
+   * exactly the inquiry the floor exists to prevent.
    */
   fee: {
-    min: 10000,
-    max: 20000,
+    min: 20000,
     currency: "USD",
-    showPublicly: false,
+    showPublicly: true,
+    /** The one phrasing, used everywhere it appears. */
+    label: "Engagements start at $20,000.",
+    /** Shorter form, for tight spaces like landing-page bullets. */
+    short: "From $20,000",
   },
 } as const;
 

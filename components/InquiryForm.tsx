@@ -24,11 +24,22 @@ import { readAttribution } from "@/lib/attribution";
  * to be published on the site to filter out unqualified inquiries.
  */
 
+/*
+ * Bands start AT the published floor, not below it.
+ *
+ * These used to open at "Under $10,000". Beside a page that says engagements
+ * start at $20,000, that is an invitation to the exact inquiry the floor exists
+ * to prevent — and on paid traffic each one costs a click and a reply.
+ *
+ * No band is capped at the top for the same reason the floor has no ceiling:
+ * a number on a web page should never talk a larger budget down.
+ *
+ * Keep in step with `site.fee` in content/site.ts.
+ */
 const BUDGET_RANGES = [
-  "Under $10,000",
-  "$10,000 – $15,000",
-  "$15,000 – $25,000",
-  "Over $25,000",
+  "$20,000 – $30,000",
+  "$30,000 – $50,000",
+  "Over $50,000",
   "Not yet determined",
 ];
 
@@ -88,7 +99,8 @@ export function InquiryForm() {
       <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-8">
         <h2 className="text-2xl">Thank you — that went straight to Steve’s team.</h2>
         <p className="mt-3 text-[var(--color-ink-soft)]">
-          You will normally hear back within two business days. If your event is on a
+          A confirmation is already on its way to your inbox. Steve reads every one of
+          these himself and will reply personally. If your event is on a
           tight timeline, reply to the confirmation or email{" "}
           <a className="text-[var(--color-accent)] underline underline-offset-4" href={`mailto:${site.email}`}>
             {site.email}

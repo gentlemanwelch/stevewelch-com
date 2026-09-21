@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { site } from "@/content/site";
+import { autoReplySubject, autoReplyText, autoReplyHtml } from "@/content/auto-reply";
 
 /**
  * Booking inquiry endpoint.
@@ -164,6 +165,44 @@ export async function POST(request: Request) {
     const detail = await response.text().catch(() => "");
     console.error("[inquiry] Resend rejected the send:", response.status, detail);
     return NextResponse.json({ error: "The message could not be sent." }, { status: 502 });
+  }
+
+  /*
+   * The instant acknowledgement to the organizer.
+   *
+   * ORDER AND ERROR HANDLING ARE THE WHOLE POINT HERE. The notification to
+   * Steve is sent and checked FIRST, above. Only then is the auto-reply
+   * attempted, and its failure is logged and swallowed — never returned.
+   *
+   * Reason: these two emails are not equally important. If the auto-reply
+   * fails, an organizer misses a courtesy and Steve still gets the booking.
+   * If a failed auto-reply were allowed to produce a 502, the organizer would
+   * be told their message did not send, and would go and email a different
+   * speaker — losing a $20,000 booking that had, in fact, already arrived.
+   * Never let the nicety fail the transaction.
+   *
+   * Sent FROM Steve with reply_to Steve, so a reply lands in his inbox and the
+   * thread is already started when he answers.
+   */
+  const ack = { name, organization, eventName: clean(body.eventName, 200), eventDate: clean(body.eventDate, 40) };
+  try {
+    const ackRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: `${site.name} <${from}>`,
+        to: [email],
+        reply_to: to,
+        subject: autoReplySubject(ack),
+        text: autoReplyText(ack),
+        html: autoReplyHtml(ack),
+      }),
+    });
+    if (!ackRes.ok) {
+      console.error("[inquiry] auto-reply not sent:", ackRes.status, await ackRes.text().catch(() => ""));
+    }
+  } catch (err) {
+    console.error("[inquiry] auto-reply threw:", err instanceof Error ? err.message : err);
   }
 
   return NextResponse.json({ ok: true });

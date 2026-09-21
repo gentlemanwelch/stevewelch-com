@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { site } from "@/content/site";
 import {
   speakingHero, speakingIntro, exploreHeading, speakingPillars,
   hyperWellness, anvilQuote, speakingReel, podcastNote,
@@ -123,6 +124,11 @@ export default function SpeakingPage() {
           <h1 className="mx-auto max-w-3xl text-white">{speakingHero.heading}</h1>
           <div className="mt-8">
             <Button href="/contact/">{speakingHero.cta}</Button>
+            {/* The floor, stated where the decision gets made. See the note on
+                site.fee — this is a qualifier, not a price list. */}
+            {site.fee.showPublicly && (
+              <p className="mt-4 text-ui text-white/80">{site.fee.label}</p>
+            )}
           </div>
         </Container>
       </section>

@@ -95,6 +95,30 @@ export function speakingServiceSchema() {
           description: talk.statement,
           url: `${site.url}/speaking/${talk.slug}/`,
         },
+        /*
+          The fee floor, in machine-readable form.
+          
+          This is what turns Steve from a person a crawler has read about into
+          a bookable service with a price — the difference between being
+          described and being quotable when an assistant is asked "who can we
+          book on organizational change, and roughly what does it cost".
+          
+          minPrice with no maxPrice is the correct shape for "starting at":
+          it states the floor without asserting a ceiling. Only emitted when
+          the fee is published, so the markup can never contradict the page.
+        */
+        ...(site.fee.showPublicly
+          ? {
+              priceSpecification: {
+                "@type": "PriceSpecification",
+                minPrice: site.fee.min,
+                priceCurrency: site.fee.currency,
+                valueAddedTaxIncluded: false,
+              },
+              availability: "https://schema.org/InStock",
+              url: `${site.url}/contact/`,
+            }
+          : {}),
       })),
     },
   };

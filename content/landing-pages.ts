@@ -60,7 +60,7 @@ export const landingPages: LandingPage[] = [
       "45–60 minute keynote, tailored on a call before your event",
       "Corporate, association, and founder audiences on multiple continents",
       "Booking goes straight to Steve’s team — no agency, no bureau fee",
-      "Straight answer on availability and fee within two business days",
+      "Engagements start at $20,000 — a straight answer on availability, not a negotiation",
     ],
     proof: [
       { value: "350+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 350 companies." },

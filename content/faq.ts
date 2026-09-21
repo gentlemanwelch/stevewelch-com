@@ -24,12 +24,12 @@ export const faqs: Faq[] = [
   {
     question: "How do I book Steve Welch to speak at my event?",
     answer:
-      "Send the details through the booking form on the contact page — date, city, audience, and what you need the session to accomplish. Inquiries go directly to Steve’s team, not to an agency, and you will normally hear back within two business days.",
+      "Send the details through the booking form on the contact page — date, city, audience, and what you need the session to accomplish. Inquiries go directly to Steve’s team, not to an agency. You are acknowledged immediately, and Steve reads every inquiry himself.",
   },
   {
     question: "What does it cost to book Steve as a keynote speaker?",
     answer:
-      "Fees depend on the date, location, format, and whether the event is corporate, association, or nonprofit. Share your budget range in the inquiry and you will get a straight answer quickly rather than a negotiation.",
+      "Engagements start at $20,000. The final fee depends on the date, location, format, and how much tailoring the session needs — travel outside North America is quoted separately. Share your budget range in the inquiry and you will get a straight answer rather than a negotiation.",
   },
   {
     question: "What topics does Steve speak on?",
