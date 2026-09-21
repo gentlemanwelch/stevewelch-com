@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
   speakingHero, speakingIntro, exploreHeading, speakingPillars,
-  hyperWellness, anvilQuote, speakingReel, podcastNote,
+  aiChange, hyperWellness, anvilQuote, speakingReel, podcastNote,
 } from "@/content/speaking";
 import { faqs } from "@/content/faq";
 import { img, speakingEngagementLogos } from "@/content/media-manifest";
@@ -27,14 +27,15 @@ import { buildMetadata } from "@/lib/seo";
  * direct-booking page competes with a bureau listing.
  */
 export const metadata: Metadata = buildMetadata({
-  title: "Speaking",
+  title: "Keynote Speaker — Topics, Fees and Booking",
   description:
-    "Steve Welch has a track record of engaging audiences and empowering them with the tools and mindset to drive change in their organizations and their personal lives.",
+    "Book Steve Welch to speak on driving change through purpose, people, and process — including driving change in the age of AI. Engagements start at $20,000.",
   path: "/speaking/",
   keywords: [
     "book a keynote speaker",
     "hire a keynote speaker",
     "organizational change keynote speaker",
+    "ai change management speaker",
     "entrepreneurship keynote speaker",
     "wellness keynote speaker",
   ],
@@ -192,6 +193,53 @@ export default function SpeakingPage() {
                 </div>
               </article>
             ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/*
+        The AI keynote.
+
+        PLACED AFTER THE FRAMEWORK, NOT BEFORE IT, and that is a decision rather
+        than an accident of the order things were written. Steve was explicit
+        that he does not want the site to become an AI site — Purpose, People,
+        Process is the core and stays the core. So the page argues the framework
+        first and then shows what it is being applied to right now. An organizer
+        who arrived on "ai change management speaker" still finds this well
+        above the fold's worth of scrolling, and the paid traffic lands on
+        /lp/ai-change-speaker/ rather than here in any case.
+
+        It is set in ink rather than another light band because it needs to read
+        as a distinct offer and not as a fourth pillar. Same reason it is not in
+        `speakingPillars`.
+      */}
+      <Section tone="ink">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14">
+            <div>
+              <Eyebrow tone="onDark">Most requested right now</Eyebrow>
+              <h2 className="text-white">{aiChange.heading}</h2>
+              <p className="mt-5 text-lg leading-relaxed text-white/85">{aiChange.statement}</p>
+            </div>
+            <div>
+              <ul className="space-y-3">
+                {aiChange.points.map((point) => (
+                  <li key={point} className="flex gap-3 leading-relaxed text-white/90">
+                    <span aria-hidden="true" className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-blue)]" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Button href="/contact/">Check availability</Button>
+                <Link
+                  href={`/speaking/${aiChange.slug}/`}
+                  className="inline-block py-2 text-sm font-semibold text-white underline underline-offset-4 hover:text-[var(--color-blue)]"
+                >
+                  Read the argument →
+                </Link>
+              </div>
+            </div>
           </div>
         </Container>
       </Section>

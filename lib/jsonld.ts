@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import { bioShort } from "@/content/bio";
-import { speakingPillars, hyperWellness } from "@/content/speaking";
+import { talks } from "@/content/speaking";
 import { faqs } from "@/content/faq";
 import { books } from "@/content/books";
 
@@ -87,7 +87,7 @@ export function speakingServiceSchema() {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Signature talks",
-      itemListElement: [...speakingPillars, { ...hyperWellness, points: [] }].map((talk) => ({
+      itemListElement: talks.map((talk) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",

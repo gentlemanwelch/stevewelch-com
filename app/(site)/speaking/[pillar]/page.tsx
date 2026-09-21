@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { speakingPillars, hyperWellness, anvilQuote } from "@/content/speaking";
+import { talks, anvilQuote } from "@/content/speaking";
 import { site } from "@/content/site";
 import { Container, Section, Eyebrow, Button, Prose, JsonLd } from "@/components/primitives";
 import { breadcrumbSchema } from "@/lib/jsonld";
@@ -22,28 +22,10 @@ import { buildMetadata } from "@/lib/seo";
  * four, and links down.
  */
 
-type Entry = {
-  slug: string;
-  name: string;
-  statement: string;
-  points: string[];
-  body: string[];
-  audiences: string[];
-  seoTitle: string;
-  metaDescription: string;
-  keywords: string[];
-};
-
-/** Hyper wellness has no bullet list on the original, so it gets an empty one. */
-const entries: Entry[] = [
-  ...speakingPillars,
-  { ...hyperWellness, points: [] },
-];
-
-const getEntry = (slug: string) => entries.find((e) => e.slug === slug);
+const getEntry = (slug: string) => talks.find((e) => e.slug === slug);
 
 export function generateStaticParams() {
-  return entries.map((e) => ({ pillar: e.slug }));
+  return talks.map((e) => ({ pillar: e.slug }));
 }
 
 /** Anything else 404s — a soft 404 gets indexed and dilutes the real pages. */
@@ -75,7 +57,7 @@ export default async function PillarPage({
   const entry = getEntry(pillar);
   if (!entry) notFound();
 
-  const others = entries.filter((e) => e.slug !== entry.slug);
+  const others = talks.filter((e) => e.slug !== entry.slug);
 
   return (
     <>
@@ -174,7 +156,7 @@ export default async function PillarPage({
       <Section tone="alt">
         <Container>
           <h2>The rest of the framework</h2>
-          <ul className="mt-8 grid gap-5 sm:grid-cols-3">
+          <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {others.map((other) => (
               <li key={other.slug}>
                 <Link

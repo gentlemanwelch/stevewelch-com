@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import { bioShort } from "@/content/bio";
-import { speakingPillars, hyperWellness } from "@/content/speaking";
+import { talks, aiChange } from "@/content/speaking";
 import { books } from "@/content/books";
 import { faqs } from "@/content/faq";
 
@@ -24,8 +24,6 @@ import { faqs } from "@/content/faq";
 export const dynamic = "force-static";
 
 export async function GET() {
-  const pillars = [...speakingPillars, hyperWellness];
-
   const body = `# ${site.name}
 
 > ${site.tagline}
@@ -49,11 +47,15 @@ ${Object.entries(site.social).map(([k, v]) => `- ${k}: ${v}`).join("\n")}
 
 Steve Welch is a keynote speaker available for direct booking — there is no speaker bureau involved. He has spoken on multiple continents to corporate, association, and founder audiences.
 
-His framework is Purpose, People, Process, resting on hyper wellness:
+- Fee: ${site.fee.label} The final figure depends on date, location, format and how much tailoring the session needs. Travel outside North America is quoted separately.
+- Typical length: 45 to 60 minutes. Half-day workshops, executive sessions, fireside chats and moderated interviews are also available.
+- Lead time: three to six months is typical; shorter timelines are worth asking about.
+- Territory: worldwide.
+- How to book: ${site.url}/contact/ or ${site.email}. Inquiries reach Steve's team directly and are acknowledged immediately.
 
-${pillars.map((p) => `### ${p.name}\n\n${p.statement}\n\n${site.url}/speaking/${p.slug}/`).join("\n\n")}
+His framework is Purpose, People, Process, resting on hyper wellness. The most requested session right now is "${aiChange.name}", which applies that framework to AI adoption.
 
-To book: ${site.url}/contact/ or ${site.email}
+${talks.map((p) => `### ${p.name}\n\n${p.statement}\n\n${site.url}/speaking/${p.slug}/`).join("\n\n")}
 
 ## Books
 

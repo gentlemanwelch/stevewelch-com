@@ -51,7 +51,7 @@ export const speakingPillars: SpeakingPillar[] = [
       "Fostering a collective mission",
       "Personal aspirations to daily decisions",
     ],
-    seoTitle: "Purpose-Driven Leadership Keynote Speaker | Steve Welch",
+    seoTitle: "Purpose-Driven Leadership Keynote Speaker",
     metaDescription:
       "A keynote on purpose as an operating discipline: why value creation is the north star every stakeholder can rally behind, and how it reaches daily decisions.",
     keywords: [
@@ -81,7 +81,7 @@ export const speakingPillars: SpeakingPillar[] = [
       "Mentoring to benefit others",
       "Recognizing relationships change you",
     ],
-    seoTitle: "Team & Talent Keynote Speaker | Steve Welch",
+    seoTitle: "Team & Talent Keynote Speaker",
     metaDescription:
       "A keynote on the people side of change: balancing diverse perspectives against functional expertise, mentoring, and why the right team is the whole advantage.",
     keywords: [
@@ -110,7 +110,7 @@ export const speakingPillars: SpeakingPillar[] = [
       "Building frameworks to help teams and individuals prioritize",
       "Connecting professional and personal goals",
     ],
-    seoTitle: "Organizational Change & Execution Keynote Speaker | Steve Welch",
+    seoTitle: "Organizational Change & Execution Keynote Speaker",
     metaDescription:
       "A keynote on the unglamorous half of change: quick iteration cycles, frameworks that let teams prioritize, and connecting professional goals to personal ones.",
     keywords: [
@@ -133,6 +133,76 @@ export const speakingPillars: SpeakingPillar[] = [
 ];
 
 /**
+ * THE FIFTH PAGE, AND THE ONE THE ADS POINT AT.
+ *
+ * Deliberately NOT a member of `speakingPillars`. Purpose, People and Process
+ * are the framework the whole site is organised around, and Steve was explicit
+ * when this was commissioned (2026-09-16) that he does not want the brand to
+ * become an AI brand: "I want to keep the purpose, people and process because
+ * I think that's integral in the driving change regardless of whether you have
+ * AI or not." Folding AI into the three would make it a fourth leg of a
+ * framework that has three. It sits beside them instead, as the application of
+ * the framework that organizers are asking for right now.
+ *
+ * THE ARGUMENT IS LOAD-BEARING AND IT IS NOT THE OBVIOUS ONE. An earlier draft
+ * offered "AI is overhyped, fundamentals still matter" and Steve rejected it
+ * outright. His version, verbatim:
+ *
+ *   "AI is coming. You need to beat your competitors there. But there is much
+ *   beyond AI to drive change and it all starts with making sure your
+ *   organization has people, purpose and a process to implement."
+ *
+ * Three moves, in this order, and the order is the point:
+ *   1. Move on AI, and move before your competitors. No hedging.
+ *   2. AI is not the whole change agenda.
+ *   3. Either way you cannot implement anything without the foundation.
+ *
+ * So the copy here OPENS ON URGENCY and only then turns to capability. It must
+ * never open by relativising AI — that is the talk Steve does not give, and it
+ * is also the talk every other speaker is giving. Rewrite this copy if you
+ * like, but keep that sequence.
+ *
+ * Commercially this is the wedge: it meets the budget that exists today
+ * ("we need an AI speaker") without competing as an AI futurist, which is a
+ * crowded field and one Steve would lose on credentials. What he has that they
+ * do not is an operator record of actually landing change.
+ */
+export const aiChange = {
+  slug: "driving-change-in-the-age-of-ai",
+  name: "Driving Change in the Age of AI",
+  heading: "Driving Change in the Age of AI",
+  statement:
+    "AI is coming, and getting there before your competitors is a real advantage. Most organizations will not — not because the technology is hard, but because they cannot implement.",
+  points: [
+    "Why moving first on AI is a real advantage — and what it is actually an advantage in",
+    "The reason most organizations will not get there: they cannot implement",
+    "What else is driving change right now that has nothing to do with AI",
+    "Purpose, people, process — the capability that decides all of it",
+  ],
+  seoTitle: "AI and Change Management Keynote Speaker",
+  metaDescription:
+    "A keynote on getting to AI before your competitors — and why most organizations will not. The constraint is never the technology. It is whether you can implement.",
+  keywords: [
+    "ai change management speaker",
+    "ai transformation keynote speaker",
+    "speaker on leading through ai",
+    "ai and organizational change speaker",
+    "keynote speaker on ai adoption",
+  ],
+  body: [
+    "Steve does not open this one with a caveat. AI is coming, the advantage of getting there before your competitors is real, and an organization treating it as wait-and-see has made a decision whether it says so or not. None of that is in dispute and the session does not spend its time arguing it.",
+    "What is in dispute is who actually gets there. Steve has watched the same pattern in the four companies he founded, in the 350+ he was first money into, and in the national business he runs today: the constraint is almost never the technology. It is that the organization cannot implement. The pilot runs, the deck gets presented, and eighteen months later nothing in the operating rhythm has changed. That failure has nothing to do with AI — it was there before, on every other change the company tried to make. AI only makes it expensive faster.",
+    "The second half of the argument is the part organizations most need and least expect from a talk with AI in the title: there is a great deal beyond AI driving change right now, and a company that pours its entire change capacity into one technology will be caught flat by the rest of it. What generalises is the capability, not the tool.",
+    "Which returns it to purpose, people and process — not as a consolation prize beside the AI question, but as the answer to it. Purpose, so the organization can tell which moves are worth making rather than chasing whichever one is in the trade press. People, because the ones who have to live with the change decide whether it survives its first bad quarter. Process, because iteration speed is the whole game when nobody yet knows the right answer. Get those right and you get there first. Get them wrong and you will buy the software anyway, and your competitors will still beat you to it.",
+  ],
+  audiences: [
+    "Corporate leadership and all-hands meetings",
+    "Industry associations and annual conferences",
+    "Transformation, strategy, and operations teams",
+  ],
+};
+
+/**
  * The foundation under the three pillars. On the original this is its own
  * section headed "It All Starts With Hyper Wellness" — it is the connective
  * argument between Steve's day job and his speaking, so it gets its own page
@@ -144,7 +214,7 @@ export const hyperWellness = {
   heading: "It All Starts With Hyper Wellness",
   statement:
     "The hyper wellness lifestyle allows leaders to have the proper energy to drive change and find the purpose, people and processes that will lead to success",
-  seoTitle: "Wellness & Human Performance Keynote Speaker | Steve Welch",
+  seoTitle: "Wellness & Human Performance Keynote Speaker",
   metaDescription:
     "A keynote on the energy leaders need to drive change, from the CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
   keywords: [
@@ -166,6 +236,25 @@ export const hyperWellness = {
     "Healthcare, benefits, and wellbeing conferences",
   ],
 };
+
+/**
+ * Every page that lives under /speaking/, in the order they are argued.
+ *
+ * ONE LIST, THREE CONSUMERS: the [pillar] route generates a page per entry,
+ * sitemap.ts submits it, and speakingServiceSchema() lists it as an Offer.
+ * They used to spell out `[...speakingPillars, hyperWellness]` separately in
+ * each place, which worked right up until a fifth page was added — at which
+ * point two of the three would have quietly gone on describing four.
+ *
+ * `points` is normalised to an array here so every consumer has one shape.
+ */
+export type Talk = SpeakingPillar;
+
+export const talks: Talk[] = [
+  ...speakingPillars,
+  { ...aiChange, points: [...aiChange.points] },
+  { ...hyperWellness, points: [] },
+];
 
 /** Pulled from the site's own general-testimonial block. */
 export const anvilQuote =

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
-import { speakingPillars, hyperWellness } from "@/content/speaking";
+import { talks } from "@/content/speaking";
 import { books } from "@/content/books";
 
 /**
@@ -36,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
      noindex URL in a sitemap asks a crawler to fetch a page it has been told
      to ignore. */
 
-  const talkRoutes: MetadataRoute.Sitemap = [...speakingPillars, hyperWellness].map((talk) => ({
+  const talkRoutes: MetadataRoute.Sitemap = talks.map((talk) => ({
     url: `${site.url}/speaking/${talk.slug}/`,
     changeFrequency: "monthly",
     priority: 0.8,
