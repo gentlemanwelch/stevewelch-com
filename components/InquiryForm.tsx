@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
+import { trackInquiry } from "@/lib/analytics";
+import { readAttribution } from "@/lib/attribution";
 
 /**
  * The booking inquiry form.
@@ -51,7 +53,12 @@ export function InquiryForm() {
     setError(null);
 
     const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
+    /*
+      Attribution is merged in here rather than read from this page's URL,
+      because an ad click almost never lands directly on /contact/ — it lands
+      on a landing page or the homepage and walks here. See lib/attribution.ts.
+    */
+    const payload = { ...Object.fromEntries(formData.entries()), ...readAttribution() };
 
     try {
       // Trailing slash on purpose: next.config sets trailingSlash, so posting
@@ -68,6 +75,8 @@ export function InquiryForm() {
         throw new Error(data.error ?? "Something went wrong sending your message.");
       }
       setStatus("sent");
+      // Fires only here — on a confirmed 200 from the API, never on page load.
+      trackInquiry("contact");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong.");

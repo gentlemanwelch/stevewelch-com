@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/primitives";
+import { Analytics } from "@/components/Analytics";
+import { AttributionCapture } from "@/components/AttributionCapture";
 import { personSchema, websiteSchema } from "@/lib/jsonld";
 import { site } from "@/content/site";
 
@@ -73,6 +75,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           needs: fonts, the entity markup, and the skip link.
         */}
         {children}
+
+        {/* Renders nothing until the measurement IDs are set in Vercel. */}
+        <Analytics />
+
+        {/* Records a paid click on arrival, on any page, so it survives the
+            walk to the booking form. Renders nothing. */}
+        <AttributionCapture />
       </body>
     </html>
   );

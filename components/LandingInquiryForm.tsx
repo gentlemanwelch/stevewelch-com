@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
+import { trackInquiry } from "@/lib/analytics";
+import { readAttribution } from "@/lib/attribution";
 
 /**
  * The paid-search inquiry form.
@@ -76,6 +78,7 @@ export function LandingInquiryForm({
     const form = new FormData(event.currentTarget);
     const payload = {
       ...Object.fromEntries(form.entries()),
+      ...readAttribution(),
       ...attribution.current,
       source: `Google Ads landing page: ${campaign}`,
     };
@@ -94,6 +97,7 @@ export function LandingInquiryForm({
         throw new Error(data.error ?? "Something went wrong sending your message.");
       }
       setStatus("sent");
+      trackInquiry("landing");
 
       /*
        * Fire the Google Ads conversion, if the tag is on the page.

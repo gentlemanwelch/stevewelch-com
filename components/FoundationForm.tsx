@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { foundation } from "@/content/foundation";
 import { buttonClasses } from "@/lib/buttonStyles";
+import { trackInquiry } from "@/lib/analytics";
 import { site } from "@/content/site";
 
 /**
@@ -54,6 +55,7 @@ export function FoundationForm() {
         return;
       }
       setState("sent");
+      trackInquiry("foundation");
     } catch {
       setState("error");
       setError("That did not send.");
