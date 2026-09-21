@@ -21,7 +21,19 @@ export function buildMetadata({
   ogImage,
   type = "website",
 }: {
-  /** Page title WITHOUT the site name — the template appends it. */
+  /**
+   * Page title WITHOUT the site name — the template in app/layout.tsx appends
+   * " | Steve Welch" to it.
+   *
+   * Pass it anyway and it is stripped below rather than doubled. That guard is
+   * not decoration: four pillar pages, the contact page and all three landing
+   * pages shipped titles reading "… | Steve Welch | Steve Welch" and stayed
+   * that way through a full rebuild and a DNS cutover, because a title tag is
+   * the one piece of a page nobody ever looks at. The waste is real — Google
+   * renders about 60 characters, and fifteen of them were the brand name a
+   * second time, pushing the words an organizer actually searched for out of
+   * the visible part of the result.
+   */
   title: string;
   description: string;
   /** Path with a leading slash, e.g. "/speaking". Use "/" for the homepage. */
@@ -33,23 +45,30 @@ export function buildMetadata({
   const url = `${site.url}${path === "/" ? "" : path}`;
   const image = ogImage ?? "/opengraph-image";
 
+  /* See the note on `title`. Separators are en/em dash or pipe with spaces —
+     the three anyone actually types. */
+  const bare = title.replace(
+    new RegExp(`\\s*[|\u2013\u2014-]\\s*${site.name}\\s*$`),
+    "",
+  );
+
   return {
-    title,
+    title: bare,
     description,
     keywords: keywords ? [...keywords] : undefined,
     alternates: { canonical: url },
     openGraph: {
-      title: `${title} | ${site.name}`,
+      title: `${bare} | ${site.name}`,
       description,
       url,
       siteName: site.name,
       type,
       locale: "en_US",
-      images: [{ url: image, width: 1200, height: 630, alt: `${title} — ${site.name}` }],
+      images: [{ url: image, width: 1200, height: 630, alt: `${bare} — ${site.name}` }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${site.name}`,
+      title: `${bare} | ${site.name}`,
       description,
       images: [image],
     },

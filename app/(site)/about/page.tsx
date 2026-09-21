@@ -26,7 +26,7 @@ import { buildMetadata } from "@/lib/seo";
  * and it belongs here.
  */
 export const metadata: Metadata = buildMetadata({
-  title: "About Steve Welch",
+  title: "About — Entrepreneur, Investor, Speaker",
   description:
     "Steve Welch is a successful entrepreneur and investor who lives the hyper wellness lifestyle every day.",
   path: "/about/",
