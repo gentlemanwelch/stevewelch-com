@@ -155,3 +155,77 @@ export const workedWithLogos: LogoRef[] = [
   { name: "Blue Cross Blue Shield", file: `${base}/Blue_Cross_Blue_Shield-removebg-preview.png` },
   { name: "Parker Hannifin", file: `${base}/Parker-Hannifan.png` },
 ];
+
+/**
+ * BUILT FOR CHANGE — the homepage's "Selected Audiences & Organizations"
+ * strip, in the packet's order (01_HOMEPAGE_COPY §10): Singtel, Texas Medical
+ * Center, Children's Hospital of Philadelphia, NVCA, CNBC.
+ *
+ * All five are the official files already on the site — nothing redrawn,
+ * nothing generated, as the packet requires. CHOP uses the transparent PNG
+ * rather than the JPEG so it can sit on any background without a white box.
+ * CNBC, CHOP and NVCA are raster; SVGs would be sharper and are worth asking
+ * each organization for, but these are genuine.
+ *
+ * `ratio` is width ÷ height of the mark as drawn. The strip uses it to
+ * normalise OPTICAL size — "normalize optical height, not literal pixel
+ * height" — by giving every logo the same visual area rather than the same
+ * height. At equal heights a 3:1 wordmark looks three times the size of a
+ * square badge.
+ */
+export type SizedLogo = LogoRef & { ratio: number };
+
+export const selectedOrganizationLogos: SizedLogo[] = [
+  { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
+  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 1.91 },
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 2.86 },
+  { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
+];
+
+/**
+ * BUILT FOR CHANGE — photography for the new homepage.
+ *
+ * STAND-INS. The packet names its own images (01–07 in 03_ASSET_MANIFEST) and
+ * none of them have been received yet. Until they are, each slot uses the
+ * best REAL photograph already on the site — never a stock image, never a
+ * generated one, per the packet's asset hierarchy: "1. Real Steve photography.
+ * 2. Approved AI-enhanced Steve photography. 3. No stock substitute."
+ *
+ * Swapping in the packet's file is one line here. The slot each packet file
+ * belongs to is noted against it.
+ */
+export const bfc = {
+  /* → 02_real_stage_photo_source.jpeg, or 01_hero_stage_candidate_PROVISIONAL
+     ONLY after Steve approves it as indistinguishable from a real photo.
+     Stand-in: Steve mid-talk on the storeRe stage, full length, 2074×2560. */
+  hero: `${base}/Restore-36-scaled.jpg`,
+  heroAlt: "Steve Welch speaking on stage",
+
+  /* → 03_mitos_logo_REAL.jpeg. Stand-in: a real Mitos-era photograph with the
+     Mitos Technologies banner in frame — the name is shown by the real thing
+     rather than by a redrawn logo. */
+  mitos: `${base}/DSCN1593.jpg`,
+  mitosAlt: "The Mitos Technologies team holding the company banner",
+
+  /* → 04_dreamit_stage_REAL.jpeg. Stand-in: Steve on the Dreamit Ventures
+     stage — already a real Dreamit stage photograph. */
+  dreamit: `${base}/dreamit-video-poster.png`,
+  dreamitAlt: "Steve Welch on stage at a Dreamit Ventures event",
+
+  /* → 05_restore_photo_REAL.jpeg (preferred) or 06_restore_portrait_alt_REAL.
+     Stand-in: Steve at a Restore studio opening, in a real Restore location. */
+  restore: `${base}/W16_3327-scaled.jpg`,
+  restoreAlt: "Steve Welch at the opening of a Restore Hyper Wellness studio",
+
+  /* → 07_portrait_seated_REAL.jpeg. Stand-in: the existing seated portrait. */
+  portrait: `${base}/steve-welch_hero.png`,
+  portraitAlt: "Steve Welch, seated portrait",
+
+  /* The reel poster: a real speaking frame with the audience in it. Planners
+     are told to watch the audience, not the speaker. */
+  reelPoster: `${base}/LI-4-scaled.jpg`,
+
+  /* The final CTA band: stage and audience, full width, under a dark wash. */
+  closing: `${base}/speaking_hero-1.png`,
+} as const;
