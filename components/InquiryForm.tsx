@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
-import { trackInquiry } from "@/lib/analytics";
+import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
 
 /**
@@ -57,6 +57,15 @@ type Status = "idle" | "sending" | "sent" | "error";
 export function InquiryForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  // `contact_form_start` fires once, on the first focus anywhere in the form —
+  // the spec's measure of intent, and the denominator for the drop-off
+  // between starting the form and sending it.
+  const started = useRef(false);
+  const onStart = () => {
+    if (started.current) return;
+    started.current = true;
+    track("contact_form_start", { location: "contact" });
+  };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -96,7 +105,7 @@ export function InquiryForm() {
 
   if (status === "sent") {
     return (
-      <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-8">
+      <div className="rounded-[var(--radius-base)] border border-[var(--color-line)] bg-[var(--color-surface)] p-8">
         <h2 className="text-2xl">Thank you — that went straight to Steve’s team.</h2>
         <p className="mt-3 text-[var(--color-ink-soft)]">
           A confirmation is already on its way to your inbox. Steve reads every one of
@@ -119,11 +128,11 @@ export function InquiryForm() {
    * anything. This was 0.95rem and did exactly that. Do not shrink it.
    */
   const field =
-    "w-full rounded-lg border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-base text-[var(--color-ink)] transition-colors placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
+    "w-full rounded-[var(--radius-base)] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-base text-[var(--color-ink)] transition-colors placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
   const label = "mb-1.5 block text-sm font-medium text-[var(--color-ink)]";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} onFocusCapture={onStart} className="space-y-5">
       {/*
         Honeypot. Named to look like a real field to a naive bot but hidden from
         people and from screen readers. Anything that fills it in is rejected
@@ -134,6 +143,27 @@ export function InquiryForm() {
       <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor="website">Website</label>
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      {/*
+        THE OUTCOME QUESTION COMES FIRST. The Built for Change spec: "The
+        inquiry destination should foreground this question… it should not be
+        buried at the bottom of the form." It is the philosophical
+        differentiator — every keynote is built from the answer — and it used
+        to be the last field, after nine logistics questions.
+      */}
+      <div>
+        <label className={label} htmlFor="message">
+          What do you need this session to accomplish? <span className="text-[var(--color-accent)]">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={5}
+          placeholder="Who is in the room, what moment is the organization in, and what should be different when they walk out."
+          className={field}
+        />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -190,22 +220,8 @@ export function InquiryForm() {
         </div>
       </div>
 
-      <div>
-        <label className={label} htmlFor="message">
-          What do you need this session to accomplish? <span className="text-[var(--color-accent)]">*</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          placeholder="Who is in the room, what moment is the organization in, and what should be different when they walk out."
-          className={field}
-        />
-      </div>
-
       {error && (
-        <p role="alert" className="rounded-lg bg-[var(--color-accent-soft)] px-4 py-3 text-sm text-[var(--color-accent)]">
+        <p role="alert" className="rounded-[var(--radius-base)] bg-[var(--color-accent-soft)] px-4 py-3 text-sm text-[var(--color-accent)]">
           {error}{" "}
           <a className="underline underline-offset-2" href={`mailto:${site.email}`}>
             Email {site.email} instead

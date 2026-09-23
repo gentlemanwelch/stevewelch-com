@@ -118,18 +118,24 @@ They differ from the organic site in four deliberate ways:
 
 To add a campaign: append an object to `content/landing-pages.ts`. That is all.
 
-### Still to wire up
+### Measurement
 
-GA4 and the Google Ads conversion tag are not installed yet. When you have them:
+GA4 is live (`booking_inquiry`, fired on a confirmed submission only, marked as
+a key event). The Google Ads conversion goes live when its two values are set.
+All three are Vercel **Config** variables, **Production only** — preview and
+local traffic must not pollute a property judged on a few dozen conversions:
 
 ```
-NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_GOOGLE_ADS_ID=AW-XXXXXXXXX
-NEXT_PUBLIC_GOOGLE_ADS_CONVERSION=AW-XXXXXXXXX/xxxxxxxxxxxxxxx
+NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL=xxxxxxxxxxxxxxx
 ```
 
-The landing form already fires the conversion event when `gtag` and the
-conversion label are both present, and no-ops safely when they are not.
+`lib/analytics.ts` is the only thing that fires the conversion. **Do not set
+`NEXT_PUBLIC_GOOGLE_ADS_CONVERSION`** — an earlier version of this README listed
+it, and the landing form fired a second conversion from it on top of the one
+above, so setting both would have counted every paid inquiry twice. That second
+path is removed; the name is recorded here so nobody re-adds it.
 
 ## AIO — being cited by AI answers
 
