@@ -24,17 +24,30 @@ export const site = {
   url: "https://www.stevewelch.com",
 
   /**
-   * The single sentence Google shows under the title in search results for the
-   * homepage, and the sentence a booker reads first. It has one job: say what
-   * he speaks about and that he is bookable.
+   * The platform, as the Built for Change packet names it (00_READ_ME_FIRST):
+   * "BUILT FOR CHANGE — AI, Leadership, and the Organizations That Adapt".
+   * Feeds the default <title>, llms.txt, and the brand line in the footer.
    */
-  tagline: "Driving Change Through Purpose, People, Process",
+  tagline: "Built for Change — AI, Leadership, and the Organizations That Adapt",
 
+  brand: {
+    name: "Built for Change",
+    /** The footer's closing line, set as a slide. */
+    line: "BUILT FOR CHANGE.",
+  },
+
+  /**
+   * The default meta description — the spec's own suggested wording
+   * (02_DESIGN_IMPLEMENTATION_SPEC, "SEO / metadata").
+   *
+   * It replaced a description saying Steve "is expanding the accessibility of
+   * wellness therapies", written when he was Restore's CEO. He stepped down
+   * effective 10 February 2025 and remains on the board.
+   */
   description:
-    "Steve Welch is a successful entrepreneur and investor, who has founded and " +
-    "exited businesses in the healthcare and consumer industries. Steve is " +
-    "expanding the accessibility of wellness therapies that provide lasting " +
-    "health benefits to consumers.",
+    "Entrepreneur, CEO and investor Steve Welch delivers deeply customized " +
+    "keynotes on AI, leadership and organizational change through his " +
+    "Purpose, People and Process framework.",
 
   /**
    * Booking inquiries. This address is the conversion point of the whole site:
@@ -85,24 +98,51 @@ export const site = {
   portraitAlt: "Steve Welch speaking on stage",
 
   /**
-   * Navigation, matching the WordPress site's own structure and URLs.
+   * Navigation — the Built for Change packet's order and labels
+   * (01_HOMEPAGE_COPY §1): Speaking · About · Ideas · Books · Event Planners.
    *
-   * The paths are reproduced EXACTLY — /speaking/, /about/, /books/,
-   * /writings-media/, /welch-family-foundation/, /contact/ — because those URLs
-   * are already indexed and already carry whatever authority they have earned.
-   * A rebuild that renames them throws that away and needs a redirect map to
-   * claw part of it back. Keeping them costs nothing.
+   * THE LABELS CHANGED; THE URLS DID NOT, and must not. Every path below is the
+   * one WordPress served, already indexed and carrying whatever authority it
+   * has earned. Renaming a URL to match a label throws that away:
    *
-   * /press-kit/ is the one addition. See content/pressKit.ts for why.
+   *   "Ideas"           → /writings-media/   (was labelled "Writings + Media")
+   *   "Event Planners"  → /press-kit/        (reworked into the planner page in
+   *                                            phase 2; /press-kit/ was the
+   *                                            rebuild's own addition, so it can
+   *                                            be redirected later if wanted)
+   *
+   * "Family Foundation" left the main nav, per the packet. It stays in the
+   * footer — dropping it from both would orphan an indexed page, and a page
+   * nothing links to slowly falls out of the index.
+   *
+   * "Contact" is no longer a nav item because the primary CTA beside the nav
+   * goes there (see `cta` below).
    */
   nav: [
-    { href: "/about/", label: "About" },
-    { href: "/books/", label: "Books" },
     { href: "/speaking/", label: "Speaking" },
-    { href: "/writings-media/", label: "Writings + Media" },
-    { href: "/welch-family-foundation/", label: "Family Foundation" },
-    { href: "/contact/", label: "Contact" },
+    { href: "/about/", label: "About" },
+    { href: "/writings-media/", label: "Ideas" },
+    { href: "/books/", label: "Books" },
+    { href: "/press-kit/", label: "Event Planners" },
   ],
+
+  footerNav: [
+    { href: "/speaking/", label: "Speaking" },
+    { href: "/about/", label: "About" },
+    { href: "/writings-media/", label: "Ideas" },
+    { href: "/books/", label: "Books" },
+    { href: "/press-kit/", label: "Event Planners" },
+    { href: "/contact/", label: "Contact" },
+    { href: "/welch-family-foundation/", label: "Family Foundation" },
+  ],
+
+  /**
+   * THE primary call to action, everywhere. The spec: "Primary CTA
+   * everywhere: Build Your Keynote. Do not invent multiple synonymous booking
+   * CTAs. Consistency is part of the brand." One definition, so it cannot
+   * drift into "Book Steve" on one page and "Get in touch" on another.
+   */
+  cta: { label: "Build Your Keynote", href: "/contact/" },
 
   /**
    * Used for JSON-LD `sameAs`, which is how search engines tie this site to the
