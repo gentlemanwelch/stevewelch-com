@@ -33,6 +33,12 @@ const AI_CRAWLERS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
+  // A preview deployment disallows everything. Same fail-safe rule as the
+  // robots meta in app/layout.tsx: only an explicit "preview" is hidden.
+  if (process.env.VERCEL_ENV === "preview") {
+    return { rules: [{ userAgent: "*", disallow: "/" }] };
+  }
+
   return {
     rules: [
       {

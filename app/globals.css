@@ -1,107 +1,115 @@
 @import "tailwindcss";
 
 /*
- * Design tokens.
+ * ============================================================================
+ *  BUILT FOR CHANGE — the design system.
+ * ============================================================================
  *
- * Every colour, font and rhythm value on the site resolves to one of these.
- * That is deliberate and it is the point: the visual design is meant to be
- * re-skinned to match the existing WordPress site (or replaced outright)
- * by editing this block alone, without opening a single component.
+ * Rebuilt from scratch on 2026-09-23 from the "Built for Change" handoff
+ * packet (00_READ_ME_FIRST, 02_DESIGN_IMPLEMENTATION_SPEC). The WordPress-era
+ * system this replaces reproduced the old theme value by value — 40px pill
+ * buttons, 16px cards with heavy drop shadows, a coral action colour. None of
+ * that carries over. What does carry over, deliberately, is the colour FAMILY:
+ * the packet is explicit that this is an evolution of the existing identity,
+ * not a new brand — "preserve the existing light blue / white / deep navy
+ * family" — so the hex values below are the site's own.
  *
- * If you are matching the old theme: pull its hex values with a colour picker
- * and paste them over `--color-ink` through `--color-accent`, then swap the two
- * font families in app/layout.tsx. That is the whole job.
+ * The brief in one line: it should feel like Steve's keynote deck. One idea at
+ * a time, large type, real photographs, minimal clutter. Stature comes from
+ * photography, whitespace and proof, not from decoration.
+ *
+ * RE-SKINNING IS STILL THIS BLOCK. Every component resolves to these tokens,
+ * so a colour or radius decision is one line here and nowhere else.
  */
 @theme {
-  /* Palette lifted from the WordPress export — the ACF block data and the
-     theme's custom CSS, not guessed. Where a value appears below, the comment
-     names where it came from so it can be checked.
+  /* ---------------------------------------------------------------- colour */
 
-     To re-skin the whole site, edit this block. Nothing else needs to change. */
-  --color-navy: #042e43;         /* hero_background_color, home hero */
-  --color-blue: #348cbb;         /* section background_color; GDPR button border */
-  --color-blue-deep: #055577;    /* custom CSS, ordered-list headings */
-  --color-tint: #edf5f9;         /* image-text-section text_bg */
-  --color-tint-warm: #f4f9fb;    /* books page content_background */
-
-  /* The action colour. Every CTA on the original is coral, not blue — that is
-     what makes them jump off the page against all that navy, and it never
-     reached us because it lives in the theme's stylesheet rather than in page
-     content, and a WordPress WXR export carries no theme CSS.
-
-     Confirmed against the live site — this is the exact brand value, not an
-     estimate. It appears nowhere in the WordPress export because it lives in
-     the theme's compiled stylesheet, which WXR does not carry.
-
-     CONTRAST: white on this coral is 3.36:1. That clears WCAG AA for large
-     text (3:1) but not for text below 18.66px bold, which is where the button
-     labels currently sit. It is the brand colour and the original site uses it
-     the same way, so it stays — see the note on `--color-coral-dark`. */
-  --color-coral: #f05a45;
-  /* Hover: the same hue 14% darker, which also lands at 4.42:1 on white —
-     so the pressed/hovered state is the accessible one. */
-  --color-coral-dark: #ce4d3b;
-
-  /* The underline accent beneath the role-box titles. This IS in the export —
-     it appears on /writings-media/ — but went unused in the first build. */
-  --color-cyan: #53bcd7;
+  --color-navy: #042e43;          /* primary text and every dark background */
+  --color-navy-deep: #021f2e;     /* one step down, for layering on navy */
 
   /*
-    The light blue for SMALL TEXT ON THE TINT — the labels under the counters
-    on /about/. Those need to read lighter than the figure above them, and the
-    brand blue #348cbb does that but measures 3.39:1 against #edf5f9, under the
-    4.5:1 that 12px text needs. This is 40% of the way from #348cbb to
-    #055577: 4.57:1, and still visibly the lighter of the pair. Use the brand
-    blue for anything large, and this for anything small on the tint.
-  */
-  --color-blue-muted: #2176a0;
+   * THE ACTION COLOUR IS BLUE NOW, NOT CORAL — and that is a reading of the
+   * packet, so it is written down.
+   *
+   * The packet's colour roles give "bright brand blue" to "CTA, emphasis,
+   * selected words", and describe the family as blue / white / navy with no
+   * mention of coral anywhere. Its instruction that "exact hex values should
+   * come from the current site's existing tokens" decides WHICH blue, not
+   * whether to keep coral. So the CTA takes the site's own blue.
+   *
+   * Which blue is a contrast decision, not a taste one. The brand blue #348cbb
+   * carries white text at only 3.74:1 — under the 4.5:1 a 16px button label
+   * needs. #2176a0, already in the old token set as the "muted" blue, carries
+   * white at 5.04:1 and still reads as the brand's blue. That is the fill; the
+   * brighter #348cbb is kept for display type and marks, where size makes 3:1
+   * the bar.
+   *
+   * If the missing layout reference (00_layout_reference_latest.png) shows
+   * coral CTAs, point --color-action at --color-coral. One line.
+   */
+  --color-action: #2176a0;        /* CTA fill; also small blue text on white (5.04:1) */
+  --color-action-dark: #055577;   /* hover / pressed (8.17:1 with white) */
+  --color-blue: #348cbb;          /* bright brand blue: display type, rules, marks */
+  --color-blue-deep: #055577;
+  --color-cyan: #53bcd7;          /* small accent text ON NAVY (6.46:1) */
+  --color-tint: #edf5f9;          /* the pale-blue section background */
+  --color-tint-warm: #f4f9fb;
 
-  --color-ink: #042e43;          /* headings — the navy doubles as text */
-  --color-ink-soft: #46586a;     /* body copy */
-  --color-ink-faint: #7b8b98;    /* captions, meta */
+  --color-ink: #042e43;           /* headings */
+  --color-ink-soft: #46586a;      /* body copy: 7.33:1 on white */
+  /*
+   * Captions and meta. The old value #7b8b98 measured 3.5:1 on white — it
+   * failed AA for exactly the small text it was used for. #5f7182 is 5.03:1 on
+   * white and 4.58:1 on the tint.
+   */
+  --color-ink-faint: #5f7182;
   --color-canvas: #ffffff;
   --color-surface: #ffffff;
   --color-surface-alt: var(--color-tint);
   --color-line: #d9e6ee;
-  --color-accent: var(--color-coral);
+  --color-line-strong: #b9cdd9;
+  --color-accent: var(--color-action);
   --color-accent-soft: var(--color-tint);
 
-  /* Poppins, from the theme's custom CSS. One family for everything, which is
-     what the original does — there is no display serif on this site. */
+  /* Kept so older markup still resolves. Nothing new should reach for these. */
+  --color-blue-muted: #2176a0;
+  --color-coral: #f05a45;
+  --color-coral-dark: #ce4d3b;
+
+  /* ------------------------------------------------------------- typeface */
+
+  /* Poppins stays: the spec says to keep the existing typeface if its weight
+     range will carry the design, and with 800 added it does. */
   --font-display: var(--font-body-family), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-body-family), ui-sans-serif, system-ui, sans-serif;
 
-  /* Shape, from the theme's custom CSS:
-       buttons  border-radius: 40px            (.mgbutton)
-       cards    border-radius: 16px
-                box-shadow: 0 4px 20px rgba(0,0,0,.25)   (#logo-holder .cell) */
-  --radius-pill: 40px;
-  --radius-card: 16px;
-  --shadow-card: 0 4px 20px 0 rgba(0, 0, 0, 0.25);
+  /* ---------------------------------------------------------------- shape */
 
   /*
-   * THE TYPE SCALE.
-   *
-   * Tailwind's own steps (text-xs 12 · sm 14 · xl 20 · 2xl 24 · 3xl 30 ·
-   * 4xl 36) carry most of the site, and the h1/h2/h3 clamps below carry the
-   * headings. These three fill the gaps that kept getting written as one-off
-   * arbitrary values instead.
-   *
-   * An audit on 2026-09-01 counted TWENTY distinct rendered font sizes across
-   * the site, produced by 19 hand-written `text-[…rem]` values sitting beside
-   * Tailwind's scale — 1.02rem here, 0.95rem there, 0.78rem once. None of them
-   * were decisions; they were drift, and the result was `h2` rendering at six
-   * different sizes depending on which page you were on.
-   *
-   * Use these three plus Tailwind's steps. Reach for `text-[…rem]` only for a
-   * genuine one-off (the homepage hero headline is the only one left), and
-   * write down why.
+   * Corners 0–6px, shadows "minimal to none" — the spec's words. The legacy
+   * names (pill, card) are kept pointing at the new values so every page not
+   * yet rebuilt re-skins without an edit; they stop being misnomers when the
+   * last of those pages is rewritten.
    */
-  --text-ui: 0.9375rem;    /* 15px — buttons, form fields, footer, meta */
-  --text-body: 1.0625rem;  /* 17px — the body default, for when it is set explicitly */
-  --text-stat: 2.5rem;     /* 40px — the display numerals on /about/ */
+  --radius-base: 4px;
+  --radius-pill: 4px;
+  --radius-card: 4px;
+  /* A hairline where a shadow used to be: structure rather than depth. */
+  --shadow-card: 0 0 0 1px var(--color-line);
 
-  --container-measure: 44rem;
+  /* ----------------------------------------------------------- type scale */
+
+  --text-eyebrow: 0.8125rem; /* 13px — letter-spaced labels; the spec asks
+                                that these stay readable, so not 11 or 12 */
+  --text-ui: 0.9375rem;      /* 15px — meta, footer, small controls */
+  --text-body: 1.0625rem;    /* 17px */
+  --text-stat: 2.5rem;       /* 40px */
+
+  /* ---------------------------------------------------------------- grid */
+
+  --container-measure: 42rem;
+  /* The spec: "desktop max content width approximately 1280–1360px". */
+  --container-wide: 82.5rem;  /* 1320px */
 }
 
 :root {
@@ -112,26 +120,28 @@
  * Base element styles MUST live inside `@layer base`.
  *
  * Tailwind puts its utilities in a cascade layer, and in CSS an UNLAYERED rule
- * beats a layered one regardless of specificity. Written outside a layer, the
- * `a { color: inherit }` below silently overrode every text-colour utility on
- * every link on the site — which rendered `text-white` button labels as
- * dark-on-dark and invisible. The heading rule did the same to the white
- * heading in the dark call-to-action band.
- *
- * It looks like a specificity problem and is not one. Keep these in the layer.
+ * beats a layered one regardless of specificity. Written outside a layer, an
+ * innocent `a { color: inherit }` silently overrides every text-colour utility
+ * on every link and renders button labels invisible. It looks like a
+ * specificity bug and is not one. Keep these in the layer.
  */
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* The sticky header is ~4.5rem tall. Without this, an in-page jump
+       (the hero's "Watch Steve Speak") lands with its heading underneath it. */
+    scroll-padding-top: 5rem;
   }
 
   body {
     background-color: var(--color-canvas);
     color: var(--color-ink-soft);
     font-family: var(--font-body);
-    font-size: 1.0625rem;
-    line-height: 1.7;
+    /* 17px on a phone, rising to 19px on a wide screen — the spec's
+       "body desktop 17–20px with generous line height". */
+    font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -140,110 +150,124 @@
     font-family: var(--font-display);
     color: var(--color-ink);
     font-weight: 700;
-    line-height: 1.18;
-    letter-spacing: -0.01em;
     text-wrap: balance;
   }
 
-  /* The original theme sizes its headings with clamp() against a vw scaler
-     rather than at breakpoints — see the `--minFontSize / --scaler /
-     --maxFontSize` triples in its custom CSS. Same technique here, so type
-     scales continuously instead of stepping. */
-  h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
-  h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
-  h3 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
-
   /*
-   * CENTRING AND COLUMN WIDTH.
+   * The heading scale, continuous rather than stepped.
    *
-   * Centred text has a ragged left edge, so the eye has to hunt for the start
-   * of each line; the convention is to centre at most two or three of them.
-   * That holds at desktop width and quietly stops holding on a phone, where
-   * the same paragraph reflows to three times as many lines — an audit found
-   * a 14-line centred block on the Foundation page and three 11-line ones on
-   * /about/.
+   *   h1  40px on a phone → 76px on a wide screen
+   *   h2  32px            → 56px   (spec: "H2 desktop 44–64px")
    *
-   * So where a block is centred by design, it is written `text-left
-   * sm:text-center`: centred where it reads as a statement, left-aligned
-   * where it has become a paragraph. Short headline-like statements stay
-   * centred at every width.
+   * The homepage hero goes larger still, through `.display-xl` below — the
+   * spec's 76–96px — because it is the one headline with a screen to itself.
+   * The site-wide h1 stops at 76 so that interior pages with longer headlines
+   * do not wrap into a wall of four-word lines on a phone.
    */
+  h1 {
+    font-size: clamp(2.5rem, 1.5rem + 4vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+  }
+  h2 {
+    font-size: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+    line-height: 1.06;
+    letter-spacing: -0.022em;
+  }
+  h3 {
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.625rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
 
-  /* Long-form paragraphs read better with no orphaned last word. `pretty`
-     costs nothing where it is unsupported. */
   p { text-wrap: pretty; }
 
   a { color: inherit; }
 }
 
+@layer components {
+  /*
+   * DISPLAY TYPE — the keynote-deck register.
+   *
+   * .display-xl  the hero headline. 48px at 390 wide, 96px from ~1280. The
+   *              spec: "mobile H1 roughly 48–60px, tuned for 2–3 line wraps
+   *              maximum"; "BUILT FOR CHANGE." wraps to two lines at 390.
+   * .display-lg  single-statement slides — "PURPOSE. PEOPLE. PROCESS. THEN AI."
+   *
+   * Weight 800 and tight tracking are what make caps at this size read as a
+   * slide rather than as shouting.
+   */
+  .display-xl {
+    font-size: clamp(3rem, 1.2rem + 6.2vw, 6rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+  }
+  .display-lg {
+    font-size: clamp(2.25rem, 1rem + 5vw, 5rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+  }
+
+  /* The letter-spaced label above a heading. */
+  .eyebrow {
+    font-size: var(--text-eyebrow);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  /* A lede: the paragraph directly under a section heading. */
+  .lede {
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    line-height: 1.55;
+  }
+}
+
 /*
- * Hero height.
- *
- * Written here rather than as a Tailwind arbitrary value so the vh fallback can
- * precede the svh version — `svh` is the small-viewport unit, which on a phone
- * measures against the browser chrome at its TALLEST, so the hero never gets
- * clipped by a toolbar that slides in on scroll. Browsers without svh take the
- * first declaration and are no worse off than before.
- */
-/*
- * The /speaking/ hero's light on Steve.
- *
- * He is on stage in a dark jacket against a lit curtain, at about 73% across
- * the frame, and the centred headline sits well to his left. So the page stacks
- * a SECOND copy of the same photograph over the first, brightened, and masks it
- * to the right — the light lands on him and nowhere near the type. Same src as
- * the layer beneath, so it is one download, not two.
- *
- * The mask lives here rather than in a utility because it needs the -webkit-
- * prefix for older Safari, and because a browser that supports neither simply
- * shows the unlifted photograph, which is the correct thing to fall back to.
- *
- * Desktop only, and that is measured rather than assumed: on a phone the crop
- * is Steve almost edge to edge, so any lift raises the background under the
- * type as much as him. Lifting there needs the wash at 0.66 to stay readable
- * against 0.52 without it — the same picture, more machinery, no gain.
+ * Photograph-over-text masks, used by the interior pages that have not been
+ * rebuilt yet. The mask needs the -webkit- prefix for older Safari, and a
+ * browser supporting neither shows the unlifted photograph — the right
+ * fallback.
  */
 .hero-lift-right {
   -webkit-mask-image: linear-gradient(to right, transparent 58%, black 74%);
           mask-image: linear-gradient(to right, transparent 58%, black 74%);
 }
-
-/* The same idea mirrored, for /writings-media/ — Steve is on the LEFT of that
-   frame and the heading sits to his right. */
 .hero-lift-left {
   -webkit-mask-image: linear-gradient(to left, transparent 60%, black 76%);
           mask-image: linear-gradient(to left, transparent 60%, black 76%);
 }
 
-.hero-viewport {
-  /*
-   * On a phone a full-viewport hero means the entire first screen is a
-   * photograph and a headline: nothing to read, nothing to press, and no
-   * evidence the page continues. Measured at 390x844 the hero came to 772px,
-   * which is exactly the usable viewport under the header.
-   *
-   * 82svh leaves roughly 150px of the newsletter bar showing at the fold, so
-   * the first action on the page — the original's own first action, not an
-   * invented one — is visible without scrolling, and the edge of a second
-   * section tells the reader there is more.
-   *
-   * Desktop keeps the full height: there the intro sits close enough below,
-   * and a full-bleed opening is what the original does.
-   *
-   * NOTE: changing these values changes the object-cover crop, which changes
-   * what sits behind the white headline. The wash alpha in the homepage hero
-   * was chosen against a measurement of the rendered pixels. Re-measure it if
-   * you touch this.
-   */
-  min-height: calc(82vh - 4.5rem);
-  min-height: calc(82svh - 4.5rem);
+/*
+ * The framework reveal (components/Framework.tsx).
+ *
+ * PROGRESSIVE ENHANCEMENT, and the order of these rules is the whole point.
+ * Every step is fully visible by default. It only starts hidden once the
+ * client script has run and added `data-reveal="armed"` to the figure — so a
+ * crawler (GPTBot and ClaudeBot execute no JavaScript), a browser with JS off,
+ * and a failed hydration all see the complete framework. An animation that
+ * hides content until JavaScript shows it makes the site's central idea
+ * invisible to exactly the readers the site is built for.
+ */
+[data-reveal="armed"] [data-step] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 600ms ease, transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-
-@media (min-width: 768px) {
-  .hero-viewport {
-    min-height: calc(100vh - 4.5rem);
-    min-height: calc(100svh - 4.5rem);
-  }
+[data-reveal="armed"] [data-step][data-shown] {
+  opacity: 1;
+  transform: none;
+}
+/* × AI arrives last and differently: it scales in, because it is not a fourth
+   foundation block — it acts on the three. */
+[data-reveal="armed"] [data-step="ai"] {
+  transform: scale(0.94);
+}
+[data-reveal="armed"] [data-step="ai"][data-shown] {
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -252,20 +276,25 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  /* Belt and braces: even if the script arms the reveal, nothing starts
+     hidden for someone who has asked for no motion. */
+  [data-reveal="armed"] [data-step] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /*
- * Focus styling is defined once, visibly, and never removed. A meaningful part
- * of this audience navigates by keyboard, and an event organizer who cannot tab
- * to the booking form does not send an email about it — they leave.
+ * Focus is defined once, visibly, and never removed. An event organizer who
+ * cannot tab to the booking form does not write in about it — they leave.
  */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-action);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 ::selection {
-  background-color: var(--color-accent);
+  background-color: var(--color-action);
   color: #fff;
 }

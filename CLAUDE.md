@@ -5,12 +5,14 @@ lean; it points into deeper docs rather than repeating them.
 
 ## What this is
 
-The personal site of Steve Welch — entrepreneur, investor, CEO of Restore Hyper
-Wellness, and paid keynote speaker. It replaced a WordPress site in August 2026.
+The personal site of Steve Welch — entrepreneur, investor, former CEO of Restore
+Hyper Wellness (he stepped down 10 Feb 2025 and remains on its board), and paid
+keynote speaker. It replaced a WordPress site in August 2026, and was redesigned
+as **Built for Change** in September 2026.
 
 **Its one job is to convert an event organizer who found it through search into
 a booking inquiry that reaches Steve's team directly, with no speaker bureau in
-between.** Talks are in the $10–20k range, so a single additional booking pays
+between.** Engagements start at $20,000, so a single additional booking pays
 for a great deal of work here. Judge changes against that outcome.
 
 - **Domain:** stevewelch.com — registered at IONOS, where the old WordPress site
@@ -32,7 +34,7 @@ those crawlers — it is invisible.
 So: server components by default. `"use client"` only for genuine interaction
 (the two forms). If a change would move content behind hydration, it is the
 wrong change. Check `npm run build` output — every route should be `○` or `●`,
-never `ƒ`, except `/api/inquiry`.
+never `ƒ`, except the routes under `/api/`.
 
 ## Before you push
 
@@ -149,20 +151,43 @@ before assuming a missing file can be re-fetched.
 Nothing breaks when a file is absent: logo cards render the organization's name,
 heroes fall back to navy, video blocks show a play button. Keep it that way.
 
-## Design
+## Design — "Built for Change"
 
-Palette and typeface came from the WordPress theme, not from taste: Poppins,
-`#042e43` navy, `#348cbb` blue, `#055577`, `#edf5f9`/`#f4f9fb` tints, 40px pill
-buttons, 16px cards with `0 4px 20px rgba(0,0,0,.25)`.
+Redesigned from scratch in September 2026 from a handoff packet (positioning,
+homepage copy, design spec, asset manifest). The platform is **Built for Change:
+AI, Leadership, and the Organizations That Adapt**, and the thesis the whole
+site serves is **Purpose → People → Process, then AI amplifies everything** —
+AI is the amplifier, never the foundation. Do not rewrite that into generic
+AI-speaker copy.
 
-Every value resolves to the token block at the top of `app/globals.css`.
-Re-skinning is that block plus the font in `app/layout.tsx` — no component
-changes.
+- **Feel:** Steve's keynote deck — one idea at a time, large type, real
+  photographs, minimal clutter. Stature from photography and proof, not claims.
+- **Palette:** the site's own navy/blue/white family. CTAs are the action blue
+  `#2176a0` (white on it is 5.04:1; the brighter brand blue `#348cbb` fails
+  4.5:1 for button labels, so it is kept for display type and marks).
+- **Type:** Poppins 400–800. `.display-xl` / `.display-lg` for slide-like
+  statements; the h1/h2 scale is continuous (clamp).
+- **Shape:** corners ≤6px, hairlines instead of shadows.
+- **Primary CTA everywhere:** "Build Your Keynote" → `/contact/`, defined once as
+  `site.cta`. No synonymous booking CTAs.
+
+Every value resolves to the token block at the top of `app/globals.css`, and
+pages are assembled from the kit in `components/kit/` plus
+`components/primitives.tsx`. A new page reuses the kit; if it needs something
+the kit lacks, add it to the kit rather than writing it inline — that is what
+keeps the pages feeling like one site.
 
 **Base element styles must stay inside `@layer base`.** An unlayered CSS rule
 beats a layered one regardless of specificity, so a stray `a { color: inherit }`
 outside the layer silently overrides every Tailwind text-colour utility and
 renders button labels invisible. It looks like a specificity bug and is not one.
+
+**Nothing that matters may depend on JavaScript to become visible** — the
+framework graphic's scroll reveal only ever hides content after JS has run and
+only when it is off-screen (see `components/kit/FrameworkReveal.tsx`).
+
+**Measure contrast with the text hidden** whenever type sits on a photograph.
+Sampling with the text visible measures the glyphs' own antialiasing.
 
 ## Standing rules
 

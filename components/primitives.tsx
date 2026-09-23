@@ -1,46 +1,38 @@
 /*
- * next/image is deliberately NOT used for the logo wall or the video poster.
+ * IMAGES IN THIS FILE — AND A BUG THAT SHIPPED, WRITTEN DOWN SO IT STAYS FIXED.
  *
- * Both draw from `public/media/`, whose files arrive via
- * scripts/download-media.sh and may legitimately be absent — next/image throws
- * at build time on a missing local file, which would make a missing logo break
- * the deploy instead of degrading to alt text.
+ * Until 2026-09-23 the logo wall and the video poster rendered
  *
- * That reasoning still holds, but the second half of the original note — "these
- * are small, so the optimisation is not worth a brittle build" — was wrong
- * about the posters. An audit on 2026-09-01 measured two of them at 888 KB and
- * 1,165 KB, loading together on /writings-media/, which shipped 2.6 MB of
- * images to a phone.
+ *     <picture><source srcset="x.webp" type="image/webp"><img src="x.png"></picture>
  *
- * So both now render <picture> with a WebP <source> (see webpSibling below and
- * scripts/optimise-media.mjs) and the original as the <img> fallback. That
- * keeps the graceful degradation the first paragraph is about, and takes ~90%
- * off the bytes. It also means the <img> is inside a <picture>, which satisfies
- * @next/next/no-img-element on its own — hence no eslint-disable here any more.
+ * for every raster file, on the stated assumption that "if the WebP is not
+ * there the browser quietly falls back to the original <img>". It does not.
+ * The browser picks a source ONCE; if that file 404s the image is simply
+ * broken — tested in Chromium, naturalWidth 0, no retry. Only files that
+ * scripts/optimise-media.mjs had converted (those over 120 KB) had a .webp
+ * twin, so every smaller raster logo was broken: on /speaking/ that was CNBC,
+ * Children's Hospital of Philadelphia, NVCA, and the speaking-reel poster —
+ * the proof section of the page organizers are sent to, and the same wall on
+ * the paid landing pages.
+ *
+ * The fix removes the guess rather than patching it:
+ *
+ *   - Video posters use next/image, which serves WebP/AVIF itself, at the
+ *     width actually displayed, with no twin file to forget. The old reason
+ *     for avoiding it — next/image throws at build time on a missing local
+ *     file — no longer applies: every file in public/media is committed (195
+ *     of them), so the file is always there, and if one ever were missing a
+ *     failed build is a far better failure than a silently broken image.
+ *   - Logos are small; they load as they are. SVG where available.
+ *
+ * Do not reintroduce a <source> pointing at a file nobody has checked exists.
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import { CountUp } from "@/components/CountUp";
 import type { ReactNode } from "react";
 import { buttonClasses, type ButtonVariant } from "@/lib/buttonStyles";
-
-/*
- * The WebP sibling of a local raster, or null if there cannot be one.
- *
- * scripts/optimise-media.mjs writes `<name>.webp` beside every oversized PNG
- * or JPEG in public/media — the audit found photographs stored as PNG costing
- * up to 1.1 MB each where the same picture is ~120 KB as WebP.
- *
- * Used as a <source> inside <picture>, so if the WebP is not there the browser
- * quietly falls back to the original <img>, and if THAT is not there it renders
- * the alt text. That is the whole reason these stay plain <img> rather than
- * next/image, which throws at build time on a missing local file.
- */
-function webpSibling(src: string): string | null {
-  if (!src.startsWith("/media/")) return null; // remote (a YouTube thumbnail)
-  if (!/\.(png|jpe?g)$/i.test(src)) return null;
-  return src.replace(/\.(png|jpe?g)$/i, ".webp");
-}
 
 /** Standard page gutter. One value, one place. */
 export function Container({
@@ -62,7 +54,7 @@ export function Container({
     layout mistake rather than as an editorial choice.
   */
   return (
-    <div className={`mx-auto w-full max-w-5xl px-6 sm:px-8 ${className}`}>
+    <div className={`mx-auto w-full max-w-[var(--container-wide)] px-5 sm:px-8 lg:px-12 ${className}`}>
       {size === "measure" ? (
         <div className="max-w-[var(--container-measure)]">{children}</div>
       ) : (
@@ -76,6 +68,9 @@ export function Container({
  * A vertical band. `tone` switches the background so alternating sections
  * separate without a border, which keeps long pages from reading as one
  * undifferentiated column.
+ *
+ * Padding is the spec's rhythm: "88–128px desktop, 56–80px tablet, 40–64px
+ * mobile". 56 / 80 / 112 sits inside all three bands.
  */
 export function Section({
   children,
@@ -94,41 +89,35 @@ export function Section({
     ink: "bg-[var(--color-ink)] text-white",
   };
   return (
-    <section id={id} className={`py-16 sm:py-24 ${tones[tone]} ${className}`}>
+    <section id={id} className={`py-14 md:py-20 lg:py-28 ${tones[tone]} ${className}`}>
       {children}
     </section>
   );
 }
 
 /**
- * Small uppercase label above a heading. Gives a section a name without
- * spending a heading level on it — the h2 underneath stays the real one, which
- * keeps the document outline clean for both screen readers and crawlers.
- */
-/**
- * The small label above a heading.
+ * The small letter-spaced label above a heading. Names a section without
+ * spending a heading level on it, so the h2 underneath stays the real one and
+ * the document outline stays clean for screen readers and crawlers.
  *
- * `tone="onDark"` is for the photo heroes. Coral on navy measures 3.7:1, under
- * the 4.5:1 that 12px text needs, and it is not what the original does anyway —
- * the export styles these labels `color-white text-uppercase border-underline`,
- * i.e. white with a rule under it. That is what this renders.
+ * On light backgrounds it is the action blue (5.04:1 on white, 4.57:1 on the
+ * tint). On solid navy it is cyan, 6.46:1 — the action blue on navy would be
+ * 2.1:1 and unreadable at 13px.
+ *
+ * OVER A PHOTOGRAPH it is white (`onPhoto`). Measured on the homepage's
+ * closing band — a stage photograph under an 80% navy wash — cyan fell to
+ * 3.46:1 at the worst pixel, because the wash lets the brightest stage lights
+ * through. White over the same pixels is 7.62:1.
  */
 export function Eyebrow({
   children,
   tone = "default",
 }: {
   children: ReactNode;
-  tone?: "default" | "onDark";
+  tone?: "default" | "onDark" | "onPhoto";
 }) {
-  const base = "mb-3 text-xs font-semibold uppercase tracking-[0.16em]";
-  if (tone === "onDark") {
-    return (
-      <p className={`${base} text-white`}>
-        <span className="inline-block border-b-2 border-white/70 pb-1">{children}</span>
-      </p>
-    );
-  }
-  return <p className={`${base} text-[var(--color-accent)]`}>{children}</p>;
+  const color = tone === "onPhoto" ? "text-white" : tone === "onDark" ? "text-cyan" : "text-action";
+  return <p className={`eyebrow mb-4 ${color}`}>{children}</p>;
 }
 
 type ButtonProps = {
@@ -136,10 +125,47 @@ type ButtonProps = {
   children: ReactNode;
   variant?: ButtonVariant;
   className?: string;
+  /**
+   * The glyph the copy calls for. "Build Your Keynote →" and "▶ Watch Steve
+   * Speak" are written with them in 01_HOMEPAGE_COPY.md; they render
+   * aria-hidden, so a screen reader announces "Build Your Keynote", not
+   * "Build Your Keynote right arrow".
+   */
+  glyph?: "arrow" | "play";
+  /**
+   * Analytics. Read by components/TrackEvents.tsx through ONE delegated
+   * listener on the document, so a button can be tracked without turning the
+   * section it sits in into client JavaScript — which would take that
+   * section's content out of the static HTML the AI crawlers read.
+   */
+  track?: string;
+  trackLocation?: string;
 };
 
-export function Button({ href, children, variant = "primary", className = "" }: ButtonProps) {
+export function Button({
+  href,
+  children,
+  variant = "primary",
+  className = "",
+  glyph,
+  track,
+  trackLocation,
+}: ButtonProps) {
   const isExternal = href.startsWith("http");
+  const content = (
+    <>
+      {glyph === "play" && (
+        <svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true" className="shrink-0">
+          <path d="M12 7 0 14V0z" fill="currentColor" />
+        </svg>
+      )}
+      <span>{children}</span>
+      {glyph === "arrow" && <span aria-hidden="true">→</span>}
+    </>
+  );
+  const data = track
+    ? { "data-track": track, "data-track-location": trackLocation }
+    : {};
 
   if (isExternal) {
     return (
@@ -148,14 +174,15 @@ export function Button({ href, children, variant = "primary", className = "" }: 
         target="_blank"
         rel="noopener noreferrer"
         className={buttonClasses(variant, className)}
+        {...data}
       >
-        {children}
+        {content}
       </a>
     );
   }
   return (
-    <Link href={href} className={buttonClasses(variant, className)}>
-      {children}
+    <Link href={href} className={buttonClasses(variant, className)} {...data}>
+      {content}
     </Link>
   );
 }
@@ -233,9 +260,6 @@ export function LogoWall({
               {logo.name}
             </span>
             <picture>
-              {webpSibling(logo.file) && (
-                <source srcSet={webpSibling(logo.file) as string} type="image/webp" />
-              )}
               <img
                 src={logo.file}
                 alt={logo.name}
@@ -331,10 +355,13 @@ export function VideoEmbed({
   youtubeId,
   title,
   poster,
+  trackLocation,
 }: {
   youtubeId: string;
   title: string;
   poster?: string;
+  /** Fires `watch_speaking_reel` when opened — see components/TrackEvents.tsx. */
+  trackLocation?: string;
 }) {
   /*
      Prefer a local poster. The i.ytimg.com fallback still works, but it is a
@@ -344,34 +371,41 @@ export function VideoEmbed({
   */
   const thumb = poster ?? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
   return (
-    <div className="overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] shadow-[var(--shadow-card)]">
-      <details className="group">
+    <div className="overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)]">
+      <details
+        className="group"
+        {...(trackLocation
+          ? { "data-track-open": "watch_speaking_reel", "data-track-location": trackLocation }
+          : {})}
+      >
         <summary className="relative flex aspect-video cursor-pointer list-none items-center justify-center">
-          {/*
-            The video posters were the single heaviest thing on the site — two
-            of them are 2410x1340 screenshots stored as PNG at 888 KB and
-            1,165 KB, and they load on /writings-media/ together. As WebP they
-            are 95 KB and 120 KB.
-          */}
-          <picture>
-            {webpSibling(thumb) && (
-              <source srcSet={webpSibling(thumb) as string} type="image/webp" />
-            )}
-            <img
+          {thumb.startsWith("/media/") ? (
+            <Image
               src={thumb}
               alt=""
               aria-hidden="true"
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity group-open:hidden"
+              fill
+              sizes="(min-width: 1320px) 1224px, 100vw"
+              className="object-cover opacity-70 transition-opacity group-open:hidden"
             />
-          </picture>
+          ) : (
+            <picture>
+              <img
+                src={thumb}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity group-open:hidden"
+              />
+            </picture>
+          )}
           <span className="relative z-10 flex flex-col items-center gap-3 group-open:hidden">
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/95">
+            <span className="flex h-16 w-16 items-center justify-center rounded-[var(--radius-base)] bg-action transition-colors group-hover:bg-action-dark sm:h-20 sm:w-20">
               <svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true">
-                <path d="M21 12 0 24V0z" fill="var(--color-navy)" />
+                <path d="M21 12 0 24V0z" fill="#fff" />
               </svg>
             </span>
-            <span className="px-6 text-center font-semibold text-white">{title}</span>
+            <span className="px-6 text-center text-lg font-bold text-white [text-shadow:0_1px_12px_rgba(0,0,0,0.6)]">{title}</span>
           </span>
         </summary>
         <div className="aspect-video">
