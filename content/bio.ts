@@ -211,19 +211,29 @@ export const investmentVehicles = {
 
 /* ------------------------------------------------------------------ bios --- */
 
+/*
+ * RESTORE, IN THE PAST TENSE. Until 2026-09-23 all three bios below said Steve
+ * "is currently CEO of Restore Hyper Wellness". Steve stepped down as CEO of Restore effective 10 February 2025 (Matt Vonderahe succeeded him) and remains on the board — BusinessWire, 23 January 2025.
+ * bioShort feeds the Person schema and llms.txt, so the error was in the
+ * machine-readable layer that AI assistants quote, not only on the page.
+ * The wording is the Built for Change packet's own, Steve-approved: "helped
+ * build Restore Hyper Wellness into a national brand and later returned as
+ * CEO".
+ */
+
 /** One line — run of show, and the search-result subtitle. */
 export const bioOneLine =
-  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries, and is currently CEO of Restore Hyper Wellness.";
+  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries, and helped build Restore Hyper Wellness into a national brand.";
 
 /** ~60 words — printed programs and speaker introductions. */
-export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in over 400 companies. He is currently CEO of Restore Hyper Wellness and the author of "We Are All Born Entrepreneurs."`;
+export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in over 400 companies. He helped build Restore Hyper Wellness into a national brand, returned as its CEO from 2023 to 2025, and remains on its board. He is the author of "We Are All Born Entrepreneurs."`;
 
 /** Long form — the press kit, and the paragraph organizers paste elsewhere. */
 export const bioLong: string[] = [
   "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 350 companies.",
   "He founded Mitos in 2001 and built it into a global company in biotech manufacturing, developing innovations and patents that changed how biological drugs and vaccines are made. He sold it at the age of 30 to Parker (NYSE: PH).",
   "He then partnered with two mentors and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After fifteen years, Dreamit has invested in over 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures, which scales later-stage healthcare and consumer companies in short sprints.",
-  "Steve is currently CEO of Restore Hyper Wellness, which began with a problem he had himself: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. Restore now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
+  "Restore Hyper Wellness began with a problem Steve had himself: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. He helped build it into a national brand, returned as its CEO from 2023 to 2025 to lead it through a period of intense change, and remains on its board. Restore now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
   'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness" with Jim Donnelly. He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
 ];
 
@@ -244,6 +254,6 @@ export type Credential = { label: string; detail: string };
 export const credentials: Credential[] = [
   { label: "350+ companies", detail: "Built from scratch or first investor, over 25 years" },
   { label: "Sold Mitos at 30", detail: "Acquired by Parker (NYSE: PH)" },
-  { label: "CEO, Restore Hyper Wellness", detail: "225+ studios, 57,000 members" },
+  { label: "Restore Hyper Wellness", detail: "Helped build it to 225+ studios; CEO 2023–2025" },
   { label: "$10B+ market cap", detail: "Across 400+ Dreamit Ventures investments" },
 ];

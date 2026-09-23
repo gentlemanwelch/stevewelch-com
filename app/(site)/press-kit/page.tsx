@@ -38,7 +38,7 @@ export const metadata: Metadata = buildMetadata({
  * The introduction the host reads from the lectern. Written to be spoken aloud
  * — short sentences, no semicolons, and a last line that hands over cleanly.
  */
-const stageIntroduction = `Our next speaker has built from scratch, or been the first investor in, more than 350 companies over the last twenty-five years. He founded Mitos and sold it at the age of 30 to Parker. He co-founded Dreamit Ventures, which has backed over 400 companies now worth more than ten billion dollars combined. Today he is the CEO of Restore Hyper Wellness — 225 studios, 57,000 members. He is the author of "We Are All Born Entrepreneurs." He speaks about driving change through purpose, people, and process. Please welcome Steve Welch.`;
+const stageIntroduction = `Our next speaker has built from scratch, or been the first investor in, more than 350 companies over the last twenty-five years. He founded Mitos and sold it at the age of 30 to Parker. He co-founded Dreamit Ventures, which has backed over 400 companies now worth more than ten billion dollars combined. He helped build Restore Hyper Wellness into a national brand of 225 studios, and later returned as its CEO. He is the author of "We Are All Born Entrepreneurs." He speaks about driving change through purpose, people, and process. Please welcome Steve Welch.`;
 
 const avRequirements = [
   "Wireless lavalier or over-ear microphone (preferred over handheld)",

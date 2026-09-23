@@ -191,7 +191,7 @@ export const aiChange = {
   ],
   body: [
     "Steve does not open this one with a caveat. AI is coming, the advantage of getting there before your competitors is real, and an organization treating it as wait-and-see has made a decision whether it says so or not. None of that is in dispute and the session does not spend its time arguing it.",
-    "What is in dispute is who actually gets there. Steve has watched the same pattern in the four companies he founded, in the 350+ he was first money into, and in the national business he runs today: the constraint is almost never the technology. It is that the organization cannot implement. The pilot runs, the deck gets presented, and eighteen months later nothing in the operating rhythm has changed. That failure has nothing to do with AI — it was there before, on every other change the company tried to make. AI only makes it expensive faster.",
+    "What is in dispute is who actually gets there. Steve has watched the same pattern in the four companies he founded, in the 350+ he was first money into, and in the national business he helped build: the constraint is almost never the technology. It is that the organization cannot implement. The pilot runs, the deck gets presented, and eighteen months later nothing in the operating rhythm has changed. That failure has nothing to do with AI — it was there before, on every other change the company tried to make. AI only makes it expensive faster.",
     "The second half of the argument is the part organizations most need and least expect from a talk with AI in the title: there is a great deal beyond AI driving change right now, and a company that pours its entire change capacity into one technology will be caught flat by the rest of it. What generalises is the capability, not the tool.",
     "Which returns it to purpose, people and process — not as a consolation prize beside the AI question, but as the answer to it. Purpose, so the organization can tell which moves are worth making rather than chasing whichever one is in the trade press. People, because the ones who have to live with the change decide whether it survives its first bad quarter. Process, because iteration speed is the whole game when nobody yet knows the right answer. Get those right and you get there first. Get them wrong and you will buy the software anyway, and your competitors will still beat you to it.",
   ],
@@ -216,7 +216,7 @@ export const hyperWellness = {
     "The hyper wellness lifestyle allows leaders to have the proper energy to drive change and find the purpose, people and processes that will lead to success",
   seoTitle: "Wellness & Human Performance Keynote Speaker",
   metaDescription:
-    "A keynote on the energy leaders need to drive change, from the CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
+    "A keynote on the energy leaders need to drive change, from a former CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
   keywords: [
     "wellness keynote speaker",
     "employee wellbeing keynote speaker",

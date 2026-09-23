@@ -45,7 +45,7 @@ export const talks: Talk[] = [
       "The hyper wellness lifestyle allows leaders to have the proper energy to drive change, and to find the purpose, people and processes that will lead to success.",
     seoTitle: "Wellness & Leadership Keynote Speaker | Hyper-Wellness and Leadership",
     metaDescription:
-      "A keynote on the energy leaders need to drive change, from the CEO of Restore Hyper Wellness. Science-backed and practical, for executive teams and company-wide audiences.",
+      "A keynote on the energy leaders need to drive change, from a former CEO of Restore Hyper Wellness. Science-backed and practical, for executive teams and company-wide audiences.",
     audiences: [
       "Executive teams and leadership offsites",
       "Sales kickoffs and company-wide meetings",
