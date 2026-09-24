@@ -15,7 +15,6 @@
  *   secondary     solid white, for a primary action sitting on a dark band.
  *   outline       the secondary action on a LIGHT background.
  *   outlineLight  the secondary action on a DARK background.
- *   blue          legacy alias of primary, still used by the /lp/ pages.
  *   ghost         an inline text action.
  *
  * WHY THIS IS ITS OWN FILE: the forms are client components and need these
@@ -34,7 +33,6 @@ export const BUTTON_VARIANTS = {
     "border-[1.5px] border-navy text-navy hover:bg-navy hover:text-white",
   outlineLight:
     "border-[1.5px] border-white/80 text-white hover:bg-white hover:text-navy",
-  blue: "bg-action text-white hover:bg-action-dark",
   ghost:
     "!min-h-0 !px-0 text-action underline-offset-4 hover:text-action-dark hover:underline",
 } as const;

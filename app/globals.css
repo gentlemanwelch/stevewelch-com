@@ -50,7 +50,6 @@
   --color-action: #2176a0;        /* CTA fill; also small blue text on white (5.04:1) */
   --color-action-dark: #055577;   /* hover / pressed (8.17:1 with white) */
   --color-blue: #348cbb;          /* bright brand blue: display type, rules, marks */
-  --color-blue-deep: #055577;
   --color-cyan: #53bcd7;          /* small accent text ON NAVY (6.46:1) */
   --color-tint: #edf5f9;          /* the pale-blue section background */
   --color-tint-warm: #f4f9fb;
@@ -76,11 +75,9 @@
    * the tint.
    */
   --color-field: #7a8fa1;
-  --color-accent: var(--color-action);
-  --color-accent-soft: var(--color-tint);
 
-  /* Kept so older markup still resolves. Nothing new should reach for these. */
-  --color-blue-muted: #2176a0;
+  /* NOT USED, and kept on purpose: the pending CTA-colour decision above. If
+     the layout reference shows coral CTAs, --color-action points here. */
   --color-coral: #f05a45;
   --color-coral-dark: #ce4d3b;
 
@@ -94,16 +91,10 @@
   /* ---------------------------------------------------------------- shape */
 
   /*
-   * Corners 0–6px, shadows "minimal to none" — the spec's words. The legacy
-   * names (pill, card) are kept pointing at the new values so every page not
-   * yet rebuilt re-skins without an edit; they stop being misnomers when the
-   * last of those pages is rewritten.
+   * Corners 0–6px, shadows "minimal to none" — the spec's words. There is one
+   * radius and no shadow token: structure comes from rules and hairlines.
    */
   --radius-base: 4px;
-  --radius-pill: 4px;
-  --radius-card: 4px;
-  /* A hairline where a shadow used to be: structure rather than depth. */
-  --shadow-card: 0 0 0 1px var(--color-line);
 
   /* ----------------------------------------------------------- type scale */
 
@@ -232,21 +223,6 @@
     font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
     line-height: 1.55;
   }
-}
-
-/*
- * Photograph-over-text masks, used by the interior pages that have not been
- * rebuilt yet. The mask needs the -webkit- prefix for older Safari, and a
- * browser supporting neither shows the unlifted photograph — the right
- * fallback.
- */
-.hero-lift-right {
-  -webkit-mask-image: linear-gradient(to right, transparent 58%, black 74%);
-          mask-image: linear-gradient(to right, transparent 58%, black 74%);
-}
-.hero-lift-left {
-  -webkit-mask-image: linear-gradient(to left, transparent 60%, black 76%);
-          mask-image: linear-gradient(to left, transparent 60%, black 76%);
 }
 
 /*

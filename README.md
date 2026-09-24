@@ -149,7 +149,7 @@ name — one of them has a Wikipedia entry.
 
 Facts are emitted as complete sentences as well as display fragments. A number
 in one element and its label in another reaches a parser as two unrelated
-pieces; see the hidden `sentence` field on `StatGrid`.
+pieces; see the hidden `sentence` field on `StatRow` (`components/kit/StatRow.tsx`).
 
 ## Running it
 
@@ -180,14 +180,14 @@ opened to change what the site says.
 |---|---|
 | `content/site.ts` | Name, domain, navigation, contact email, social links, fee visibility, portrait |
 | `content/bio.ts` | Three bio lengths, credentials strip, career timeline |
-| `content/talks.ts` | **The signature talks — one page each. The most important file here.** |
+| `content/speaking.ts` | **The keynotes — `talks` is the one list; each gets its own page. The most important file here.** |
 | `content/books.ts` | Both books |
 | `content/faq.ts` | Booking FAQ (also emitted as FAQ structured data) |
 | `content/media.ts` | Writings + Media appearances. Ships empty — see below. |
 | `content/foundation.ts` | Welch Family Foundation mission and focus areas |
 | `content/testimonials.ts` | Ships empty on purpose. See below. |
 
-**Adding a fourth topic** means adding one object to `content/talks.ts`. The
+**Adding a keynote** means adding one object to `talks` in `content/speaking.ts`. The
 page, the sitemap entry, the structured data, the footer link, and the
 cross-links from the other topic pages all follow automatically. Same for a
 book in `content/books.ts`.

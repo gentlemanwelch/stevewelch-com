@@ -59,8 +59,9 @@ All copy is in `content/`. Components should not contain prose.
 | `bio.ts` | About page, three bio lengths, stat counters |
 | `books.ts`, `foundation.ts`, `media.ts`, `faq.ts`, `testimonials.ts` | As named |
 | `legal.ts` | Privacy policy and terms, transcribed from the original |
-| `media-manifest.ts` | Image paths and the three logo walls |
+| `media-manifest.ts` | Image paths and the logo lists (with each mark's measured ratio) |
 | `landing-pages.ts` | **Google Ads landing pages — one object per campaign** |
+| `contact.ts`, `event-planners.ts`, `not-found.ts` | Those pages' own copy |
 
 Adding a talk, a book, or a campaign is one object in the relevant array. The
 page, sitemap entry, structured data and internal links all follow.
@@ -138,7 +139,7 @@ this name, one with a Wikipedia entry.
 
 Facts must be extractable as complete sentences. A number in one element and its
 label in another reaches a parser as two unrelated fragments — see the hidden
-`sentence` field on `StatGrid`. This is an accessibility fix that happens to be
+`sentence` field on `StatRow` (`components/kit/StatRow.tsx`). This is an accessibility fix that happens to be
 an AIO fix; keep both properties when editing.
 
 ## Images
@@ -176,6 +177,26 @@ pages are assembled from the kit in `components/kit/` plus
 `components/primitives.tsx`. A new page reuses the kit; if it needs something
 the kit lacks, add it to the kit rather than writing it inline — that is what
 keeps the pages feeling like one site.
+
+Every page is built the same way: a `PageHero`, sections opened by
+`SectionHeading`, and a close — `ClosingCta` (the homepage's own final band)
+or a `CtaBand` with the page's own question. The parts that carry rules:
+
+- **`PageHero`** — type never sits on a photograph. The photo goes BESIDE the
+  copy on navy (`image`), so a new picture never needs a contrast measurement.
+  The old interior heroes each needed one, and one page never got it.
+- **`CtaBand`** — its photograph is fixed and its 80% wash measured over that
+  picture (7.62 / 6.05 / 5.60:1). There is deliberately no `image` prop.
+- **`Breadcrumbs`** and **`FaqList`** — each renders the visible thing and its
+  JSON-LD from one list, so markup can never describe what is not on the page.
+  One `FaqList` per page.
+- **`LogoStrip`** — sizes logos by their measured MARK, not the file, and crops
+  each file to it. Measure a new logo's ratio from its pixels.
+- **`lib/formStyles.ts`** — the one field style for all three forms: 16px text
+  (iOS zooms below it) and a 3.35:1 border (WCAG's 3:1 for boundaries).
+
+Only booking forms may call `trackInquiry` — it is the conversion the ad
+spend is measured by. The Foundation form used to, until 2026-09-24.
 
 **Base element styles must stay inside `@layer base`.** An unlayered CSS rule
 beats a layered one regardless of specificity, so a stray `a { color: inherit }`
