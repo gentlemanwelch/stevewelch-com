@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
   hero, career, thesis, framework, customization, reel,
-  caseStudy, ideas, organizations, testimonial, finalCta,
+  caseStudy, ideas, organizations, testimonial,
 } from "@/content/home";
 import { anvilQuote } from "@/content/speaking";
 import { bfc, img, selectedOrganizationLogos } from "@/content/media-manifest";
@@ -13,6 +13,8 @@ import { Chapter } from "@/components/kit/Chapter";
 import { Framework } from "@/components/kit/Framework";
 import { LogoStrip } from "@/components/kit/LogoStrip";
 import { QuoteBlock } from "@/components/kit/QuoteBlock";
+import { ClosingCta } from "@/components/kit/CtaBand";
+import { PostList } from "@/components/kit/PostList";
 import { getSubstackPosts } from "@/lib/substack";
 import { speakingServiceSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
@@ -293,32 +295,7 @@ export default async function HomePage() {
               list is simply absent — the packet: "Use real article titles and
               dates. Do not hard-code fake article names."
             */}
-            {posts.length > 0 && (
-              <ul className="divide-y divide-line-strong border-y border-line-strong">
-                {posts.map((post) => (
-                  <li key={post.url}>
-                    <a
-                      href={post.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-track="ideas_article_click"
-                      data-track-location="home_ideas"
-                      data-track-label={post.title}
-                      className="group flex flex-col gap-1 py-6 sm:flex-row sm:items-baseline sm:gap-8"
-                    >
-                      {post.date && (
-                        <time dateTime={post.isoDate || undefined} className="eyebrow shrink-0 text-ink-faint sm:w-36">
-                          {post.date}
-                        </time>
-                      )}
-                      <span className="text-xl font-bold leading-snug text-navy transition-colors group-hover:text-action">
-                        {post.title}
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {posts.length > 0 && <PostList posts={posts} location="home_ideas" />}
           </div>
         </Container>
       </Section>
@@ -339,37 +316,9 @@ export default async function HomePage() {
       </Section>
 
       {/* ===================================================== §12 FINAL CTA */}
-      <section className="relative isolate overflow-hidden bg-navy text-white">
-        <Image
-          src={bfc.closing}
-          alt=""
-          aria-hidden="true"
-          fill
-          sizes="100vw"
-          className="object-cover object-[72%_50%]"
-        />
-        {/*
-          The wash, measured with the type hidden (so the sample is the
-          photograph, not the glyphs' antialiasing): at 0.80 the worst pixel
-          behind the text column gives white 7.62:1, the 80%-white reassurance
-          line 5.60:1, the body 6.05:1 — every line clears 4.5:1. The eyebrow
-          is white rather than cyan here for the same reason; see Eyebrow.
-        */}
-        <div aria-hidden="true" className="absolute inset-0 bg-navy/80" />
-        <Container className="relative py-24 text-center md:py-32 lg:py-40">
-          <SectionHeading eyebrow={finalCta.eyebrow} lines={finalCta.heading} tone="photo" className="mx-auto max-w-4xl [&_h2]:!text-[clamp(2.25rem,1.3rem+3.6vw,4.25rem)]" />
-          <p className="lede mx-auto mt-6 max-w-2xl text-white/85">{finalCta.body}</p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 min-[420px]:flex-row">
-            <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="final_cta">
-              {finalCta.primary}
-            </Button>
-            <Button href={site.cta.href} variant="outlineLight" track="check_availability_click" trackLocation="final_cta">
-              {finalCta.secondary}
-            </Button>
-          </div>
-          <p className="mt-8 text-[0.9375rem] text-white/80">{finalCta.reassurance}</p>
-        </Container>
-      </section>
+      {/* The band every page closes on — see components/kit/CtaBand.tsx for
+          the wash and its measurements. */}
+      <ClosingCta location="final_cta" />
     </>
   );
 }

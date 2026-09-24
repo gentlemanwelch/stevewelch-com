@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
+import { FIELD, LABEL, REQUIRED } from "@/lib/formStyles";
 import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
 
@@ -105,13 +106,13 @@ export function InquiryForm() {
 
   if (status === "sent") {
     return (
-      <div className="rounded-[var(--radius-base)] border border-[var(--color-line)] bg-[var(--color-surface)] p-8">
-        <h2 className="text-2xl">Thank you — that went straight to Steve’s team.</h2>
-        <p className="mt-3 text-[var(--color-ink-soft)]">
+      <div role="status" className="border-t-2 border-navy bg-tint p-6 sm:p-8">
+        <h2 className="!text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-extrabold">Thank you — that went straight to Steve’s team.</h2>
+        <p className="mt-3">
           A confirmation is already on its way to your inbox. Steve reads every one of
           these himself and will reply personally. If your event is on a
           tight timeline, reply to the confirmation or email{" "}
-          <a className="text-[var(--color-accent)] underline underline-offset-4" href={`mailto:${site.email}`}>
+          <a className="font-semibold text-action underline underline-offset-4" href={`mailto:${site.email}`}>
             {site.email}
           </a>{" "}
           directly and say so.
@@ -121,15 +122,13 @@ export function InquiryForm() {
   }
 
   /*
-   * 16px is a floor, not a preference. iOS Safari force-zooms the page when a
-   * field's text is under 16px and does not zoom back out, so an organizer
-   * tapping "Your name" on an iPhone gets a magnified page they have to pinch
-   * their way out of, halfway through the one form on this site that earns
-   * anything. This was 0.95rem and did exactly that. Do not shrink it.
+   * Field styles are shared with the other two forms — lib/formStyles.ts. The
+   * 16px text size in there is a floor, not a preference: iOS Safari
+   * force-zooms the page when a field's text is under 16px and does not zoom
+   * back out. This form was 0.95rem once and did exactly that. Do not shrink it.
    */
-  const field =
-    "w-full rounded-[var(--radius-base)] border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-base text-[var(--color-ink)] transition-colors placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
-  const label = "mb-1.5 block text-sm font-medium text-[var(--color-ink)]";
+  const field = FIELD;
+  const label = LABEL;
 
   return (
     <form onSubmit={handleSubmit} onFocusCapture={onStart} className="space-y-5">
@@ -154,7 +153,7 @@ export function InquiryForm() {
       */}
       <div>
         <label className={label} htmlFor="message">
-          What do you need this session to accomplish? <span className="text-[var(--color-accent)]">*</span>
+          What do you need this session to accomplish? <span className={REQUIRED}>*</span>
         </label>
         <textarea
           id="message"
@@ -168,18 +167,18 @@ export function InquiryForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={label} htmlFor="name">Your name <span className="text-[var(--color-accent)]">*</span></label>
+          <label className={label} htmlFor="name">Your name <span className={REQUIRED}>*</span></label>
           <input id="name" name="name" type="text" required autoComplete="name" className={field} />
         </div>
         <div>
-          <label className={label} htmlFor="email">Email <span className="text-[var(--color-accent)]">*</span></label>
+          <label className={label} htmlFor="email">Email <span className={REQUIRED}>*</span></label>
           <input id="email" name="email" type="email" required autoComplete="email" className={field} />
         </div>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={label} htmlFor="organization">Organization <span className="text-[var(--color-accent)]">*</span></label>
+          <label className={label} htmlFor="organization">Organization <span className={REQUIRED}>*</span></label>
           <input id="organization" name="organization" type="text" required autoComplete="organization" className={field} />
         </div>
         <div>
@@ -221,9 +220,9 @@ export function InquiryForm() {
       </div>
 
       {error && (
-        <p role="alert" className="rounded-[var(--radius-base)] bg-[var(--color-accent-soft)] px-4 py-3 text-sm text-[var(--color-accent)]">
+        <p role="alert" className="border-l-4 border-action bg-tint px-4 py-3 text-[0.9375rem] text-navy">
           {error}{" "}
-          <a className="underline underline-offset-2" href={`mailto:${site.email}`}>
+          <a className="font-semibold underline underline-offset-2" href={`mailto:${site.email}`}>
             Email {site.email} instead
           </a>
           .
@@ -238,7 +237,7 @@ export function InquiryForm() {
         {status === "sending" ? "Sending…" : "Send inquiry"}
       </button>
 
-      <p className="text-xs text-[var(--color-ink-faint)]">
+      <p className="text-[0.875rem] text-ink-faint">
         Your details are used only to answer this inquiry. No list, no newsletter signup, no third party.
       </p>
     </form>

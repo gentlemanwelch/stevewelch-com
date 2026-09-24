@@ -68,6 +68,14 @@
   --color-surface-alt: var(--color-tint);
   --color-line: #d9e6ee;
   --color-line-strong: #b9cdd9;
+  /*
+   * The edge of a form field. A field's border is how a person finds the thing
+   * they are meant to type into, so WCAG holds it to 3:1 (1.4.11, non-text
+   * contrast). --color-line is 1.27:1 on white and --color-line-strong 1.64:1
+   * — decorative rules, not boundaries. This is 3.35:1 on white, 3.03:1 on
+   * the tint.
+   */
+  --color-field: #7a8fa1;
   --color-accent: var(--color-action);
   --color-accent-soft: var(--color-tint);
 
