@@ -19,9 +19,18 @@ import type { SizedLogo } from "@/content/media-manifest";
  */
 const AREA = 5200; // px² at desktop; ~52px tall for a 2:1 mark
 
-export function LogoStrip({ logos }: { logos: readonly SizedLogo[] }) {
+/**
+ * `layout="grid"` for a long list: five to a row from lg, so ten logos sit as
+ * two even rows instead of a full row and a straggling second one spread
+ * edge to edge by justify-between.
+ */
+export function LogoStrip({ logos, layout = "row" }: { logos: readonly SizedLogo[]; layout?: "row" | "grid" }) {
+  const list =
+    layout === "grid"
+      ? "grid grid-cols-2 place-items-center gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10"
+      : "flex flex-wrap items-center justify-center gap-x-10 gap-y-10 sm:gap-x-14 lg:justify-between lg:gap-x-8";
   return (
-    <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-10 sm:gap-x-14 lg:justify-between lg:gap-x-8">
+    <ul className={list}>
       {logos.map((logo) => {
         const h = Math.round(Math.sqrt(AREA / logo.ratio));
         const w = Math.round(logo.ratio * h);
@@ -35,8 +44,17 @@ export function LogoStrip({ logos }: { logos: readonly SizedLogo[] }) {
                 height={h}
                 loading="lazy"
                 decoding="async"
-                // 80% on a phone so five marks wrap to a tidy 3 + 2.
-                style={{ width: `calc(${w}px * var(--logo-scale, 1))`, height: "auto" }}
+                /* The box is the MARK's shape, and object-fit: cover crops the
+                   file to it — so a file with empty margins (the CHOP cut-out
+                   is 60% transparent space) shows its mark at full size
+                   instead of shrunk inside the margins. Every padded file here
+                   has its mark centred, which is what cover's default centre
+                   crop assumes. 80% on a phone so a row wraps tidily. */
+                style={{
+                  width: `calc(${w}px * var(--logo-scale, 1))`,
+                  height: `calc(${h}px * var(--logo-scale, 1))`,
+                  objectFit: "cover",
+                }}
                 className="[--logo-scale:0.8] sm:[--logo-scale:1]"
               />
             </picture>

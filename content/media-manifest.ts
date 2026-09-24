@@ -126,17 +126,19 @@ export type LogoRef = { name: string; file: string };
  * fastest way to lose a booking when someone checks. The export settled it —
  * every organization below is one the original site already lists.
  */
-export const speakingEngagementLogos: LogoRef[] = [
-  { name: "Singtel", file: `${base}/Singtel_logo.svg` },
-  { name: "IGNITE", file: `${base}/IGNITElogo.svg` },
-  { name: "storeRE", file: `${base}/storeRE-1.svg` },
-  { name: "Derma", file: `${base}/derma_green_new.svg` },
-  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg` },
-  { name: "Penn State", file: `${base}/penn_state.svg` },
-  { name: "CNBC", file: `${base}/cnbc_logo.png` },
-  { name: "CBS", file: `${base}/cbs_logo.svg` },
-  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo.jpg` },
-  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg` },
+export const speakingEngagementLogos: SizedLogo[] = [
+  { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
+  { name: "IGNITE", file: `${base}/IGNITElogo.svg`, ratio: 3.2 },
+  { name: "storeRE", file: `${base}/storeRE-1.svg`, ratio: 4.76 },
+  { name: "Derma", file: `${base}/derma_green_new.svg`, ratio: 4.7 },
+  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
+  { name: "Penn State", file: `${base}/penn_state.svg`, ratio: 3.19 },
+  { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
+  { name: "CBS", file: `${base}/cbs_logo.svg`, ratio: 3.54 },
+  // The transparent cut of the same mark, so it sits on any band without a
+  // white box. Same organization, same logo, as the original page.
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06 },
 ];
 
 export const selectedInvestmentLogos: LogoRef[] = [
@@ -148,12 +150,12 @@ export const selectedInvestmentLogos: LogoRef[] = [
   { name: "TrendKite", file: `${base}/Trendkite.png` },
 ];
 
-export const workedWithLogos: LogoRef[] = [
-  { name: "Singtel", file: `${base}/Singtel_logo.svg` },
-  { name: "Comcast", file: `${base}/Comcast.png` },
-  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png` },
-  { name: "Blue Cross Blue Shield", file: `${base}/Blue_Cross_Blue_Shield-removebg-preview.png` },
-  { name: "Parker Hannifin", file: `${base}/Parker-Hannifan.png` },
+export const workedWithLogos: SizedLogo[] = [
+  { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
+  { name: "Comcast", file: `${base}/Comcast.png`, ratio: 2.89 },
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
+  { name: "Blue Cross Blue Shield", file: `${base}/Blue_Cross_Blue_Shield-removebg-preview.png`, ratio: 5.14 },
+  { name: "Parker Hannifin", file: `${base}/Parker-Hannifan.png`, ratio: 4.76 },
 ];
 
 /**
@@ -167,19 +169,26 @@ export const workedWithLogos: LogoRef[] = [
  * CNBC, CHOP and NVCA are raster; SVGs would be sharper and are worth asking
  * each organization for, but these are genuine.
  *
- * `ratio` is width ÷ height of the mark as drawn. The strip uses it to
- * normalise OPTICAL size — "normalize optical height, not literal pixel
- * height" — by giving every logo the same visual area rather than the same
- * height. At equal heights a 3:1 wordmark looks three times the size of a
- * square badge.
+ * `ratio` is width ÷ height of the MARK AS DRAWN — measured from the pixels,
+ * not read off the file. The strip uses it to normalise OPTICAL size —
+ * "normalize optical height, not literal pixel height" — by giving every logo
+ * the same visual area rather than the same height. At equal heights a 3:1
+ * wordmark looks three times the size of a square badge.
+ *
+ * The distinction matters because several of these files are mostly empty.
+ * The CHOP cut-out is 690×361 with the mark in the middle 40% of its height;
+ * sized by the file (1.91) it came out at well under half the size of its
+ * neighbours. Sized by the mark (4.76), and cropped to it by LogoStrip's
+ * object-fit, it matches them. Measure a new logo the same way: the bounding
+ * box of its non-white, non-transparent pixels.
  */
 export type SizedLogo = LogoRef & { ratio: number };
 
 export const selectedOrganizationLogos: SizedLogo[] = [
   { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
   { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
-  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 1.91 },
-  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 2.86 },
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06 },
   { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
 ];
 

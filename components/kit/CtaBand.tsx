@@ -90,7 +90,7 @@ export function CtaBand({
  * written in the packet. Used wherever a page has no closing question of its
  * own.
  */
-export function ClosingCta({ location }: { location: string }) {
+export function ClosingCta({ location, photo = true }: { location: string; photo?: boolean }) {
   return (
     <CtaBand
       eyebrow={finalCta.eyebrow}
@@ -100,6 +100,7 @@ export function ClosingCta({ location }: { location: string }) {
       secondary={{ label: finalCta.secondary, href: site.cta.href, track: "check_availability_click" }}
       reassurance={finalCta.reassurance}
       location={location}
+      photo={photo}
     />
   );
 }

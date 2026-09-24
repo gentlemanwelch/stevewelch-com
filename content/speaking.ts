@@ -16,7 +16,27 @@
 export const speakingHero = {
   eyebrow: "Speaking",
   heading: "Entrepreneur. Investor. Disruptor.",
-  cta: "Book Steve to Speak",
+};
+
+/**
+ * The labels /speaking/ and the topic pages put around the content above.
+ * The booking button is not here: every page uses `site.cta` ("Build Your
+ * Keynote"), which replaced "Book Steve to Speak", "Check availability" and
+ * "Get in touch" — the spec's "no synonymous booking CTAs".
+ */
+export const speakingLabels = {
+  engagements: "Speaking Engagements",
+  aiEyebrow: "Most requested right now",
+  aiMore: "Read the argument",
+  more: "More on",
+  faqEyebrow: "Booking",
+  faqHeading: "Questions organizers ask.",
+  topicEyebrow: "Keynote",
+  covers: "What it covers",
+  builtFor: "Built for",
+  about: "About this session",
+  rest: "The rest of the framework",
+  read: "Read",
 };
 
 export const speakingIntro =
@@ -264,9 +284,4 @@ export const speakingReel = {
   heading: "Speaking Reel",
   url: "https://www.youtube.com/watch?v=m5oykqwZjUU",
   youtubeId: "m5oykqwZjUU",
-};
-
-export const podcastNote = {
-  heading: "Steve is available for select podcast opportunities",
-  body: "Reach out if you'd like to connect",
 };
