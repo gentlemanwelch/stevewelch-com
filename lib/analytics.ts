@@ -51,8 +51,12 @@ declare global {
  *
  * `source` distinguishes the booking form from the Ads landing pages, so the
  * two can be read apart in GA4 without needing separate conversion actions.
+ *
+ * BOOKING inquiries only — nothing else may call this, because it is the
+ * number the ad spend is measured by. The Foundation form used to, which
+ * counted school partnerships as keynote bookings.
  */
-export function trackInquiry(source: "contact" | "landing" | "foundation") {
+export function trackInquiry(source: "contact" | "landing") {
   if (typeof window === "undefined" || !window.gtag) return;
 
   // GA4: a custom event, so it can be marked as a key event in the GA4 UI.

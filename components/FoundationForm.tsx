@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { foundation } from "@/content/foundation";
 import { buttonClasses } from "@/lib/buttonStyles";
-import { trackInquiry } from "@/lib/analytics";
+import { FIELD, LABEL, REQUIRED } from "@/lib/formStyles";
 import { site } from "@/content/site";
 
 /**
@@ -55,7 +55,14 @@ export function FoundationForm() {
         return;
       }
       setState("sent");
-      trackInquiry("foundation");
+      /*
+       * NO trackInquiry HERE. It used to be called with "foundation", and
+       * trackInquiry sends `booking_inquiry` — the site's one conversion, the
+       * GA4 key event — and the Google Ads conversion with it. So a school
+       * asking the Foundation for support was counted as a keynote booking
+       * inquiry, in the number the ad spend is judged by. This form is not a
+       * booking and must not report as one.
+       */
     } catch {
       setState("error");
       setError("That did not send.");
@@ -64,11 +71,9 @@ export function FoundationForm() {
 
   if (state === "sent") {
     return (
-      <div className="rounded-[var(--radius-card)] bg-white p-8 text-center shadow-[var(--shadow-card)]">
-        <h3 className="text-[var(--color-blue-deep)]">Thank you — that reached us.</h3>
-        <p className="mt-3 leading-relaxed text-[var(--color-ink-soft)]">
-          This goes straight to the Foundation. You will hear back.
-        </p>
+      <div role="status" className="border-t-2 border-navy bg-tint p-6 sm:p-8">
+        <h3 className="font-extrabold">{foundation.form.thanksHeading}</h3>
+        <p className="mt-3 leading-relaxed">{foundation.form.thanksBody}</p>
       </div>
     );
   }
@@ -76,10 +81,7 @@ export function FoundationForm() {
   const f = foundation.form.fields;
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-card)] sm:p-8"
-    >
+    <form onSubmit={onSubmit}>
       <div className="grid gap-5 sm:grid-cols-2">
         <Field name="organization" label={f.organization} required span2 />
         <Field name="contact" label={f.contact} required span2 />
@@ -88,8 +90,8 @@ export function FoundationForm() {
         <Field name="url" label={f.url} type="url" placeholder="https://" span2 />
 
         <fieldset className="sm:col-span-2">
-          <legend className="text-sm font-semibold text-[var(--color-blue-deep)]">
-            Mailing address
+          <legend className="eyebrow !text-[0.875rem] font-bold text-navy">
+            {foundation.form.addressLegend}
           </legend>
           <div className="mt-3 grid gap-5 sm:grid-cols-2">
             <Field name="street" label={f.street} autoComplete="address-line1" span2 />
@@ -101,14 +103,8 @@ export function FoundationForm() {
         </fieldset>
 
         <label className="sm:col-span-2">
-          <span className="text-sm font-semibold text-[var(--color-blue-deep)]">
-            What are you building?
-          </span>
-          <textarea
-            name="about"
-            rows={5}
-            className="mt-2 w-full rounded-lg border border-[var(--color-line)] px-4 py-3 text-[var(--color-ink)] outline-none focus:border-[var(--color-blue)] focus:ring-2 focus:ring-[var(--color-blue)]/30"
-          />
+          <span className={LABEL}>{foundation.form.about}</span>
+          <textarea name="about" rows={5} className={FIELD} />
         </label>
       </div>
 
@@ -133,11 +129,11 @@ export function FoundationForm() {
           {state === "sending" ? "Sending…" : foundation.form.submit}
         </button>
         {state === "error" && (
-          <p role="alert" className="text-sm text-[var(--color-ink-soft)]">
+          <p role="alert" className="text-[0.9375rem] text-navy">
             {error}{" "}
             <a
               href={`mailto:${site.email}`}
-              className="font-semibold text-[var(--color-accent)] underline underline-offset-4"
+              className="font-semibold text-action underline underline-offset-4"
             >
               Email {site.email} instead.
             </a>
@@ -164,17 +160,11 @@ function Field({
 } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className={span2 ? "sm:col-span-2" : undefined}>
-      <span className="text-sm font-semibold text-[var(--color-blue-deep)]">
+      <span className={LABEL}>
         {label}
-        {required && <span className="text-[var(--color-accent)]"> *</span>}
+        {required && <span className={REQUIRED}> *</span>}
       </span>
-      <input
-        {...rest}
-        type={type}
-        name={name}
-        required={required}
-        className="mt-2 w-full rounded-lg border border-[var(--color-line)] px-4 py-3 text-[var(--color-ink)] outline-none focus:border-[var(--color-blue)] focus:ring-2 focus:ring-[var(--color-blue)]/30"
-      />
+      <input {...rest} type={type} name={name} required={required} className={FIELD} />
     </label>
   );
 }
