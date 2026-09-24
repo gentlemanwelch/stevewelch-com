@@ -1,11 +1,14 @@
 import Image from "next/image";
 import { Container } from "@/components/primitives";
-import { timeline } from "@/content/bio";
+import { timeline, aboutLabels } from "@/content/bio";
 import { img } from "@/content/media-manifest";
 
 /**
  * The About page's timeline — eleven moments, alternating either side of a
  * centre line with a diamond on it at each step.
+ *
+ * Built for Change: a navy rail and square action-blue markers in place of
+ * the hairline and outlined diamonds; photographs square-cornered, no shadow.
  *
  * The whole section was missing from the first build. It is the account of how
  * Steve got from scalping tickets at Penn State to running Restore, in his own
@@ -25,15 +28,15 @@ import { img } from "@/content/media-manifest";
 export function Timeline() {
   return (
     <section className="bg-white">
-      <Container className="py-16 sm:py-20">
-        <h2 className="sr-only">Steve Welch&rsquo;s story, in order</h2>
+      <Container className="py-14 md:py-20 lg:py-28">
+        <h2 className="sr-only">{aboutLabels.storyHeading}</h2>
 
         <div className="relative">
           {/* The rail. Inset top and bottom so it starts and ends on the first
               and last diamonds rather than floating past them. */}
           <span
             aria-hidden="true"
-            className="absolute left-1/2 top-[7rem] bottom-[7rem] hidden w-px -translate-x-1/2 bg-[var(--color-line)] md:block"
+            className="absolute left-1/2 top-[7rem] bottom-[7rem] hidden w-0.5 -translate-x-1/2 bg-navy md:block"
           />
 
           <ol className="space-y-14 md:space-y-24">
@@ -41,10 +44,11 @@ export function Timeline() {
               const imageLeft = i % 2 === 0;
               return (
                 <li key={entry.text.slice(0, 40)} className="relative">
-                  {/* The diamond, centred on the rail. */}
+                  {/* The step marker, centred on the rail: a square, like every
+                      other mark on the site. */}
                   <span
                     aria-hidden="true"
-                    className="absolute left-1/2 top-1/2 hidden h-[11px] w-[11px] -translate-x-1/2 -translate-y-1/2 rotate-45 border border-[var(--color-line)] bg-white md:block"
+                    className="absolute left-1/2 top-1/2 hidden h-3 w-3 -translate-x-1/2 -translate-y-1/2 bg-action outline outline-4 outline-white md:block"
                   />
 
                   <div className="md:grid md:grid-cols-2 md:items-center md:gap-16">
@@ -53,7 +57,7 @@ export function Timeline() {
                         imageLeft ? "md:col-start-1 md:row-start-1" : "md:col-start-2 md:row-start-1"
                       }
                     >
-                      <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] shadow-[var(--shadow-card)]">
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-base)] bg-tint">
                         <Image
                           src={img[entry.image as keyof typeof img]}
                           alt={entry.alt}
@@ -65,7 +69,7 @@ export function Timeline() {
                     </div>
 
                     <p
-                      className={`mt-5 leading-relaxed text-[var(--color-ink-soft)] md:mt-0 md:row-start-1 ${
+                      className={`mt-5 text-lg leading-relaxed text-navy md:mt-0 md:row-start-1 ${
                         imageLeft
                           ? "md:col-start-2 md:text-left"
                           : "md:col-start-1 md:text-right"

@@ -39,6 +39,7 @@ export function PageHero({
   image,
   aside,
   breadcrumbs,
+  longTitle = false,
   children,
 }: {
   eyebrow?: string;
@@ -50,6 +51,12 @@ export function PageHero({
   /** Navy only, and not with `image`. */
   aside?: ReactNode;
   breadcrumbs?: readonly Crumb[];
+  /**
+   * For a headline that is a sentence rather than a name — /about/'s is
+   * fifteen words. At the full h1 size it would run to six lines in the
+   * copy column.
+   */
+  longTitle?: boolean;
   /** Actions, a fee line — whatever belongs under the lede. */
   children?: ReactNode;
 }) {
@@ -58,7 +65,13 @@ export function PageHero({
   const copy = (
     <>
       {breadcrumbs && <Breadcrumbs trail={breadcrumbs} tone={dark ? "dark" : "light"} />}
-      <SectionHeading as="h1" eyebrow={eyebrow} lines={title} tone={dark ? "dark" : "light"} className="max-w-4xl" />
+      <SectionHeading
+        as="h1"
+        eyebrow={eyebrow}
+        lines={title}
+        tone={dark ? "dark" : "light"}
+        className={`max-w-4xl ${longTitle ? "[&_h1]:!text-[clamp(2.125rem,1.4rem+2.6vw,3.5rem)] [&_h1]:!leading-[1.08]" : ""}`}
+      />
       {lede && <p className={`lede mt-6 max-w-2xl ${dark ? "text-white/80" : ""}`}>{lede}</p>}
       {children && <div className="mt-8">{children}</div>}
     </>

@@ -16,13 +16,16 @@ export function Chapter({
   image,
   alt,
   focus = "50% 50%",
+  sizes = "(min-width: 1024px) 44vw, (min-width: 640px) 90vw, 100vw",
 }: {
-  name: string;
+  name?: string;
   headline: string;
   body: string;
   image: string;
   alt: string;
   focus?: string;
+  /** The rendered width, for next/image — narrower in a three-up grid. */
+  sizes?: string;
 }) {
   return (
     <article>
@@ -31,13 +34,13 @@ export function Chapter({
           src={image}
           alt={alt}
           fill
-          sizes="(min-width: 1024px) 44vw, (min-width: 640px) 90vw, 100vw"
+          sizes={sizes}
           className="object-cover"
           style={{ objectPosition: focus }}
         />
       </div>
-      <p className="eyebrow mt-6 text-action">{name}</p>
-      <h3 className="mt-2 !text-[clamp(1.625rem,1.1rem+1.8vw,2.5rem)] font-extrabold leading-[1.08] tracking-tight">
+      {name && <p className="eyebrow mt-6 text-action">{name}</p>}
+      <h3 className={`${name ? "mt-2" : "mt-6"} !text-[clamp(1.625rem,1.1rem+1.8vw,2.5rem)] font-extrabold leading-[1.08] tracking-tight`}>
         {headline}
       </h3>
       <p className="mt-3 max-w-xl">{body}</p>

@@ -14,6 +14,17 @@ export const aboutHero = {
   body: "Steve is passionate and committed to maximizing his health which is essential to his 3 buckets life strategy that has led to his professional and personal success.",
 };
 
+/** The words /about/ puts around the content in this file. */
+export const aboutLabels = {
+  numbersHeading: "By the numbers",
+  storyHeading: "Steve Welch’s story, in order",
+  closing: {
+    heading: "Looking for a speaker?",
+    body: "Purpose, People, Process — delivered on multiple continents.",
+    speakingLink: "See the speaking page",
+  },
+};
+
 export type Stat = {
   /** Rendered value, already formatted. */
   value: string;
