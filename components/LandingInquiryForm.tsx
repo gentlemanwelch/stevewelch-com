@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
+import { FIELD } from "@/lib/formStyles";
 import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
 
@@ -121,15 +122,15 @@ export function LandingInquiryForm({
 
   if (status === "sent") {
     return (
-      <div className="rounded-[var(--radius-card)] bg-[var(--color-tint)] p-6">
-        <p className="text-lg font-bold text-[var(--color-ink)]">
+      <div role="status" className="border-t-2 border-navy bg-tint p-6">
+        <p className="text-lg font-bold text-navy">
           Thank you — that went straight to Steve’s team.
         </p>
-        <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
+        <p className="mt-2 text-[0.9375rem]">
           A confirmation is on its way to your inbox. Steve reads these himself and
           will reply personally. On a tight timeline?
           Email{" "}
-          <a className="underline underline-offset-2" href={`mailto:${site.email}`}>
+          <a className="font-semibold text-action underline underline-offset-2" href={`mailto:${site.email}`}>
             {site.email}
           </a>{" "}
           and say so.
@@ -138,10 +139,9 @@ export function LandingInquiryForm({
     );
   }
 
-  // 16px minimum — under that iOS Safari zooms the page on focus and stays
-  // zoomed. See the longer note in InquiryForm.
-  const field =
-    "w-full rounded-[var(--radius-base)] border border-[var(--color-line)] bg-white px-4 py-3 text-base text-[var(--color-ink)] placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
+  // Shared with the other forms — lib/formStyles.ts. 16px minimum: under
+  // that iOS Safari zooms the page on focus and stays zoomed.
+  const field = FIELD;
 
   return (
     <form onSubmit={handleSubmit} onFocusCapture={onStart} className="space-y-4">
@@ -184,20 +184,20 @@ export function LandingInquiryForm({
       </div>
 
       {error && (
-        <p role="alert" className="rounded-[var(--radius-base)] bg-[var(--color-tint)] px-4 py-3 text-sm text-[var(--color-blue-deep)]">
-          {error} <a className="underline" href={`mailto:${site.email}`}>Email {site.email} instead</a>.
+        <p role="alert" className="border-l-4 border-action bg-tint px-4 py-3 text-[0.9375rem] text-navy">
+          {error} <a className="font-semibold underline" href={`mailto:${site.email}`}>Email {site.email} instead</a>.
         </p>
       )}
 
       <button
         type="submit"
         disabled={status === "sending"}
-        className={buttonClasses("blue", "w-full")}
+        className={buttonClasses("primary", "w-full")}
       >
         {status === "sending" ? "Sending…" : ctaLabel}
       </button>
 
-      <p className="text-xs text-[var(--color-ink-faint)]">
+      <p className="text-[0.875rem] text-ink-faint">
         Used only to answer this inquiry. No list, no newsletter, no third party.
       </p>
     </form>

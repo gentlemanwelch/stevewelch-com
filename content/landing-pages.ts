@@ -157,3 +157,19 @@ export const landingPages: LandingPage[] = [
 export function getLandingPage(slug: string): LandingPage | undefined {
   return landingPages.find((p) => p.slug === slug);
 }
+
+/**
+ * The words every landing page shares, around the per-campaign copy above.
+ */
+export const landingLabels = {
+  formNote: "Goes straight to Steve’s team. You’ll get a confirmation immediately.",
+  logoHeadings: {
+    speaking: "Speaking Engagements",
+    "worked-with": "Companies Steve has worked with",
+  },
+  closing: {
+    heading: "Tell Steve about your event.",
+    body: "Date, audience, and what the session needs to accomplish.",
+  },
+  privacy: "Privacy Policy",
+};
