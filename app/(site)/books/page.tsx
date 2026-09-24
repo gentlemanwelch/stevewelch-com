@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { featuredBook, featuredEntrepreneurs, getBook } from "@/content/books";
+import { featuredBook, featuredEntrepreneurs, freeChapter, getBook, bookLabels } from "@/content/books";
 import { img } from "@/content/media-manifest";
 import { BookFeature } from "@/components/BookFeature";
-import { OptInBar } from "@/components/OptInBar";
 import { JsonLd } from "@/components/primitives";
-import { booksSchema, breadcrumbSchema } from "@/lib/jsonld";
+import { Breadcrumbs } from "@/components/kit/Breadcrumbs";
+import { CtaBand, ClosingCta } from "@/components/kit/CtaBand";
+import { booksSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 /**
@@ -46,14 +47,14 @@ export default function BooksPage() {
   return (
     <>
       <JsonLd data={booksSchema()} />
-      <JsonLd
-        data={breadcrumbSchema([
+      <Breadcrumbs
+        trail={[
           { name: "Home", path: "/" },
           { name: "Books", path: "/books/" },
-        ])}
+        ]}
       />
 
-      <h1 className="sr-only">Books by Steve Welch</h1>
+      <h1 className="sr-only">{bookLabels.indexHeading}</h1>
 
       <BookFeature
         eyebrow={featuredBook.eyebrow}
@@ -66,7 +67,15 @@ export default function BooksPage() {
         mobileArt={img.restoreBookBgMobile}
       />
 
-      <OptInBar />
+      {/* The free chapter — straight to the PDF, no email gate. See the
+          DECISION note on freeChapter in content/books.ts. */}
+      <CtaBand
+        heading={[freeChapter.heading, freeChapter.headingEm]}
+        longHeading
+        primary={{ label: freeChapter.cta, href: freeChapter.pdfHref }}
+        location="books_free_chapter"
+        photo={false}
+      />
 
       {/*
         The mirror. `content_position: "right"` in its block, so the copy is on
@@ -85,6 +94,8 @@ export default function BooksPage() {
         mobileArt={img.entrepreneursBookBgMobile}
         side="right"
       />
+
+      <ClosingCta location="books_final_cta" />
     </>
   );
 }

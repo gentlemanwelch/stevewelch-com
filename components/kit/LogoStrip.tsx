@@ -28,7 +28,12 @@ export function LogoStrip({ logos, layout = "row" }: { logos: readonly SizedLogo
   const list =
     layout === "grid"
       ? "grid grid-cols-2 place-items-center gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10"
-      : "flex flex-wrap items-center justify-center gap-x-10 gap-y-10 sm:gap-x-14 lg:justify-between lg:gap-x-8";
+      : /* Spread edge to edge only when there are enough marks to fill the
+           row; three spread that way sit at the far left, the centre and the
+           far right, with nothing between them. */
+        `flex flex-wrap items-center justify-center gap-x-10 gap-y-10 sm:gap-x-14 ${
+          logos.length >= 5 ? "lg:justify-between lg:gap-x-8" : "lg:gap-x-24"
+        }`;
   return (
     <ul className={list}>
       {logos.map((logo) => {

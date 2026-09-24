@@ -1,12 +1,14 @@
-import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { books, getBook, freeChapter } from "@/content/books";
+import { books, getBook, freeChapter, bookLabels } from "@/content/books";
 import { testimonials } from "@/content/testimonials";
 import { site } from "@/content/site";
-import { Container, Section, Eyebrow, Button, Prose, JsonLd } from "@/components/primitives";
-import { breadcrumbSchema } from "@/lib/jsonld";
+import { Container, Section, Button, Prose, JsonLd } from "@/components/primitives";
+import { PageHero } from "@/components/kit/PageHero";
+import { SectionHeading } from "@/components/kit/SectionHeading";
+import { LinkCard } from "@/components/kit/LinkCard";
+import { CtaBand } from "@/components/kit/CtaBand";
 import { buildMetadata } from "@/lib/seo";
 
 /**
@@ -85,83 +87,78 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
           }),
         }}
       />
-      <JsonLd
-        data={breadcrumbSchema([
+      <PageHero
+        eyebrow={bookLabels.eyebrow}
+        title={book.title}
+        lede={book.subtitle}
+        breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Books", path: "/books/" },
           { name: book.title, path: `/books/${book.slug}/` },
-        ])}
-      />
-
-      <section className="bg-[var(--color-navy)] text-white">
-        <Container className="py-16 sm:py-24">
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-2 text-sm text-white/60">
-              <li><Link href="/" className="inline-block py-1.5 hover:text-white">Home</Link></li>
-              <li aria-hidden="true">/</li>
-              <li><Link href="/books/" className="inline-block py-1.5 hover:text-white">Books</Link></li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page" className="text-white">{book.title}</li>
-            </ol>
-          </nav>
-          <Eyebrow>About the Book</Eyebrow>
-          <h1 className="text-white">{book.title}</h1>
-          {book.subtitle && (
-            <p className="mt-3 text-xl text-white/75 sm:text-2xl">{book.subtitle}</p>
-          )}
-          <p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-white/60">
-            {book.role}
-          </p>
-          {book.buyUrl && (
-            <div className="mt-8">
-              <Button href={book.buyUrl}>Buy the Book</Button>
-            </div>
-          )}
-        </Container>
-      </section>
+        ]}
+        aside={
+          /* The cover on its own pale field, as the artwork is drawn. */
+          <div className="flex justify-center rounded-[var(--radius-base)] bg-tint-warm p-6 sm:p-10">
+            <Image
+              src={book.cover.src}
+              alt={book.cover.alt}
+              width={book.cover.width}
+              height={book.cover.height}
+              priority
+              className="h-auto max-h-[26rem] w-auto"
+            />
+          </div>
+        }
+      >
+        <p className="eyebrow text-white/75">{book.role}</p>
+        {book.buyUrl && (
+          <div className="mt-8">
+            <Button href={book.buyUrl} glyph="arrow">{bookLabels.buy}</Button>
+          </div>
+        )}
+      </PageHero>
 
       <Section>
         <Container size="measure">
-          <Prose paragraphs={book.description} className="text-lg" />
+          <Prose paragraphs={book.description} className="text-lg text-navy" />
         </Container>
       </Section>
 
       {endorsements.length > 0 && (
         <Section tone="alt">
           <Container>
-            <h2 className="text-center">What readers said</h2>
-            <ul className="mt-12 grid gap-6 lg:grid-cols-3">
+            {/* Endorsements OF THE BOOK, and headed as such — presenting them
+                as speaking testimonials would be dishonest. They are also the
+                `review` entries in this page's Book markup, which is only
+                legitimate because they are visible here. */}
+            <SectionHeading lines={bookLabels.endorsements} />
+            <ul className="mt-12 grid gap-x-10 gap-y-12 lg:mt-14 lg:grid-cols-3">
               {endorsements.map((t) => (
-                <li
-                  key={t.name}
-                  className="flex flex-col rounded-[var(--radius-card)] bg-white p-7 shadow-[var(--shadow-card)]"
-                >
-                  <blockquote className="flex-1 leading-relaxed text-[var(--color-ink-soft)]">
-                    {t.quote}
-                  </blockquote>
-                  <div className="mt-5 flex items-center gap-4 border-t border-[var(--color-line)] pt-5">
-                    {t.image && (
-                      /*
-                        aria-hidden with an empty alt: the person's name sits
-                        immediately beside it in text, so announcing the image
-                        too would just read the name twice.
-                      */
-                      <Image
-                        src={t.image}
-                        alt=""
-                        aria-hidden="true"
-                        width={400}
-                        height={400}
-                        className="h-14 w-14 shrink-0 rounded-full object-cover"
-                      />
-                    )}
-                    <p className="min-w-0">
-                      <span className="block font-bold text-[var(--color-ink)]">{t.name}</span>
-                      <span className="mt-0.5 block text-sm leading-snug text-[var(--color-ink-faint)]">
-                        {t.title}
+                <li key={t.name} className="flex flex-col border-t-2 border-navy pt-6">
+                  <figure className="flex flex-1 flex-col">
+                    <blockquote className="flex-1 leading-relaxed text-navy">{t.quote}</blockquote>
+                    <figcaption className="mt-6 flex items-center gap-4">
+                      {t.image && (
+                        /*
+                          Empty alt: the person's name sits immediately beside
+                          it in text, so announcing the image too would read
+                          the name twice.
+                        */
+                        <Image
+                          src={t.image}
+                          alt=""
+                          aria-hidden="true"
+                          width={400}
+                          height={400}
+                          className="h-14 w-14 shrink-0 rounded-[var(--radius-base)] object-cover"
+                        />
+                      )}
+                      <span className="min-w-0">
+                        <span className="block font-bold text-navy">{t.name}</span>
+                        <span className="mt-0.5 block text-[0.9375rem] leading-snug text-ink-faint">{t.title}</span>
                       </span>
-                    </p>
-                  </div>
+                    </figcaption>
+                  </figure>
                 </li>
               ))}
             </ul>
@@ -169,35 +166,31 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
         </Section>
       )}
 
-      <section className="bg-[var(--color-blue)]">
-        <Container className="py-14 text-center">
-          <h2 className="mx-auto max-w-2xl text-white">{freeChapter.heading}</h2>
-          <div className="mt-7 flex justify-center">
-            <Button href="/contact/" variant="secondary">{freeChapter.cta}</Button>
-          </div>
-        </Container>
-      </section>
-
       {other && (
         <Section>
           <Container>
-            <h2>The other book</h2>
-            <Link
-              href={`/books/${other.slug}/`}
-              className="group mt-8 block max-w-xl rounded-[var(--radius-card)] bg-white p-7 shadow-[var(--shadow-card)]"
-            >
-              <h3>{other.title}</h3>
-              {other.subtitle && (
-                <p className="mt-1 text-sm text-[var(--color-ink-faint)]">{other.subtitle}</p>
-              )}
-              <p className="mt-3 leading-relaxed">{other.blurb}</p>
-              <span className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)]">
-                About this book →
-              </span>
-            </Link>
+            <h2 className="!text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)] font-extrabold">{bookLabels.other}</h2>
+            <div className="mt-8 max-w-xl">
+              <LinkCard
+                href={`/books/${other.slug}/`}
+                eyebrow={other.subtitle}
+                title={other.title}
+                body={other.blurb}
+                action={bookLabels.otherAction}
+              />
+            </div>
           </Container>
         </Section>
       )}
+
+      {/* The free chapter goes to the chapter. It used to go to /contact/ —
+          a booking form, for someone who asked for a PDF. */}
+      <CtaBand
+        heading={[freeChapter.heading, freeChapter.headingEm]}
+        longHeading
+        primary={{ label: freeChapter.cta, href: freeChapter.pdfHref }}
+        location={`book_${book.slug}_free_chapter`}
+      />
     </>
   );
 }

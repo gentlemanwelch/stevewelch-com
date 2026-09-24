@@ -19,6 +19,23 @@ export type Book = {
   blurb: string;
   description: string[];
   buyUrl?: string;
+  /**
+   * The cover, for the book's own page. These are the WordPress mobile
+   * artwork files — the cover on its pale field — the only standalone cover
+   * art the site has. `width`/`height` are the files' own.
+   */
+  cover: { src: string; width: number; height: number; alt: string };
+};
+
+/** The words the book pages put around the content in this file. */
+export const bookLabels = {
+  eyebrow: "About the Book",
+  buy: "Buy the Book",
+  learnMore: "Learn More",
+  endorsements: "What readers said",
+  other: "The other book",
+  otherAction: "About this book",
+  indexHeading: "Books by Steve Welch",
 };
 
 export const books: Book[] = [
@@ -35,6 +52,12 @@ export const books: Book[] = [
     ],
     buyUrl:
       "https://www.amazon.com/We-Are-All-Born-Entrepreneurs-ebook/dp/B003BNZRC4/",
+    cover: {
+      src: "/media/ep-book_mobile.svg",
+      width: 404,
+      height: 604,
+      alt: "The cover of We Are All Born Entrepreneurs by Steve Welch",
+    },
   },
   {
     slug: "restore",
@@ -49,6 +72,12 @@ export const books: Book[] = [
     ],
     buyUrl:
       "https://www.amazon.com/Restore-Life-Changing-Power-Right-Away-Wellness/dp/1637745095",
+    cover: {
+      src: "/media/restore-book__m.svg",
+      width: 782,
+      height: 772,
+      alt: "The cover of Restore: The Life-Changing Power of Right-Away Wellness by Jim Donnelly and Steve Welch",
+    },
   },
 ];
 

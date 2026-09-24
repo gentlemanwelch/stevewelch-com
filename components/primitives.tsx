@@ -152,6 +152,10 @@ export function Button({
   trackLocation,
 }: ButtonProps) {
   const isExternal = href.startsWith("http");
+  /* A file or a mail link is not a route: next/link would try to navigate to
+     it client-side. A PDF opens in a new tab, like the external links. */
+  const isFile = /\.pdf$/i.test(href);
+  const isMail = href.startsWith("mailto:");
   const content = (
     <>
       {glyph === "play" && (
@@ -167,7 +171,14 @@ export function Button({
     ? { "data-track": track, "data-track-location": trackLocation }
     : {};
 
-  if (isExternal) {
+  if (isMail) {
+    return (
+      <a href={href} className={buttonClasses(variant, className)} {...data}>
+        {content}
+      </a>
+    );
+  }
+  if (isExternal || isFile) {
     return (
       <a
         href={href}

@@ -35,6 +35,7 @@ export function CtaBand({
   reassurance,
   location,
   photo = true,
+  longHeading = false,
 }: {
   eyebrow?: string;
   heading: string | readonly string[];
@@ -45,6 +46,8 @@ export function CtaBand({
   /** Sent with the click events, to tell one page's band from another's. */
   location: string;
   photo?: boolean;
+  /** A heading that is a sentence and a book title, not a question. */
+  longHeading?: boolean;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy text-white">
@@ -66,7 +69,11 @@ export function CtaBand({
           eyebrow={eyebrow}
           lines={heading}
           tone={photo ? "photo" : "dark"}
-          className="mx-auto max-w-4xl [&_h2]:!text-[clamp(2.25rem,1.3rem+3.6vw,4.25rem)]"
+          className={`mx-auto max-w-4xl ${
+            longHeading
+              ? "[&_h2]:!text-[clamp(1.75rem,1.2rem+2vw,3rem)]"
+              : "[&_h2]:!text-[clamp(2.25rem,1.3rem+3.6vw,4.25rem)]"
+          }`}
         />
         {body && <p className="lede mx-auto mt-6 max-w-2xl text-white/85">{body}</p>}
         <div className="mt-10 flex flex-col items-center justify-center gap-3 min-[420px]:flex-row">
