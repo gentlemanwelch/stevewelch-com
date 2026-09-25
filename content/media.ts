@@ -7,6 +7,26 @@
  * outbound links.
  */
 
+/** The words /writings-media/ puts around the lists below. */
+export const mediaLabels = {
+  /* The nav calls this page "Ideas" (the Built for Change packet's word). The
+     h1 keeps "Writings + Media", the indexed name; the eyebrow carries the
+     nav's. */
+  eyebrow: "Ideas",
+  heading: "Writings + Media",
+  newsletterEyebrow: "Newsletter",
+  newsletterHeading: "Steve writes on Substack",
+  subscribeTitle: "Subscribe to Steve Welch on Substack",
+  readAll: "Read every post on Substack",
+  videos: "Videos",
+  podcasts: "Podcast Interviews",
+  publications: "Media Publications",
+  expertTalks: "Expert Talks",
+  podcastHeading: "Hosting a podcast?",
+  /* Not a booking CTA, so not "Build Your Keynote": this one is for hosts. */
+  getInTouch: "Get in touch",
+};
+
 export const mediaIntro =
   "Learn about Steve through his appearances in expert talks, podcasts, and other media.";
 

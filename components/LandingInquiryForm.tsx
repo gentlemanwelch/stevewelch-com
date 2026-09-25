@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
-import { trackInquiry } from "@/lib/analytics";
+import { FIELD } from "@/lib/formStyles";
+import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
 
 /**
@@ -42,6 +43,12 @@ export function LandingInquiryForm({
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const attribution = useRef<Record<string, string>>({});
+  const started = useRef(false);
+  const onStart = () => {
+    if (started.current) return;
+    started.current = true;
+    track("contact_form_start", { location: `lp_${campaign}` });
+  };
 
   /*
    * Read the click identifiers once on mount.
@@ -101,19 +108,12 @@ export function LandingInquiryForm({
       trackInquiry("landing");
 
       /*
-       * Fire the Google Ads conversion, if the tag is on the page.
-       *
-       * Guarded rather than assumed: the tag only exists once
-       * NEXT_PUBLIC_GOOGLE_ADS_ID and a conversion label are configured, and a
-       * missing tag must never break a successful submission. A booking that
-       * arrived but did not report is a reporting problem; a booking lost to a
-       * thrown error is a lost booking.
+       * `trackInquiry` fires BOTH the GA4 event and the Google Ads conversion.
+       * There used to be a second `gtag("event", "conversion")` here, reading
+       * NEXT_PUBLIC_GOOGLE_ADS_CONVERSION — a name the README once told people
+       * to set. With it set, every paid inquiry counted twice, and Smart
+       * Bidding learns from exactly that number. Removed; do not add another.
        */
-      const w = window as typeof window & { gtag?: (...args: unknown[]) => void };
-      const sendTo = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION;
-      if (typeof w.gtag === "function" && sendTo) {
-        w.gtag("event", "conversion", { send_to: sendTo });
-      }
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -122,15 +122,15 @@ export function LandingInquiryForm({
 
   if (status === "sent") {
     return (
-      <div className="rounded-[var(--radius-card)] bg-[var(--color-tint)] p-6">
-        <p className="text-lg font-bold text-[var(--color-ink)]">
+      <div role="status" className="border-t-2 border-navy bg-tint p-6">
+        <p className="text-lg font-bold text-navy">
           Thank you — that went straight to Steve’s team.
         </p>
-        <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
+        <p className="mt-2 text-[0.9375rem]">
           A confirmation is on its way to your inbox. Steve reads these himself and
           will reply personally. On a tight timeline?
           Email{" "}
-          <a className="underline underline-offset-2" href={`mailto:${site.email}`}>
+          <a className="font-semibold text-action underline underline-offset-2" href={`mailto:${site.email}`}>
             {site.email}
           </a>{" "}
           and say so.
@@ -139,19 +139,30 @@ export function LandingInquiryForm({
     );
   }
 
-  // 16px minimum — under that iOS Safari zooms the page on focus and stays
-  // zoomed. See the longer note in InquiryForm.
-  const field =
-    "w-full rounded-lg border border-[var(--color-line)] bg-white px-4 py-3 text-base text-[var(--color-ink)] placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
+  // Shared with the other forms — lib/formStyles.ts. 16px minimum: under
+  // that iOS Safari zooms the page on focus and stays zoomed.
+  const field = FIELD;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} onFocusCapture={onStart} className="space-y-4">
       {/* Honeypot — hidden from people and from assistive tech, rejected server-side. */}
       <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor={`website-${campaign}`}>Website</label>
         <input id={`website-${campaign}`} name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
+      {/* The outcome question first — see the note in InquiryForm. */}
+      <div>
+        <label className="sr-only" htmlFor={`msg-${campaign}`}>What do you need this session to accomplish?</label>
+        <textarea
+          id={`msg-${campaign}`}
+          name="message"
+          required
+          rows={3}
+          placeholder="What do you need this session to accomplish? Date and audience help too."
+          className={field}
+        />
+      </div>
       <div>
         <label className="sr-only" htmlFor={`name-${campaign}`}>Your name</label>
         <input id={`name-${campaign}`} name="name" required autoComplete="name" placeholder="Your name" className={field} />
@@ -171,33 +182,22 @@ export function LandingInquiryForm({
           {BUDGET_RANGES.map((b) => <option key={b} value={b}>{b}</option>)}
         </select>
       </div>
-      <div>
-        <label className="sr-only" htmlFor={`msg-${campaign}`}>About your event</label>
-        <textarea
-          id={`msg-${campaign}`}
-          name="message"
-          required
-          rows={3}
-          placeholder="Your event — date, audience, and what the session should accomplish"
-          className={field}
-        />
-      </div>
 
       {error && (
-        <p role="alert" className="rounded-lg bg-[var(--color-tint)] px-4 py-3 text-sm text-[var(--color-blue-deep)]">
-          {error} <a className="underline" href={`mailto:${site.email}`}>Email {site.email} instead</a>.
+        <p role="alert" className="border-l-4 border-action bg-tint px-4 py-3 text-[0.9375rem] text-navy">
+          {error} <a className="font-semibold underline" href={`mailto:${site.email}`}>Email {site.email} instead</a>.
         </p>
       )}
 
       <button
         type="submit"
         disabled={status === "sending"}
-        className={buttonClasses("blue", "w-full")}
+        className={buttonClasses("primary", "w-full")}
       >
         {status === "sending" ? "Sending…" : ctaLabel}
       </button>
 
-      <p className="text-xs text-[var(--color-ink-faint)]">
+      <p className="text-[0.875rem] text-ink-faint">
         Used only to answer this inquiry. No list, no newsletter, no third party.
       </p>
     </form>

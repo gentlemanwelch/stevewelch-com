@@ -73,7 +73,7 @@ export const landingPages: LandingPage[] = [
     campaign: "AI + change — the lead ad group",
     headline: "Get to AI Before Your Competitors Do",
     subhead:
-      "The advantage is real and it is going fast. Most organizations will miss it — not because the technology is hard, but because they cannot implement. Steve Welch has driven change through four companies he founded, 350+ he was first money into, and the national business he runs today, and he speaks to leadership teams about what has to be true before any of it lands.",
+      "The advantage is real and it is going fast. Most organizations will miss it — not because the technology is hard, but because they cannot implement. Steve Welch has driven change through four companies he founded, 350+ he was first money into, and the national business he helped build, and he speaks to leadership teams about what has to be true before any of it lands.",
     title: "AI and Change Keynote Speaker",
     bullets: [
       "Why the advantage goes to the organization that can implement, not the one that buys first",
@@ -84,7 +84,7 @@ export const landingPages: LandingPage[] = [
     proof: [
       { value: "4", label: "companies founded", sentence: "Steve Welch has founded 4 companies." },
       { value: "350+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 350 companies." },
-      { value: "225+", label: "locations run today", sentence: "Steve Welch is CEO of Restore Hyper Wellness, which operates more than 225 studios nationwide." },
+      { value: "225+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 studios nationwide." },
     ],
     ctaLabel: "Check availability",
     logos: "worked-with",
@@ -94,10 +94,10 @@ export const landingPages: LandingPage[] = [
     campaign: "Brand + generic keynote terms",
     headline: "Book a Keynote Speaker Who Has Actually Run the Companies",
     subhead:
-      "Steve Welch has founded four companies, invested in 400+, and runs a national health business today. He speaks to leadership teams about driving change through purpose, people, and process — and inquiries reach his team directly, with no bureau in between.",
+      "Steve Welch has founded four companies, invested in 400+, and helped build a national health business. He speaks to leadership teams about driving change through purpose, people, and process — and inquiries reach his team directly, with no bureau in between.",
     title: "Book a Keynote Speaker",
     bullets: [
-      "45–60 minute keynote, tailored on a call before your event",
+      "45–60 minute keynote, built for the room in working sessions before your event",
       "Corporate, association, and founder audiences on multiple continents",
       "Booking goes straight to Steve’s team — no agency, no bureau fee",
       "Engagements start at $20,000 — a straight answer on availability, not a negotiation",
@@ -126,7 +126,7 @@ export const landingPages: LandingPage[] = [
     proof: [
       { value: "25 yrs", label: "building and scaling companies", sentence: "Steve Welch has spent 25 years building and scaling companies." },
       { value: "4", label: "companies founded", sentence: "Steve Welch has founded 4 companies." },
-      { value: "225+", label: "locations run today", sentence: "Steve Welch is CEO of Restore Hyper Wellness, which operates more than 225 studios nationwide." },
+      { value: "225+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 studios nationwide." },
     ],
     ctaLabel: "Check availability",
     logos: "worked-with",
@@ -136,7 +136,7 @@ export const landingPages: LandingPage[] = [
     campaign: "Employee wellbeing / human performance terms",
     headline: "An Employee Wellbeing Keynote From Someone Who Built the Business",
     subhead:
-      "Not a wellness consultant. Steve Welch is CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3 million therapies delivered last year — and he speaks about the energy leaders need to drive change, without the supplement-aisle vocabulary.",
+      "Not a wellness consultant. Steve Welch helped build Restore Hyper Wellness — 225+ studios, 57,000 members, 3 million therapies delivered in 2024 — and he speaks about the energy leaders need to drive change, without the supplement-aisle vocabulary.",
     title: "Employee Wellbeing Keynote Speaker",
     bullets: [
       "Why capacity, not strategy, is the binding constraint on most teams",
@@ -157,3 +157,19 @@ export const landingPages: LandingPage[] = [
 export function getLandingPage(slug: string): LandingPage | undefined {
   return landingPages.find((p) => p.slug === slug);
 }
+
+/**
+ * The words every landing page shares, around the per-campaign copy above.
+ */
+export const landingLabels = {
+  formNote: "Goes straight to Steve’s team. You’ll get a confirmation immediately.",
+  logoHeadings: {
+    speaking: "Speaking Engagements",
+    "worked-with": "Companies Steve has worked with",
+  },
+  closing: {
+    heading: "Tell Steve about your event.",
+    body: "Date, audience, and what the session needs to accomplish.",
+  },
+  privacy: "Privacy Policy",
+};

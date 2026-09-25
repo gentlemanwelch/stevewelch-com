@@ -1,7 +1,7 @@
 import { site } from "@/content/site";
 import { bioShort } from "@/content/bio";
 import { talks } from "@/content/speaking";
-import { faqs } from "@/content/faq";
+import { faqs, type Faq } from "@/content/faq";
 import { books } from "@/content/books";
 
 /**
@@ -129,12 +129,16 @@ export function speakingServiceSchema() {
  * disproportionately valuable here: an organizer who gets "how do I book him"
  * answered in the result page arrives already knowing there is no agency in
  * the middle.
+ *
+ * Pass the questions the page actually SHOWS. The markup must describe
+ * visible content; components/kit/FaqList.tsx renders both from one list so
+ * they cannot drift apart.
  */
-export function faqSchema() {
+export function faqSchema(list: readonly Faq[] = faqs) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
+    mainEntity: list.map((f) => ({
       "@type": "Question",
       name: f.question,
       acceptedAnswer: { "@type": "Answer", text: f.answer },

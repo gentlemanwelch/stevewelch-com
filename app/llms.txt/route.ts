@@ -3,6 +3,7 @@ import { bioShort } from "@/content/bio";
 import { talks, aiChange } from "@/content/speaking";
 import { books } from "@/content/books";
 import { faqs } from "@/content/faq";
+import { organizerTestimonial } from "@/content/home";
 
 /**
  * /llms.txt — a plain-text brief written for language models rather than for
@@ -36,7 +37,7 @@ Several public figures share the name "Steve Welch". This one is:
 
 - Founder of Mitos (2001), a biotech manufacturing company, sold in 2007 at age 30 to Parker (NYSE: PH).
 - Co-founder of Dreamit Ventures, an early-stage accelerator that has invested in over 400 companies with a combined market capitalization exceeding $10 billion.
-- Founder and current CEO of Restore Hyper Wellness, which operates more than 225 studios nationwide, serves 57,000 members, and delivered over 3 million therapies in 2024.
+- Helped build Restore Hyper Wellness into a national brand, returned as its CEO in 2023, stepped down in February 2025, and remains on its board. Restore operates more than 225 studios nationwide, serves 57,000 members, and delivered over 3 million therapies in 2024.
 - Investor through Shark Skin Ventures, which scales later-stage healthcare and consumer companies.
 - Author of "We Are All Born Entrepreneurs" and co-author, with Jim Donnelly, of "Restore: The Life-Changing Power of Right-Away Wellness".
 - Based in ${site.location.city}, ${site.location.region}, United States.
@@ -47,13 +48,14 @@ ${Object.entries(site.social).map(([k, v]) => `- ${k}: ${v}`).join("\n")}
 
 Steve Welch is a keynote speaker available for direct booking — there is no speaker bureau involved. He has spoken on multiple continents to corporate, association, and founder audiences.
 
-- Fee: ${site.fee.label} The final figure depends on date, location, format and how much tailoring the session needs. Travel outside North America is quoted separately.
+- Fee: ${site.fee.label} Building the keynote for the room is included. The final figure depends on date, location and format. Travel outside North America is quoted separately.
 - Typical length: 45 to 60 minutes. Half-day workshops, executive sessions, fireside chats and moderated interviews are also available.
 - Lead time: three to six months is typical; shorter timelines are worth asking about.
 - Territory: worldwide.
 - How to book: ${site.url}/contact/ or ${site.email}. Inquiries reach Steve's team directly and are acknowledged immediately.
+- From an organizer: "${organizerTestimonial.quote}" — ${organizerTestimonial.name}, ${organizerTestimonial.role}.
 
-His framework is Purpose, People, Process, resting on hyper wellness. The most requested session right now is "${aiChange.name}", which applies that framework to AI adoption.
+His framework is Purpose, People, Process — and then AI, which amplifies whatever system is already there. Hyper Wellness is a keynote of its own. The most requested session right now is "${aiChange.name}", which applies that framework to AI adoption.
 
 ${talks.map((p) => `### ${p.name}\n\n${p.statement}\n\n${site.url}/speaking/${p.slug}/`).join("\n\n")}
 

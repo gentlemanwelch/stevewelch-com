@@ -4,6 +4,7 @@ import "./globals.css";
 import { JsonLd } from "@/components/primitives";
 import { Analytics } from "@/components/Analytics";
 import { AttributionCapture } from "@/components/AttributionCapture";
+import { TrackEvents } from "@/components/TrackEvents";
 import { personSchema, websiteSchema } from "@/lib/jsonld";
 import { site } from "@/content/site";
 
@@ -21,10 +22,15 @@ import { site } from "@/content/site";
  */
 const body = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  // 800 was added for the Built for Change display type — the hero headline
+  // and the one-statement slides. At 96px, 700 reads as bold text; 800 reads
+  // as a slide.
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
   variable: "--font-body-family",
 });
+
+const isPreview = process.env.VERCEL_ENV === "preview";
 
 export const metadata: Metadata = {
   /**
@@ -41,11 +47,25 @@ export const metadata: Metadata = {
   description: site.description,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
-  },
+  /*
+   * PREVIEW BUILDS ARE NEVER INDEXED.
+   *
+   * The redesign is being built on a branch and reviewed at a Vercel preview
+   * URL. A preview link that leaks into search results would compete with the
+   * real site for its own name.
+   *
+   * It fails SAFE: only a build Vercel explicitly labels "preview" is hidden.
+   * A production build, a local build, or a build where the variable is
+   * somehow missing all stay indexable — so there is no configuration in
+   * which this can take the real site out of Google.
+   */
+  robots: isPreview
+    ? { index: false, follow: false }
+    : {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+      },
   alternates: { canonical: site.url },
 };
 
@@ -63,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[var(--color-ink)] focus:px-5 focus:py-2 focus:text-sm focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[var(--radius-base)] focus:bg-navy focus:px-5 focus:py-3 focus:text-[0.9375rem] focus:font-bold focus:text-white"
         >
           Skip to content
         </a>
@@ -82,6 +102,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Records a paid click on arrival, on any page, so it survives the
             walk to the booking form. Renders nothing. */}
         <AttributionCapture />
+
+        {/* One delegated listener for every tracked CTA on the site. Renders
+            nothing, and no-ops until GA4 is configured. */}
+        <TrackEvents />
       </body>
     </html>
   );

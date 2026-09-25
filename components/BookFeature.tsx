@@ -4,8 +4,8 @@
  * this uses a plain <img> inside <picture> rather than flattening the design to
  * satisfy the linter. The assets are SVG, so no raster optimisation is lost.
  */
-import Link from "next/link";
-import { Container } from "@/components/primitives";
+import { Button, Container } from "@/components/primitives";
+import { bookLabels } from "@/content/books";
 
 /**
  * The featured-book block.
@@ -58,7 +58,7 @@ export function BookFeature({
 }) {
   const copyRight = side === "right";
   return (
-    <section className="relative isolate overflow-hidden bg-[var(--color-tint-warm)]">
+    <section className="relative isolate overflow-hidden bg-tint-warm">
       {/*
         MOBILE PUTS THE ARTWORK IN THE FLOW, above the copy. It used to be
         absolutely positioned at every width with a 22rem bottom padding on the
@@ -89,11 +89,7 @@ export function BookFeature({
         {/* The copy takes one half on desktop, where the artwork leaves the
             other empty; full width on mobile, under the art. */}
         <div className={`max-w-xl md:max-w-[52%] ${copyRight ? "md:ml-auto" : ""}`}>
-          {eyebrow && (
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-blue-deep)]">
-              {eyebrow}
-            </p>
-          )}
+          {eyebrow && <p className="eyebrow text-action">{eyebrow}</p>}
           {/*
             Both lines are the SAME size. The export has this as a single <h2>
             with "Restore:" and the full title as consecutive lines inside it —
@@ -102,30 +98,27 @@ export function BookFeature({
             title-and-subtitle pair rather than one title that happens to break.
             The span is here only to force the line break; it carries no size.
           */}
-          <h2 className="mt-3 text-[var(--color-blue-deep)]">
+          <h2 className="mt-3 font-extrabold">
             {title}
             {subtitle && <span className="block leading-tight">{subtitle}</span>}
           </h2>
           {rule && (
             <hr
               aria-hidden="true"
-              className="mt-5 h-[4px] w-full max-w-[13rem] border-0 bg-[var(--color-cyan)]"
+              className="mt-6 h-0.5 w-full max-w-[13rem] border-0 bg-navy"
             />
           )}
-          <p className="mt-5 leading-relaxed text-[var(--color-ink-soft)]">
+          <p className="mt-5 leading-relaxed">
             {body.map((part, i) =>
               part.em ? <em key={i}>{part.text}</em> : <span key={i}>{part.text}</span>,
             )}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
             {learnMoreHref && (
-              <Link
-                href={learnMoreHref}
-                className="inline-flex rounded-[var(--radius-pill)] bg-[var(--color-blue)] px-7 py-3 font-bold text-white transition-colors hover:bg-[var(--color-blue-deep)]"
-              >
-                Learn More
-              </Link>
+              <Button href={learnMoreHref} variant="outline">
+                {bookLabels.learnMore}
+              </Button>
             )}
             {/*
               "Buy the Book" is still gated on the link existing — a button that
@@ -135,16 +128,7 @@ export function BookFeature({
               the one place on the site that sends a visitor away, and the rest
               of the page is what a booking enquiry comes from.
             */}
-            {buyUrl && (
-              <a
-                href={buyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex rounded-[var(--radius-pill)] bg-[var(--color-coral)] px-7 py-3 font-bold text-white transition-colors hover:bg-[var(--color-coral-dark)]"
-              >
-                Buy the Book
-              </a>
-            )}
+            {buyUrl && <Button href={buyUrl}>{bookLabels.buy}</Button>}
           </div>
         </div>
       </Container>

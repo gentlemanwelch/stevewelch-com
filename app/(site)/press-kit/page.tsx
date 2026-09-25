@@ -1,162 +1,122 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import { bioOneLine, bioShort, bioLong, credentials } from "@/content/bio";
-import { speakingPillars, hyperWellness } from "@/content/speaking";
-import { Container, Section, Eyebrow, Button, JsonLd } from "@/components/primitives";
-import { breadcrumbSchema } from "@/lib/jsonld";
+import { talks } from "@/content/speaking";
+import { eventPlanners as ep } from "@/content/event-planners";
+import { Container, Section, Button } from "@/components/primitives";
+import { PageHero } from "@/components/kit/PageHero";
+import { SectionHeading } from "@/components/kit/SectionHeading";
+import { SquareList } from "@/components/kit/SquareList";
+import { ClosingCta } from "@/components/kit/CtaBand";
 import { buildMetadata } from "@/lib/seo";
 
 /**
- * Press kit — the one page on this site that is NOT on the WordPress original.
+ * Event Planners, at /press-kit/ — see content/event-planners.ts for why the
+ * URL did not change with the name.
  *
- * It earns its place: organizers search "<name> press kit" and "<name> speaker
- * bio" directly, and publishing bios, the stage introduction and A/V needs
- * removes four emails from every engagement. A speaker with a proper press kit
- * has visibly done this before.
+ * The one page on this site that was not on the WordPress original. It earns
+ * its place: organizers search "<name> press kit" and "<name> speaker bio"
+ * directly, and every answer published here is an email that does not need
+ * to be sent before the event.
  *
- * It is deliberately kept separate from /writings-media/ (which is his real
- * page, reproduced) so the original structure stays intact.
- *
- * This page exists because the alternative is answering the same four emails
- * before every event: send us a bio, send us a headshot, how should we
- * introduce you, what do you need on stage. Publishing all of it removes the
- * round trips — and organizers searching "<name> press kit" or "<name> speaker
- * bio" land somewhere useful instead of on a contact form.
- *
- * It is also a quiet trust signal. A speaker with a proper press kit has done
- * this before.
+ * TOPICS come from `talks`, the list the /speaking/[pillar] route builds its
+ * pages from. They used to be spelled out here as `[...speakingPillars,
+ * hyperWellness]`, and so left out the AI keynote — the one most requested.
  */
 export const metadata: Metadata = buildMetadata({
-  title: "Press Kit",
+  title: "Event Planners — Press Kit, Bios and Stage Introduction",
   description:
     "Speaker bios, introduction, topics, and technical requirements for events featuring Steve Welch. Everything an event organizer needs, ready to use.",
   path: "/press-kit/",
   keywords: ["Steve Welch press kit", "Steve Welch speaker bio", "Steve Welch headshot", "speaker one sheet"],
 });
 
-/**
- * The introduction the host reads from the lectern. Written to be spoken aloud
- * — short sentences, no semicolons, and a last line that hands over cleanly.
- */
-const stageIntroduction = `Our next speaker has built from scratch, or been the first investor in, more than 350 companies over the last twenty-five years. He founded Mitos and sold it at the age of 30 to Parker. He co-founded Dreamit Ventures, which has backed over 400 companies now worth more than ten billion dollars combined. Today he is the CEO of Restore Hyper Wellness — 225 studios, 57,000 members. He is the author of "We Are All Born Entrepreneurs." He speaks about driving change through purpose, people, and process. Please welcome Steve Welch.`;
-
-const avRequirements = [
-  "Wireless lavalier or over-ear microphone (preferred over handheld)",
-  "Confidence monitor or a laptop on the lectern showing current slide",
-  "HDMI connection with 16:9 projection",
-  "Ability to move — no lectern-bound setups where it can be avoided",
-  "A clicker, or a stage manager cueing slides",
+const bios = [
+  { label: ep.bioLabels.oneLine, paragraphs: [bioOneLine] },
+  { label: ep.bioLabels.short, paragraphs: [bioShort] },
+  { label: ep.bioLabels.long, paragraphs: bioLong },
 ];
 
-export default function MediaPage() {
+/* A label, not a headline: these name a block of copy to lift. */
+const label = "eyebrow !text-[0.875rem] font-bold text-navy";
+
+export default function EventPlannersPage() {
   return (
     <>
-      <JsonLd
-        data={breadcrumbSchema([
+      <PageHero
+        eyebrow={ep.eyebrow}
+        title={ep.heading}
+        lede={ep.body}
+        breadcrumbs={[
           { name: "Home", path: "/" },
-          { name: "Press Kit", path: "/press-kit/" },
-        ])}
-      />
-
-      <section className="border-b border-[var(--color-line)]">
-        <Container className="py-16 sm:py-24">
-          <Eyebrow>Press kit</Eyebrow>
-          <h1 className="max-w-3xl leading-[1.06]">
-            Everything you need to promote the event.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-ink-soft)]">
-            Bios at three lengths, the stage introduction, topics, and technical requirements. Copy
-            anything on this page and use it as is — no permission needed.
-          </p>
-        </Container>
-      </section>
+          { name: ep.navName, path: "/press-kit/" },
+        ]}
+      >
+        <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="event_planners_hero">
+          {site.cta.label}
+        </Button>
+      </PageHero>
 
       <Section>
-        <Container size="measure">
-          <h2>Biographies</h2>
-
-          <div className="mt-8 space-y-8">
-            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
-                One line
-              </h3>
-              <p className="mt-3 leading-relaxed">{bioOneLine}</p>
-            </div>
-
-            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
-                Short — for programs
-              </h3>
-              <p className="mt-3 leading-relaxed">{bioShort}</p>
-            </div>
-
-            <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6">
-              <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink-faint)]">
-                Full — for websites
-              </h3>
-              <div className="mt-3 space-y-4 leading-relaxed">
-                {bioLong.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
+        <Container>
+          <SectionHeading lines={ep.biosHeading} />
+          <div className="mt-10 lg:mt-14">
+            {bios.map((bio) => (
+              <div key={bio.label} className="grid gap-4 border-t-2 border-navy py-8 lg:grid-cols-[16rem_1fr] lg:gap-12 lg:py-10">
+                <h3 className={label}>{bio.label}</h3>
+                <div className="max-w-[46rem] space-y-4 leading-relaxed">
+                  {bio.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </Container>
       </Section>
 
       <Section tone="alt">
-        <Container size="measure">
-          <h2>Stage introduction</h2>
-          <p className="mt-3 text-[var(--color-ink-soft)]">
-            Roughly 40 seconds, written to be read aloud.
-          </p>
-          <blockquote className="mt-8 rounded-2xl border-l-2 border-[var(--color-accent)] bg-[var(--color-surface)] p-6 text-lg leading-relaxed text-[var(--color-ink)]">
-            {stageIntroduction}
+        <Container>
+          <SectionHeading lines={ep.introHeading}>
+            <p className="mt-4">{ep.introNote}</p>
+          </SectionHeading>
+          <blockquote className="mt-10 max-w-4xl border-l-4 border-action pl-6 text-[clamp(1.25rem,1.05rem+0.8vw,1.625rem)] font-medium leading-relaxed text-navy lg:pl-10">
+            {ep.stageIntroduction}
           </blockquote>
         </Container>
       </Section>
 
       <Section>
         <Container>
-          <div className="grid gap-12 lg:grid-cols-2">
+          <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
             <div>
-              <h2>Topics</h2>
-              <ul className="mt-6 space-y-4">
-                {[...speakingPillars, { ...hyperWellness, statement: hyperWellness.statement }].map((pillar) => (
-                  <li key={pillar.slug}>
-                    <p className="text-lg font-bold text-[var(--color-ink)]">{pillar.name}</p>
-                    <p className="mt-1 text-ui leading-relaxed text-[var(--color-ink-faint)]">
-                      {pillar.statement}
-                    </p>
+              <h2 className="!text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)] font-extrabold">{ep.topicsHeading}</h2>
+              <ul className="mt-8 divide-y divide-line-strong border-y border-line-strong">
+                {talks.map((talk) => (
+                  <li key={talk.slug}>
+                    <Link href={`/speaking/${talk.slug}/`} className="group block py-5">
+                      <span className="block text-lg font-bold text-navy transition-colors group-hover:text-action">
+                        {talk.name} <span aria-hidden="true" className="text-action">→</span>
+                      </span>
+                      <span className="mt-1 block text-[0.9375rem] leading-relaxed">{talk.statement}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div>
-              <h2>Technical requirements</h2>
-              <ul className="mt-6 space-y-3">
-                {avRequirements.map((item) => (
-                  <li key={item} className="flex gap-3 leading-relaxed">
-                    <span aria-hidden="true" className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-accent)]" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <h2 className="!text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)] font-extrabold">{ep.avHeading}</h2>
+              <SquareList items={ep.avRequirements} className="mt-8 text-navy" />
 
-              <h2 className="mt-12">Photography</h2>
-              <p className="mt-4 leading-relaxed text-[var(--color-ink-soft)]">
-                {/*
-                  REVIEW: replace this paragraph with direct download links once
-                  high-resolution headshots and stage photography are in /public.
-                  Organizers need these and will email for them otherwise.
-                */}
-                High-resolution headshots and stage photography are available on request — email{" "}
-                <a className="text-[var(--color-accent)] underline underline-offset-4" href={`mailto:${site.email}`}>
+              <h2 className="mt-14 !text-[clamp(1.75rem,1.2rem+1.8vw,2.5rem)] font-extrabold">{ep.photoHeading}</h2>
+              <p className="mt-5 leading-relaxed">
+                {ep.photoBefore}{" "}
+                <a className="font-semibold text-action underline underline-offset-4 hover:text-action-dark" href={`mailto:${site.email}`}>
                   {site.email}
                 </a>{" "}
-                and they will come back the same day.
+                {ep.photoAfter}
               </p>
+              <p className="mt-4 leading-relaxed">{ep.somethingElse}</p>
             </div>
           </div>
         </Container>
@@ -164,33 +124,19 @@ export default function MediaPage() {
 
       <Section tone="alt">
         <Container>
-          <h2 className="sr-only">Fact sheet</h2>
-          <dl className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <h2 className="sr-only">{ep.factSheetHeading}</h2>
+          <dl className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {credentials.map((item) => (
-              <div key={item.label}>
-                <dt className="text-lg font-semibold text-[var(--color-ink)]">
-                  {item.label}
-                </dt>
-                <dd className="mt-1 text-sm leading-relaxed text-[var(--color-ink-faint)]">
-                  {item.detail}
-                </dd>
+              <div key={item.label} className="border-t-2 border-navy pt-5">
+                <dt className="text-xl font-extrabold leading-snug text-navy">{item.label}</dt>
+                <dd className="mt-2 text-[0.9375rem] leading-relaxed">{item.detail}</dd>
               </div>
             ))}
           </dl>
         </Container>
       </Section>
 
-      <Section tone="ink">
-        <Container className="text-center">
-          <h2 className="text-white">Need something else?</h2>
-          <p className="mx-auto mt-4 max-w-xl text-white/70">
-            Ask and it will be sent the same day.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Button href="/contact/">Get in touch</Button>
-          </div>
-        </Container>
-      </Section>
+      <ClosingCta location="event_planners_final_cta" />
     </>
   );
 }

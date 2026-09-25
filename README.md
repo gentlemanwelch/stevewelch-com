@@ -19,7 +19,7 @@ not a reconstruction.
 |---|---|
 | URLs and page structure | **Exact** — all 12 published pages at their existing paths |
 | Copy | **From the export** — the site's own words |
-| Palette and typeface | **From the export** — Poppins, `#042e43`/`#348cbb`/`#055577` |
+| Palette and typeface | Poppins from the export; palette from Steve's 2026-09-25 mockup — `#06153d`/`#0062f2`/`#0066fc` (see `app/globals.css`) |
 | Logo walls, testimonials, media list | **Real** — recovered, not invented |
 | Image files | **Not yet present** — run `scripts/download-media.sh` |
 | Component-level styling | **Interpreted** — see below |
@@ -118,18 +118,24 @@ They differ from the organic site in four deliberate ways:
 
 To add a campaign: append an object to `content/landing-pages.ts`. That is all.
 
-### Still to wire up
+### Measurement
 
-GA4 and the Google Ads conversion tag are not installed yet. When you have them:
+GA4 is live (`booking_inquiry`, fired on a confirmed submission only, marked as
+a key event). The Google Ads conversion goes live when its two values are set.
+All three are Vercel **Config** variables, **Production only** — preview and
+local traffic must not pollute a property judged on a few dozen conversions:
 
 ```
-NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_GOOGLE_ADS_ID=AW-XXXXXXXXX
-NEXT_PUBLIC_GOOGLE_ADS_CONVERSION=AW-XXXXXXXXX/xxxxxxxxxxxxxxx
+NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL=xxxxxxxxxxxxxxx
 ```
 
-The landing form already fires the conversion event when `gtag` and the
-conversion label are both present, and no-ops safely when they are not.
+`lib/analytics.ts` is the only thing that fires the conversion. **Do not set
+`NEXT_PUBLIC_GOOGLE_ADS_CONVERSION`** — an earlier version of this README listed
+it, and the landing form fired a second conversion from it on top of the one
+above, so setting both would have counted every paid inquiry twice. That second
+path is removed; the name is recorded here so nobody re-adds it.
 
 ## AIO — being cited by AI answers
 
@@ -143,7 +149,7 @@ name — one of them has a Wikipedia entry.
 
 Facts are emitted as complete sentences as well as display fragments. A number
 in one element and its label in another reaches a parser as two unrelated
-pieces; see the hidden `sentence` field on `StatGrid`.
+pieces; see the hidden `sentence` field on `StatRow` (`components/kit/StatRow.tsx`).
 
 ## Running it
 
@@ -174,14 +180,14 @@ opened to change what the site says.
 |---|---|
 | `content/site.ts` | Name, domain, navigation, contact email, social links, fee visibility, portrait |
 | `content/bio.ts` | Three bio lengths, credentials strip, career timeline |
-| `content/talks.ts` | **The signature talks — one page each. The most important file here.** |
+| `content/speaking.ts` | **The keynotes — `talks` is the one list; each gets its own page. The most important file here.** |
 | `content/books.ts` | Both books |
 | `content/faq.ts` | Booking FAQ (also emitted as FAQ structured data) |
 | `content/media.ts` | Writings + Media appearances. Ships empty — see below. |
 | `content/foundation.ts` | Welch Family Foundation mission and focus areas |
 | `content/testimonials.ts` | Ships empty on purpose. See below. |
 
-**Adding a fourth topic** means adding one object to `content/talks.ts`. The
+**Adding a keynote** means adding one object to `talks` in `content/speaking.ts`. The
 page, the sitemap entry, the structured data, the footer link, and the
 cross-links from the other topic pages all follow automatically. Same for a
 book in `content/books.ts`.

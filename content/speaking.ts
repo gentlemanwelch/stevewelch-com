@@ -13,10 +13,37 @@
  * be about both. Nothing is taken off the hub to make that work.
  */
 
+import { bfc } from "./media-manifest";
+
+/*
+ * "Entrepreneur. Investor. Disruptor." was the WordPress-era headline. The
+ * revision brief (§11) lists it as a launch blocker: it frames Steve before
+ * the platform. Replaced 2026-09-25 with Steve's approval.
+ */
 export const speakingHero = {
-  eyebrow: "Speaking",
-  heading: "Entrepreneur. Investor. Disruptor.",
-  cta: "Book Steve to Speak",
+  eyebrow: "Built for Change",
+  heading: "Keynotes built for change.",
+};
+
+/**
+ * The labels /speaking/ and the topic pages put around the content above.
+ * The booking button is not here: every page uses `site.cta` ("Build Your
+ * Keynote"), which replaced "Book Steve to Speak", "Check availability" and
+ * "Get in touch" — the spec's "no synonymous booking CTAs".
+ */
+export const speakingLabels = {
+  engagements: "Speaking Engagements",
+  aiEyebrow: "Most requested right now",
+  aiMore: "Read the argument",
+  more: "More on",
+  faqEyebrow: "Booking",
+  faqHeading: "Questions organizers ask.",
+  topicEyebrow: "Keynote",
+  covers: "What it covers",
+  builtFor: "Built for",
+  about: "About this session",
+  rest: "The rest of the framework",
+  read: "Read",
 };
 
 export const speakingIntro =
@@ -38,6 +65,9 @@ export type SpeakingPillar = {
   /** Expanded argument for the pillar's own page. */
   body: string[];
   audiences: string[];
+  /** A photograph for the topic page's hero, beside the copy. Only where a
+      real one exists — the other topic pages stay type-only. */
+  image?: { src: string; alt: string; focus?: string };
 };
 
 export const speakingPillars: SpeakingPillar[] = [
@@ -191,7 +221,7 @@ export const aiChange = {
   ],
   body: [
     "Steve does not open this one with a caveat. AI is coming, the advantage of getting there before your competitors is real, and an organization treating it as wait-and-see has made a decision whether it says so or not. None of that is in dispute and the session does not spend its time arguing it.",
-    "What is in dispute is who actually gets there. Steve has watched the same pattern in the four companies he founded, in the 350+ he was first money into, and in the national business he runs today: the constraint is almost never the technology. It is that the organization cannot implement. The pilot runs, the deck gets presented, and eighteen months later nothing in the operating rhythm has changed. That failure has nothing to do with AI — it was there before, on every other change the company tried to make. AI only makes it expensive faster.",
+    "What is in dispute is who actually gets there. Steve has watched the same pattern in the four companies he founded, in the 350+ he was first money into, and in the national business he helped build: the constraint is almost never the technology. It is that the organization cannot implement. The pilot runs, the deck gets presented, and eighteen months later nothing in the operating rhythm has changed. That failure has nothing to do with AI — it was there before, on every other change the company tried to make. AI only makes it expensive faster.",
     "The second half of the argument is the part organizations most need and least expect from a talk with AI in the title: there is a great deal beyond AI driving change right now, and a company that pours its entire change capacity into one technology will be caught flat by the rest of it. What generalises is the capability, not the tool.",
     "Which returns it to purpose, people and process — not as a consolation prize beside the AI question, but as the answer to it. Purpose, so the organization can tell which moves are worth making rather than chasing whichever one is in the trade press. People, because the ones who have to live with the change decide whether it survives its first bad quarter. Process, because iteration speed is the whole game when nobody yet knows the right answer. Get those right and you get there first. Get them wrong and you will buy the software anyway, and your competitors will still beat you to it.",
   ],
@@ -203,20 +233,28 @@ export const aiChange = {
 };
 
 /**
- * The foundation under the three pillars. On the original this is its own
- * section headed "It All Starts With Hyper Wellness" — it is the connective
- * argument between Steve's day job and his speaking, so it gets its own page
- * too.
+ * A keynote in its own right — NOT the foundation under the three pillars.
+ * The original headed it "It All Starts With Hyper Wellness" and framed it as
+ * the base of Purpose, People and Process; the revision brief (§11) removes
+ * that framing, because Built for Change's foundation is the framework
+ * itself, with AI amplifying it. Reworded 2026-09-25 with Steve's approval.
+ * It connects Steve's Restore years to his speaking, and has its own page.
  */
 export const hyperWellness = {
   slug: "hyper-wellness",
   name: "Hyper Wellness",
-  heading: "It All Starts With Hyper Wellness",
+  /* Steve on stage at an Oura × Restore event — supplied 2026-09-25 for this
+     page. Framed on Steve, clear of the navy fade. The "restore" logo runs to
+     the photograph's right edge, so any side crop trims it: at laptop widths
+     it reads "restor…", and it shows whole from about 1700 wide. Keeping
+     Steve out of the fade is the better trade. */
+  image: { src: bfc.ouraStage, alt: bfc.ouraStageAlt, focus: "30% 70%" },
+  heading: "Hyper Wellness",
   statement:
-    "The hyper wellness lifestyle allows leaders to have the proper energy to drive change and find the purpose, people and processes that will lead to success",
+    "The energy leaders need to drive change — a keynote from a former CEO of Restore Hyper Wellness.",
   seoTitle: "Wellness & Human Performance Keynote Speaker",
   metaDescription:
-    "A keynote on the energy leaders need to drive change, from the CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
+    "A keynote on the energy leaders need to drive change, from a former CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
   keywords: [
     "wellness keynote speaker",
     "employee wellbeing keynote speaker",
@@ -226,7 +264,7 @@ export const hyperWellness = {
   ],
   body: [
     "Ask a stalled leadership team what is wrong and they will describe a strategy problem. Spend a day with them and you will usually find something simpler underneath it: capable people running at a fraction of their capacity, making decisions at four in the afternoon they would not have made at nine in the morning, and treating that as the cost of the job.",
-    "This is the load-bearing argument beneath everything else Steve speaks about. The hyper wellness lifestyle is what gives leaders the energy to drive change — and without it the purpose, the people and the processes never get found, because finding them is hard work and hard work requires fuel.",
+    "It stands on its own as a keynote. The hyper wellness lifestyle is what gives leaders the energy to drive change — and finding the right purpose, people and processes is hard work, and hard work requires fuel.",
     "He did not arrive at this from a book. Restore Hyper Wellness began with a problem he had personally: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. The company that came out of that now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
     "The session ends practically — the short list of inputs that carry most of the effect, an honest account of where the evidence supports the wellness industry and where it outruns it, and why a wellbeing benefit nobody uses has bought the organization nothing at all.",
   ],
@@ -264,9 +302,4 @@ export const speakingReel = {
   heading: "Speaking Reel",
   url: "https://www.youtube.com/watch?v=m5oykqwZjUU",
   youtubeId: "m5oykqwZjUU",
-};
-
-export const podcastNote = {
-  heading: "Steve is available for select podcast opportunities",
-  body: "Reach out if you'd like to connect",
 };

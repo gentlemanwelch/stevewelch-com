@@ -1,136 +1,290 @@
 /**
- * Homepage content — transcribed from the WordPress export's ACF blocks, in
- * the order the original renders them.
+ * HOMEPAGE — "Built for Change".
  *
- * Section order on stevewelch.com/:
- *   hero → newsletter bar → intro → Investor/Executive/Speaker → speaking
- *   overlay → "Speaking Engagements" logo wall → Purpose/People/Process →
- *   book CTA → free-chapter opt-in → Restore Hyper Wellness
+ * Every string here is from 01_HOMEPAGE_COPY.md in the Built for Change
+ * handoff packet, as written. The packet's instruction is explicit: "Copy
+ * should be implemented as written unless Steve explicitly approves a change.
+ * Minor punctuation/line-wrap changes are fine; strategic rewriting is not."
+ * Edit this file freely — but an edit here is a copy change, not a code change,
+ * and belongs to Steve.
  *
- * Kept in that order deliberately. It is a good page — the three roles
- * establish range before asking for anything, the logo wall proves the claim,
- * and Purpose/People/Process is the actual intellectual framework rather than
- * a list of topics.
+ * The page renders these in the packet's section order (§2–§12); §1 and §13
+ * are the header and footer.
+ *
+ * REVISED 2026-09-25 from the CMO's homepage revision brief
+ * (Claude_Homepage_Revision_Brief), which Steve passed on to apply: more
+ * stature, less repetition, a proof strip, "Built for the Room" in place of
+ * "Case study", and one final CTA. Where this file departs from the packet,
+ * the brief is the later instruction.
+ *
+ * `headingLines` arrays are headings the packet sets on two lines. They render
+ * as ONE heading element with a line break, so a screen reader and a crawler
+ * read one sentence rather than two.
  */
 
-/**
- * The hero headline is set in two tiers on the original: "Driving Change" large,
- * the rest noticeably smaller beneath it. Split here so the components do not
- * have to slice the string — and so the whole phrase still reads as one
- * sentence to a screen reader and to a crawler, since both halves live inside
- * a single <h1>.
- */
+/* §2 — Hero ------------------------------------------------------------- */
+
 export const hero = {
-  headingLead: "Driving Change",
-  headingRest: "Through Purpose, People, Process",
+  eyebrow: "STEVE WELCH",
+  /** The H1. The spec: "H1 remains Built for Change." */
+  heading: "BUILT FOR CHANGE.",
+  /* Steve's mockup sets it on two lines, "CHANGE." in the royal blue. One
+     h1 either way — see `headingLines` above. */
+  headingLines: ["BUILT FOR", "CHANGE."],
+  /** Set as the first H2 — the copy marks it `##` under the H1. */
+  subhead: "AI, Leadership, and the Organizations That Adapt",
+  body: "Steve Welch has spent 25 years founding, scaling, leading, and investing in companies. Built for Change brings those lessons to leaders confronting the most consequential technology shift of their careers.",
+  /** Set in italics inside `body`, as the mockup does — it is the keynote's title. */
+  bodyTitle: "Built for Change",
+  /* The brief gives this twice, full (§2) and cut (§5). Steve chose the
+     full one: it names Purpose, People and Process on the first screen,
+     which the brief's own 15-second test asks for. */
+  thesis:
+    "AI change only works when the fundamentals are already in place: clear purpose, aligned people, and processes that drive consistent execution. Then AI amplifies everything.",
+  primaryCta: "Build Your Keynote",
+  secondaryCta: "Watch Steve Speak",
+  /* "400+ Companies" is the revision brief's line — Dreamit's portfolio,
+     which Steve co-founded. It settles the old 400+ / 350+ question. */
+  credibility: ["FOUNDER", "CEO", "INVESTOR", "400+ COMPANIES"],
 };
 
-/** The full phrase, for <title>, metadata and anywhere it is needed unsplit. */
-export const heroHeading = `${hero.headingLead} ${hero.headingRest}`;
+/* Proof strip — directly under the hero ------------------------------------ */
 
-export const newsletterBar = {
-  heading: "Get thoughts and Insights",
-  cta: "Get The Newsletter",
-};
-
-/**
- * The intro is also two tiers on the original: the first sentence is a large,
- * centred, navy statement — not body copy — and the second sits beneath it
- * smaller and darker. Setting both at body size, left aligned, as the first
- * build did, threw away the only moment on the page where the positioning is
- * stated outright.
+/*
+ * The brief's §3: "within seconds, a meeting planner should understand the
+ * magnitude of Steve's operating experience." Three figures are ones the site
+ * already carries and sources — byTheNumbers in content/bio.ts, and bioLong's
+ * "over the last twenty-five years" (Mitos was founded in 2001). The fourth,
+ * 10M+ consumers reached, is Steve's own (noted against it).
  */
-export const intro = {
-  lead: "Steve Welch is a successful entrepreneur and investor, who has founded and exited businesses in the healthcare and consumer industries.",
-  body: "Currently as the CEO of Restore Hyper Wellness, Steve is expanding the accessibility of wellness therapies that provide lasting health benefits to consumers.",
-};
-
-export type RoleBox = {
-  title: string;
-  content: string;
-  image: string;
-  /** Where this role is expanded on elsewhere in the site. */
-  href: string;
-};
-
-/** The three roles. On the original these are hover-reveal image tiles. */
-export const roles: Omit<RoleBox, "image">[] = [
-  {
-    title: "Investor",
-    content:
-      "Steve has built from scratch or been the first investor in 350+ companies over the last 25 years",
-    href: "/about/",
-  },
-  {
-    title: "Executive",
-    content:
-      "Steve has led multiple companies as CEO or Executive Chairman, while working with the most respected hospitals in the country to unlock hidden value",
-    href: "/about/",
-  },
-  {
-    title: "Speaker",
-    content:
-      "Steve has engaged many audiences on the tools and mindset needed to drive change within an organization",
-    href: "/speaking/",
-  },
+export const proof = [
+  { value: "400+", to: 400, label: "Companies backed", sentence: "Steve Welch has backed more than 400 companies." },
+  { value: "$10B+", to: 10, label: "Combined market capitalization", sentence: "The companies Steve Welch has invested in have a combined market capitalization exceeding $10 billion." },
+  /* Steve's own figure, 2026-09-25: "count up to 10 million plus consumers
+     reached", in place of 225+ Restore locations — which the Restore tile
+     below still carries. The only figure here not sourced elsewhere on the
+     site. CountUp counts 0→10 and keeps the "M+". */
+  { value: "10M+", to: 10, label: "Consumers reached", sentence: "The companies Steve Welch has built have reached more than 10 million consumers." },
+  { value: "25+", to: 25, label: "Years building and leading companies", sentence: "Steve Welch has spent more than 25 years building and leading companies." },
 ];
 
-export const rolesFooter = {
-  cta: "More About Steve",
-  note: "Follow Steve on Linkedin to see what he's currently up to",
-};
+/* §3 — Career authority -------------------------------------------------- */
 
-export const speakingPanel = {
-  eyebrow: "Speaking",
-  heading:
-    "Steve helps organizations drive value creation that leads to exceptional outcomes.",
-  points: [
-    "Institute Change",
-    "Identify New Opportunities",
-    "Take Organization to the Next Level",
-  ],
-  cta: "Book Steve to Speak",
-};
-
-export type Pillar = {
-  slug: string;
+export type Chapter = {
   name: string;
-  /** The homepage's longer statement of the pillar. */
-  home: string;
+  headline: string;
+  body: string;
+  image: "mitos" | "dreamit" | "restore" | "portrait";
 };
 
-/**
- * Purpose, People, Process — the framework the whole site is organised around.
- * These are the homepage versions; /speaking/ states them differently and both
- * are kept, because the original does.
+export const career = {
+  eyebrow: "A 25-YEAR JOURNEY",
+  heading: "BUILT, NOT JUST STUDIED.",
+  intro:
+    "Steve has experienced change from nearly every seat at the table: entrepreneur, CEO, investor, buyer, seller and operator. Those experiences are the source material for the ideas he brings to the stage.",
+  chapters: [
+    {
+      name: "Mitos",
+      /* "Founded at 23" is the revision brief's, which settles the old
+         23-or-24 question. Sold at 30 is the site's long-standing fact. */
+      headline: "Founded at 23. Sold at 30.",
+      body: "Founded Mitos Technologies, built and scaled the company, and sold it to Parker Hannifin.",
+      image: "mitos",
+    },
+    {
+      name: "Dreamit",
+      headline: "400+ companies backed.",
+      body: "Co-founded Dreamit Ventures and worked alongside hundreds of founders building companies across technology and healthcare.",
+      image: "dreamit",
+    },
+    {
+      name: "Restore",
+      headline: "225+ locations.",
+      /* Past tense is correct: Steve stepped down as CEO effective
+         10 February 2025 and remains on the board. */
+      body: "Helped build Restore Hyper Wellness into a national business and later returned as CEO during a period of intense change.",
+      image: "restore",
+    },
+    {
+      name: "25+ Years",
+      headline: "Seeing change from every seat at the table.",
+      body: "Founder. CEO. Investor. Buyer. Seller. Operator.",
+      image: "portrait",
+    },
+  ] satisfies Chapter[],
+};
+
+/* §4 — Change thesis ----------------------------------------------------- */
+
+/*
+ * The bridge. The brief's §5: "Keep this primarily visual… One supporting
+ * sentence is enough. Do not restate the full Purpose / People / Process
+ * explanation here." The emphasis paragraph, the "PURPOSE. PEOPLE. PROCESS.
+ * THEN AI." display line and the closing statement all restated what the
+ * hero and the framework now say once each.
  */
-export const pillars: Pillar[] = [
-  {
-    slug: "purpose",
-    name: "Purpose",
-    home: "A company or product needs to generate a profit, but first it needs to create value. This value creation is the organization’s north star that all stakeholders can rally behind and employees can find purpose in",
-  },
-  {
-    slug: "people",
-    name: "People",
-    home: "People are the most valuable asset in almost every organization. Having the right people, with the right experience, driven by a common purpose is how you power change",
-  },
-  {
-    slug: "process",
-    name: "Process",
-    home: "No, it is not sexy. The reality is that a process that provides structure with quick iteration cycles will empower an organization to drive change and achieve results",
-  },
-];
-
-export const optIn = {
-  heading:
-    "Sign up and get a free chapter of Restore: The Life Changing Power of Right-Away Wellness",
-  cta: "Get the free chapter",
+export const thesis = {
+  headingLines: ["Change isn’t new.", "The speed is."],
+  body: "Markets change. Technologies change. People change. Business models change. AI accelerates all of it.",
 };
 
-export const restorePanel = {
-  heading: "Restore Hyper Wellness",
-  body: "Restore Hyper Wellness is expanding the limits of personal health and performance, to help people do more of what they love through personalized science-backed therapies. With 225+ locations across the U.S., Restore is leading the wellness revolution to help Americans live happier and healthier lives.",
-  linkLabel: "Learn more at restore.com",
-  href: "https://www.restore.com",
+/* §5 — Framework --------------------------------------------------------- */
+
+export const framework = {
+  eyebrow: "THE FRAMEWORK",
+  headingLines: [
+    "THE IDEAS DIDN’T COME FROM THE SPEAKING CIRCUIT.",
+    "THEY CAME FROM BUILDING COMPANIES.",
+  ],
+  steps: [
+    { key: "purpose", name: "Purpose", line: "Establishes direction." },
+    { key: "people", name: "People", line: "Align behind the purpose." },
+    { key: "process", name: "Process", line: "Drives consistent execution." },
+  ],
+  /**
+   * The spec is specific: AI "must read Amplifies Everything. Do not write
+   * 'Multiplies Process' or 'Multiplies the Process.'" It acts on the whole
+   * system, not on the last block.
+   */
+  amplifier: { name: "AI", line: "AMPLIFIES EVERYTHING." },
+  /* The one supporting line, under the graphic. It replaced a heading above
+     it and a paragraph below it that made the same point twice. */
+  supporting: "AI is not the foundation. It accelerates whatever system is already there.",
+};
+
+/* §6 — Built for the room (the packet's "Customization") ------------------ */
+
+/*
+ * "Built for the room", never "customized" or "tailored" — Steve's words,
+ * 2026-09-25: "rather than customize your keynote we were going to make it
+ * built for the room." The same phrase is used everywhere the site describes
+ * this: the FAQ, the fee line, the meta description, llms.txt, the
+ * auto-reply. The example below (§8) is labelled "In practice" so the two
+ * eyebrows do not repeat.
+ */
+export const customization = {
+  eyebrow: "BUILT FOR THE ROOM",
+  headingLines: [
+    "No two organizations are facing the same change.",
+    "Why should they hear the same keynote?",
+  ],
+  /* First person, in Steve's voice, as the packet writes it. */
+  /* "Multiple working sessions", not "a call": the brief's §6 — "Do not
+     reduce the customization promise to 'a pre-event call.'" */
+  body: "I don’t give canned speeches. Every engagement starts with multiple working sessions with the organizers — about your organization, your audience and what you need them to leave with. The framework stays consistent. The stories, examples, data and emphasis are built for the room.",
+  inputs: [
+    { name: "YOUR ORGANIZATION", line: "What is changing?" },
+    { name: "YOUR AUDIENCE", line: "Who is in the room?" },
+    { name: "YOUR OUTCOME", line: "What should they think or do differently?" },
+  ],
+};
+
+/* §7 — Speaking reel ----------------------------------------------------- */
+
+export const reel = {
+  eyebrow: "SEE STEVE SPEAK",
+  heading: "See the keynote, not just the résumé.",
+  /** "Use the existing speaking reel until a new Built for Change reel is
+      produced." No autoplay — the player loads only when pressed. */
+  overlay: "Watch Steve’s Keynote Reel",
+  youtubeId: "m5oykqwZjUU",
+};
+
+/* §8 — Built for the Room ----------------------------------------------- */
+
+/*
+ * NOT A CASE STUDY, and not called one. The brief's §7: "We are not claiming
+ * an intervention with measured outcomes. The section demonstrates how the
+ * same core framework becomes a different keynote for a specific audience."
+ * So there are no results here, no client name, and the two panels are
+ * archetypes — never photographs of people. The body is drafted from the
+ * brief's "what this example should communicate".
+ */
+export const builtForTheRoom = {
+  eyebrow: "IN PRACTICE",
+  heading: "One framework. A different keynote every time.",
+  subhead: "Insurance Industry",
+  body: [
+    "The keynote was built around a challenge facing the industry: how leaders manage experienced, non-AI-native employees alongside AI-native colleagues whose work styles and productivity can look fundamentally different.",
+    "The message was not old versus young. Organizations need both. The leadership problem is making them effective together rather than forcing one group to become the other.",
+  ],
+  /** The four principles the keynote was built around, keyed by the
+      framework so the same system is visibly at work. */
+  principles: [
+    { name: "Purpose", line: "gives both groups a reason to move in the same direction." },
+    { name: "People", line: "need to be valued for different forms of contribution and leverage." },
+    { name: "Process", line: "creates consistency and lets different working styles function inside one organization." },
+    { name: "AI", line: "amplifies what is already working once those foundations exist." },
+  ],
+  panels: [
+    { name: "EXPERIENCED JUDGMENT", traits: ["Deep expertise", "Context", "Institutional knowledge", "Seeing risks the data doesn’t show"] },
+    { name: "AI-NATIVE LEVERAGE", traits: ["New workflows", "Faster iteration", "Automation", "Far more output with new tools"] },
+  ],
+  payoff: "Purpose aligns them. Process lets them work together. AI amplifies what works.",
+};
+
+/* §9 — Ideas ------------------------------------------------------------- */
+
+export const ideas = {
+  eyebrow: "IDEAS ON CHANGE",
+  heading: "The work continues offstage.",
+  body: "Steve writes about AI, entrepreneurship, organizations and the forces changing how people work and lead.",
+  cta: "Read Steve’s Writing",
+  /* The three most recent essays come from Substack at build time, with real
+     titles and dates — never hard-coded. See lib/substack.ts. */
+};
+
+/* §10 — Selected organizations ------------------------------------------ */
+
+export const organizations = {
+  eyebrow: "SELECTED AUDIENCES & ORGANIZATIONS",
+  /* Logos: selectedOrganizationLogos in content/media-manifest.ts. */
+};
+
+/* §11 — Testimonials ----------------------------------------------------- */
+
+/*
+ * THE ORGANIZER'S WORDS, NOT OURS. From Ryan's email to Steve of 18 June 2026
+ * ("Re: Great seeing you"), after Steve's keynote at the SFAA annual meeting.
+ * Trimmed, never reworded, except "the brand new strategic plan that we
+ * finalized earlier this year" → "our new strategic plan". Steve chose the
+ * wording on 2026-09-25 and relayed Ryan's permission: "he said we can use
+ * whatever we'd like".
+ *
+ * NO LAST NAME — Steve's instruction. The title and association stay (Steve's
+ * choice): they are what make the quote proof to another organizer.
+ *
+ * This is the brief's §9 end state beginning to arrive: an organizer, on what
+ * the room did afterward. More of these are still the most valuable thing
+ * the site can collect — never invented.
+ */
+export const organizerTestimonial = {
+  quote:
+    "Fantastic keynote. I had so many members come to me after your presentation — don’t be surprised if some are in contact about talking to their senior leadership teams. I plan to connect the people, purpose and AI components into our new strategic plan.",
+  name: "Ryan",
+  role: "President & CEO, The Surety & Fidelity Association of America",
+};
+
+/*
+ * PRESS, AND LABELLED AS PRESS — the Inquirer line (`anvilQuote` in
+ * content/speaking.ts). The revision brief's §9: it is "colorful but not
+ * strong conversion proof for a meeting planner", so it is "clearly identified
+ * as press and visually secondary" — set small, under the organizer's quote.
+ */
+export const testimonial = {
+  label: "IN THE PRESS",
+  source: "The Philadelphia Inquirer",
+};
+
+/* §12 — Final CTA -------------------------------------------------------- */
+
+export const finalCta = {
+  eyebrow: "START WITH THE OUTCOME",
+  heading: "What do you need your audience to leave with?",
+  body: "Tell Steve what’s changing, who’s in the room and what you need the session to accomplish.",
+  /* ONE action. "Check Availability" went to the same form as this button;
+     the brief's §10: "Do not present two choices if they do the same
+     thing." */
+  primary: "Build Your Keynote",
+  reassurance: "Inquiries go directly to Steve’s team. No agency in between.",
 };

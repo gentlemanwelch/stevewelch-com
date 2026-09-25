@@ -5,12 +5,14 @@ lean; it points into deeper docs rather than repeating them.
 
 ## What this is
 
-The personal site of Steve Welch — entrepreneur, investor, CEO of Restore Hyper
-Wellness, and paid keynote speaker. It replaced a WordPress site in August 2026.
+The personal site of Steve Welch — entrepreneur, investor, former CEO of Restore
+Hyper Wellness (he stepped down 10 Feb 2025 and remains on its board), and paid
+keynote speaker. It replaced a WordPress site in August 2026, and was redesigned
+as **Built for Change** in September 2026.
 
 **Its one job is to convert an event organizer who found it through search into
 a booking inquiry that reaches Steve's team directly, with no speaker bureau in
-between.** Talks are in the $10–20k range, so a single additional booking pays
+between.** Engagements start at $20,000, so a single additional booking pays
 for a great deal of work here. Judge changes against that outcome.
 
 - **Domain:** stevewelch.com — registered at IONOS, where the old WordPress site
@@ -32,7 +34,7 @@ those crawlers — it is invisible.
 So: server components by default. `"use client"` only for genuine interaction
 (the two forms). If a change would move content behind hydration, it is the
 wrong change. Check `npm run build` output — every route should be `○` or `●`,
-never `ƒ`, except `/api/inquiry`.
+never `ƒ`, except the routes under `/api/`.
 
 ## Before you push
 
@@ -53,12 +55,13 @@ All copy is in `content/`. Components should not contain prose.
 |---|---|
 | `site.ts` | Name, domain, nav, contact email, socials, fee visibility |
 | `home.ts` | Homepage sections, in the order the page renders them |
-| `speaking.ts` | **Purpose / People / Process + Hyper Wellness** — the framework |
+| `speaking.ts` | **The keynotes** — Purpose / People / Process, then AI and Hyper Wellness as keynotes of their own. `talks` is the one list |
 | `bio.ts` | About page, three bio lengths, stat counters |
 | `books.ts`, `foundation.ts`, `media.ts`, `faq.ts`, `testimonials.ts` | As named |
 | `legal.ts` | Privacy policy and terms, transcribed from the original |
-| `media-manifest.ts` | Image paths and the three logo walls |
+| `media-manifest.ts` | Image paths and the logo lists (with each mark's measured ratio) |
 | `landing-pages.ts` | **Google Ads landing pages — one object per campaign** |
+| `contact.ts`, `event-planners.ts`, `not-found.ts` | Those pages' own copy |
 
 Adding a talk, a book, or a campaign is one object in the relevant array. The
 page, sitemap entry, structured data and internal links all follow.
@@ -136,7 +139,7 @@ this name, one with a Wikipedia entry.
 
 Facts must be extractable as complete sentences. A number in one element and its
 label in another reaches a parser as two unrelated fragments — see the hidden
-`sentence` field on `StatGrid`. This is an accessibility fix that happens to be
+`sentence` field on `StatRow` (`components/kit/StatRow.tsx`). This is an accessibility fix that happens to be
 an AIO fix; keep both properties when editing.
 
 ## Images
@@ -149,20 +152,74 @@ before assuming a missing file can be re-fetched.
 Nothing breaks when a file is absent: logo cards render the organization's name,
 heroes fall back to navy, video blocks show a play button. Keep it that way.
 
-## Design
+## Design — "Built for Change"
 
-Palette and typeface came from the WordPress theme, not from taste: Poppins,
-`#042e43` navy, `#348cbb` blue, `#055577`, `#edf5f9`/`#f4f9fb` tints, 40px pill
-buttons, 16px cards with `0 4px 20px rgba(0,0,0,.25)`.
+Redesigned from scratch in September 2026 from a handoff packet (positioning,
+homepage copy, design spec, asset manifest). The platform is **Built for Change:
+AI, Leadership, and the Organizations That Adapt**, and the thesis the whole
+site serves is **Purpose → People → Process, then AI amplifies everything** —
+AI is the amplifier, never the foundation. Do not rewrite that into generic
+AI-speaker copy.
 
-Every value resolves to the token block at the top of `app/globals.css`.
-Re-skinning is that block plus the font in `app/layout.tsx` — no component
-changes.
+- **Feel:** Steve's keynote deck — one idea at a time, large type, real
+  photographs, minimal clutter. Stature from photography and proof, not claims.
+- **Palette:** Steve's own mockup (2026-09-25) — ink navy `#06153d`, royal
+  blue, white fading to pale blue. It replaced the old stevewelch.com teal-navy
+  family on his instruction: "When ChatGPT handed you a color scheme, that is
+  the color scheme I wanted." CTAs are `#0062f2` (white on it 5.21:1, and blue
+  text on the pale tint 4.74:1); the mockup's `#0066fc` is kept for display
+  type and marks, where it would fail 4.5:1 on the tint as small text.
+- **Wordmark:** STEVE WELCH set in type (`components/Wordmark.tsx`), as the
+  mockup draws it. The old lowercase SVG logos are unused.
+- **Homepage hero:** light, per the mockup, with the stage photograph beside
+  the copy. Its crop is a fixed offset, not a percentage; read the note above
+  §2 in `app/(site)/page.tsx` before touching the copy's length, because the
+  copy's height sets the photograph's scale.
+- **"Built for the room"**, never "customized" or "tailored" — Steve's phrase
+  for how every keynote is made, used everywhere the site describes it.
+- **Type:** Poppins 400–800. `.display-xl` / `.display-lg` for slide-like
+  statements; the h1/h2 scale is continuous (clamp).
+- **Shape:** corners ≤6px, hairlines instead of shadows.
+- **Primary CTA everywhere:** "Build Your Keynote" → `/contact/`, defined once as
+  `site.cta`. No synonymous booking CTAs.
+
+Every value resolves to the token block at the top of `app/globals.css`, and
+pages are assembled from the kit in `components/kit/` plus
+`components/primitives.tsx`. A new page reuses the kit; if it needs something
+the kit lacks, add it to the kit rather than writing it inline — that is what
+keeps the pages feeling like one site.
+
+Every page is built the same way: a `PageHero`, sections opened by
+`SectionHeading`, and a close — `ClosingCta` (the homepage's own final band)
+or a `CtaBand` with the page's own question. The parts that carry rules:
+
+- **`PageHero`** — type never sits on a photograph. The photo goes BESIDE the
+  copy on navy (`image`), so a new picture never needs a contrast measurement.
+  The old interior heroes each needed one, and one page never got it.
+- **`CtaBand`** — its photograph is fixed and its 80% wash measured over that
+  picture (all text 7.65:1 or better). There is deliberately no `image` prop.
+- **`Breadcrumbs`** and **`FaqList`** — each renders the visible thing and its
+  JSON-LD from one list, so markup can never describe what is not on the page.
+  One `FaqList` per page.
+- **`LogoStrip`** — sizes logos by their measured MARK, not the file, and crops
+  each file to it. Measure a new logo's ratio from its pixels.
+- **`lib/formStyles.ts`** — the one field style for all three forms: 16px text
+  (iOS zooms below it) and a 3.41:1 border (WCAG's 3:1 for boundaries).
+
+Only booking forms may call `trackInquiry` — it is the conversion the ad
+spend is measured by. The Foundation form used to, until 2026-09-24.
 
 **Base element styles must stay inside `@layer base`.** An unlayered CSS rule
 beats a layered one regardless of specificity, so a stray `a { color: inherit }`
 outside the layer silently overrides every Tailwind text-colour utility and
 renders button labels invisible. It looks like a specificity bug and is not one.
+
+**Nothing that matters may depend on JavaScript to become visible** — the
+framework graphic's scroll reveal only ever hides content after JS has run and
+only when it is off-screen (see `components/kit/FrameworkReveal.tsx`).
+
+**Measure contrast with the text hidden** whenever type sits on a photograph.
+Sampling with the text visible measures the glyphs' own antialiasing.
 
 ## Standing rules
 

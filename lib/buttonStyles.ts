@@ -1,40 +1,41 @@
 /*
  * The one definition of what a button looks like on this site.
  *
- * Buttons are coral. On the original every call to action is, and against a
- * site this navy-heavy that contrast is the whole reason they read as
- * clickable — a blue button on a blue site is decoration.
+ * REBUILT 2026-09-23 for "Built for Change". Square-cornered (4px, the spec's
+ * "0–6px"), in the royal blue of Steve's hero mockup — see --color-action in
+ * app/globals.css.
  *
- * `secondary` is white-on-navy for the cases where coral would compete with a
- * primary action beside it. `blue` is the Ads landing pages, where the design
- * is tighter and coral is already spent on the headline. `ghost` is an inline
- * text action.
+ * TARGET SIZE: every variant but `ghost` is at least 48px tall (min-h-12).
+ * WCAG 2.2's floor is 24px and 44px is what reads as comfortable under a
+ * thumb; the primary CTA is the most-pressed thing on the site, so it gets
+ * room to spare.
  *
- * WHY THIS IS ITS OWN FILE. Two reasons, both learned the hard way:
+ * VARIANTS, and where each belongs:
+ *   primary       the booking CTA — "Build Your Keynote". Blue fill.
+ *   secondary     solid white, for a primary action sitting on a dark band.
+ *   outline       the secondary action on a LIGHT background. Blue, as the
+ *                 mockup draws "Watch Steve Speak": a blue rule, blue label.
+ *   outlineLight  the secondary action on a DARK background.
+ *   ghost         an inline text action.
  *
- * 1. `Button` in components/primitives.tsx renders an <a>, and a form's submit
- *    control has to be a real <button type="submit">. So each of the three
- *    forms wrote its own approximation, and an audit on 2026-09-01 found them
- *    disagreeing on radius, weight and padding — the booking form, the one
- *    that earns, being furthest off system (rounded-full instead of the pill
- *    token, weight 600 instead of 700, padding 14/40 instead of 12/28).
- *
- * 2. It lives in lib/ rather than in primitives.tsx because the forms are
- *    client components: importing this from primitives would pull LogoWall,
- *    Prose and JsonLd into the client bundle to fetch one string.
- *
- * Anything on this site that looks like a button gets its classes from here.
+ * WHY THIS IS ITS OWN FILE: the forms are client components and need these
+ * classes for their <button type="submit">. Importing them from
+ * components/primitives.tsx would drag every server primitive into the client
+ * bundle to fetch one string.
  */
 
 const BUTTON_BASE =
-  "inline-flex items-center justify-center gap-2 rounded-[var(--radius-pill)] px-7 py-3 text-ui font-bold transition-colors duration-200 disabled:opacity-60";
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--radius-base)] px-6 py-3 text-base font-bold leading-tight transition-colors duration-200 disabled:opacity-60";
 
 export const BUTTON_VARIANTS = {
-  primary: "bg-[var(--color-coral)] text-white hover:bg-[var(--color-coral-dark)]",
-  secondary:
-    "border-2 border-white bg-white text-[var(--color-navy)] hover:bg-transparent hover:text-white",
-  blue: "bg-[var(--color-blue)] text-white hover:bg-[var(--color-blue-deep)]",
-  ghost: "text-[var(--color-coral)] hover:text-[var(--color-coral-dark)] px-0",
+  primary: "bg-action text-white hover:bg-action-dark",
+  secondary: "bg-white text-navy hover:bg-tint",
+  outline:
+    "border-[1.5px] border-action bg-white/60 text-action hover:border-action-dark hover:bg-white hover:text-action-dark",
+  outlineLight:
+    "border-[1.5px] border-white/80 text-white hover:bg-white hover:text-navy",
+  ghost:
+    "!min-h-0 !px-0 text-action underline-offset-4 hover:text-action-dark hover:underline",
 } as const;
 
 export type ButtonVariant = keyof typeof BUTTON_VARIANTS;

@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { landingPages, getLandingPage } from "@/content/landing-pages";
+import { landingPages, getLandingPage, landingLabels } from "@/content/landing-pages";
 import { site } from "@/content/site";
-import { anvilQuote } from "@/content/speaking";
 import { speakingEngagementLogos, workedWithLogos } from "@/content/media-manifest";
-import { Container, LogoWall, StatGrid } from "@/components/primitives";
+import { Button, Container, Section } from "@/components/primitives";
+import { Wordmark } from "@/components/Wordmark";
 import { LandingInquiryForm } from "@/components/LandingInquiryForm";
+import { PageHero } from "@/components/kit/PageHero";
+import { SquareList } from "@/components/kit/SquareList";
+import { StatRow } from "@/components/kit/StatRow";
+import { LogoStrip } from "@/components/kit/LogoStrip";
+import { Testimonials } from "@/components/kit/Testimonials";
+import { CtaBand } from "@/components/kit/CtaBand";
 
 /**
  * Google Ads landing pages at /lp/<slug>/.
@@ -65,90 +71,91 @@ export default async function LandingPageRoute({
       : page.logos === "worked-with"
         ? workedWithLogos
         : null;
+  const location = `lp_${page.slug}`;
 
   return (
     <>
-      {/* Minimal header: the name, and nothing to click away with. */}
-      <header className="border-b border-[var(--color-line)] bg-white">
-        <Container className="py-4">
-          <span className="text-lg font-bold text-[var(--color-ink)]">{site.name}</span>
+      {/* Minimal header: the wordmark, and nothing to click away with. It is
+          deliberately NOT a link — even "home" is an exit here. */}
+      <header className="border-b border-line bg-white">
+        <Container className="flex min-h-[4.5rem] items-center">
+          <p className="text-navy"><Wordmark /></p>
         </Container>
       </header>
 
-      <section className="bg-[var(--color-navy)] text-white">
-        <Container className="py-16 sm:py-24">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-            <div>
-              {/* The single h1. Should echo the ad headline near-verbatim —
-                  message match is what keeps bounce down and Quality Score up. */}
-              <h1 className="text-white">{page.headline}</h1>
-              <p className="mt-6 text-lg leading-relaxed text-white/80">{page.subhead}</p>
-
-              <ul className="mt-8 space-y-3">
-                {page.bullets.map((b) => (
-                  <li key={b} className="flex gap-3 text-white/90">
-                    <span aria-hidden="true" className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-blue)]" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <blockquote className="mt-10 border-l-2 border-[var(--color-blue)] pl-5 text-lg italic text-white/75">
-                “{anvilQuote}”
-              </blockquote>
-            </div>
-
-            {/* The form sits in the hero, above the fold, on every one of these. */}
-            <div id="inquire" className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-card)] sm:p-8">
-              <h2 className="text-2xl">{page.ctaLabel}</h2>
-              <p className="mt-2 text-sm text-[var(--color-ink-faint)]">
-                Goes straight to Steve’s team. You’ll get a confirmation immediately.
-              </p>
-              <div className="mt-6">
-                <LandingInquiryForm campaign={page.slug} ctaLabel={page.ctaLabel} />
-              </div>
+      {/*
+        The single h1 echoes the ad headline near-verbatim — message match is
+        what keeps bounce down and Quality Score up. The form sits beside it,
+        on the first screen, on every one of these pages. On a phone it
+        follows the bullets directly; the quote that used to sit between them
+        moved down the page so it no longer pushes the form away.
+      */}
+      <PageHero
+        title={page.headline}
+        lede={page.subhead}
+        aside={
+          <div id="inquire" className="scroll-mt-6 rounded-[var(--radius-base)] bg-white p-6 text-ink-soft sm:p-8">
+            <h2 className="!text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-extrabold">{page.ctaLabel}</h2>
+            <p className="mt-2 text-[0.9375rem]">{landingLabels.formNote}</p>
+            <div className="mt-6">
+              <LandingInquiryForm campaign={page.slug} ctaLabel={page.ctaLabel} />
             </div>
           </div>
-        </Container>
-      </section>
+        }
+      >
+        {/* Phones only: the form follows the subhead and bullets, most of a
+            screen down, so the action is offered where the reading stops.
+            From lg the form itself is beside the headline. */}
+        <Button
+          href="#inquire"
+          glyph="arrow"
+          track="check_availability_click"
+          trackLocation={`${location}_hero`}
+          className="mb-8 w-full min-[420px]:w-auto lg:hidden"
+        >
+          {page.ctaLabel}
+        </Button>
+        <SquareList items={page.bullets} tone="dark" className="text-white/90" />
+      </PageHero>
 
-      <section className="bg-white py-14">
+      <Section>
         <Container>
-          <StatGrid stats={page.proof} />
+          <StatRow stats={page.proof} />
         </Container>
-      </section>
+      </Section>
 
-      {logos && (
-        <section className="bg-[var(--color-tint)] py-16">
+      {logos && page.logos && page.logos !== "none" && (
+        <Section tone="alt">
           <Container>
-            <LogoWall
-              heading={page.logos === "speaking" ? "Speaking Engagements" : "Companies Steve has worked with"}
-              logos={logos}
-            />
+            <h2 className="eyebrow mb-12 text-center !text-[0.8125rem] !font-semibold !tracking-[0.18em] text-ink-faint lg:mb-14">
+              {landingLabels.logoHeadings[page.logos]}
+            </h2>
+            <LogoStrip logos={logos} layout={logos.length > 6 ? "grid" : "row"} />
           </Container>
-        </section>
+        </Section>
       )}
 
-      <section className="bg-[var(--color-blue)] py-14">
-        <Container className="text-center">
-          <h2 className="text-white">Tell Steve about your event.</h2>
-          <p className="mx-auto mt-3 max-w-xl text-white/85">
-            Date, audience, and what the session needs to accomplish.
-          </p>
-          <a
-            href="#inquire"
-            className="mt-7 inline-flex rounded-[var(--radius-pill)] bg-white px-8 py-3 font-semibold text-[var(--color-navy)]"
-          >
-            {page.ctaLabel}
-          </a>
+      <Section>
+        <Container>
+          <Testimonials />
         </Container>
-      </section>
+      </Section>
+
+      {/* Back up to the form, rather than on to another page. */}
+      <CtaBand
+        heading={landingLabels.closing.heading}
+        body={landingLabels.closing.body}
+        primary={{ label: page.ctaLabel, href: "#inquire", track: "check_availability_click" }}
+        location={location}
+      />
 
       {/* Legal links only. Still no route back into the site. */}
       <footer className="bg-white py-8">
-        <Container className="text-center text-xs text-[var(--color-ink-faint)]">
+        <Container className="text-center text-[0.875rem] text-ink-faint">
           © {new Date().getFullYear()} {site.name} ·{" "}
-          <a href="/privacy-policy/" className="inline-block py-2 underline underline-offset-2">Privacy Policy</a>
+          <a href="/privacy-policy/" className="inline-block py-2 underline underline-offset-2">
+            {landingLabels.privacy}
+          </a>
         </Container>
       </footer>
     </>

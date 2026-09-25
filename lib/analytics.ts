@@ -51,8 +51,12 @@ declare global {
  *
  * `source` distinguishes the booking form from the Ads landing pages, so the
  * two can be read apart in GA4 without needing separate conversion actions.
+ *
+ * BOOKING inquiries only — nothing else may call this, because it is the
+ * number the ad spend is measured by. The Foundation form used to, which
+ * counted school partnerships as keynote bookings.
  */
-export function trackInquiry(source: "contact" | "landing" | "foundation") {
+export function trackInquiry(source: "contact" | "landing") {
   if (typeof window === "undefined" || !window.gtag) return;
 
   // GA4: a custom event, so it can be marked as a key event in the GA4 UI.
@@ -67,4 +71,29 @@ export function trackInquiry(source: "contact" | "landing" | "foundation") {
       send_to: `${ADS_ID}/${ADS_CONVERSION_LABEL}`,
     });
   }
+}
+
+/**
+ * The engagement events named in the Built for Change design spec
+ * (02_DESIGN_IMPLEMENTATION_SPEC, "Analytics / conversion events").
+ *
+ * THESE ARE NOT CONVERSIONS. `booking_inquiry` above stays the ONLY conversion
+ * — it is the event Steve verified in GA4 Realtime and marked as a key event.
+ * The spec also lists `contact_form_submit`; it is deliberately not added,
+ * because it would fire on the same success as `booking_inquiry` and every
+ * inquiry would be counted twice.
+ *
+ * `location` says which instance was used (hero, final CTA, header…) without
+ * inventing separate copy for each — the spec's instruction.
+ */
+export type EngagementEvent =
+  | "build_your_keynote_click"
+  | "watch_speaking_reel"
+  | "check_availability_click"
+  | "contact_form_start"
+  | "ideas_article_click";
+
+export function track(event: EngagementEvent, params: Record<string, string> = {}) {
+  if (typeof window === "undefined" || !window.gtag || !GA_ID) return;
+  window.gtag("event", event, params);
 }
