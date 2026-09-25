@@ -85,86 +85,105 @@ export default async function HomePage() {
 
       {/* ======================================================== §2 HERO */}
       {/*
-        TWO BANDS, REVISED 2026-09-25 for the CMO's brief: "Steve should be
-        visually larger and more prominent", and Steve asked for the whole
-        slide behind him to show, "× AI" included.
+        ONE COMPOSITION — revised again 2026-09-25 at Steve's direction: the
+        stacked version made the headline and the photograph read as two
+        separate sections. They sit side by side once more, and the
+        photograph dissolves into the navy rather than sitting in a box.
 
-        The photograph is landscape with Steve at the left and the slide
-        across the right, so the half-width panel this used to be could show
-        him large OR the slide whole, never both. The copy band comes first
-        (the H1 is still the first thing read), and the photograph runs full
-        width beneath it, starting on the first screen at 1440×900.
+        HOW IT FITS. The photograph is landscape with Steve at about a fifth
+        of the way in and his slide across the rest. From lg the copy column
+        has a fixed width; the photo fills everything to its right at full
+        section height (object-cover), starting 2.5rem UNDER the copy's
+        right edge. A navy gradient covers that overlap solid and fades out
+        over the next few rem — across the podium and curtains, before Steve
+        — so there is no edge between copy and photograph. Text only ever
+        sits on solid navy: white on it is 14.2:1.
 
-        Still no type on the photograph, so its contrast needs no measuring:
-        white on #042e43 is 14.2:1.
+        WHAT SHOWS. The horizontal crop is set per width so Steve always
+        clears the fade: from 1440 the whole slide shows, × AI included
+        (Steve's call); 1280–1439 trims the AI circle; 1024–1279 shows Steve
+        and the first circles. Verified against screenshots at each width.
+
+        Below lg the copy comes first and the photograph follows, its top
+        fading up out of the navy so the two still read as one.
+
+        "Steve Welch has spent 25 years…" moved out of the hero, to lead the
+        proof strip below — that is what lets the copy column be short
+        enough to sit beside Steve and the whole slide on a laptop.
       */}
-      <section className="bg-navy text-white">
-        <Container>
-          {/* The credibility line sits under the subhead — stature first, and
-              it evens the two columns so the band stays short enough for the
-              photograph to start on a laptop's first screen. */}
-          <div className="grid gap-8 pb-10 pt-10 sm:pb-12 sm:pt-14 lg:grid-cols-[1fr_1.1fr] lg:items-end lg:gap-16 lg:py-12">
-            <div>
-              <Eyebrow tone="onDark">{hero.eyebrow}</Eyebrow>
-              <h1 className="display-xl text-white">{hero.heading}</h1>
-              <h2 className="mt-5 !text-[clamp(1.375rem,1.05rem+1.3vw,2.125rem)] font-semibold leading-[1.2] !tracking-[-0.01em] text-white">
-                {hero.subhead}
-              </h2>
-              {/* Each separator trails its item rather than leading the next,
-                  so when the line wraps on a phone the dot ends line one
-                  instead of opening line two. */}
-              <p className="eyebrow mt-7 flex flex-wrap gap-x-3 gap-y-1 text-white/75">
-                {hero.credibility.map((item, i) => (
-                  <span key={item} className="flex gap-x-3">
-                    <span>{item}</span>
-                    {i < hero.credibility.length - 1 && <span aria-hidden="true" className="text-cyan">·</span>}
-                  </span>
-                ))}
-              </p>
-            </div>
-            <div>
-              <p className="max-w-[40rem] text-white/80">{hero.body}</p>
-              <p className="mt-4 max-w-[40rem] font-semibold text-white">{hero.thesis}</p>
-              <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
-                <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="hero">
-                  {hero.primaryCta}
-                </Button>
-                <Button href="#reel" variant="outlineLight" glyph="play" track="watch_speaking_reel" trackLocation="hero_cta">
-                  {hero.secondaryCta}
-                </Button>
-              </div>
+      <section className="relative isolate overflow-hidden bg-navy text-white">
+        <Container className="relative z-10">
+          <div className="pb-10 pt-10 sm:pb-12 sm:pt-14 lg:flex lg:min-h-[min(calc(82svh-4.75rem),52rem)] lg:max-w-[26rem] lg:flex-col lg:justify-center lg:py-14 xl:max-w-[30rem]">
+            <Eyebrow tone="onDark">{hero.eyebrow}</Eyebrow>
+            <h1 className="display-xl text-white lg:!text-[clamp(4rem,1.6rem+4vw,6rem)]">{hero.heading}</h1>
+            <h2 className="mt-5 !text-[clamp(1.375rem,1.05rem+1.1vw,2rem)] font-semibold leading-[1.2] !tracking-[-0.01em] text-white">
+              {hero.subhead}
+            </h2>
+            {/* Each separator trails its item rather than leading the next,
+                so when the line wraps on a phone the dot ends line one
+                instead of opening line two. */}
+            <p className="eyebrow mt-6 flex flex-wrap gap-x-3 gap-y-1 text-white/75">
+              {hero.credibility.map((item, i) => (
+                <span key={item} className="flex gap-x-3">
+                  <span>{item}</span>
+                  {i < hero.credibility.length - 1 && <span aria-hidden="true" className="text-cyan">·</span>}
+                </span>
+              ))}
+            </p>
+            <p className="mt-6 font-semibold text-white">{hero.thesis}</p>
+            <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
+              <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="hero">
+                {hero.primaryCta}
+              </Button>
+              <Button href="#reel" variant="outlineLight" glyph="play" track="watch_speaking_reel" trackLocation="hero_cta">
+                {hero.secondaryCta}
+              </Button>
             </div>
           </div>
         </Container>
 
         {/*
-          The photograph. Capped at the file's own width (1536px) so it is
-          never stretched past it; wider screens get navy either side.
+          ONE image element for both layouts, so the hero preloads once.
+          --copy-edge is where the copy column ends: the container's left
+          gutter plus the column's max width, per breakpoint.
 
-          Framing: the whole frame is 3:2. From md it shows at 3:2 (the entire
-          slide) and from lg at 16:9, which trims only audience from the
-          bottom. Below md it is a 4:5 crop on Steve and the slide's headline —
-          the circles are unreadable at 390px anyway, and the brief's first
-          ask is that Steve is prominent.
+          The 1440 crop is written `min-[90rem]`, NOT `min-[1440px]`: Tailwind
+          can only order breakpoints that share a unit with the theme's (rem),
+          and a px one is emitted before lg and xl — which then override it,
+          silently. That cut the AI circle off at 1440 on the first build.
         */}
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-[96rem] overflow-hidden md:aspect-[3/2] lg:aspect-[16/9]">
+        <div
+          className="relative aspect-[4/5] w-full overflow-hidden md:aspect-[3/2] lg:absolute lg:inset-y-0 lg:right-0 lg:left-[calc(var(--copy-edge)-2.5rem)] lg:aspect-auto lg:w-auto lg:[--copy-edge:calc(3rem+26rem)] xl:[--copy-edge:calc(max(0px,(100%-82.5rem)/2)+3rem+30rem)]"
+        >
           <Image
             src={bfc.hero}
             alt={bfc.heroAlt}
             fill
             priority
             quality={85}
-            sizes="(min-width: 1536px) 1536px, 100vw"
-            className="object-cover object-[34%_50%] md:object-[50%_20%]"
+            sizes="(min-width: 1024px) 70vw, 100vw"
+            className="object-cover object-[34%_50%] md:object-[50%_50%] lg:object-[25%_50%] xl:object-[55%_50%] min-[90rem]:object-[93%_50%]"
+          />
+          {/* Below lg: the photo's top fades up out of the navy above it. */}
+          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-navy to-transparent lg:hidden" />
+          {/* From lg: solid navy under the copy's last 2.5rem, fading out
+              across the podium and curtains before Steve. */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-y-0 left-0 hidden w-24 bg-[linear-gradient(to_right,var(--color-navy)_0,var(--color-navy)_2.5rem,transparent_100%)] lg:block"
           />
         </div>
       </section>
 
       {/* ================================================== PROOF STRIP */}
-      {/* The brief's §3: fast, objective proof before the career narrative. */}
+      {/* The brief's §3: fast, objective proof before the career narrative —
+          led by the 25-year line, which is what the figures substantiate. */}
       <section className="border-b border-line bg-white py-12 md:py-16">
         <Container>
-          <StatRow stats={proof} />
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-16">
+            <p className="lede max-w-xl text-navy">{hero.body}</p>
+            <StatRow stats={proof} twoUp />
+          </div>
         </Container>
       </section>
 
