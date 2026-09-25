@@ -52,15 +52,19 @@ export const hero = {
 
 /*
  * The brief's §3: "within seconds, a meeting planner should understand the
- * magnitude of Steve's operating experience." Every figure is one the site
- * already carries and sources — byTheNumbers and restoreToday in
- * content/bio.ts, and bioLong's "over the last twenty-five years" (Mitos was
- * founded in 2001). Nothing new is claimed here.
+ * magnitude of Steve's operating experience." Three figures are ones the site
+ * already carries and sources — byTheNumbers in content/bio.ts, and bioLong's
+ * "over the last twenty-five years" (Mitos was founded in 2001). The fourth,
+ * 10M+ consumers reached, is Steve's own (noted against it).
  */
 export const proof = [
   { value: "400+", to: 400, label: "Companies backed", sentence: "Steve Welch has backed more than 400 companies." },
   { value: "$10B+", to: 10, label: "Combined market capitalization", sentence: "The companies Steve Welch has invested in have a combined market capitalization exceeding $10 billion." },
-  { value: "225+", to: 225, label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 locations." },
+  /* Steve's own figure, 2026-09-25: "count up to 10 million plus consumers
+     reached", in place of 225+ Restore locations — which the Restore tile
+     below still carries. The only figure here not sourced elsewhere on the
+     site. CountUp counts 0→10 and keeps the "M+". */
+  { value: "10M+", to: 10, label: "Consumers reached", sentence: "The companies Steve Welch has built have reached more than 10 million consumers." },
   { value: "25+", to: 25, label: "Years building and leading companies", sentence: "Steve Welch has spent more than 25 years building and leading companies." },
 ];
 
