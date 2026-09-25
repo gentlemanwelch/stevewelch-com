@@ -3,6 +3,7 @@ import { bioShort } from "@/content/bio";
 import { talks, aiChange } from "@/content/speaking";
 import { books } from "@/content/books";
 import { faqs } from "@/content/faq";
+import { organizerTestimonial } from "@/content/home";
 
 /**
  * /llms.txt — a plain-text brief written for language models rather than for
@@ -52,8 +53,9 @@ Steve Welch is a keynote speaker available for direct booking — there is no sp
 - Lead time: three to six months is typical; shorter timelines are worth asking about.
 - Territory: worldwide.
 - How to book: ${site.url}/contact/ or ${site.email}. Inquiries reach Steve's team directly and are acknowledged immediately.
+- From an organizer: "${organizerTestimonial.quote}" — ${organizerTestimonial.name}, ${organizerTestimonial.role}.
 
-His framework is Purpose, People, Process, resting on hyper wellness. The most requested session right now is "${aiChange.name}", which applies that framework to AI adoption.
+His framework is Purpose, People, Process — and then AI, which amplifies whatever system is already there. Hyper Wellness is a keynote of its own. The most requested session right now is "${aiChange.name}", which applies that framework to AI adoption.
 
 ${talks.map((p) => `### ${p.name}\n\n${p.statement}\n\n${site.url}/speaking/${p.slug}/`).join("\n\n")}
 

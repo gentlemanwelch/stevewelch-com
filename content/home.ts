@@ -237,21 +237,35 @@ export const organizations = {
   /* Logos: selectedOrganizationLogos in content/media-manifest.ts. */
 };
 
-/* §11 — Testimonial ------------------------------------------------------ */
+/* §11 — Testimonials ----------------------------------------------------- */
 
 /*
- * The packet: "Only use a genuine, attributable quote… If no strong organizer
- * testimonial is available at launch, use the existing legitimate
- * Philadelphia Inquirer quote, clearly attributed." That is what renders — the
- * quote lives in content/speaking.ts as `anvilQuote`. An organizer testimonial
- * validating the customization is the one to collect next.
+ * THE ORGANIZER'S WORDS, NOT OURS. From Ryan's email to Steve of 18 June 2026
+ * ("Re: Great seeing you"), after Steve's keynote at the SFAA annual meeting.
+ * Trimmed, never reworded, except "the brand new strategic plan that we
+ * finalized earlier this year" → "our new strategic plan". Steve chose the
+ * wording on 2026-09-25 and relayed Ryan's permission: "he said we can use
+ * whatever we'd like".
+ *
+ * NO LAST NAME — Steve's instruction. The title and association stay (Steve's
+ * choice): they are what make the quote proof to another organizer.
+ *
+ * This is the brief's §9 end state beginning to arrive: an organizer, on what
+ * the room did afterward. More of these are still the most valuable thing
+ * the site can collect — never invented.
  */
+export const organizerTestimonial = {
+  quote:
+    "Fantastic keynote. I had so many members come to me after your presentation — don’t be surprised if some are in contact about talking to their senior leadership teams. I plan to connect the people, purpose and AI components into our new strategic plan.",
+  name: "Ryan",
+  role: "President & CEO, The Surety & Fidelity Association of America",
+};
+
 /*
- * PRESS, AND LABELLED AS PRESS. The revision brief's §9: the Inquirer line is
- * "colorful but not strong conversion proof for a meeting planner", so until
- * verified organizer testimonials exist it stays "clearly identified as press
- * and visually secondary". Two or three organizer quotes on customization and
- * audience outcome are the end state — never invented.
+ * PRESS, AND LABELLED AS PRESS — the Inquirer line (`anvilQuote` in
+ * content/speaking.ts). The revision brief's §9: it is "colorful but not
+ * strong conversion proof for a meeting planner", so it is "clearly identified
+ * as press and visually secondary" — set small, under the organizer's quote.
  */
 export const testimonial = {
   label: "IN THE PRESS",

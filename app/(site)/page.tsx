@@ -3,17 +3,16 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
   hero, proof, career, thesis, framework, customization, reel,
-  builtForTheRoom, ideas, organizations, testimonial,
+  builtForTheRoom, ideas, organizations,
 } from "@/content/home";
-import { anvilQuote } from "@/content/speaking";
-import { bfc, img, selectedOrganizationLogos } from "@/content/media-manifest";
+import { bfc, selectedOrganizationLogos } from "@/content/media-manifest";
 import { Container, Section, Button, JsonLd, VideoEmbed, Prose } from "@/components/primitives";
 import { StatRow } from "@/components/kit/StatRow";
 import { SectionHeading } from "@/components/kit/SectionHeading";
 import { Chapter } from "@/components/kit/Chapter";
 import { Framework } from "@/components/kit/Framework";
 import { LogoStrip } from "@/components/kit/LogoStrip";
-import { QuoteBlock } from "@/components/kit/QuoteBlock";
+import { Testimonials } from "@/components/kit/Testimonials";
 import { ClosingCta } from "@/components/kit/CtaBand";
 import { PostList } from "@/components/kit/PostList";
 import { getSubstackPosts } from "@/lib/substack";
@@ -365,18 +364,11 @@ export default async function HomePage() {
         </Container>
       </Section>
 
-      {/* =================================================== §11 TESTIMONIAL */}
-      {/* Press, labelled as press, and deliberately secondary — see the note
-          on `testimonial` in content/home.ts. */}
-      <section className="border-t border-line bg-white py-14 md:py-20">
+      {/* ================================================== §11 TESTIMONIALS */}
+      {/* An organizer first, the press second — see components/kit/Testimonials.tsx. */}
+      <section className="border-t border-line bg-white py-16 md:py-24">
         <Container>
-          <QuoteBlock
-            variant="press"
-            label={testimonial.label}
-            quote={anvilQuote}
-            source={testimonial.source}
-            masthead={img.inquirerLogo}
-          />
+          <Testimonials />
         </Container>
       </section>
 

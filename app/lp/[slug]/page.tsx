@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { landingPages, getLandingPage, landingLabels } from "@/content/landing-pages";
 import { site } from "@/content/site";
-import { anvilQuote } from "@/content/speaking";
-import { testimonial } from "@/content/home";
-import { img, speakingEngagementLogos, workedWithLogos } from "@/content/media-manifest";
+import { speakingEngagementLogos, workedWithLogos } from "@/content/media-manifest";
 import { Button, Container, Section } from "@/components/primitives";
 import { Wordmark } from "@/components/Wordmark";
 import { LandingInquiryForm } from "@/components/LandingInquiryForm";
@@ -12,7 +10,7 @@ import { PageHero } from "@/components/kit/PageHero";
 import { SquareList } from "@/components/kit/SquareList";
 import { StatRow } from "@/components/kit/StatRow";
 import { LogoStrip } from "@/components/kit/LogoStrip";
-import { QuoteBlock } from "@/components/kit/QuoteBlock";
+import { Testimonials } from "@/components/kit/Testimonials";
 import { CtaBand } from "@/components/kit/CtaBand";
 
 /**
@@ -139,7 +137,7 @@ export default async function LandingPageRoute({
 
       <Section>
         <Container>
-          <QuoteBlock quote={anvilQuote} source={testimonial.source} masthead={img.inquirerLogo} />
+          <Testimonials />
         </Container>
       </Section>
 

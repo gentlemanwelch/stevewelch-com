@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
   speakingHero, speakingIntro, speakingLabels, exploreHeading, speakingPillars,
-  aiChange, hyperWellness, anvilQuote, speakingReel,
+  aiChange, hyperWellness, speakingReel,
 } from "@/content/speaking";
-import { hero as homeHero, testimonial } from "@/content/home";
+import { hero as homeHero } from "@/content/home";
 import { faqs } from "@/content/faq";
 import { img, speakingEngagementLogos } from "@/content/media-manifest";
 import { Container, Section, Button, JsonLd, VideoEmbed } from "@/components/primitives";
@@ -13,7 +13,7 @@ import { PageHero } from "@/components/kit/PageHero";
 import { SectionHeading } from "@/components/kit/SectionHeading";
 import { SquareList } from "@/components/kit/SquareList";
 import { LogoStrip } from "@/components/kit/LogoStrip";
-import { QuoteBlock } from "@/components/kit/QuoteBlock";
+import { Testimonials } from "@/components/kit/Testimonials";
 import { FaqList } from "@/components/kit/FaqList";
 import { ClosingCta } from "@/components/kit/CtaBand";
 import { speakingServiceSchema } from "@/lib/jsonld";
@@ -23,7 +23,8 @@ import { buildMetadata } from "@/lib/seo";
  * /speaking/ — the page organizers are sent to. Rebuilt for Built for Change.
  *
  * Order: who he is (hero, with the opening statement as its lede) → who has
- * booked him → the framework → the AI keynote → hyper wellness → the quote →
+ * booked him → the framework → the AI keynote → hyper wellness → what an
+ * organizer and the press said →
  * the reel → the booking questions → the close.
  *
  * WHAT WENT, and why:
@@ -178,7 +179,7 @@ export default function SpeakingPage() {
 
       <Section tone="alt">
         <Container>
-          <QuoteBlock quote={anvilQuote} source={testimonial.source} masthead={img.inquirerLogo} />
+          <Testimonials />
         </Container>
       </Section>
 
