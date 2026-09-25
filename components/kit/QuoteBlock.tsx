@@ -12,20 +12,41 @@ export function QuoteBlock({
   quote,
   source,
   masthead,
+  variant = "feature",
+  label,
 }: {
   quote: string;
   source: string;
   masthead?: string;
+  /**
+   * `press`: labelled as press and set small. A press line is colour, not
+   * the proof a meeting planner is looking for — the homepage keeps it
+   * secondary until organizer testimonials exist (the revision brief's §9).
+   */
+  variant?: "feature" | "press";
+  /** The label above a `press` quote, e.g. "IN THE PRESS". */
+  label?: string;
 }) {
+  const press = variant === "press";
   return (
-    <figure className="mx-auto max-w-4xl text-center">
-      <span aria-hidden="true" className="block text-6xl font-extrabold leading-none text-blue">
-        “
-      </span>
-      <blockquote className="mt-2 text-[clamp(1.5rem,1.1rem+1.6vw,2.5rem)] font-bold leading-snug tracking-tight text-navy">
-        {quote}
+    <figure className={`mx-auto text-center ${press ? "max-w-2xl" : "max-w-4xl"}`}>
+      {press ? (
+        label && <p className="eyebrow mb-5 text-ink-faint">{label}</p>
+      ) : (
+        <span aria-hidden="true" className="block text-6xl font-extrabold leading-none text-blue">
+          “
+        </span>
+      )}
+      <blockquote
+        className={
+          press
+            ? "text-[clamp(1.125rem,1rem+0.6vw,1.5rem)] font-semibold leading-snug text-navy"
+            : "mt-2 text-[clamp(1.5rem,1.1rem+1.6vw,2.5rem)] font-bold leading-snug tracking-tight text-navy"
+        }
+      >
+        {press ? `“${quote}”` : quote}
       </blockquote>
-      <figcaption className="mt-8 flex flex-col items-center gap-2">
+      <figcaption className={`flex flex-col items-center gap-2 ${press ? "mt-5" : "mt-8"}`}>
         {masthead ? (
           <>
             <Image
@@ -34,7 +55,7 @@ export function QuoteBlock({
               aria-hidden="true"
               width={320}
               height={44}
-              className="h-7 w-auto opacity-80 sm:h-8"
+              className={`w-auto opacity-80 ${press ? "h-6" : "h-7 sm:h-8"}`}
             />
             <span className="sr-only">{source}</span>
           </>

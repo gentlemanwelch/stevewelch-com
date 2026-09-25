@@ -93,9 +93,13 @@ export function CtaBand({
 }
 
 /**
- * The site's standard close — the homepage's own final call to action, as
- * written in the packet. Used wherever a page has no closing question of its
- * own.
+ * The site's standard close — the homepage's own final call to action. Used
+ * wherever a page has no closing question of its own.
+ *
+ * ONE button. It used to carry "Check Availability" beside "Build Your
+ * Keynote", and both went to the same form; the revision brief's §10: "Do not
+ * present two choices if they do the same thing." If Check Availability comes
+ * back, it has to do something different — a short date / city inquiry.
  */
 export function ClosingCta({ location, photo = true }: { location: string; photo?: boolean }) {
   return (
@@ -104,7 +108,6 @@ export function ClosingCta({ location, photo = true }: { location: string; photo
       heading={finalCta.heading}
       body={finalCta.body}
       primary={{ label: finalCta.primary, href: site.cta.href, track: "build_your_keynote_click" }}
-      secondary={{ label: finalCta.secondary, href: site.cta.href, track: "check_availability_click" }}
       reassurance={finalCta.reassurance}
       location={location}
       photo={photo}

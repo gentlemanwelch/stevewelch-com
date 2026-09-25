@@ -11,6 +11,12 @@
  * The page renders these in the packet's section order (§2–§12); §1 and §13
  * are the header and footer.
  *
+ * REVISED 2026-09-25 from the CMO's homepage revision brief
+ * (Claude_Homepage_Revision_Brief), which Steve passed on to apply: more
+ * stature, less repetition, a proof strip, "Built for the Room" in place of
+ * "Case study", and one final CTA. Where this file departs from the packet,
+ * the brief is the later instruction.
+ *
  * `headingLines` arrays are headings the packet sets on two lines. They render
  * as ONE heading element with a line break, so a screen reader and a crawler
  * read one sentence rather than two.
@@ -24,21 +30,34 @@ export const hero = {
   heading: "BUILT FOR CHANGE.",
   /** Set as the first H2 — the copy marks it `##` under the H1. */
   subhead: "AI, Leadership, and the Organizations That Adapt",
-  body: "Steve Welch has spent 25 years founding, scaling, leading and investing in companies. Built for Change brings those lessons to leaders confronting the most consequential technology shift of their careers.",
+  body: "Steve Welch has spent 25 years founding, scaling, leading, and investing in companies. Built for Change brings those lessons to leaders confronting the most consequential technology shift of their careers.",
+  /* The brief gives this twice, full (§2) and cut (§5). Steve chose the
+     full one: it names Purpose, People and Process on the first screen,
+     which the brief's own 15-second test asks for. */
   thesis:
-    "Before you can implement AI change, you need the fundamentals of change in place first: clear purpose, aligned people, and processes that drive consistent execution. Then AI amplifies everything.",
+    "AI change only works when the fundamentals are already in place: clear purpose, aligned people, and processes that drive consistent execution. Then AI amplifies everything.",
   primaryCta: "Build Your Keynote",
   secondaryCta: "Watch Steve Speak",
-  /**
-   * REVIEW: "400+ COMPANIES BACKED" sits directly under Steve's name, where it
-   * reads as a personal figure. 400+ is Dreamit Ventures' portfolio (the fund
-   * he co-founded); the figure the site has used for Steve personally is
-   * "350+ built from scratch or first investor". Both are true; they are
-   * different claims. Implemented as the packet wrote it — Steve to confirm
-   * which belongs here.
-   */
-  credibility: ["FOUNDER", "CEO", "INVESTOR", "400+ COMPANIES BACKED"],
+  /* "400+ Companies" is the revision brief's line — Dreamit's portfolio,
+     which Steve co-founded. It settles the old 400+ / 350+ question. */
+  credibility: ["FOUNDER", "CEO", "INVESTOR", "400+ COMPANIES"],
 };
+
+/* Proof strip — directly under the hero ------------------------------------ */
+
+/*
+ * The brief's §3: "within seconds, a meeting planner should understand the
+ * magnitude of Steve's operating experience." Every figure is one the site
+ * already carries and sources — byTheNumbers and restoreToday in
+ * content/bio.ts, and bioLong's "over the last twenty-five years" (Mitos was
+ * founded in 2001). Nothing new is claimed here.
+ */
+export const proof = [
+  { value: "400+", to: 400, label: "Companies backed", sentence: "Steve Welch has backed more than 400 companies." },
+  { value: "$10B+", to: 10, label: "Combined market capitalization", sentence: "The companies Steve Welch has invested in have a combined market capitalization exceeding $10 billion." },
+  { value: "225+", to: 225, label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 locations." },
+  { value: "25+", to: 25, label: "Years building and leading companies", sentence: "Steve Welch has spent more than 25 years building and leading companies." },
+];
 
 /* §3 — Career authority -------------------------------------------------- */
 
@@ -57,27 +76,24 @@ export const career = {
   chapters: [
     {
       name: "Mitos",
-      /*
-       * REVIEW: "Founded at 23". The site's own record has Mitos founded in
-       * 2001 and sold in 2007 when Steve was 30, which makes him 23 or 24 at
-       * founding depending on his birthday. One word from Steve settles it.
-       */
-      headline: "Founded at 23. Built. Scaled. Sold.",
-      body: "Founded Mitos Technologies and sold the company to Parker Hannifin.",
+      /* "Founded at 23" is the revision brief's, which settles the old
+         23-or-24 question. Sold at 30 is the site's long-standing fact. */
+      headline: "Founded at 23. Sold at 30.",
+      body: "Founded Mitos Technologies, built and scaled the company, and sold it to Parker Hannifin.",
       image: "mitos",
     },
     {
-      name: "Dreamit Ventures",
+      name: "Dreamit",
       headline: "400+ companies backed.",
       body: "Co-founded Dreamit Ventures and worked alongside hundreds of founders building companies across technology and healthcare.",
       image: "dreamit",
     },
     {
-      name: "Restore Hyper Wellness",
+      name: "Restore",
       headline: "225+ locations.",
       /* Past tense is correct: Steve stepped down as CEO effective
          10 February 2025 and remains on the board. */
-      body: "Helped build Restore Hyper Wellness into a national brand and later returned as CEO to lead through a period of intense change.",
+      body: "Helped build Restore Hyper Wellness into a national business and later returned as CEO during a period of intense change.",
       image: "restore",
     },
     {
@@ -91,14 +107,16 @@ export const career = {
 
 /* §4 — Change thesis ----------------------------------------------------- */
 
+/*
+ * The bridge. The brief's §5: "Keep this primarily visual… One supporting
+ * sentence is enough. Do not restate the full Purpose / People / Process
+ * explanation here." The emphasis paragraph, the "PURPOSE. PEOPLE. PROCESS.
+ * THEN AI." display line and the closing statement all restated what the
+ * hero and the framework now say once each.
+ */
 export const thesis = {
   headingLines: ["Change isn’t new.", "The speed is."],
   body: "Markets change. Technologies change. People change. Business models change. AI accelerates all of it.",
-  emphasis:
-    "But AI does not create an adaptable organization. Before you can implement AI change, you need the principles of change in place first.",
-  /** Rendered with "THEN AI." picked out — the packet's "selected words". */
-  display: { lead: "PURPOSE. PEOPLE. PROCESS.", accent: "THEN AI." },
-  statement: "CHANGE IS THE CONSTANT. ADAPTABILITY IS THE ADVANTAGE.",
 };
 
 /* §5 — Framework --------------------------------------------------------- */
@@ -109,9 +127,8 @@ export const framework = {
     "THE IDEAS DIDN’T COME FROM THE SPEAKING CIRCUIT.",
     "THEY CAME FROM BUILDING COMPANIES.",
   ],
-  supporting: "AI can amplify change. It cannot create the foundation for it.",
   steps: [
-    { key: "purpose", name: "Purpose", line: "Creates clarity." },
+    { key: "purpose", name: "Purpose", line: "Establishes direction." },
     { key: "people", name: "People", line: "Align behind the purpose." },
     { key: "process", name: "Process", line: "Drives consistent execution." },
   ],
@@ -121,8 +138,9 @@ export const framework = {
    * system, not on the last block.
    */
   amplifier: { name: "AI", line: "AMPLIFIES EVERYTHING." },
-  explanation:
-    "AI is not the foundation. It is the amplifier. If purpose is unclear, people are misaligned or processes are inconsistent, AI accelerates the problem. Get the fundamentals right first, and AI can dramatically increase the speed and leverage of the entire organization.",
+  /* The one supporting line, under the graphic. It replaced a heading above
+     it and a paragraph below it that made the same point twice. */
+  supporting: "AI is not the foundation. It accelerates whatever system is already there.",
 };
 
 /* §6 — Customization ----------------------------------------------------- */
@@ -134,11 +152,13 @@ export const customization = {
     "Why should they hear the same keynote?",
   ],
   /* First person, in Steve's voice, as the packet writes it. */
-  body: "I don’t give canned speeches. Every engagement starts with conversations about your organization, your audience and what you need them to leave with. The framework stays consistent. The stories, examples, data and emphasis are built for the room.",
+  /* "Multiple working sessions", not "a call": the brief's §6 — "Do not
+     reduce the customization promise to 'a pre-event call.'" */
+  body: "I don’t give canned speeches. Every engagement starts with multiple working sessions with the organizers — about your organization, your audience and what you need them to leave with. The framework stays consistent. The stories, examples, data and emphasis are built for the room.",
   inputs: [
-    { name: "YOUR ORGANIZATION", line: "Your industry, market and the change you’re facing." },
-    { name: "YOUR AUDIENCE", line: "The roles, experience and perspectives in the room." },
-    { name: "YOUR OUTCOME", line: "The insight, alignment or action you want next." },
+    { name: "YOUR ORGANIZATION", line: "What is changing?" },
+    { name: "YOUR AUDIENCE", line: "Who is in the room?" },
+    { name: "YOUR OUTCOME", line: "What should they think or do differently?" },
   ],
 };
 
@@ -153,32 +173,37 @@ export const reel = {
   youtubeId: "m5oykqwZjUU",
 };
 
-/* §8 — Customization case study ----------------------------------------- */
+/* §8 — Built for the Room ----------------------------------------------- */
 
-export const caseStudy = {
-  eyebrow: "CASE STUDY",
+/*
+ * NOT A CASE STUDY, and not called one. The brief's §7: "We are not claiming
+ * an intervention with measured outcomes. The section demonstrates how the
+ * same core framework becomes a different keynote for a specific audience."
+ * So there are no results here, no client name, and the two panels are
+ * archetypes — never photographs of people. The body is drafted from the
+ * brief's "what this example should communicate".
+ */
+export const builtForTheRoom = {
+  eyebrow: "BUILT FOR THE ROOM",
   heading: "One framework. A different keynote every time.",
-  subhead: "Built for the Insurance Industry.",
-  /*
-   * REVIEW: this reads as a real engagement ("For an insurance-industry
-   * audience, Steve built the keynote…"). The packet says it derives from
-   * Steve's actual keynote discussion of experienced "Tony" and AI-native
-   * "Claire". Confirm it describes a real engagement before this goes live,
-   * and whether the client may be named or implied.
-   */
+  subhead: "Insurance Industry",
   body: [
-    "For an insurance-industry audience, Steve built the keynote around a challenge already inside many firms: experienced professionals with deep institutional judgment working alongside AI-native talent with a fundamentally different approach to work.",
-    "The session focused on how leaders, HR teams and managers can align both groups around a common purpose, manage their differences, preserve hard-earned judgment, reward new leverage and use process to create consistent execution.",
+    "The keynote was built around a challenge facing the industry: how leaders manage experienced, non-AI-native employees alongside AI-native colleagues whose work styles and productivity can look fundamentally different.",
+    "The message was not old versus young. Organizations need both. The leadership problem is making them effective together rather than forcing one group to become the other.",
   ],
-  conclusion:
-    "The point was not to choose between experience and AI-native talent. It was to build the fundamentals that allow both to perform, and then use AI to amplify what works.",
-  /** Typographic archetypes, never photographs of people — the packet forbids
-      fake employee photography here. */
+  /** The four principles the keynote was built around, keyed by the
+      framework so the same system is visibly at work. */
+  principles: [
+    { name: "Purpose", line: "gives both groups a reason to move in the same direction." },
+    { name: "People", line: "need to be valued for different forms of contribution and leverage." },
+    { name: "Process", line: "creates consistency and lets different working styles function inside one organization." },
+    { name: "AI", line: "amplifies what is already working once those foundations exist." },
+  ],
   panels: [
-    { name: "EXPERIENCED JUDGMENT", traits: ["Deep expertise", "Context", "Institutional knowledge"] },
-    { name: "AI-NATIVE LEVERAGE", traits: ["New workflows", "Faster iteration", "Multiplied output"] },
+    { name: "EXPERIENCED JUDGMENT", traits: ["Deep expertise", "Context", "Institutional knowledge", "Seeing risks the data doesn’t show"] },
+    { name: "AI-NATIVE LEVERAGE", traits: ["New workflows", "Faster iteration", "Automation", "Far more output with new tools"] },
   ],
-  connector: "Different strengths. One purpose.",
+  payoff: "Purpose aligns them. Process lets them work together. AI amplifies what works.",
 };
 
 /* §9 — Ideas ------------------------------------------------------------- */
@@ -208,7 +233,15 @@ export const organizations = {
  * quote lives in content/speaking.ts as `anvilQuote`. An organizer testimonial
  * validating the customization is the one to collect next.
  */
+/*
+ * PRESS, AND LABELLED AS PRESS. The revision brief's §9: the Inquirer line is
+ * "colorful but not strong conversion proof for a meeting planner", so until
+ * verified organizer testimonials exist it stays "clearly identified as press
+ * and visually secondary". Two or three organizer quotes on customization and
+ * audience outcome are the end state — never invented.
+ */
 export const testimonial = {
+  label: "IN THE PRESS",
   source: "The Philadelphia Inquirer",
 };
 
@@ -218,7 +251,9 @@ export const finalCta = {
   eyebrow: "START WITH THE OUTCOME",
   heading: "What do you need your audience to leave with?",
   body: "Tell Steve what’s changing, who’s in the room and what you need the session to accomplish.",
+  /* ONE action. "Check Availability" went to the same form as this button;
+     the brief's §10: "Do not present two choices if they do the same
+     thing." */
   primary: "Build Your Keynote",
-  secondary: "Check Availability",
   reassurance: "Inquiries go directly to Steve’s team. No agency in between.",
 };

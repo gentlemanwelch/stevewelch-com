@@ -2,12 +2,13 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
-  hero, career, thesis, framework, customization, reel,
-  caseStudy, ideas, organizations, testimonial,
+  hero, proof, career, thesis, framework, customization, reel,
+  builtForTheRoom, ideas, organizations, testimonial,
 } from "@/content/home";
 import { anvilQuote } from "@/content/speaking";
 import { bfc, img, selectedOrganizationLogos } from "@/content/media-manifest";
 import { Container, Section, Eyebrow, Button, JsonLd, VideoEmbed, Prose } from "@/components/primitives";
+import { StatRow } from "@/components/kit/StatRow";
 import { SectionHeading } from "@/components/kit/SectionHeading";
 import { Chapter } from "@/components/kit/Chapter";
 import { Framework } from "@/components/kit/Framework";
@@ -84,72 +85,87 @@ export default async function HomePage() {
 
       {/* ======================================================== §2 HERO */}
       {/*
-        Copy left on solid navy, photograph right — so the headline never sits
-        on the picture and its contrast is guaranteed (white on #042e43 is
-        14.2:1) rather than measured crop by crop. The spec: copy ~40–45%,
-        image ~55–60%, Steve "visually dominant".
+        TWO BANDS, REVISED 2026-09-25 for the CMO's brief: "Steve should be
+        visually larger and more prominent", and Steve asked for the whole
+        slide behind him to show, "× AI" included.
 
-        ONE image element serves both layouts: in flow below the copy on a
-        phone (the spec's "copy first… image immediately below, full width"),
-        pinned to the right half from lg. Two <Image priority> elements would
-        preload the hero twice at two sizes.
+        The photograph is landscape with Steve at the left and the slide
+        across the right, so the half-width panel this used to be could show
+        him large OR the slide whole, never both. The copy band comes first
+        (the H1 is still the first thing read), and the photograph runs full
+        width beneath it, starting on the first screen at 1440×900.
+
+        Still no type on the photograph, so its contrast needs no measuring:
+        white on #042e43 is 14.2:1.
       */}
-      <section className="relative isolate overflow-hidden bg-navy text-white">
-        <Container className="relative z-10">
-          <div className="pb-12 pt-10 sm:pb-16 sm:pt-14 lg:flex lg:min-h-[min(calc(90svh-4.75rem),56rem)] lg:w-[46%] lg:flex-col lg:justify-center lg:py-20 lg:pr-6">
-            <Eyebrow tone="onDark">{hero.eyebrow}</Eyebrow>
-            <h1 className="display-xl text-white">{hero.heading}</h1>
-            <h2 className="mt-5 !text-[clamp(1.375rem,1.05rem+1.3vw,2.125rem)] font-semibold leading-[1.2] !tracking-[-0.01em] text-white">
-              {hero.subhead}
-            </h2>
-            <p className="mt-6 max-w-xl text-white/80">{hero.body}</p>
-            <p className="mt-4 max-w-xl font-semibold text-white">{hero.thesis}</p>
-            <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
-              <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="hero">
-                {hero.primaryCta}
-              </Button>
-              <Button href="#reel" variant="outlineLight" glyph="play" track="watch_speaking_reel" trackLocation="hero_cta">
-                {hero.secondaryCta}
-              </Button>
+      <section className="bg-navy text-white">
+        <Container>
+          {/* The credibility line sits under the subhead — stature first, and
+              it evens the two columns so the band stays short enough for the
+              photograph to start on a laptop's first screen. */}
+          <div className="grid gap-8 pb-10 pt-10 sm:pb-12 sm:pt-14 lg:grid-cols-[1fr_1.1fr] lg:items-end lg:gap-16 lg:py-12">
+            <div>
+              <Eyebrow tone="onDark">{hero.eyebrow}</Eyebrow>
+              <h1 className="display-xl text-white">{hero.heading}</h1>
+              <h2 className="mt-5 !text-[clamp(1.375rem,1.05rem+1.3vw,2.125rem)] font-semibold leading-[1.2] !tracking-[-0.01em] text-white">
+                {hero.subhead}
+              </h2>
+              {/* Each separator trails its item rather than leading the next,
+                  so when the line wraps on a phone the dot ends line one
+                  instead of opening line two. */}
+              <p className="eyebrow mt-7 flex flex-wrap gap-x-3 gap-y-1 text-white/75">
+                {hero.credibility.map((item, i) => (
+                  <span key={item} className="flex gap-x-3">
+                    <span>{item}</span>
+                    {i < hero.credibility.length - 1 && <span aria-hidden="true" className="text-cyan">·</span>}
+                  </span>
+                ))}
+              </p>
             </div>
-            {/* Each separator trails its item rather than leading the next,
-                so when the line wraps on a phone the dot ends line one
-                instead of opening line two. */}
-            <p className="eyebrow mt-9 flex flex-wrap gap-x-3 gap-y-1 text-white/75">
-              {hero.credibility.map((item, i) => (
-                <span key={item} className="flex gap-x-3">
-                  <span>{item}</span>
-                  {i < hero.credibility.length - 1 && <span aria-hidden="true" className="text-cyan">·</span>}
-                </span>
-              ))}
-            </p>
+            <div>
+              <p className="max-w-[40rem] text-white/80">{hero.body}</p>
+              <p className="mt-4 max-w-[40rem] font-semibold text-white">{hero.thesis}</p>
+              <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
+                <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="hero">
+                  {hero.primaryCta}
+                </Button>
+                <Button href="#reel" variant="outlineLight" glyph="play" track="watch_speaking_reel" trackLocation="hero_cta">
+                  {hero.secondaryCta}
+                </Button>
+              </div>
+            </div>
           </div>
         </Container>
 
-        <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/10] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[56%]">
+        {/*
+          The photograph. Capped at the file's own width (1536px) so it is
+          never stretched past it; wider screens get navy either side.
+
+          Framing: the whole frame is 3:2. From md it shows at 3:2 (the entire
+          slide) and from lg at 16:9, which trims only audience from the
+          bottom. Below md it is a 4:5 crop on Steve and the slide's headline —
+          the circles are unreadable at 390px anyway, and the brief's first
+          ask is that Steve is prominent.
+        */}
+        <div className="relative mx-auto aspect-[4/5] w-full max-w-[96rem] overflow-hidden md:aspect-[3/2] lg:aspect-[16/9]">
           <Image
             src={bfc.hero}
             alt={bfc.heroAlt}
             fill
             priority
-            sizes="(min-width: 1024px) 56vw, 100vw"
-            /* Cropped low and slightly left so Steve carries the frame and
-               the event's logo behind him recedes — the spec: Steve "should
-               not be visually subordinate to the projected slide".
-
-               Below lg the frame is full-width but short, and object-cover
-               cannot zoom past "cover", so a portrait photograph shows him at
-               about half height. The 1.3 scale, anchored on him, is what makes
-               him the subject on a phone. Stand-in specific: re-check when the
-               packet's own hero image replaces this one. */
-            className="object-cover object-[46%_72%] max-lg:origin-[46%_62%] max-lg:scale-[1.3]"
+            quality={85}
+            sizes="(min-width: 1536px) 1536px, 100vw"
+            className="object-cover object-[34%_50%] md:object-[50%_20%]"
           />
-          {/* Blends the photograph into the navy: from the top on a phone,
-              where the image follows the copy; from the left from lg, where
-              it sits beside it. */}
-          <div aria-hidden="true" className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-navy to-transparent lg:hidden" />
-          <div aria-hidden="true" className="absolute inset-y-0 left-0 hidden w-[30%] bg-gradient-to-r from-navy via-navy/60 to-transparent lg:block" />
         </div>
+      </section>
+
+      {/* ================================================== PROOF STRIP */}
+      {/* The brief's §3: fast, objective proof before the career narrative. */}
+      <section className="border-b border-line bg-white py-12 md:py-16">
+        <Container>
+          <StatRow stats={proof} />
+        </Container>
       </section>
 
       {/* =============================================== §3 CAREER AUTHORITY */}
@@ -176,33 +192,29 @@ export default async function HomePage() {
       </Section>
 
       {/* ================================================ §4 CHANGE THESIS */}
-      {/* A slide. Navy, one idea, the largest type on the page after the H1. */}
+      {/* A slide: one idea, the heading at display size, one line under it.
+          The brief keeps this "primarily visual" and the full explanation
+          for the framework below. */}
       <section className="bg-navy py-20 text-white md:py-28 lg:py-36">
         <Container>
-          <SectionHeading lines={thesis.headingLines} tone="dark" accentLast />
-          <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-2 lg:gap-16">
-            <p className="lede text-white/80">{thesis.body}</p>
-            <p className="lede font-semibold text-white">{thesis.emphasis}</p>
-          </div>
-          <p className="display-lg mt-16 text-white lg:mt-28">
-            {thesis.display.lead} <span className="text-cyan">{thesis.display.accent}</span>
-          </p>
-          <p className="eyebrow mt-8 !text-[0.9375rem] text-white/75">{thesis.statement}</p>
+          <h2 className="display-lg text-white">
+            <span className="block">{thesis.headingLines[0]}</span>{" "}
+            <span className="block text-cyan">{thesis.headingLines[1]}</span>
+          </h2>
+          <p className="lede mt-10 max-w-3xl text-white/80 lg:mt-14">{thesis.body}</p>
         </Container>
       </section>
 
       {/* ==================================================== §5 FRAMEWORK */}
       <Section tone="alt">
         <Container>
-          <SectionHeading eyebrow={framework.eyebrow} lines={framework.headingLines} className="max-w-5xl [&_h2]:!text-[clamp(1.75rem,1rem+2.6vw,3.125rem)]">
-            <h3 className="mt-6 !text-[clamp(1.25rem,1rem+0.9vw,1.75rem)] font-semibold text-action">
-              {framework.supporting}
-            </h3>
-          </SectionHeading>
+          <SectionHeading eyebrow={framework.eyebrow} lines={framework.headingLines} className="max-w-5xl [&_h2]:!text-[clamp(1.75rem,1rem+2.6vw,3.125rem)]" />
           <div className="mt-12 lg:mt-16">
             <Framework steps={framework.steps} amplifier={framework.amplifier} />
           </div>
-          <p className="lede mt-10 max-w-3xl text-navy lg:mt-14">{framework.explanation}</p>
+          <p className="mt-10 max-w-3xl text-[clamp(1.25rem,1rem+1vw,1.75rem)] font-semibold leading-snug text-navy lg:mt-14">
+            {framework.supporting}
+          </p>
         </Container>
       </Section>
 
@@ -239,23 +251,31 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* ==================================================== §8 CASE STUDY */}
+      {/* ============================================== §8 BUILT FOR THE ROOM */}
+      {/* Not a case study — see the note on builtForTheRoom in
+          content/home.ts. The framework, applied to one room. */}
       <Section>
         <Container>
-          <SectionHeading eyebrow={caseStudy.eyebrow} lines={caseStudy.heading} className="max-w-4xl" />
+          <SectionHeading eyebrow={builtForTheRoom.eyebrow} lines={builtForTheRoom.heading} className="max-w-4xl" />
           <div className="mt-12 grid gap-12 lg:mt-16 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
             <div>
-              <h3 className="text-action">{caseStudy.subhead}</h3>
-              <Prose paragraphs={caseStudy.body} className="mt-5" />
-              <p className="mt-6 text-lg font-semibold leading-snug text-navy">{caseStudy.conclusion}</p>
+              <h3 className="text-action">{builtForTheRoom.subhead}</h3>
+              <Prose paragraphs={builtForTheRoom.body} className="mt-5" />
+              <ul className="mt-8 divide-y divide-line-strong border-y border-line-strong">
+                {builtForTheRoom.principles.map((p) => (
+                  <li key={p.name} className="py-4 leading-snug text-navy">
+                    <span className="font-extrabold uppercase tracking-tight">{p.name}</span> {p.line}
+                  </li>
+                ))}
+              </ul>
             </div>
             {/* Typographic archetypes — never photographs of people. */}
             <div className="flex flex-col">
               <div className="grid flex-1 gap-3 sm:grid-cols-2">
-                {caseStudy.panels.map((panel, i) => (
+                {builtForTheRoom.panels.map((panel, i) => (
                   <div
                     key={panel.name}
-                    className={`flex flex-col justify-between rounded-[var(--radius-base)] p-6 sm:min-h-[16rem] lg:p-8 ${
+                    className={`flex flex-col justify-between rounded-[var(--radius-base)] p-6 sm:min-h-[18rem] lg:p-8 ${
                       i === 0 ? "bg-navy text-white" : "bg-tint text-navy"
                     }`}
                   >
@@ -268,8 +288,8 @@ export default async function HomePage() {
                   </div>
                 ))}
               </div>
-              <p className="mt-5 border-t-2 border-navy pt-4 text-center text-lg font-bold text-navy">
-                {caseStudy.connector}
+              <p className="mt-6 border-t-2 border-navy pt-5 text-[clamp(1.25rem,1rem+0.9vw,1.625rem)] font-extrabold leading-snug tracking-tight text-navy">
+                {builtForTheRoom.payoff}
               </p>
             </div>
           </div>
@@ -309,11 +329,19 @@ export default async function HomePage() {
       </Section>
 
       {/* =================================================== §11 TESTIMONIAL */}
-      <Section tone="alt">
+      {/* Press, labelled as press, and deliberately secondary — see the note
+          on `testimonial` in content/home.ts. */}
+      <section className="border-t border-line bg-white py-14 md:py-20">
         <Container>
-          <QuoteBlock quote={anvilQuote} source={testimonial.source} masthead={img.inquirerLogo} />
+          <QuoteBlock
+            variant="press"
+            label={testimonial.label}
+            quote={anvilQuote}
+            source={testimonial.source}
+            masthead={img.inquirerLogo}
+          />
         </Container>
-      </Section>
+      </section>
 
       {/* ===================================================== §12 FINAL CTA */}
       {/* The band every page closes on — see components/kit/CtaBand.tsx for

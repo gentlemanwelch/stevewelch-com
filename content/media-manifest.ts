@@ -205,11 +205,14 @@ export const selectedOrganizationLogos: SizedLogo[] = [
  * belongs to is noted against it.
  */
 export const bfc = {
-  /* → 02_real_stage_photo_source.jpeg, or 01_hero_stage_candidate_PROVISIONAL
-     ONLY after Steve approves it as indistinguishable from a real photo.
-     Stand-in: Steve mid-talk on the storeRe stage, full length, 2074×2560. */
-  hero: `${base}/Restore-36-scaled.jpg`,
-  heroAlt: "Steve Welch speaking on stage",
+  /* Steve_Welch_Keynote_Hero_Concept — the hero the revision brief names as
+     the preferred asset, supplied by Steve on 2026-09-25. 1536×1024: Steve on
+     stage, his slide behind him. Shown whole, "× AI THE MULTIPLIER" included,
+     at Steve's direction. A larger original would sharpen it on wide retina
+     screens; the page never upscales it past 1536px wide. */
+  hero: `${base}/steve-welch-keynote-hero.webp`,
+  heroAlt:
+    "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” with Purpose, People, Process and AI",
 
   /* → 03_mitos_logo_REAL.jpeg. Stand-in: a real Mitos-era photograph with the
      Mitos Technologies banner in frame — the name is shown by the real thing

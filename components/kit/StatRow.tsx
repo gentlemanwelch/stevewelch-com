@@ -20,16 +20,18 @@ export type StatItem = { value: string; label: string; sentence?: string; to?: n
 export function StatRow({ stats, tone = "light" }: { stats: readonly StatItem[]; tone?: "light" | "dark" }) {
   const dark = tone === "dark";
   /* Columns follow the count — a fixed four split a three-stat row into four
-     narrow columns once already. Literal classes, for Tailwind's scanner. */
+     narrow columns once already. Four go two-up even on a phone: stacked one
+     per row they ran to most of a screen. Literal classes, for Tailwind's
+     scanner. */
   const columns =
-    stats.length <= 2 ? "sm:grid-cols-2" : stats.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4";
+    stats.length <= 2 ? "sm:grid-cols-2" : stats.length === 3 ? "sm:grid-cols-3" : "grid-cols-2 lg:grid-cols-4";
   return (
-    <dl className={`grid gap-x-8 gap-y-10 ${columns}`}>
+    <dl className={`grid gap-x-6 gap-y-10 sm:gap-x-8 ${columns}`}>
       {stats.map((s) => (
         <div key={s.label} className={`border-t-2 pt-5 ${dark ? "border-white/60" : "border-navy"}`}>
           <dt
             aria-hidden="true"
-            className={`text-[clamp(2.5rem,1.8rem+2.6vw,4rem)] font-extrabold leading-none tracking-tight tabular-nums ${
+            className={`text-[clamp(2.25rem,1.6rem+2.6vw,4rem)] font-extrabold leading-none tracking-tight tabular-nums ${
               dark ? "text-white" : "text-navy"
             }`}
           >

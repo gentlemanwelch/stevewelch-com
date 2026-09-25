@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { site } from "@/content/site";
 import {
   mediaIntro, mediaLabels, videos, podcasts, publications, expertTalks, podcastNote,
 } from "@/content/media";
@@ -93,13 +92,13 @@ export default async function WritingsMediaPage() {
         </Section>
       ))}
 
-      {/* For podcast hosts first — so its first button is theirs, not the
-          booking CTA — with the booking CTA beside it for everyone else. */}
+      {/* For podcast hosts. One button: a second one here ("Build Your
+          Keynote") went to the same form, which the revision brief rules out
+          — the header CTA is one scroll away for anyone booking. */}
       <CtaBand
         heading={mediaLabels.podcastHeading}
         body={podcastNote}
         primary={{ label: mediaLabels.getInTouch, href: "/contact/" }}
-        secondary={{ label: site.cta.label, href: site.cta.href, track: "build_your_keynote_click" }}
         location="writings_media_final_cta"
         photo={false}
       />
