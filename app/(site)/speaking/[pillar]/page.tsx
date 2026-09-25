@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { talks, anvilQuote, speakingLabels } from "@/content/speaking";
-import { testimonial } from "@/content/home";
+import { talks, speakingLabels } from "@/content/speaking";
+import { organizerTestimonial } from "@/content/home";
 import { site } from "@/content/site";
 import { Container, Section, Button, Prose, JsonLd } from "@/components/primitives";
 import { PageHero } from "@/components/kit/PageHero";
@@ -91,6 +91,7 @@ export default async function PillarPage({
         eyebrow={speakingLabels.topicEyebrow}
         title={entry.name}
         lede={entry.statement}
+        image={entry.image}
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Speaking", path: "/speaking/" },
@@ -122,11 +123,14 @@ export default async function PillarPage({
                 <h2 className={noteHeading}>{speakingLabels.builtFor}</h2>
                 <SquareList items={entry.audiences} className="mt-4 text-[1rem] text-navy" />
               </div>
-              {/* Attributed, always: without its source this line reads as a
-                  slogan Steve wrote about himself. */}
+              {/* An organizer's words, attributed — see `organizerTestimonial`
+                  in content/home.ts for the source and permission. */}
               <figure className="border-t-2 border-navy pt-5">
-                <blockquote className="text-xl font-bold leading-snug text-navy">“{anvilQuote}”</blockquote>
-                <figcaption className="eyebrow mt-4 text-ink-faint">{testimonial.source}</figcaption>
+                <blockquote className="text-lg font-bold leading-snug text-navy">“{organizerTestimonial.quote}”</blockquote>
+                <figcaption className="mt-4">
+                  <span className="eyebrow block !font-bold text-navy">{organizerTestimonial.name}</span>
+                  <span className="mt-1 block text-[0.9375rem] leading-snug text-ink-faint">{organizerTestimonial.role}</span>
+                </figcaption>
               </figure>
             </aside>
           </div>

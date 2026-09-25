@@ -13,6 +13,8 @@
  * be about both. Nothing is taken off the hub to make that work.
  */
 
+import { bfc } from "./media-manifest";
+
 /*
  * "Entrepreneur. Investor. Disruptor." was the WordPress-era headline. The
  * revision brief (§11) lists it as a launch blocker: it frames Steve before
@@ -63,6 +65,9 @@ export type SpeakingPillar = {
   /** Expanded argument for the pillar's own page. */
   body: string[];
   audiences: string[];
+  /** A photograph for the topic page's hero, beside the copy. Only where a
+      real one exists — the other topic pages stay type-only. */
+  image?: { src: string; alt: string; focus?: string };
 };
 
 export const speakingPillars: SpeakingPillar[] = [
@@ -238,6 +243,12 @@ export const aiChange = {
 export const hyperWellness = {
   slug: "hyper-wellness",
   name: "Hyper Wellness",
+  /* Steve on stage at an Oura × Restore event — supplied 2026-09-25 for this
+     page. Framed on Steve, clear of the navy fade. The "restore" logo runs to
+     the photograph's right edge, so any side crop trims it: at laptop widths
+     it reads "restor…", and it shows whole from about 1700 wide. Keeping
+     Steve out of the fade is the better trade. */
+  image: { src: bfc.ouraStage, alt: bfc.ouraStageAlt, focus: "30% 70%" },
   heading: "Hyper Wellness",
   statement:
     "The energy leaders need to drive change — a keynote from a former CEO of Restore Hyper Wellness.",

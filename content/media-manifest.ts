@@ -218,25 +218,40 @@ export const bfc = {
   heroAlt:
     "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” — Purpose, People, Process, then AI: Amplifies Everything",
 
-  /* → 03_mitos_logo_REAL.jpeg. Stand-in: a real Mitos-era photograph with the
-     Mitos Technologies banner in frame — the name is shown by the real thing
-     rather than by a redrawn logo. */
-  mitos: `${base}/DSCN1593.jpg`,
-  mitosAlt: "The Mitos Technologies team holding the company banner",
+  /* THE CAREER TILES. The Mitos logo, the Restore opening and the Nasdaq
+     photograph were supplied by Steve on 2026-09-25, replacing the real
+     stand-ins the site launched with. Dreamit's is still its stand-in — an
+     actual Dreamit stage photograph. */
+
+  /* The Mitos Technologies logo (the packet's 03_mitos_logo_REAL). A JPEG on
+     white: the tile shows it as a logo — contained, and multiplied onto the
+     tile's pale panel so the white disappears. See `logo` on Chapter. */
+  mitos: `${base}/mitos-technologies-logo.webp`,
+  mitosAlt: "Mitos Technologies logo",
 
   /* → 04_dreamit_stage_REAL.jpeg. Stand-in: Steve on the Dreamit Ventures
      stage — already a real Dreamit stage photograph. */
   dreamit: `${base}/dreamit-video-poster.png`,
   dreamitAlt: "Steve Welch on stage at a Dreamit Ventures event",
 
-  /* → 05_restore_photo_REAL.jpeg (preferred) or 06_restore_portrait_alt_REAL.
-     Stand-in: Steve at a Restore studio opening, in a real Restore location. */
-  restore: `${base}/W16_3327-scaled.jpg`,
-  restoreAlt: "Steve Welch at the opening of a Restore Hyper Wellness studio",
+  /* A Restore studio opening: the team, champagne, OPEN balloons, the NOW
+     OPEN sign. Steve's pick for "225+ locations" — the celebration, not the
+     ribbon. The alt text describes the team: it does not say Steve is in
+     the frame. */
+  restore: `${base}/restore-studio-opening-celebration.webp`,
+  restoreAlt: "The Restore Hyper Wellness team celebrating a studio opening with champagne under silver OPEN balloons",
 
-  /* → 07_portrait_seated_REAL.jpeg. Stand-in: the existing seated portrait. */
-  portrait: `${base}/steve-welch_hero.png`,
-  portraitAlt: "Steve Welch, seated portrait",
+  /* Steve at the Nasdaq podium beneath the Restore Hyper Wellness logo —
+     for "every seat at the table". Nothing is claimed about the occasion
+     beyond what the photograph shows. */
+  portrait: `${base}/steve-welch-nasdaq-restore.webp`,
+  portraitAlt: "Steve Welch at the Nasdaq podium beneath the Restore Hyper Wellness logo",
+
+  /* The Hyper Wellness keynote page's photograph: Steve in a fireside
+     conversation on stage under "ŌURA × restore HYPER WELLNESS". Supplied
+     2026-09-25. The other speaker is not named — the photograph doesn't. */
+  ouraStage: `${base}/steve-welch-oura-restore-stage.webp`,
+  ouraStageAlt: "Steve Welch in a fireside conversation on stage at an Oura × Restore Hyper Wellness event",
 
   /* The reel poster: a real speaking frame with the audience in it. Planners
      are told to watch the audience, not the speaker. */

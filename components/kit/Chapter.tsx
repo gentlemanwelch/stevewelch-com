@@ -6,8 +6,12 @@ import Image from "next/image";
  * image/logo and short copy… Mobile: stack chapters vertically with image and
  * copy paired. Do not compress them into tiny four-column cards."
  *
- * `focus` is the object-position for the crop, because every stand-in
- * photograph has its subject somewhere different in the frame.
+ * `focus` is the object-position for the crop, because every photograph has
+ * its subject somewhere different in the frame.
+ *
+ * `logo` shows the image whole, padded, on the tile's pale panel instead of
+ * cropping it to fill. `mix-blend-multiply` lets a logo that comes on a white
+ * background (the Mitos JPEG) take the panel's colour, so no white box shows.
  */
 export function Chapter({
   name,
@@ -16,6 +20,7 @@ export function Chapter({
   image,
   alt,
   focus = "50% 50%",
+  logo = false,
   sizes = "(min-width: 1024px) 44vw, (min-width: 640px) 90vw, 100vw",
 }: {
   name?: string;
@@ -24,6 +29,8 @@ export function Chapter({
   image: string;
   alt: string;
   focus?: string;
+  /** A logo rather than a photograph: contained, not cropped. */
+  logo?: boolean;
   /** The rendered width, for next/image — narrower in a three-up grid. */
   sizes?: string;
 }) {
@@ -35,8 +42,8 @@ export function Chapter({
           alt={alt}
           fill
           sizes={sizes}
-          className="object-cover"
-          style={{ objectPosition: focus }}
+          className={logo ? "object-contain p-[12%] mix-blend-multiply" : "object-cover"}
+          style={logo ? undefined : { objectPosition: focus }}
         />
       </div>
       {name && <p className="eyebrow mt-6 text-action">{name}</p>}

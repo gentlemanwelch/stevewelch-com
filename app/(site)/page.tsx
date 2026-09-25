@@ -69,10 +69,10 @@ export const metadata: Metadata = {
 };
 
 const chapterImage = {
-  mitos: { src: bfc.mitos, alt: bfc.mitosAlt, focus: "50% 45%" },
-  dreamit: { src: bfc.dreamit, alt: bfc.dreamitAlt, focus: "22% 55%" },
-  restore: { src: bfc.restore, alt: bfc.restoreAlt, focus: "30% 45%" },
-  portrait: { src: bfc.portrait, alt: bfc.portraitAlt, focus: "22% 35%" },
+  mitos: { src: bfc.mitos, alt: bfc.mitosAlt, focus: "50% 50%", logo: true },
+  dreamit: { src: bfc.dreamit, alt: bfc.dreamitAlt, focus: "22% 55%", logo: false },
+  restore: { src: bfc.restore, alt: bfc.restoreAlt, focus: "50% 60%", logo: false },
+  portrait: { src: bfc.portrait, alt: bfc.portraitAlt, focus: "50% 40%", logo: false },
 } as const;
 
 export default async function HomePage() {
@@ -221,6 +221,7 @@ export default async function HomePage() {
                 image={chapterImage[c.image].src}
                 alt={chapterImage[c.image].alt}
                 focus={chapterImage[c.image].focus}
+                logo={chapterImage[c.image].logo}
               />
             ))}
           </div>
