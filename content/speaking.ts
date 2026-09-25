@@ -13,9 +13,14 @@
  * be about both. Nothing is taken off the hub to make that work.
  */
 
+/*
+ * "Entrepreneur. Investor. Disruptor." was the WordPress-era headline. The
+ * revision brief (§11) lists it as a launch blocker: it frames Steve before
+ * the platform. Replaced 2026-09-25 with Steve's approval.
+ */
 export const speakingHero = {
-  eyebrow: "Speaking",
-  heading: "Entrepreneur. Investor. Disruptor.",
+  eyebrow: "Built for Change",
+  heading: "Keynotes built for change.",
 };
 
 /**
@@ -223,17 +228,19 @@ export const aiChange = {
 };
 
 /**
- * The foundation under the three pillars. On the original this is its own
- * section headed "It All Starts With Hyper Wellness" — it is the connective
- * argument between Steve's day job and his speaking, so it gets its own page
- * too.
+ * A keynote in its own right — NOT the foundation under the three pillars.
+ * The original headed it "It All Starts With Hyper Wellness" and framed it as
+ * the base of Purpose, People and Process; the revision brief (§11) removes
+ * that framing, because Built for Change's foundation is the framework
+ * itself, with AI amplifying it. Reworded 2026-09-25 with Steve's approval.
+ * It connects Steve's Restore years to his speaking, and has its own page.
  */
 export const hyperWellness = {
   slug: "hyper-wellness",
   name: "Hyper Wellness",
-  heading: "It All Starts With Hyper Wellness",
+  heading: "Hyper Wellness",
   statement:
-    "The hyper wellness lifestyle allows leaders to have the proper energy to drive change and find the purpose, people and processes that will lead to success",
+    "The energy leaders need to drive change — a keynote from a former CEO of Restore Hyper Wellness.",
   seoTitle: "Wellness & Human Performance Keynote Speaker",
   metaDescription:
     "A keynote on the energy leaders need to drive change, from a former CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
@@ -246,7 +253,7 @@ export const hyperWellness = {
   ],
   body: [
     "Ask a stalled leadership team what is wrong and they will describe a strategy problem. Spend a day with them and you will usually find something simpler underneath it: capable people running at a fraction of their capacity, making decisions at four in the afternoon they would not have made at nine in the morning, and treating that as the cost of the job.",
-    "This is the load-bearing argument beneath everything else Steve speaks about. The hyper wellness lifestyle is what gives leaders the energy to drive change — and without it the purpose, the people and the processes never get found, because finding them is hard work and hard work requires fuel.",
+    "It stands on its own as a keynote. The hyper wellness lifestyle is what gives leaders the energy to drive change — and finding the right purpose, people and processes is hard work, and hard work requires fuel.",
     "He did not arrive at this from a book. Restore Hyper Wellness began with a problem he had personally: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. The company that came out of that now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
     "The session ends practically — the short list of inputs that carry most of the effect, an honest account of where the evidence supports the wellness industry and where it outruns it, and why a wellbeing benefit nobody uses has bought the organization nothing at all.",
   ],

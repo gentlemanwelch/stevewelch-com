@@ -9,13 +9,17 @@
 
 export const aboutHero = {
   eyebrow: "About",
-  heading:
-    "A successful entrepreneur and investor who lives the hyper wellness lifestyle every day.",
+  /* Leads with the building story (the revision brief's §11). The old
+     headline, "A successful entrepreneur and investor who lives the hyper
+     wellness lifestyle every day.", framed the page around lifestyle; its
+     lifestyle sentence now opens the Family / Himself / Work section. */
+  heading: "Founder. CEO. Investor. Twenty-five years of building through change.",
   body: "Steve is passionate and committed to maximizing his health which is essential to his 3 buckets life strategy that has led to his professional and personal success.",
 };
 
 /** The words /about/ puts around the content in this file. */
 export const aboutLabels = {
+  bioHeading: "The story",
   numbersHeading: "By the numbers",
   storyHeading: "Steve Welch’s story, in order",
   closing: {

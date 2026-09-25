@@ -157,7 +157,8 @@ export default function SpeakingPage() {
         </Container>
       </section>
 
-      {/* The foundation the three pillars rest on. */}
+      {/* Hyper Wellness — its own keynote, not the foundation under the
+          three pillars (the revision brief's §11). */}
       <Section>
         <Container>
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">

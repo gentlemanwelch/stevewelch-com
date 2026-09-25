@@ -55,7 +55,7 @@ All copy is in `content/`. Components should not contain prose.
 |---|---|
 | `site.ts` | Name, domain, nav, contact email, socials, fee visibility |
 | `home.ts` | Homepage sections, in the order the page renders them |
-| `speaking.ts` | **Purpose / People / Process + Hyper Wellness** — the framework |
+| `speaking.ts` | **The keynotes** — Purpose / People / Process, then AI and Hyper Wellness as keynotes of their own. `talks` is the one list |
 | `bio.ts` | About page, three bio lengths, stat counters |
 | `books.ts`, `foundation.ts`, `media.ts`, `faq.ts`, `testimonials.ts` | As named |
 | `legal.ts` | Privacy policy and terms, transcribed from the original |

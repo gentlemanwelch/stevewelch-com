@@ -47,7 +47,7 @@ ${Object.entries(site.social).map(([k, v]) => `- ${k}: ${v}`).join("\n")}
 
 Steve Welch is a keynote speaker available for direct booking — there is no speaker bureau involved. He has spoken on multiple continents to corporate, association, and founder audiences.
 
-- Fee: ${site.fee.label} The final figure depends on date, location, format and how much tailoring the session needs. Travel outside North America is quoted separately.
+- Fee: ${site.fee.label} Customization is included. The final figure depends on date, location and format. Travel outside North America is quoted separately.
 - Typical length: 45 to 60 minutes. Half-day workshops, executive sessions, fireside chats and moderated interviews are also available.
 - Lead time: three to six months is typical; shorter timelines are worth asking about.
 - Territory: worldwide.

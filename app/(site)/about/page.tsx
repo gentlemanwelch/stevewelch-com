@@ -2,11 +2,11 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
-  aboutHero, aboutLabels, byTheNumbers, lifeBoxesEyebrow, lifeBoxesHeading, lifeBoxes,
+  aboutHero, aboutLabels, bioOneLine, bioLong, byTheNumbers, lifeBoxesEyebrow, lifeBoxesHeading, lifeBoxes,
   investmentVehicles,
 } from "@/content/bio";
 import { img } from "@/content/media-manifest";
-import { Container, Section } from "@/components/primitives";
+import { Container, Section, Prose } from "@/components/primitives";
 import { PageHero } from "@/components/kit/PageHero";
 import { SectionHeading } from "@/components/kit/SectionHeading";
 import { StatRow } from "@/components/kit/StatRow";
@@ -18,8 +18,15 @@ import { buildMetadata } from "@/lib/seo";
 /**
  * /about/ — rebuilt for Built for Change.
  *
- * Order: hero → by the numbers → the three buckets (Family, Himself, Work) →
- * the timeline → the investment vehicles → a booking close.
+ * Order: hero → the story → by the numbers → the timeline → the investment
+ * vehicles → the three buckets (Family, Himself, Work) → a booking close.
+ *
+ * LEADS WITH THE BUILDING STORY. The revision brief's §11: "Make the About
+ * page tell the operating / building / investing story that supports Built
+ * for Change." It used to open on lifestyle — "lives the hyper wellness
+ * lifestyle every day" — and put the family buckets before the career. The
+ * buckets and that sentence are still here, last, where they read as the
+ * person behind the record rather than the headline.
  *
  * WHAT CHANGED, beyond the look:
  *   - The hero photograph sits beside the copy. It used to sit under it, with
@@ -35,8 +42,7 @@ import { buildMetadata } from "@/lib/seo";
  */
 export const metadata: Metadata = buildMetadata({
   title: "About — Entrepreneur, Investor, Speaker",
-  description:
-    "Steve Welch is a successful entrepreneur and investor who lives the hyper wellness lifestyle every day.",
+  description: bioOneLine,
   path: "/about/",
   keywords: [
     "Steve Welch",
@@ -59,7 +65,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow={aboutHero.eyebrow}
         title={aboutHero.heading}
-        lede={aboutHero.body}
+        lede={bioOneLine}
         longTitle
         image={{ src: img.aboutHero, alt: "Steve Welch kiteboarding", focus: "86% 60%" }}
         breadcrumbs={[
@@ -68,6 +74,17 @@ export default function AboutPage() {
         ]}
       />
 
+      {/* The operating record, in full — the long bio, which is also what
+          the Event Planners page offers organizers to paste. */}
+      <Section>
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-[1fr_2fr] lg:gap-16">
+            <SectionHeading lines={aboutLabels.bioHeading} />
+            <Prose paragraphs={bioLong} className="max-w-[46rem] text-navy lg:pt-3" />
+          </div>
+        </Container>
+      </Section>
+
       <Section tone="alt">
         <Container>
           <SectionHeading lines={aboutLabels.numbersHeading} />
@@ -75,26 +92,6 @@ export default function AboutPage() {
             {/* The numbers count up as they arrive; each is also in the HTML
                 as its final value and as a complete sentence. See StatRow. */}
             <StatRow stats={byTheNumbers} />
-          </div>
-        </Container>
-      </Section>
-
-      {/* The "3 buckets" — Family, Himself, Work. */}
-      <Section>
-        <Container>
-          <SectionHeading eyebrow={lifeBoxesEyebrow} lines={lifeBoxesHeading} className="max-w-4xl" />
-          <div className="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-3 lg:mt-16 lg:gap-x-12">
-            {lifeBoxes.map((box, i) => (
-              <Chapter
-                key={box.title}
-                headline={box.title}
-                body={box.content}
-                image={bucketImages[i].src}
-                alt={bucketImages[i].alt}
-                focus={bucketImages[i].focus}
-                sizes="(min-width: 768px) 30vw, 100vw"
-              />
-            ))}
           </div>
         </Container>
       </Section>
@@ -143,6 +140,28 @@ export default function AboutPage() {
               </li>
             ))}
           </ul>
+        </Container>
+      </Section>
+
+      {/* The "3 buckets" — Family, Himself, Work. */}
+      <Section>
+        <Container>
+          <SectionHeading eyebrow={lifeBoxesEyebrow} lines={lifeBoxesHeading} className="max-w-4xl">
+            <p className="lede mt-6 max-w-3xl">{aboutHero.body}</p>
+          </SectionHeading>
+          <div className="mt-12 grid gap-x-8 gap-y-14 md:grid-cols-3 lg:mt-16 lg:gap-x-12">
+            {lifeBoxes.map((box, i) => (
+              <Chapter
+                key={box.title}
+                headline={box.title}
+                body={box.content}
+                image={bucketImages[i].src}
+                alt={bucketImages[i].alt}
+                focus={bucketImages[i].focus}
+                sizes="(min-width: 768px) 30vw, 100vw"
+              />
+            ))}
+          </div>
         </Container>
       </Section>
 

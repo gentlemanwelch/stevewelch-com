@@ -59,11 +59,11 @@ Thanks for getting in touch about ${f.organization}. This is an automatic note s
 
 A few things you were probably going to ask next:
 
-• What it costs. ${site.fee.label} The final figure depends on the date, location, format and how much tailoring the session needs. Travel outside North America is quoted separately.
+• What it costs. ${site.fee.label} Customization is included. The final figure depends on the date, location and format. Travel outside North America is quoted separately.
 
 • What I need to confirm a date. ${dateLine}
 
-• What happens next. I'll reply with availability and a straight answer on fee — not a negotiation. If it's a fit we'll set up a short call before the event so the talk is built for your audience rather than delivered at them.
+• What happens next. I'll reply with availability and a straight answer on fee — not a negotiation. If it's a fit we'll set up working sessions before the event so the talk is built for your audience rather than delivered at them.
 ${watch}${call}
 Speak soon,
 Steve
@@ -95,9 +95,9 @@ export function autoReplyHtml(f: Fields): string {
   <p>Hi ${esc(firstName(f.name))},</p>
   <p>Thanks for getting in touch about <strong>${esc(f.organization)}</strong>. This is an automatic note so you know it arrived — I read every one of these myself and will come back to you personally.</p>
   <p style="margin-top:20px">A few things you were probably going to ask next:</p>
-  <p style="margin:14px 0 0"><strong>What it costs.</strong> ${esc(site.fee.label)} The final figure depends on the date, location, format and how much tailoring the session needs. Travel outside North America is quoted separately.</p>
+  <p style="margin:14px 0 0"><strong>What it costs.</strong> ${esc(site.fee.label)} Customization is included. The final figure depends on the date, location and format. Travel outside North America is quoted separately.</p>
   <p style="margin:14px 0 0"><strong>What I need to confirm a date.</strong> ${dateLine}</p>
-  <p style="margin:14px 0 0"><strong>What happens next.</strong> I'll reply with availability and a straight answer on fee — not a negotiation. If it's a fit we'll set up a short call before the event so the talk is built for your audience rather than delivered at them.</p>
+  <p style="margin:14px 0 0"><strong>What happens next.</strong> I'll reply with availability and a straight answer on fee — not a negotiation. If it's a fit we'll set up working sessions before the event so the talk is built for your audience rather than delivered at them.</p>
   ${watch}${call}
   <p style="margin-top:22px">Speak soon,<br>Steve</p>
   <p style="margin-top:22px;padding-top:14px;border-top:1px solid #d9e6ee;font-size:13px;color:#7b8b98">
