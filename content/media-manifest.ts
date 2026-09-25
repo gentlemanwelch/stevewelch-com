@@ -25,6 +25,9 @@
 const base = "/media";
 
 export const img = {
+  /* The lowercase "steve welch" drawings. Unused since 2026-09-25: the
+     wordmark is set type now (components/Wordmark.tsx), as Steve's mockup
+     draws it. Kept for anything off-site that still wants the old mark. */
   logo: `${base}/steve_welch_logo.svg`,
   logoWhite: `${base}/steve_welch_logo_white.svg`,
   favicon: `${base}/steve_welch_favicon.png`,
@@ -205,14 +208,15 @@ export const selectedOrganizationLogos: SizedLogo[] = [
  * belongs to is noted against it.
  */
 export const bfc = {
-  /* Steve_Welch_Keynote_Hero_Concept — the hero the revision brief names as
-     the preferred asset, supplied by Steve on 2026-09-25. 1536×1024: Steve on
-     stage, his slide behind him. Shown whole, "× AI THE MULTIPLIER" included,
-     at Steve's direction. A larger original would sharpen it on wide retina
-     screens; the page never upscales it past 1536px wide. */
-  hero: `${base}/steve-welch-keynote-hero.webp`,
+  /* The stage photograph Steve sent with his hero mockup on 2026-09-25,
+     replacing the brief's "× AI THE MULTIPLIER" concept. 1448×1086: Steve at
+     the left, his slide across the rest — and its last circle now reads
+     "AI · Amplifies Everything", the site's own words. The homepage crops it
+     per width; see the hero's note in app/(site)/page.tsx. A larger original
+     would sharpen it on wide retina screens. */
+  hero: `${base}/steve-welch-keynote-ai-amplifies-everything.webp`,
   heroAlt:
-    "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” with Purpose, People, Process and AI",
+    "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” — Purpose, People, Process, then AI: Amplifies Everything",
 
   /* → 03_mitos_logo_REAL.jpeg. Stand-in: a real Mitos-era photograph with the
      Mitos Technologies banner in frame — the name is shown by the real thing

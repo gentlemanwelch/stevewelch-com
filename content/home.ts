@@ -28,9 +28,14 @@ export const hero = {
   eyebrow: "STEVE WELCH",
   /** The H1. The spec: "H1 remains Built for Change." */
   heading: "BUILT FOR CHANGE.",
+  /* Steve's mockup sets it on two lines, "CHANGE." in the royal blue. One
+     h1 either way — see `headingLines` above. */
+  headingLines: ["BUILT FOR", "CHANGE."],
   /** Set as the first H2 — the copy marks it `##` under the H1. */
   subhead: "AI, Leadership, and the Organizations That Adapt",
   body: "Steve Welch has spent 25 years founding, scaling, leading, and investing in companies. Built for Change brings those lessons to leaders confronting the most consequential technology shift of their careers.",
+  /** Set in italics inside `body`, as the mockup does — it is the keynote's title. */
+  bodyTitle: "Built for Change",
   /* The brief gives this twice, full (§2) and cut (§5). Steve chose the
      full one: it names Purpose, People and Process on the first screen,
      which the brief's own 15-second test asks for. */
@@ -143,10 +148,18 @@ export const framework = {
   supporting: "AI is not the foundation. It accelerates whatever system is already there.",
 };
 
-/* §6 — Customization ----------------------------------------------------- */
+/* §6 — Built for the room (the packet's "Customization") ------------------ */
 
+/*
+ * "Built for the room", never "customized" or "tailored" — Steve's words,
+ * 2026-09-25: "rather than customize your keynote we were going to make it
+ * built for the room." The same phrase is used everywhere the site describes
+ * this: the FAQ, the fee line, the meta description, llms.txt, the
+ * auto-reply. The example below (§8) is labelled "In practice" so the two
+ * eyebrows do not repeat.
+ */
 export const customization = {
-  eyebrow: "BUILT AROUND YOUR ORGANIZATION",
+  eyebrow: "BUILT FOR THE ROOM",
   headingLines: [
     "No two organizations are facing the same change.",
     "Why should they hear the same keynote?",
@@ -184,7 +197,7 @@ export const reel = {
  * brief's "what this example should communicate".
  */
 export const builtForTheRoom = {
-  eyebrow: "BUILT FOR THE ROOM",
+  eyebrow: "IN PRACTICE",
   heading: "One framework. A different keynote every time.",
   subhead: "Insurance Industry",
   body: [

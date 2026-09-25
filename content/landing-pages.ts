@@ -97,7 +97,7 @@ export const landingPages: LandingPage[] = [
       "Steve Welch has founded four companies, invested in 400+, and helped build a national health business. He speaks to leadership teams about driving change through purpose, people, and process — and inquiries reach his team directly, with no bureau in between.",
     title: "Book a Keynote Speaker",
     bullets: [
-      "45–60 minute keynote, tailored on a call before your event",
+      "45–60 minute keynote, built for the room in working sessions before your event",
       "Corporate, association, and founder audiences on multiple continents",
       "Booking goes straight to Steve’s team — no agency, no bureau fee",
       "Engagements start at $20,000 — a straight answer on availability, not a negotiation",

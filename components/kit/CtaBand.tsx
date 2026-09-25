@@ -17,9 +17,10 @@ type Action = {
  * homepage's §12 so every page ends the same way.
  *
  * THE PHOTOGRAPH IS FIXED, deliberately — there is no `image` prop. The 80%
- * navy wash was measured over THIS picture with the type hidden: white 7.62:1
- * at the worst pixel behind the text column, the 85% body 6.05:1, the 80%
- * reassurance line 5.60:1. A different picture would need a new measurement,
+ * navy wash was measured over THIS picture with the type hidden. Re-measured
+ * 2026-09-25 with the mockup's deeper navy: the worst pixel under ANY of the
+ * band's text is 7.65:1 (the 80% reassurance line, at 1024 wide); with the old
+ * navy that line was 5.60:1. A different picture would need a new measurement,
  * and a prop would make it easy to skip one. To change the picture, change
  * `bfc.closing` and re-measure once, for every page.
  *

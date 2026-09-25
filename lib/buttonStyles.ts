@@ -2,8 +2,8 @@
  * The one definition of what a button looks like on this site.
  *
  * REBUILT 2026-09-23 for "Built for Change". Square-cornered (4px, the spec's
- * "0–6px"), blue rather than coral — see --color-action in app/globals.css for
- * why that is a reading of the packet rather than a preference.
+ * "0–6px"), in the royal blue of Steve's hero mockup — see --color-action in
+ * app/globals.css.
  *
  * TARGET SIZE: every variant but `ghost` is at least 48px tall (min-h-12).
  * WCAG 2.2's floor is 24px and 44px is what reads as comfortable under a
@@ -13,7 +13,8 @@
  * VARIANTS, and where each belongs:
  *   primary       the booking CTA — "Build Your Keynote". Blue fill.
  *   secondary     solid white, for a primary action sitting on a dark band.
- *   outline       the secondary action on a LIGHT background.
+ *   outline       the secondary action on a LIGHT background. Blue, as the
+ *                 mockup draws "Watch Steve Speak": a blue rule, blue label.
  *   outlineLight  the secondary action on a DARK background.
  *   ghost         an inline text action.
  *
@@ -30,7 +31,7 @@ export const BUTTON_VARIANTS = {
   primary: "bg-action text-white hover:bg-action-dark",
   secondary: "bg-white text-navy hover:bg-tint",
   outline:
-    "border-[1.5px] border-navy text-navy hover:bg-navy hover:text-white",
+    "border-[1.5px] border-action bg-white/60 text-action hover:border-action-dark hover:bg-white hover:text-action-dark",
   outlineLight:
     "border-[1.5px] border-white/80 text-white hover:bg-white hover:text-navy",
   ghost:

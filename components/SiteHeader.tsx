@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
-import { img } from "@/content/media-manifest";
+import { Wordmark } from "@/components/Wordmark";
 import { buttonClasses } from "@/lib/buttonStyles";
 
 /**
@@ -14,12 +13,8 @@ import { buttonClasses } from "@/lib/buttonStyles";
  *   Desktop  wordmark · Speaking About Ideas Books Event Planners · [Build Your Keynote →]
  *   Mobile   wordmark · [Build Your Keynote] · menu
  *
- * THE WORDMARK. The packet's nav reads "Left: STEVE WELCH". This keeps the
- * existing lowercase "steve welch" SVG rather than typesetting the name in
- * caps, on the packet's own instruction to "evolve the current identity — do
- * not create a new brand". The wordmark IS the identity; the text is its
- * accessible name. If the layout reference shows set type instead, it is a
- * one-element change here.
+ * THE WORDMARK is STEVE WELCH in set type — the packet's "Left: STEVE
+ * WELCH", drawn that way in Steve's mockup. See components/Wordmark.tsx.
  *
  * THE MOBILE CTA is the packet's "compact CTA". It drops the arrow and shrinks
  * to fit beside the wordmark and the menu button, and it hides below 380px —
@@ -57,17 +52,10 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
       <div className="mx-auto flex h-[4.25rem] w-full max-w-[var(--container-wide)] items-center justify-between gap-2 px-5 sm:px-8 lg:h-[4.75rem] lg:px-12">
-        {/* min-h-11: the link is otherwise exactly as tall as the 18px logo,
+        {/* min-h-11: the link is otherwise exactly as tall as the wordmark,
             which measured under WCAG 2.2's 24px target minimum on phones. */}
-        <Link href="/" aria-label={`${site.name} — home`} className="flex min-h-11 shrink-0 items-center">
-          <Image
-            src={img.logo}
-            alt={site.name}
-            width={2938}
-            height={401}
-            priority
-            className="h-[18px] w-auto sm:h-7"
-          />
+        <Link href="/" aria-label={`${site.name} — home`} className="flex min-h-11 shrink-0 items-center text-navy">
+          <Wordmark />
         </Link>
 
         {/* The bar. Hidden below lg, but present in the HTML at every width. */}

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { landingPages, getLandingPage, landingLabels } from "@/content/landing-pages";
 import { site } from "@/content/site";
 import { anvilQuote } from "@/content/speaking";
 import { testimonial } from "@/content/home";
 import { img, speakingEngagementLogos, workedWithLogos } from "@/content/media-manifest";
 import { Button, Container, Section } from "@/components/primitives";
+import { Wordmark } from "@/components/Wordmark";
 import { LandingInquiryForm } from "@/components/LandingInquiryForm";
 import { PageHero } from "@/components/kit/PageHero";
 import { SquareList } from "@/components/kit/SquareList";
@@ -81,7 +81,7 @@ export default async function LandingPageRoute({
           deliberately NOT a link — even "home" is an exit here. */}
       <header className="border-b border-line bg-white">
         <Container className="flex min-h-[4.5rem] items-center">
-          <Image src={img.logo} alt={site.name} width={2938} height={401} priority className="h-[18px] w-auto sm:h-7" />
+          <p className="text-navy"><Wordmark /></p>
         </Container>
       </header>
 

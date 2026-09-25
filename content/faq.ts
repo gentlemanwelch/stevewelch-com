@@ -29,7 +29,7 @@ export const faqs: Faq[] = [
   {
     question: "What does it cost to book Steve as a keynote speaker?",
     answer:
-      "Engagements start at $20,000, and customization is included. The final fee depends on the date, location and format — travel outside North America is quoted separately. Share your budget range in the inquiry and you will get a straight answer rather than a negotiation.",
+      "Engagements start at $20,000, and building the keynote for your room is included. The final fee depends on the date, location and format — travel outside North America is quoted separately. Share your budget range in the inquiry and you will get a straight answer rather than a negotiation.",
   },
   {
     question: "What topics does Steve speak on?",
@@ -49,12 +49,12 @@ export const faqs: Faq[] = [
   {
     question: "How far in advance should we book?",
     answer:
-      "Three to six months is typical and gives the most room for tailoring the session. Shorter timelines are worth asking about — dates open up, and a direct inquiry gets an answer the same week.",
+      "Three to six months is typical and leaves the most time to build the session for the room. Shorter timelines are worth asking about — dates open up, and a direct inquiry gets an answer the same week.",
   },
   {
-    question: "Can the talk be customized for our audience?",
+    question: "Is the keynote built for our audience?",
     answer:
-      "Yes, and it always is. Every engagement includes multiple working sessions with the organizers before the event, to understand the audience, the moment the organization is in, and what the room needs to do differently afterward. The framework stays consistent; the stories, examples, data and emphasis are built from there.",
+      "Yes — every keynote is built for the room. Each engagement includes multiple working sessions with the organizers before the event, to understand the audience, the moment the organization is in, and what the room needs to do differently afterward. The framework stays consistent; the stories, examples, data and emphasis change with the room.",
   },
   {
     question: "Is Steve available for podcasts and interviews?",

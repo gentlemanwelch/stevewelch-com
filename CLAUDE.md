@@ -163,9 +163,20 @@ AI-speaker copy.
 
 - **Feel:** Steve's keynote deck — one idea at a time, large type, real
   photographs, minimal clutter. Stature from photography and proof, not claims.
-- **Palette:** the site's own navy/blue/white family. CTAs are the action blue
-  `#2176a0` (white on it is 5.04:1; the brighter brand blue `#348cbb` fails
-  4.5:1 for button labels, so it is kept for display type and marks).
+- **Palette:** Steve's own mockup (2026-09-25) — ink navy `#06153d`, royal
+  blue, white fading to pale blue. It replaced the old stevewelch.com teal-navy
+  family on his instruction: "When ChatGPT handed you a color scheme, that is
+  the color scheme I wanted." CTAs are `#0062f2` (white on it 5.21:1, and blue
+  text on the pale tint 4.74:1); the mockup's `#0066fc` is kept for display
+  type and marks, where it would fail 4.5:1 on the tint as small text.
+- **Wordmark:** STEVE WELCH set in type (`components/Wordmark.tsx`), as the
+  mockup draws it. The old lowercase SVG logos are unused.
+- **Homepage hero:** light, per the mockup, with the stage photograph beside
+  the copy. Its crop is a fixed offset, not a percentage; read the note above
+  §2 in `app/(site)/page.tsx` before touching the copy's length, because the
+  copy's height sets the photograph's scale.
+- **"Built for the room"**, never "customized" or "tailored" — Steve's phrase
+  for how every keynote is made, used everywhere the site describes it.
 - **Type:** Poppins 400–800. `.display-xl` / `.display-lg` for slide-like
   statements; the h1/h2 scale is continuous (clamp).
 - **Shape:** corners ≤6px, hairlines instead of shadows.
@@ -186,14 +197,14 @@ or a `CtaBand` with the page's own question. The parts that carry rules:
   copy on navy (`image`), so a new picture never needs a contrast measurement.
   The old interior heroes each needed one, and one page never got it.
 - **`CtaBand`** — its photograph is fixed and its 80% wash measured over that
-  picture (7.62 / 6.05 / 5.60:1). There is deliberately no `image` prop.
+  picture (all text 7.65:1 or better). There is deliberately no `image` prop.
 - **`Breadcrumbs`** and **`FaqList`** — each renders the visible thing and its
   JSON-LD from one list, so markup can never describe what is not on the page.
   One `FaqList` per page.
 - **`LogoStrip`** — sizes logos by their measured MARK, not the file, and crops
   each file to it. Measure a new logo's ratio from its pixels.
 - **`lib/formStyles.ts`** — the one field style for all three forms: 16px text
-  (iOS zooms below it) and a 3.35:1 border (WCAG's 3:1 for boundaries).
+  (iOS zooms below it) and a 3.41:1 border (WCAG's 3:1 for boundaries).
 
 Only booking forms may call `trackInquiry` — it is the conversion the ad
 spend is measured by. The Foundation form used to, until 2026-09-24.

@@ -20,12 +20,9 @@ export type StatItem = { value: string; label: string; sentence?: string; to?: n
 export function StatRow({
   stats,
   tone = "light",
-  twoUp = false,
 }: {
   stats: readonly StatItem[];
   tone?: "light" | "dark";
-  /** Always two columns — for a row that shares its width with other copy. */
-  twoUp?: boolean;
 }) {
   const dark = tone === "dark";
   /* Columns follow the count — a fixed four split a three-stat row into four
@@ -33,13 +30,11 @@ export function StatRow({
      per row they ran to most of a screen. Literal classes, for Tailwind's
      scanner. */
   const columns =
-    twoUp
-      ? "grid-cols-2"
-      : stats.length <= 2
-        ? "sm:grid-cols-2"
-        : stats.length === 3
-          ? "sm:grid-cols-3"
-          : "grid-cols-2 lg:grid-cols-4";
+    stats.length <= 2
+      ? "sm:grid-cols-2"
+      : stats.length === 3
+        ? "sm:grid-cols-3"
+        : "grid-cols-2 lg:grid-cols-4";
   return (
     <dl className={`grid gap-x-6 gap-y-10 sm:gap-x-8 ${columns}`}>
       {stats.map((s) => (

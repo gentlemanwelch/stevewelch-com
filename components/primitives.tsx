@@ -99,14 +99,15 @@ export function Section({
  * spending a heading level on it, so the h2 underneath stays the real one and
  * the document outline stays clean for screen readers and crawlers.
  *
- * On light backgrounds it is the action blue (5.04:1 on white, 4.57:1 on the
- * tint). On solid navy it is cyan, 6.46:1 — the action blue on navy would be
- * 2.1:1 and unreadable at 13px.
+ * On light backgrounds it is the action blue (5.21:1 on white, 4.74:1 on the
+ * tint). On solid navy it is the light sky blue `cyan`, 9.36:1 — the action
+ * blue on navy would be 3.4:1 and hard to read at 13px.
  *
  * OVER A PHOTOGRAPH it is white (`onPhoto`). Measured on the homepage's
- * closing band — a stage photograph under an 80% navy wash — cyan fell to
- * 3.46:1 at the worst pixel, because the wash lets the brightest stage lights
- * through. White over the same pixels is 7.62:1.
+ * closing band — a stage photograph under an 80% navy wash — the old, darker
+ * cyan fell to 3.46:1 at the worst pixel, because the wash lets the brightest
+ * stage lights through. White over the same pixels was 7.62:1, and is higher
+ * with the mockup's deeper navy.
  */
 export function Eyebrow({
   children,
@@ -128,9 +129,10 @@ type ButtonProps = {
    * The glyph the copy calls for. "Build Your Keynote →" and "▶ Watch Steve
    * Speak" are written with them in 01_HOMEPAGE_COPY.md; they render
    * aria-hidden, so a screen reader announces "Build Your Keynote", not
-   * "Build Your Keynote right arrow".
+   * "Build Your Keynote right arrow". `playDisc` is the play mark set in a
+   * filled circle, as Steve's mockup draws it on the light hero.
    */
-  glyph?: "arrow" | "play";
+  glyph?: "arrow" | "play" | "playDisc";
   /**
    * Analytics. Read by components/TrackEvents.tsx through ONE delegated
    * listener on the document, so a button can be tracked without turning the
@@ -160,6 +162,12 @@ export function Button({
       {glyph === "play" && (
         <svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true" className="shrink-0">
           <path d="M12 7 0 14V0z" fill="currentColor" />
+        </svg>
+      )}
+      {glyph === "playDisc" && (
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" className="-my-1 -ml-1.5 mr-1 shrink-0">
+          <circle cx="14" cy="14" r="14" fill="currentColor" />
+          <path d="M20 14 11 19.2V8.8z" fill="#fff" />
         </svg>
       )}
       <span>{children}</span>

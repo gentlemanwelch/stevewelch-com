@@ -42,12 +42,13 @@ export const site = {
    *
    * It replaced a description saying Steve "is expanding the accessibility of
    * wellness therapies", written when he was Restore's CEO. He stepped down
-   * effective 10 February 2025 and remains on the board.
+   * effective 10 February 2025 and remains on the board. "Deeply customized"
+   * became "built for the room" on 2026-09-25, Steve's phrase.
    */
   description:
-    "Entrepreneur, CEO and investor Steve Welch delivers deeply customized " +
-    "keynotes on AI, leadership and organizational change through his " +
-    "Purpose, People and Process framework.",
+    "Entrepreneur, CEO and investor Steve Welch delivers keynotes on AI, " +
+    "leadership and organizational change, each built for the room around " +
+    "Purpose, People and Process.",
 
   /**
    * Booking inquiries. This address is the conversion point of the whole site:

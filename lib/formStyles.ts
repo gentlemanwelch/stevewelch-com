@@ -10,7 +10,7 @@
  *   - text-base (16px) is a floor, not a style. Below 16px, iOS Safari zooms
  *     the page when a field takes focus, and the organizer filling in the
  *     booking form finds the layout lurched sideways under their thumb.
- *   - border-field is 3.35:1 on white. A field's edge is how someone finds
+ *   - border-field is 3.41:1 on white. A field's edge is how someone finds
  *     where to type, so it is held to WCAG's 3:1 for boundaries; the hairline
  *     colour used for rules elsewhere is 1.27:1 and would hide it.
  *   - Focus keeps the site-wide outline (app/globals.css); the border darkens

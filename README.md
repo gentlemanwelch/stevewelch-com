@@ -19,7 +19,7 @@ not a reconstruction.
 |---|---|
 | URLs and page structure | **Exact** — all 12 published pages at their existing paths |
 | Copy | **From the export** — the site's own words |
-| Palette and typeface | **From the export** — Poppins, `#042e43`/`#348cbb`/`#055577` |
+| Palette and typeface | Poppins from the export; palette from Steve's 2026-09-25 mockup — `#06153d`/`#0062f2`/`#0066fc` (see `app/globals.css`) |
 | Logo walls, testimonials, media list | **Real** — recovered, not invented |
 | Image files | **Not yet present** — run `scripts/download-media.sh` |
 | Component-level styling | **Interpreted** — see below |

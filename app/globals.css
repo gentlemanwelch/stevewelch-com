@@ -9,10 +9,7 @@
  * packet (00_READ_ME_FIRST, 02_DESIGN_IMPLEMENTATION_SPEC). The WordPress-era
  * system this replaces reproduced the old theme value by value — 40px pill
  * buttons, 16px cards with heavy drop shadows, a coral action colour. None of
- * that carries over. What does carry over, deliberately, is the colour FAMILY:
- * the packet is explicit that this is an evolution of the existing identity,
- * not a new brand — "preserve the existing light blue / white / deep navy
- * family" — so the hex values below are the site's own.
+ * that carries over.
  *
  * The brief in one line: it should feel like Steve's keynote deck. One idea at
  * a time, large type, real photographs, minimal clutter. Stature comes from
@@ -24,62 +21,58 @@
 @theme {
   /* ---------------------------------------------------------------- colour */
 
-  --color-navy: #042e43;          /* primary text and every dark background */
-  --color-navy-deep: #021f2e;     /* one step down, for layering on navy */
+  /*
+   * THE PALETTE IS STEVE'S MOCKUP — sampled from the hero concept he made in
+   * ChatGPT and sent on 2026-09-25: "When ChatGPT handed you a color scheme,
+   * that is the color scheme I wanted, not the original color scheme." Ink
+   * navy, a royal blue, white fading to a pale blue.
+   *
+   * It REPLACES the old stevewelch.com teal-navy family (#042e43, #2176a0,
+   * #348cbb), which the packet's text had asked to keep — "exact hex values
+   * should come from the current site's existing CSS". The mockup is the
+   * later and more specific instruction, and it is Steve's own; it wins.
+   *
+   * Every value below is the mockup's, except where a contrast check moved it.
+   * Those are said where they happen. Ratios are WCAG, against white unless
+   * stated.
+   */
+  --color-navy: #06153d;          /* the mockup's ink: "BUILT FOR", the wordmark,
+                                     every dark background. White 17.8:1. */
+  --color-navy-deep: #030b26;     /* one step down, for layering on navy */
 
   /*
-   * THE ACTION COLOUR IS BLUE NOW, NOT CORAL — and that is a reading of the
-   * packet, so it is written down.
-   *
-   * The packet's colour roles give "bright brand blue" to "CTA, emphasis,
-   * selected words", and describe the family as blue / white / navy with no
-   * mention of coral anywhere. Its instruction that "exact hex values should
-   * come from the current site's existing tokens" decides WHICH blue, not
-   * whether to keep coral. So the CTA takes the site's own blue.
-   *
-   * Which blue is a contrast decision, not a taste one. The brand blue #348cbb
-   * carries white text at only 3.74:1 — under the 4.5:1 a 16px button label
-   * needs. #2176a0, already in the old token set as the "muted" blue, carries
-   * white at 5.04:1 and still reads as the brand's blue. That is the fill; the
-   * brighter #348cbb is kept for display type and marks, where size makes 3:1
-   * the bar.
-   *
-   * If the missing layout reference (00_layout_reference_latest.png) shows
-   * coral CTAs, point --color-action at --color-coral. One line.
+   * The CTA fill and small blue text. The mockup's button blue is #0066fc,
+   * which carries a white label at 4.88:1 — fine on white, but blue TEXT on
+   * the pale tint would be 4.44:1, under the 4.5:1 a 16px label needs.
+   * #0062f2 is the same hue a hair deeper: white on it 5.21:1, on the tint
+   * 4.74:1. You cannot tell them apart side by side.
    */
-  --color-action: #2176a0;        /* CTA fill; also small blue text on white (5.04:1) */
-  --color-action-dark: #055577;   /* hover / pressed (8.17:1 with white) */
-  --color-blue: #348cbb;          /* bright brand blue: display type, rules, marks */
-  --color-cyan: #53bcd7;          /* small accent text ON NAVY (6.46:1) */
-  --color-tint: #edf5f9;          /* the pale-blue section background */
-  --color-tint-warm: #f4f9fb;
+  --color-action: #0062f2;
+  --color-action-dark: #0050c8;   /* hover / pressed: white 7.04:1 */
+  /* The mockup's royal blue, as-is, for display type ("CHANGE."), marks and
+     rules — sizes where 3:1 is the bar. 4.88:1 on white, 4.44:1 on the tint. */
+  --color-blue: #0066fc;
+  /* Accent text ON NAVY. The royal blue on navy is 3.6:1 — too dark for
+     13px. This is its light sky tint, 9.36:1 on the navy. */
+  --color-cyan: #8fbfff;
+  --color-tint: #eef5fd;          /* the pale blue the mockup's hero fades to */
+  --color-tint-warm: #f5f9fe;
 
-  --color-ink: #042e43;           /* headings */
-  --color-ink-soft: #46586a;      /* body copy: 7.33:1 on white */
-  /*
-   * Captions and meta. The old value #7b8b98 measured 3.5:1 on white — it
-   * failed AA for exactly the small text it was used for. #5f7182 is 5.03:1 on
-   * white and 4.58:1 on the tint.
-   */
-  --color-ink-faint: #5f7182;
+  --color-ink: #06153d;           /* headings */
+  --color-ink-soft: #313254;      /* body copy, the mockup's: 12.3:1, 11.2:1 on the tint */
+  --color-ink-faint: #5a6178;     /* captions and meta: 6.15:1, 5.6:1 on the tint */
   --color-canvas: #ffffff;
   --color-surface: #ffffff;
   --color-surface-alt: var(--color-tint);
-  --color-line: #d9e6ee;
-  --color-line-strong: #b9cdd9;
+  --color-line: #dbe5f3;
+  --color-line-strong: #b8c7de;
   /*
    * The edge of a form field. A field's border is how a person finds the thing
    * they are meant to type into, so WCAG holds it to 3:1 (1.4.11, non-text
-   * contrast). --color-line is 1.27:1 on white and --color-line-strong 1.64:1
-   * — decorative rules, not boundaries. This is 3.35:1 on white, 3.03:1 on
-   * the tint.
+   * contrast). --color-line and --color-line-strong are decorative rules, not
+   * boundaries, and fail it. This is 3.41:1 on white, 3.11:1 on the tint.
    */
-  --color-field: #7a8fa1;
-
-  /* NOT USED, and kept on purpose: the pending CTA-colour decision above. If
-     the layout reference shows coral CTAs, --color-action points here. */
-  --color-coral: #f05a45;
-  --color-coral-dark: #ce4d3b;
+  --color-field: #7d8bab;
 
   /* ------------------------------------------------------------- typeface */
 

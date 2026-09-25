@@ -14,8 +14,8 @@ import { Breadcrumbs, type Crumb } from "@/components/kit/Breadcrumbs";
  * never was measured. A new photo meant a new measurement, and nothing made
  * anyone take it.
  *
- * The homepage settled it the other way: copy on solid navy (white is 14.2:1,
- * whatever the picture), the photograph BESIDE it. That is the `image` form
+ * The homepage settled it the other way: copy on a solid colour (white on the
+ * navy is 17.8:1, whatever the picture), the photograph BESIDE it. That is the `image` form
  * here, so a page can swap its photograph without anyone re-measuring
  * anything.
  *

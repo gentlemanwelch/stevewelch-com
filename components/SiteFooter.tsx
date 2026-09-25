@@ -1,7 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { site } from "@/content/site";
-import { img } from "@/content/media-manifest";
+import { Wordmark } from "@/components/Wordmark";
 
 /**
  * Site footer — rebuilt for Built for Change (01_HOMEPAGE_COPY §13).
@@ -19,9 +18,8 @@ import { img } from "@/content/media-manifest";
  * Add it to `site.social` when there is one; it will appear here, in the
  * Person schema's `sameAs`, and in llms.txt automatically.
  *
- * The wordmark is the header SVG inverted with a filter rather than the
- * theme's white variant, which sets its text as an SVG <text> element in a
- * font it does not embed and so renders in whatever fallback the browser picks.
+ * The wordmark is the header's, in white — set type, so it needs no inverted
+ * copy of a drawing. See components/Wordmark.tsx.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -39,14 +37,8 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-[var(--container-wide)] px-5 pb-10 pt-16 sm:px-8 lg:px-12 lg:pt-24">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <div>
-            <Link href="/" aria-label={`${site.name} — home`} className="inline-block">
-              <Image
-                src={img.logo}
-                alt={site.name}
-                width={2938}
-                height={401}
-                className="h-6 w-auto brightness-0 invert sm:h-7"
-              />
+            <Link href="/" aria-label={`${site.name} — home`} className="inline-flex min-h-11 items-center text-white">
+              <Wordmark size="footer" />
             </Link>
             {/* The brand line. Not a heading — it names nothing below it. */}
             <p className="display-lg mt-8 text-white">{site.brand.line}</p>
