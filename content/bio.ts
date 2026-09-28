@@ -243,13 +243,22 @@ export const bioOneLine =
 /** ~60 words — printed programs and speaker introductions. */
 export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in over 400 companies. He helped build Restore Hyper Wellness into a national brand, returned as its CEO from 2023 to 2025, and remains on its board. He is the author of "We Are All Born Entrepreneurs."`;
 
-/** Long form — the press kit, and the paragraph organizers paste elsewhere. */
+/**
+ * Long form — the About page's "The story", the press kit, and the paragraph
+ * organizers paste elsewhere.
+ *
+ * STEVE'S OWN TEXT, 2026-09-28, replacing the WordPress-era version. As
+ * written, with three mechanical fixes only: "help grow" → "helped grow",
+ * "direct to consumer" → "direct-to-consumer", and a dash before "and it was
+ * a niche product". Its figures are his: more than 400 companies built or
+ * first-invested; Dreamit at almost 400 over nearly twenty years.
+ */
 export const bioLong: string[] = [
-  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 350 companies.",
+  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 400 companies.",
   "He founded Mitos in 2001 and built it into a global company in biotech manufacturing, developing innovations and patents that changed how biological drugs and vaccines are made. He sold it at the age of 30 to Parker (NYSE: PH).",
-  "He then partnered with two mentors and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After fifteen years, Dreamit has invested in over 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures, which scales later-stage healthcare and consumer companies in short sprints.",
-  "Restore Hyper Wellness began with a problem Steve had himself: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. He helped build it into a national brand, returned as its CEO from 2023 to 2025 to lead it through a period of intense change, and remains on its board. Restore now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
-  'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness" with Jim Donnelly. He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
+  "He then partnered with two exited entrepreneurs and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After nearly twenty years, Dreamit has invested in almost 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures.",
+  "Restore Hyper Wellness began with a problem Steve had himself: while training for a triathlon, he started using cryotherapy for recovery, liked how it felt, and did not like the customer experience — and it was a niche product. Steve co-founded Restore and helped grow it into the largest direct-to-consumer retail healthcare company in the country. He returned as its CEO to lead it through a period of intense change, and remains on its board.",
+  'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness". He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
 ];
 
 export type Credential = { label: string; detail: string };
