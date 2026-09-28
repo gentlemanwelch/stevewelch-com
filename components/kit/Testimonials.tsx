@@ -11,19 +11,26 @@ import { QuoteBlock } from "@/components/kit/QuoteBlock";
  * feature. The Inquirer line stays — it is real and it is colour — but set
  * small and labelled as press, the revision brief's §9.
  *
- * One component, so the homepage, /speaking/ and the landing pages always
- * show the same quotes in the same order. The sources and permissions are
- * recorded against `organizerTestimonial` in content/home.ts.
+ * One component, so /speaking/ and the landing pages always show the same
+ * quotes in the same order. The sources and permissions are recorded against
+ * `organizerTestimonial` in content/home.ts.
+ *
+ * `organizer={false}` leaves Ryan's quote out: the homepage shows the press
+ * line alone, at Steve's instruction (2026-09-28).
  */
-export function Testimonials() {
+export function Testimonials({ organizer = true }: { organizer?: boolean }) {
   return (
     <div>
-      <QuoteBlock
-        quote={organizerTestimonial.quote}
-        source={organizerTestimonial.name}
-        role={organizerTestimonial.role}
-      />
-      <div aria-hidden="true" className="mx-auto my-12 w-16 border-t border-line-strong md:my-14" />
+      {organizer && (
+        <>
+          <QuoteBlock
+            quote={organizerTestimonial.quote}
+            source={organizerTestimonial.name}
+            role={organizerTestimonial.role}
+          />
+          <div aria-hidden="true" className="mx-auto my-12 w-16 border-t border-line-strong md:my-14" />
+        </>
+      )}
       <QuoteBlock
         variant="press"
         label={testimonial.label}

@@ -92,7 +92,10 @@ export const img = {
   timelineDreamitStart: `${base}/DSC_0503-scaled.jpg`,
   timelineDreamitTeam: `${base}/Dreamit-Team-e1723084112124.jpg`,
   timelineHealth: `${base}/SDW_8971.jpg`,
-  timelineRestoreStart: `${base}/W16_3327-scaled.jpg`,
+  /* Supplied by Steve 2026-09-28: the confetti "NOW OPEN" celebration, in
+     place of the WordPress ribbon-cutting (W16_3327-scaled.jpg, left in
+     public/ unreferenced). */
+  timelineRestoreStart: `${base}/restore-now-open-celebration.webp`,
   timelineRestoreScaled: `${base}/DSC_0119-scaled.jpg`,
   timelineFamilyToday: `${base}/W19_2980-scaled.jpg`,
 
@@ -106,8 +109,10 @@ export const img = {
      simply the wrong file — the original's hero is this one. */
   aboutHero: `${base}/W19_5845-scaled.jpg`,
 
-  /* Investment vehicle marks, for the two cards on /about/. */
-  dreamitLogo: `${base}/dreamIT_logo.svg`,
+  /* Investment vehicle marks, for the two cards on /about/. The Dreamit mark
+     is Steve's crisp file of 2026-09-28, trimmed to the logo; the old
+     dreamIT_logo.svg was the same mark, blurred, inside a white box. */
+  dreamitLogo: `${base}/dreamit-logo.webp`,
   sharkSkinLogo: `${base}/shark-skin_ventures.svg`,
 
   /* Sits beside the "sparks off an anvil" quote on /speaking/, which is where

@@ -375,10 +375,11 @@ export default async function HomePage() {
       </Section>
 
       {/* ================================================== §11 TESTIMONIALS */}
-      {/* An organizer first, the press second — see components/kit/Testimonials.tsx. */}
+      {/* The press line only. Steve took Ryan's quote off the homepage
+          (2026-09-28); it stays on /speaking/, the topic pages and /lp/. */}
       <section className="border-t border-line bg-white py-16 md:py-24">
         <Container>
-          <Testimonials />
+          <Testimonials organizer={false} />
         </Container>
       </section>
 

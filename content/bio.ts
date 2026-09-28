@@ -129,7 +129,7 @@ export const timeline: TimelineEntry[] = [
   },
   {
     image: "timelineRestoreStart",
-    alt: "A ribbon-cutting outside an early Restore Hyper Wellness studio",
+    alt: "The Restore Hyper Wellness team celebrating a studio opening in a burst of confetti under a NOW OPEN banner",
     text: "I partnered with another great entrepreneur to start Restore Hyper Wellness because there was a clear problem that needed to be solved. People need a way to understand and invest in their health while they are healthy as opposed to waiting until they are sick.",
   },
   {
@@ -205,7 +205,7 @@ export const investmentVehicles = {
     {
       stage: "Early stage",
       name: "Dreamit Ventures",
-      logo: "/media/dreamIT_logo.svg",
+      logo: "/media/dreamit-logo.webp",
       body: "Dreamit Ventures invests in transformative early-stage companies focused on scaling revenues.",
       href: "https://www.dreamit.com",
       linkLabel: "www.dreamit.com",
@@ -220,6 +220,8 @@ export const investmentVehicles = {
       */
       logo: "/media/shark-skin_ventures.svg",
       body: "Shark Skin Ventures invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
+      href: "https://www.thesharkskin.com",
+      linkLabel: "www.thesharkskin.com",
     },
   ] as Vehicle[],
 };
@@ -239,6 +241,14 @@ export const investmentVehicles = {
 /** One line — run of show, and the search-result subtitle. */
 export const bioOneLine =
   "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries, and helped build Restore Hyper Wellness into a national brand.";
+
+/**
+ * The one-liner organizers copy from the Event Planners page (/press-kit/).
+ * STEVE'S OWN WORDS, 2026-09-28 — he took Restore off this line. It is for the
+ * Event Planners page only, by his choice: /about/ keeps `bioOneLine` above.
+ */
+export const bioOneLineForOrganizers =
+  "Steve Welch is a founder, CEO and investor who has spent twenty-five years driving change in companies and industries — and speaks to leadership teams about doing it through purpose, people and process.";
 
 /** ~60 words — printed programs and speaker introductions. */
 export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in more than 350 companies. He helped build Restore Hyper Wellness into a national brand, returned as its CEO from 2023 to 2025, and remains on its board. He is the author of "We Are All Born Entrepreneurs."`;

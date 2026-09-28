@@ -255,6 +255,10 @@ export const organizations = {
  * NO LAST NAME, and the organization generalised to "Insurance Industry" —
  * both Steve's instructions.
  *
+ * WHERE IT SHOWS: /speaking/, the topic pages' sidebar, the /lp/ pages and
+ * llms.txt. NOT the homepage — Steve took it off there on 2026-09-28, and the
+ * homepage band carries the press line alone.
+ *
  * More organizer quotes like this are still the most valuable thing the
  * site can collect — never invented.
  */
@@ -269,7 +273,8 @@ export const organizerTestimonial = {
  * PRESS, AND LABELLED AS PRESS — the Inquirer line (`anvilQuote` in
  * content/speaking.ts). The revision brief's §9: it is "colorful but not
  * strong conversion proof for a meeting planner", so it is "clearly identified
- * as press and visually secondary" — set small, under the organizer's quote.
+ * as press and visually secondary" — set small, under the organizer's quote
+ * where that shows. On the homepage it now stands alone.
  */
 export const testimonial = {
   label: "IN THE PRESS",

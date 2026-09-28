@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { site } from "@/content/site";
-import { bioOneLine, bioShort, bioLong, credentials } from "@/content/bio";
+import { bioOneLineForOrganizers, bioShort, bioLong, credentials } from "@/content/bio";
 import { talks } from "@/content/speaking";
 import { eventPlanners as ep } from "@/content/event-planners";
 import { Container, Section, Button } from "@/components/primitives";
@@ -33,7 +33,7 @@ export const metadata: Metadata = buildMetadata({
 });
 
 const bios = [
-  { label: ep.bioLabels.oneLine, paragraphs: [bioOneLine] },
+  { label: ep.bioLabels.oneLine, paragraphs: [bioOneLineForOrganizers] },
   { label: ep.bioLabels.short, paragraphs: [bioShort] },
   { label: ep.bioLabels.long, paragraphs: bioLong },
 ];
