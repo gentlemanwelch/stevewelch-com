@@ -208,13 +208,14 @@ export const selectedOrganizationLogos: SizedLogo[] = [
  * belongs to is noted against it.
  */
 export const bfc = {
-  /* The stage photograph Steve sent with his hero mockup on 2026-09-25,
-     replacing the brief's "× AI THE MULTIPLIER" concept. 1448×1086: Steve at
-     the left, his slide across the rest — and its last circle now reads
-     "AI · Amplifies Everything", the site's own words. The homepage crops it
-     per width; see the hero's note in app/(site)/page.tsx. A larger original
-     would sharpen it on wide retina screens. */
-  hero: `${base}/steve-welch-keynote-ai-amplifies-everything.webp`,
+  /* The homepage hero: Steve on stage in front of his slide, "The
+     fundamentals haven't changed. Their leverage has." — Purpose, People,
+     Process, then "AI · Amplifies everything." Supplied by Steve on
+     2026-09-28, replacing the 2026-09-25 frame for "slightly better
+     alignment on the screen behind it". 1536×1024. The homepage crops it
+     with a fixed offset; see the hero's note in app/(site)/page.tsx, which
+     records the measurements it depends on. */
+  hero: `${base}/steve-welch-keynote-hero-fundamentals.webp`,
   heroAlt:
     "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” — Purpose, People, Process, then AI: Amplifies Everything",
 

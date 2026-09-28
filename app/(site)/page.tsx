@@ -98,48 +98,57 @@ export default async function HomePage() {
         curtains, before Steve — which is what turns the royal-blue curtains
         into the mockup's glow. Text only ever sits on the solid pale colour.
 
-        WHERE STEVE STANDS. The photograph is 4:3 and the box beside the copy
+        WHERE STEVE STANDS. The photograph is 3:2 and the box beside the copy
         is squarer, so it is cropped left-right. The crop is a FIXED OFFSET,
-        `max(-5.75rem, 100%)`, not a percentage: a percentage moves Steve
+        `max(-6.5rem, 100%)`, not a percentage: a percentage moves Steve
         relative to the box, and the box changes width with the screen, so no
         one percentage keeps him clear of the fade at every laptop width.
-        -5.75rem puts his arm just past the fade at any section height the
-        copy produces (1280–1920 measured: 42–46px past the copy's edge).
-        `100%` takes over once the box is wide enough to show the whole
-        photograph, so there is never a gap at the right.
+        -6.5rem puts his clicker hand just inside the fade's last, faint
+        stretch (about 40px past the copy's edge). `100%` takes over once the
+        box is wide enough to show the whole photograph, so there is never a
+        gap at the right.
 
-        WHAT SHOWS, measured: from 1366 wide the whole slide, "AI · Amplifies
-        Everything" included (at 1366 with 5px to spare); 1280–1365 trims
-        the AI circle; 1024–1279 shows Steve and the slide's headline,
-        trimmed at the right edge. The slide cannot fit whole any narrower —
-        Steve and the AI circle are 1127px apart in the original, and the
-        section is as tall as the copy, which sets the photograph's scale.
-        Taller copy means a bigger photograph and less of the slide.
+        WHAT SHOWS, measured on the 2026-09-28 photograph (1536×1024; Steve's
+        hand at x=282, the AI circle's right edge at x=1457 — 1175px apart):
+        from about 1425 wide the whole slide, "AI · Amplifies everything"
+        included (at 1440 the circle ends at x=1430); 1280–1424 trims the AI
+        circle; 1024–1279 shows Steve and the slide's headline.
+
+        THE COPY'S HEIGHT SETS THE PHOTOGRAPH'S SCALE, so it is budgeted. To
+        fit the whole slide at 1440 the section must be ≤ ~669px tall there:
+        hence the xl headline clamp (75px at 1440, still reaching the 6rem
+        cap only on very wide screens), 17px body and thesis, and the 44rem
+        cap on the min-height — at 1680×1050 the old 48rem min-height, not
+        the copy, set the height and pushed the AI circle off the edge.
+        After ANY change to the hero's copy or type sizes, re-measure: the AI
+        circle's right edge sits at (photo box left − 104px + 1457 × section
+        height ÷ 1024) whenever the box is narrower than 3:2, and it must
+        stay inside the viewport at 1440.
 
         Below lg the copy comes first and the photograph follows, whole
         across a tablet and cropped square on a phone on Steve and the slide
-        headline. No fade there: over the dark stage rigging at the top of
-        the frame a pale fade only turns grey.
+        headline, which reads in full at 48%. No fade there: over the dark
+        stage rigging at the top of the frame a pale fade only turns grey.
       */}
       <section className="relative isolate overflow-hidden bg-tint-warm">
         <Container className="relative z-10">
-          <div className="pb-10 pt-10 sm:pb-12 sm:pt-14 lg:flex lg:min-h-[min(calc(80svh-4.75rem),48rem)] lg:max-w-[27rem] lg:flex-col lg:justify-center lg:py-9 xl:max-w-[32rem]">
+          <div className="pb-10 pt-10 sm:pb-12 sm:pt-14 lg:flex lg:min-h-[min(calc(80svh-4.75rem),44rem)] lg:max-w-[27rem] lg:flex-col lg:justify-center lg:py-9 xl:max-w-[32rem] xl:py-7">
             <p className="mb-3 text-[0.9375rem] font-semibold uppercase leading-none tracking-[0.3em] text-navy lg:mb-4 lg:text-base">
               {hero.eyebrow}
             </p>
-            <h1 className="display-xl text-navy lg:!text-[clamp(4rem,1.6rem+4vw,6rem)]">
+            <h1 className="display-xl text-navy lg:!text-[clamp(4rem,1.6rem+4vw,6rem)] xl:!text-[clamp(4rem,2.6rem+2.3vw,6rem)]">
               <span className="block">{hero.headingLines[0]}</span>{" "}
               <span className="block text-blue">{hero.headingLines[1]}</span>
             </h1>
             <h2 className="mt-4 !text-[clamp(1.25rem,1.05rem+0.6vw,1.625rem)] font-semibold leading-[1.25] !tracking-[-0.01em] text-navy">
               {hero.subhead}
             </h2>
-            <p className="mt-4 text-ink-soft lg:text-[1.0625rem] lg:leading-[1.6] xl:text-[1.125rem]">
+            <p className="mt-4 text-ink-soft lg:text-[1.0625rem] lg:leading-[1.6]">
               {hero.body.split(hero.bodyTitle)[0]}
               <em>{hero.bodyTitle}</em>
               {hero.body.split(hero.bodyTitle)[1]}
             </p>
-            <p className="mt-4 font-bold leading-normal text-navy lg:text-[1.0625rem] xl:text-[1.125rem]">{hero.thesis}</p>
+            <p className="mt-4 font-bold leading-normal text-navy lg:text-[1.0625rem]">{hero.thesis}</p>
             <div className="mt-7 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
               <Button href={site.cta.href} glyph="arrow" track="build_your_keynote_click" trackLocation="hero">
                 {hero.primaryCta}
@@ -181,7 +190,7 @@ export default async function HomePage() {
             fill
             priority
             sizes="(min-width: 1024px) 1100px, (min-width: 640px) 100vw, 135vw"
-            className="object-cover object-[30%_50%] sm:object-[50%_25%] lg:object-[max(-5.75rem,100%)_50%]"
+            className="object-cover object-[48%_50%] sm:object-[50%_25%] lg:object-[max(-6.5rem,100%)_50%]"
           />
           {/* From lg: solid pale under the copy's last 2.5rem, then an eased
               fade across the curtains that is gone before Steve. */}
