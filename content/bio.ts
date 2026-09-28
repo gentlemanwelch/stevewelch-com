@@ -120,7 +120,7 @@ export const timeline: TimelineEntry[] = [
   {
     image: "timelineDreamitTeam",
     alt: "The Dreamit Ventures team on stage",
-    text: "After 15 years, Dreamit has invested in over 400 companies, and we developed a process to create value for companies through innovation. Today, the total market cap of Dreamit companies exceeds $10B.",
+    text: "After 15 years, Dreamit has invested in more than 350 companies, and we developed a process to create value for companies through innovation. Today, the total market cap of Dreamit companies exceeds $10B.",
   },
   {
     image: "timelineHealth",
@@ -241,7 +241,7 @@ export const bioOneLine =
   "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries, and helped build Restore Hyper Wellness into a national brand.";
 
 /** ~60 words — printed programs and speaker introductions. */
-export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in over 400 companies. He helped build Restore Hyper Wellness into a national brand, returned as its CEO from 2023 to 2025, and remains on its board. He is the author of "We Are All Born Entrepreneurs."`;
+export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in more than 350 companies. He helped build Restore Hyper Wellness into a national brand, returned as its CEO from 2023 to 2025, and remains on its board. He is the author of "We Are All Born Entrepreneurs."`;
 
 /**
  * Long form — the About page's "The story", the press kit, and the paragraph
@@ -250,13 +250,17 @@ export const bioShort = `Steve Welch is a successful entrepreneur and investor w
  * STEVE'S OWN TEXT, 2026-09-28, replacing the WordPress-era version. As
  * written, with three mechanical fixes only: "help grow" → "helped grow",
  * "direct to consumer" → "direct-to-consumer", and a dash before "and it was
- * a niche product". Its figures are his: more than 400 companies built or
- * first-invested; Dreamit at almost 400 over nearly twenty years.
+ * a niche product". One figure corrected at his word the same day: Dreamit
+ * is "more than 350", not "almost 400".
+ *
+ * THE COMPANY COUNT, everywhere on the site (Steve, 2026-09-28): Steve
+ * personally, his own investments included, is 400+. Dreamit Ventures alone
+ * is 350+. The $10B+ market cap belongs to Dreamit's companies.
  */
 export const bioLong: string[] = [
   "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 400 companies.",
   "He founded Mitos in 2001 and built it into a global company in biotech manufacturing, developing innovations and patents that changed how biological drugs and vaccines are made. He sold it at the age of 30 to Parker (NYSE: PH).",
-  "He then partnered with two exited entrepreneurs and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After nearly twenty years, Dreamit has invested in almost 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures.",
+  "He then partnered with two exited entrepreneurs and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After nearly twenty years, Dreamit has invested in more than 350 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures.",
   "Restore Hyper Wellness began with a problem Steve had himself: while training for a triathlon, he started using cryotherapy for recovery, liked how it felt, and did not like the customer experience — and it was a niche product. Steve co-founded Restore and helped grow it into the largest direct-to-consumer retail healthcare company in the country. He returned as its CEO to lead it through a period of intense change, and remains on its board.",
   'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness". He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
 ];
@@ -269,15 +273,15 @@ export type Credential = { label: string; detail: string };
   something that had wandered in. A press kit is where a journalist goes
   looking for exactly this, so it stays there.
 
-  Every figure is his own, from his own site: "350+ companies over the last 25
-  years" is the homepage's Investor card; "the total market cap of Dreamit
-  companies exceeds $10B" and the 400+ investments are the About page timeline,
-  which also carries a stat counter labelled "Invested Companies Market Cap";
-  the Restore numbers are the Restore section. Nothing here was inferred.
+  Every figure is his own. The company counts follow his rule of 2026-09-28:
+  400+ is Steve personally, built from scratch or first investor, his own
+  investments included; 350+ is Dreamit Ventures alone. "The total market cap
+  of Dreamit companies exceeds $10B" is the About page timeline, and the
+  Restore numbers are the Restore section. Nothing here was inferred.
 */
 export const credentials: Credential[] = [
-  { label: "350+ companies", detail: "Built from scratch or first investor, over 25 years" },
+  { label: "400+ companies", detail: "Built from scratch or first investor, over 25 years" },
   { label: "Sold Mitos at 30", detail: "Acquired by Parker (NYSE: PH)" },
   { label: "Restore Hyper Wellness", detail: "Helped build it to 225+ studios; CEO 2023–2025" },
-  { label: "$10B+ market cap", detail: "Across 400+ Dreamit Ventures investments" },
+  { label: "$10B+ market cap", detail: "Across 350+ Dreamit Ventures companies" },
 ];

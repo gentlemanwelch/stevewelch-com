@@ -73,7 +73,7 @@ export const landingPages: LandingPage[] = [
     campaign: "AI + change — the lead ad group",
     headline: "Get to AI Before Your Competitors Do",
     subhead:
-      "The advantage is real and it is going fast. Most organizations will miss it — not because the technology is hard, but because they cannot implement. Steve Welch has driven change through four companies he founded, 350+ he was first money into, and the national business he helped build, and he speaks to leadership teams about what has to be true before any of it lands.",
+      "The advantage is real and it is going fast. Most organizations will miss it — not because the technology is hard, but because they cannot implement. Steve Welch has driven change through four companies he founded, 400+ he was first money into, and the national business he helped build, and he speaks to leadership teams about what has to be true before any of it lands.",
     title: "AI and Change Keynote Speaker",
     bullets: [
       "Why the advantage goes to the organization that can implement, not the one that buys first",
@@ -83,7 +83,7 @@ export const landingPages: LandingPage[] = [
     ],
     proof: [
       { value: "4", label: "companies founded", sentence: "Steve Welch has founded 4 companies." },
-      { value: "350+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 350 companies." },
+      { value: "400+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 400 companies." },
       { value: "225+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 studios nationwide." },
     ],
     ctaLabel: "Check availability",
@@ -103,8 +103,8 @@ export const landingPages: LandingPage[] = [
       "Engagements start at $20,000 — a straight answer on availability, not a negotiation",
     ],
     proof: [
-      { value: "350+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 350 companies." },
-      { value: "400+", label: "investments", sentence: "Steve Welch has invested in over 400 companies." },
+      { value: "400+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 400 companies." },
+      { value: "350+", label: "Dreamit Ventures companies", sentence: "Dreamit Ventures, which Steve Welch co-founded, has invested in more than 350 companies." },
       { value: "$10B+", label: "combined market cap", sentence: "Those companies have a combined market capitalization exceeding $10 billion." },
     ],
     ctaLabel: "Check availability",

@@ -43,8 +43,9 @@ export const hero = {
     "AI change only works when the fundamentals are already in place: clear purpose, aligned people, and processes that drive consistent execution. Then AI amplifies everything.",
   primaryCta: "Build Your Keynote",
   secondaryCta: "Watch Steve Speak",
-  /* "400+ Companies" is the revision brief's line — Dreamit's portfolio,
-     which Steve co-founded. It settles the old 400+ / 350+ question. */
+  /* "400+ Companies" is Steve personally — built from scratch or first
+     investor, his own investments included. Dreamit alone is 350+ (the
+     Dreamit tile below). Steve's rule, 2026-09-28. */
   credibility: ["FOUNDER", "CEO", "INVESTOR", "400+ COMPANIES"],
 };
 
@@ -93,7 +94,7 @@ export const career = {
     },
     {
       name: "Dreamit",
-      headline: "400+ companies backed.",
+      headline: "350+ companies backed.",
       body: "Co-founded Dreamit Ventures and worked alongside hundreds of founders building companies across technology and healthcare.",
       image: "dreamit",
     },

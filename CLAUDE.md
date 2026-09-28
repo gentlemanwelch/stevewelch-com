@@ -76,6 +76,13 @@ Two facts contradict third-party sources; the site's own words won and remain
 correct: **Mitos sold at 30, not 29**, and the buyer was **Parker (NYSE: PH)**,
 not an unnamed Fortune 500 company.
 
+**The company count has two numbers, and they are not interchangeable**
+(Steve, 2026-09-28). **400+** is Steve personally: companies he built from
+scratch or was first investor in, his own investments included. **350+** is
+Dreamit Ventures alone. The $10B+ combined market cap belongs to Dreamit's
+companies, and so to the companies Steve has invested in. Never write
+"Dreamit … 400" or "Steve … 350".
+
 The endorsements in `testimonials.ts` are for the **book**, and are labelled as
 such wherever they appear. Presenting them as speaking testimonials would be
 dishonest. Speaking testimonials from event organizers are still needed and are
