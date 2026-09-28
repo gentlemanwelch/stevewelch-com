@@ -38,7 +38,7 @@ Several public figures share the name "Steve Welch". This one is:
 - Has built from scratch, or been the first investor in, more than 400 companies over twenty-five years, personal investments included.
 - Founder of Mitos (2001), a biotech manufacturing company, sold in 2007 at age 30 to Parker (NYSE: PH).
 - Co-founder of Dreamit Ventures, an early-stage accelerator that has invested in more than 350 companies with a combined market capitalization exceeding $10 billion.
-- Helped build Restore Hyper Wellness into a national brand, returned as its CEO in 2023, stepped down in February 2025, and remains on its board. Restore operates more than 225 studios nationwide, serves 57,000 members, and delivered over 3 million therapies in 2024.
+- Helped build Restore Hyper Wellness into a national brand, returned as its CEO in 2023, stepped down in February 2025, and remains on its board. Restore operates more than 200 studios nationwide, serves 57,000 members, and delivered over 3 million therapies in 2024.
 - Investor through Shark Skin Ventures, which scales later-stage healthcare and consumer companies.
 - Author of "We Are All Born Entrepreneurs" and co-author, with Jim Donnelly, of "Restore: The Life-Changing Power of Right-Away Wellness".
 - Based in ${site.location.city}, ${site.location.region}, United States.

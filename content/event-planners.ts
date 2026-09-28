@@ -31,7 +31,7 @@ export const eventPlanners = {
    * aloud — short sentences, no semicolons, and a last line that hands over
    * cleanly.
    */
-  stageIntroduction: `Our next speaker has built from scratch, or been the first investor in, more than 400 companies over the last twenty-five years. He founded Mitos and sold it at the age of 30 to Parker. He co-founded Dreamit Ventures, which has backed more than 350 companies now worth more than ten billion dollars combined. He helped build Restore Hyper Wellness into a national brand of 225 studios, and later returned as its CEO. He is the author of "We Are All Born Entrepreneurs." He speaks about driving change through purpose, people, and process. Please welcome Steve Welch.`,
+  stageIntroduction: `Our next speaker has built from scratch, or been the first investor in, more than 400 companies over the last twenty-five years. He founded Mitos and sold it at the age of 30 to Parker. He co-founded Dreamit Ventures, which has backed more than 350 companies now worth more than ten billion dollars combined. He helped build Restore Hyper Wellness into a national brand of more than 200 studios, and later returned as its CEO. He is the author of "We Are All Born Entrepreneurs." He speaks about driving change through purpose, people, and process. Please welcome Steve Welch.`,
 
   topicsHeading: "Topics",
   avHeading: "Technical requirements",

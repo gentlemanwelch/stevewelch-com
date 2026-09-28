@@ -84,7 +84,7 @@ export const landingPages: LandingPage[] = [
     proof: [
       { value: "4", label: "companies founded", sentence: "Steve Welch has founded 4 companies." },
       { value: "400+", label: "companies built or backed", sentence: "Steve Welch has built from scratch or been the first investor in more than 400 companies." },
-      { value: "225+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 studios nationwide." },
+      { value: "200+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 200 studios nationwide." },
     ],
     ctaLabel: "Check availability",
     logos: "worked-with",
@@ -126,7 +126,7 @@ export const landingPages: LandingPage[] = [
     proof: [
       { value: "25 yrs", label: "building and scaling companies", sentence: "Steve Welch has spent 25 years building and scaling companies." },
       { value: "4", label: "companies founded", sentence: "Steve Welch has founded 4 companies." },
-      { value: "225+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 225 studios nationwide." },
+      { value: "200+", label: "Restore locations", sentence: "Steve Welch helped build Restore Hyper Wellness, which operates more than 200 studios nationwide." },
     ],
     ctaLabel: "Check availability",
     logos: "worked-with",
@@ -136,7 +136,7 @@ export const landingPages: LandingPage[] = [
     campaign: "Employee wellbeing / human performance terms",
     headline: "An Employee Wellbeing Keynote From Someone Who Built the Business",
     subhead:
-      "Not a wellness consultant. Steve Welch helped build Restore Hyper Wellness — 225+ studios, 57,000 members, 3 million therapies delivered in 2024 — and he speaks about the energy leaders need to drive change, without the supplement-aisle vocabulary.",
+      "Not a wellness consultant. Steve Welch helped build Restore Hyper Wellness — 200+ studios, 57,000 members, 3 million therapies delivered in 2024 — and he speaks about the energy leaders need to drive change, without the supplement-aisle vocabulary.",
     title: "Employee Wellbeing Keynote Speaker",
     bullets: [
       "Why capacity, not strategy, is the binding constraint on most teams",
@@ -145,7 +145,7 @@ export const landingPages: LandingPage[] = [
       "Why your wellbeing benefit goes unused, and the design change that fixes it",
     ],
     proof: [
-      { value: "225+", label: "Restore studios nationwide", sentence: "Restore Hyper Wellness operates more than 225 studios nationwide." },
+      { value: "200+", label: "Restore studios nationwide", sentence: "Restore Hyper Wellness operates more than 200 studios nationwide." },
       { value: "57,000", label: "members", sentence: "Restore Hyper Wellness serves 57,000 members." },
       { value: "3M+", label: "therapies in 2024", sentence: "Restore Hyper Wellness delivered more than 3 million therapies in 2024." },
     ],

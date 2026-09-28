@@ -9,10 +9,10 @@ export type StatItem = { value: string; label: string; sentence?: string; to?: n
  * It keeps the two things StatGrid got right:
  *
  *   EXTRACTABILITY. A number in one element and its label in another reach a
- *   parser as two unrelated fragments — "225+" and "studios nationwide". Each
+ *   parser as two unrelated fragments — "200+" and "studios nationwide". Each
  *   figure also emits one complete sentence, visually hidden, and the split
  *   halves are aria-hidden, so a screen reader and a crawler both get "Steve
- *   helped build Restore to 225+ studios", once.
+ *   helped build Restore to 200+ studios", once.
  *
  *   NO JAVASCRIPT TO SEE IT. CountUp server-renders the final value; the count
  *   is an animation over a number that is already in the HTML.

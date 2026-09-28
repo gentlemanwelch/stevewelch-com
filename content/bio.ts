@@ -35,7 +35,7 @@ export type Stat = {
   label: string;
   /**
    * The same fact as one self-contained sentence, for screen readers and for
-   * models extracting facts from the markup. Without it, "225+" and "studios
+   * models extracting facts from the markup. Without it, "200+" and "studios
    * nationwide" reach a parser as two unrelated fragments.
    */
   sentence?: string;
@@ -58,7 +58,7 @@ export const byTheNumbers: Stat[] = [
 
 /** The Restore "Today" counter block. */
 export const restoreToday: Stat[] = [
-  { value: "225+", to: 225, label: "studios nationwide", sentence: "Restore Hyper Wellness operates more than 225 studios nationwide." },
+  { value: "200+", to: 200, label: "studios nationwide", sentence: "Restore Hyper Wellness operates more than 200 studios nationwide." },
   { value: "57,000", to: 57000, label: "members", sentence: "Restore Hyper Wellness serves 57,000 members." },
   { value: "3M+", to: 3, label: "therapies delivered in 2024", sentence: "Restore Hyper Wellness delivered more than 3 million therapies in 2024." },
 ];
@@ -135,7 +135,7 @@ export const timeline: TimelineEntry[] = [
   {
     image: "timelineRestoreScaled",
     alt: "An on-stage session under an \u014cURA and Restore Hyper Wellness banner",
-    text: "Scaled Restore by building an organization aligned around purpose with the right people who were process driven. Restore is the largest retail health wellness business in the world with over 225 locations.",
+    text: "Scaled Restore by building an organization aligned around purpose with the right people who were process driven. Restore is the largest retail health wellness business in the world with over 200 locations.",
   },
   {
     image: "timelineFamilyToday",
@@ -282,6 +282,6 @@ export type Credential = { label: string; detail: string };
 export const credentials: Credential[] = [
   { label: "400+ companies", detail: "Built from scratch or first investor, over 25 years" },
   { label: "Sold Mitos at 30", detail: "Acquired by Parker (NYSE: PH)" },
-  { label: "Restore Hyper Wellness", detail: "Helped build it to 225+ studios; CEO 2023–2025" },
+  { label: "Restore Hyper Wellness", detail: "Helped build it to 200+ studios; CEO 2023–2025" },
   { label: "$10B+ market cap", detail: "Across 350+ Dreamit Ventures companies" },
 ];

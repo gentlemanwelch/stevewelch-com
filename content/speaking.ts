@@ -254,7 +254,7 @@ export const hyperWellness = {
     "The energy leaders need to drive change — a keynote from a former CEO of Restore Hyper Wellness.",
   seoTitle: "Wellness & Human Performance Keynote Speaker",
   metaDescription:
-    "A keynote on the energy leaders need to drive change, from a former CEO of Restore Hyper Wellness — 225+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
+    "A keynote on the energy leaders need to drive change, from a former CEO of Restore Hyper Wellness — 200+ studios, 57,000 members, 3M+ therapies delivered in 2024.",
   keywords: [
     "wellness keynote speaker",
     "employee wellbeing keynote speaker",
@@ -265,7 +265,7 @@ export const hyperWellness = {
   body: [
     "Ask a stalled leadership team what is wrong and they will describe a strategy problem. Spend a day with them and you will usually find something simpler underneath it: capable people running at a fraction of their capacity, making decisions at four in the afternoon they would not have made at nine in the morning, and treating that as the cost of the job.",
     "It stands on its own as a keynote. The hyper wellness lifestyle is what gives leaders the energy to drive change — and finding the right purpose, people and processes is hard work, and hard work requires fuel.",
-    "He did not arrive at this from a book. Restore Hyper Wellness began with a problem he had personally: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. The company that came out of that now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
+    "He did not arrive at this from a book. Restore Hyper Wellness began with a problem he had personally: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. The company that came out of that now runs 200+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
     "The session ends practically — the short list of inputs that carry most of the effect, an honest account of where the evidence supports the wellness industry and where it outruns it, and why a wellbeing benefit nobody uses has bought the organization nothing at all.",
   ],
   audiences: [

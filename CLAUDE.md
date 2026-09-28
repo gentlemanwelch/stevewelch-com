@@ -81,7 +81,8 @@ not an unnamed Fortune 500 company.
 scratch or was first investor in, his own investments included. **350+** is
 Dreamit Ventures alone. The $10B+ combined market cap belongs to Dreamit's
 companies, and so to the companies Steve has invested in. Never write
-"Dreamit … 400" or "Steve … 350".
+"Dreamit … 400" or "Steve … 350". **Restore is 200+ locations** (Steve, same
+day), everywhere; 225 is retired.
 
 The endorsements in `testimonials.ts` are for the **book**, and are labelled as
 such wherever they appear. Presenting them as speaking testimonials would be

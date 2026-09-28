@@ -62,8 +62,8 @@ export const proof = [
   { value: "400+", to: 400, label: "Companies backed", sentence: "Steve Welch has backed more than 400 companies." },
   { value: "$10B+", to: 10, label: "Combined market capitalization", sentence: "The companies Steve Welch has invested in have a combined market capitalization exceeding $10 billion." },
   /* Steve's own figure, 2026-09-25: "count up to 10 million plus consumers
-     reached", in place of 225+ Restore locations — which the Restore tile
-     below still carries. The only figure here not sourced elsewhere on the
+     reached", in place of the Restore locations count — which the Restore
+     tile below carries, as 200+. The only figure here not sourced elsewhere on the
      site. CountUp counts 0→10 and keeps the "M+". */
   { value: "10M+", to: 10, label: "Consumers reached", sentence: "The companies Steve Welch has built have reached more than 10 million consumers." },
   { value: "25+", to: 25, label: "Years building and leading companies", sentence: "Steve Welch has spent more than 25 years building and leading companies." },
