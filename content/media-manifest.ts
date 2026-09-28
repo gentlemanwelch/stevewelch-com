@@ -130,18 +130,15 @@ export type LogoRef = { name: string; file: string };
  * every organization below is one the original site already lists.
  */
 export const speakingEngagementLogos: SizedLogo[] = [
+  /* Steve's five, in his order (2026-09-28) — cut from ten. IGNITE, storeRE,
+     Derma, Penn State and CBS are still in public/media if wanted back. */
   { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
-  { name: "IGNITE", file: `${base}/IGNITElogo.svg`, ratio: 3.2 },
-  { name: "storeRE", file: `${base}/storeRE-1.svg`, ratio: 4.76 },
-  { name: "Derma", file: `${base}/derma_green_new.svg`, ratio: 4.7 },
-  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
-  { name: "Penn State", file: `${base}/penn_state.svg`, ratio: 3.19 },
   { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
-  { name: "CBS", file: `${base}/cbs_logo.svg`, ratio: 3.54 },
   // The transparent cut of the same mark, so it sits on any band without a
   // white box. Same organization, same logo, as the original page.
   { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
   { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06 },
+  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
 ];
 
 export const selectedInvestmentLogos: LogoRef[] = [
@@ -236,7 +233,7 @@ export const bfc = {
   dreamitAlt: "Steve Welch on stage at a Dreamit Ventures event",
 
   /* A Restore studio opening: the team, champagne, OPEN balloons, the NOW
-     OPEN sign. Steve's pick for "225+ locations" — the celebration, not the
+     OPEN sign. Steve's pick for "200+ locations" — the celebration, not the
      ribbon. The alt text describes the team: it does not say Steve is in
      the frame. */
   restore: `${base}/restore-studio-opening-celebration.webp`,

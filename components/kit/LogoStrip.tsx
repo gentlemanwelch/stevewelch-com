@@ -17,14 +17,24 @@ import type { SizedLogo } from "@/content/media-manifest";
  * absent logo break a deploy. Here a missing file renders its alt text — the
  * organization's name — which is a legible fallback.
  */
-const AREA = 5200; // px² at desktop; ~52px tall for a 2:1 mark
+const AREA = { default: 5200, large: 9000 }; // px² at desktop; a 2:1 mark is ~52px / ~67px tall
 
 /**
  * `layout="grid"` for a long list: five to a row from lg, so ten logos sit as
  * two even rows instead of a full row and a straggling second one spread
  * edge to edge by justify-between.
  */
-export function LogoStrip({ logos, layout = "row" }: { logos: readonly SizedLogo[]; layout?: "row" | "grid" }) {
+export function LogoStrip({
+  logos,
+  layout = "row",
+  size = "default",
+}: {
+  logos: readonly SizedLogo[];
+  layout?: "row" | "grid";
+  /** `large`: about a third bigger — for a short list given its own band,
+      as on /speaking/ (Steve, 2026-09-28: "make those all larger"). */
+  size?: "default" | "large";
+}) {
   const list =
     layout === "grid"
       ? "grid grid-cols-2 place-items-center gap-x-6 gap-y-12 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10"
@@ -37,7 +47,7 @@ export function LogoStrip({ logos, layout = "row" }: { logos: readonly SizedLogo
   return (
     <ul className={list}>
       {logos.map((logo) => {
-        const h = Math.round(Math.sqrt(AREA / logo.ratio));
+        const h = Math.round(Math.sqrt(AREA[size] / logo.ratio));
         const w = Math.round(logo.ratio * h);
         return (
           <li key={logo.name} className="flex items-center justify-center">

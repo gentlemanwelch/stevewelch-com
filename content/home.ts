@@ -88,7 +88,7 @@ export const career = {
       /* "Founded at 23" is the revision brief's, which settles the old
          23-or-24 question. Sold at 30 is the site's long-standing fact. */
       headline: "Founded at 23. Sold at 30.",
-      body: "Founded Mitos Technologies, built and scaled the company, and sold it to Parker Hannifin.",
+      body: "Founded Mitos Technologies, built and scaled the company, and sold it to Parker Hannifin (NYSE: PH).",
       image: "mitos",
     },
     {
@@ -99,7 +99,7 @@ export const career = {
     },
     {
       name: "Restore",
-      headline: "225+ locations.",
+      headline: "200+ locations.",
       /* Past tense is correct: Steve stepped down as CEO effective
          10 February 2025 and remains on the board. */
       body: "Helped build Restore Hyper Wellness into a national business and later returned as CEO during a period of intense change.",
@@ -244,25 +244,24 @@ export const organizations = {
 /* §11 — Testimonials ----------------------------------------------------- */
 
 /*
- * THE ORGANIZER'S WORDS, NOT OURS. From Ryan's email to Steve of 18 June 2026
- * ("Re: Great seeing you"), after Steve's keynote at the SFAA annual meeting.
- * Trimmed, never reworded, except "the brand new strategic plan that we
- * finalized earlier this year" → "our new strategic plan". Steve chose the
- * wording on 2026-09-25 and relayed Ryan's permission: "he said we can use
- * whatever we'd like".
+ * THE ORGANIZER'S TESTIMONIAL — Ryan, after Steve's keynote at his
+ * association's annual meeting (June 2026). The wording is Steve's, given on
+ * 2026-09-28 as "something to the effect of" what Ryan told him; Ryan's
+ * permission, relayed by Steve on 2026-09-25: "he said we can use whatever
+ * we'd like". It replaced a line trimmed from Ryan's own email of 18 June,
+ * which is still the written record of his reaction.
  *
- * NO LAST NAME — Steve's instruction. The title and association stay (Steve's
- * choice): they are what make the quote proof to another organizer.
+ * NO LAST NAME, and the organization generalised to "Insurance Industry" —
+ * both Steve's instructions.
  *
- * This is the brief's §9 end state beginning to arrive: an organizer, on what
- * the room did afterward. More of these are still the most valuable thing
- * the site can collect — never invented.
+ * More organizer quotes like this are still the most valuable thing the
+ * site can collect — never invented.
  */
 export const organizerTestimonial = {
   quote:
-    "Fantastic keynote. I had so many members come to me after your presentation — don’t be surprised if some are in contact about talking to their senior leadership teams. I plan to connect the people, purpose and AI components into our new strategic plan.",
+    "Fantastic keynote. We worked with Steve for several months to design it specifically for our audience — and it was a home run because of that prep work.",
   name: "Ryan",
-  role: "President & CEO, The Surety & Fidelity Association of America",
+  role: "CEO, Insurance Industry",
 };
 
 /*

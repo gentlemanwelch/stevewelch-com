@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 import { site } from "@/content/site";
 import {
   speakingHero, speakingIntro, speakingLabels, exploreHeading, speakingPillars,
-  aiChange, hyperWellness, speakingReel,
+  aiChange, speakingReel,
 } from "@/content/speaking";
 import { hero as homeHero } from "@/content/home";
 import { faqs } from "@/content/faq";
-import { img, speakingEngagementLogos } from "@/content/media-manifest";
+import { img, bfc, speakingEngagementLogos } from "@/content/media-manifest";
 import { Container, Section, Button, JsonLd, VideoEmbed } from "@/components/primitives";
 import { PageHero } from "@/components/kit/PageHero";
 import { SectionHeading } from "@/components/kit/SectionHeading";
@@ -23,9 +23,8 @@ import { buildMetadata } from "@/lib/seo";
  * /speaking/ — the page organizers are sent to. Rebuilt for Built for Change.
  *
  * Order: who he is (hero, with the opening statement as its lede) → who has
- * booked him → the framework → the AI keynote → hyper wellness → what an
- * organizer and the press said →
- * the reel → the booking questions → the close.
+ * booked him → the framework → the AI keynote → what an organizer and the
+ * press said → the reel → the booking questions → the close.
  *
  * WHAT WENT, and why:
  *   - The photo hero with its measured washes (1.94:1 bare, a graded 60%→12%
@@ -36,6 +35,10 @@ import { buildMetadata } from "@/lib/seo";
  *   - The podcast band at the foot. The last booking question below answers
  *     the same thing ("Is Steve available for podcasts and interviews?"), and
  *     /writings-media/ keeps its own podcast note.
+ *   - Steve's cuts, 2026-09-28: the Hyper Wellness section (its topic page
+ *     stays, at /speaking/hyper-wellness/), and the "Engagements start at
+ *     $20,000" line under the hero buttons — the fee is still answered in
+ *     the FAQ below.
  *
  * Every section is a server component; the page is static HTML.
  */
@@ -60,15 +63,17 @@ export default function SpeakingPage() {
       <JsonLd data={speakingServiceSchema()} />
 
       {/*
-        The WordPress hero's photograph (block `hero_image: 1932`): Steve on
-        stage under blue light. A 2560×853 banner with Steve at the right, so
-        the crop is anchored there.
+        Steve in a fireside conversation on stage at an Oura × Restore event —
+        his pick for this page (2026-09-28), "a cleaner picture" than the old
+        WordPress banner. Framed on Steve, clear of the navy fade; the
+        "restore" logo runs to the photograph's right edge, so laptop widths
+        trim it (see `ouraStage` in content/media-manifest.ts).
       */}
       <PageHero
         eyebrow={speakingHero.eyebrow}
         title={speakingHero.heading}
         lede={speakingIntro}
-        image={{ src: img.speakingHero, alt: "Steve Welch speaking on stage", focus: "78% 50%" }}
+        image={{ src: bfc.ouraStage, alt: bfc.ouraStageAlt, focus: "30% 70%" }}
         breadcrumbs={[
           { name: "Home", path: "/" },
           { name: "Speaking", path: "/speaking/" },
@@ -82,9 +87,6 @@ export default function SpeakingPage() {
             {homeHero.secondaryCta}
           </Button>
         </div>
-        {/* The floor, stated where the decision gets made. See the note on
-            site.fee — this is a qualifier, not a price list. */}
-        {site.fee.showPublicly && <p className="mt-5 text-[0.9375rem] text-white/80">{site.fee.label}</p>}
       </PageHero>
 
       <Section>
@@ -92,7 +94,7 @@ export default function SpeakingPage() {
           <h2 className="eyebrow mb-12 text-center !text-[0.8125rem] !font-semibold !tracking-[0.18em] text-ink-faint lg:mb-14">
             {speakingLabels.engagements}
           </h2>
-          <LogoStrip logos={speakingEngagementLogos} layout="grid" />
+          <LogoStrip logos={speakingEngagementLogos} size="large" />
         </Container>
       </Section>
 
@@ -158,25 +160,6 @@ export default function SpeakingPage() {
         </Container>
       </section>
 
-      {/* Hyper Wellness — its own keynote, not the foundation under the
-          three pillars (the revision brief's §11). */}
-      <Section>
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-            <SectionHeading lines={hyperWellness.heading} />
-            <div className="lg:pt-3">
-              <p className="lede">{hyperWellness.statement}</p>
-              <Link
-                href={`/speaking/${hyperWellness.slug}/`}
-                className="mt-6 inline-flex min-h-6 items-center text-[0.9375rem] font-bold text-action hover:text-action-dark"
-              >
-                {speakingLabels.more} {hyperWellness.name} <span aria-hidden="true" className="ml-1.5">→</span>
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
       <Section tone="alt">
         <Container>
           <Testimonials />
@@ -208,9 +191,10 @@ export default function SpeakingPage() {
         </Container>
       </Section>
 
-      {/* No photograph: the hero above is the same stage picture the standard
-          close uses. */}
-      <ClosingCta location="speaking_final_cta" photo={false} />
+      {/* The standard close, photograph included. It ran without one while
+          this page's hero was the same stage picture; the hero is now the
+          Oura × Restore photograph, so the two no longer repeat. */}
+      <ClosingCta location="speaking_final_cta" />
     </>
   );
 }
