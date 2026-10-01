@@ -15,8 +15,8 @@ export const mediaIntro =
  *
  * The files are NOT in this repository — it is public, and they are large. They
  * live in the Vercel Blob store `stevewelch-media`, connected to this project;
- * a URL here is a pointer, not a secret. `hd` is 1920x1080 at about 2.5 Mbps,
- * `sd` is 1280x720 at about 1.1 Mbps and is what a phone-width screen is given.
+ * a URL here is a pointer, not a secret. `hd` is the full-size file; `sd` is a
+ * smaller one, and is what a phone-width screen is given.
  *
  * To replace a film, upload under a NEW pathname (`v2-…`) and change the URLs:
  * the store serves each file with a 30-day cache, so overwriting one in place
@@ -27,12 +27,18 @@ export type HostedFilm = { hd: string; sd: string };
 /**
  * Steve's closing remarks at DreamIt Health Philadelphia, 2013 — re-cut in
  * October 2026 from the original recording (reframed, captioned, sound
- * cleaned, picture upscaled). It replaced the uncut upload on YouTube
- * (m5oykqwZjUU) both here and as the speaking reel.
+ * cleaned). It replaced the uncut upload on YouTube (m5oykqwZjUU) both here
+ * and as the speaking reel.
+ *
+ * `hd` is 1280x720 at about 1.4 Mbps (58 MB), `sd` is 960x540 at about
+ * 0.6 Mbps (24 MB). 720p is all there is: the recording is 720p, and the
+ * picture is deliberately NOT upscaled. v1 was built from an AI-upscaled
+ * master and was rejected before it went live — the upscaler gave him a
+ * different face from one moment to the next in every zoomed shot.
  */
 export const closingRemarksFilm: HostedFilm = {
-  hd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v1-1080p.mp4",
-  sd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v1-720p.mp4",
+  hd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v2-720p.mp4",
+  sd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v2-540p.mp4",
 };
 
 type YouTubeVideo = {

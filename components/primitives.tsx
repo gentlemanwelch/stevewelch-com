@@ -325,7 +325,7 @@ export function StatGrid({
  * Plain HTML: no client JavaScript, no third-party request, and with
  * `preload="none"` not one byte of video until someone presses play — only the
  * poster. The narrow-screen source comes first so a phone is not sent the
- * 1080p file. Captions are part of the picture, so there is no <track>.
+ * larger file. Captions are part of the picture, so there is no <track>.
  *
  * The poster carries its own play button (see HostedVideo in content/media.ts).
  */
