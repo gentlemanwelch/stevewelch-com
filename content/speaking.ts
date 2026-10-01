@@ -13,6 +13,8 @@
  * be about both. Nothing is taken off the hub to make that work.
  */
 
+import { closingRemarksFilm } from "./media";
+
 export const speakingHero = {
   eyebrow: "Speaking",
   heading: "Entrepreneur. Investor. Disruptor.",
@@ -262,8 +264,7 @@ export const anvilQuote =
 
 export const speakingReel = {
   heading: "Speaking Reel",
-  url: "https://www.youtube.com/watch?v=m5oykqwZjUU",
-  youtubeId: "m5oykqwZjUU",
+  film: closingRemarksFilm,
 };
 
 export const podcastNote = {

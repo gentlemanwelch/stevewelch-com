@@ -9,7 +9,7 @@ import {
 import { faqs } from "@/content/faq";
 import { img, speakingEngagementLogos } from "@/content/media-manifest";
 import {
-  Container, Section, Eyebrow, Button, JsonLd, LogoWall, VideoEmbed,
+  Container, Section, Eyebrow, Button, JsonLd, LogoWall, FilmPlayer,
 } from "@/components/primitives";
 import { speakingServiceSchema, faqSchema, breadcrumbSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
@@ -302,8 +302,8 @@ export default function SpeakingPage() {
         <Container size="measure">
           <h2 className="text-center">{speakingReel.heading}</h2>
           <div className="mt-8">
-            <VideoEmbed
-              youtubeId={speakingReel.youtubeId}
+            <FilmPlayer
+              film={speakingReel.film}
               title={speakingReel.heading}
               poster={img.speakingReelPoster}
             />

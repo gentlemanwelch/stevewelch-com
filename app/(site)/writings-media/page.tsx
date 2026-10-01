@@ -5,7 +5,7 @@ import {
 } from "@/content/media";
 import { img } from "@/content/media-manifest";
 import {
-  Container, Section, Button, JsonLd, VideoEmbed,
+  Container, Section, Button, JsonLd, VideoEmbed, FilmPlayer,
 } from "@/components/primitives";
 import { breadcrumbSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
@@ -194,8 +194,12 @@ export default async function WritingsMediaPage() {
           <h2>Videos</h2>
           <ul className="mt-10 grid gap-6 lg:grid-cols-3">
             {videos.map((video) => (
-              <li key={video.youtubeId}>
-                <VideoEmbed youtubeId={video.youtubeId} title={video.title} poster={video.poster} />
+              <li key={video.title}>
+                {"film" in video ? (
+                  <FilmPlayer film={video.film} title={video.title} poster={video.poster} />
+                ) : (
+                  <VideoEmbed youtubeId={video.youtubeId} title={video.title} poster={video.poster} />
+                )}
                 <p className="mt-3 font-semibold leading-snug">{video.title}</p>
               </li>
             ))}

@@ -320,6 +320,43 @@ export function StatGrid({
 }
 
 /**
+ * A film we host ourselves, played by the browser's own player.
+ *
+ * Plain HTML: no client JavaScript, no third-party request, and with
+ * `preload="none"` not one byte of video until someone presses play — only the
+ * poster. The narrow-screen source comes first so a phone is not sent the
+ * 1080p file. Captions are part of the picture, so there is no <track>.
+ *
+ * The poster carries its own play button (see HostedVideo in content/media.ts).
+ */
+export function FilmPlayer({
+  film,
+  title,
+  poster,
+}: {
+  film: { hd: string; sd: string };
+  title: string;
+  poster: string;
+}) {
+  return (
+    <div className="overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-navy)] shadow-[var(--shadow-card)]">
+      <video
+        controls
+        playsInline
+        preload="none"
+        poster={poster}
+        aria-label={title}
+        className="block aspect-video h-auto w-full"
+      >
+        <source src={film.sd} type="video/mp4" media="(max-width: 767px)" />
+        <source src={film.hd} type="video/mp4" />
+        <a href={film.hd}>{title}</a>
+      </video>
+    </div>
+  );
+}
+
+/**
  * A YouTube embed that does not load YouTube until it is clicked.
  *
  * The naive `<iframe>` pulls roughly a megabyte of player JavaScript and sets

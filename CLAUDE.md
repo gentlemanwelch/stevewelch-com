@@ -149,6 +149,17 @@ before assuming a missing file can be re-fetched.
 Nothing breaks when a file is absent: logo cards render the organization's name,
 heroes fall back to navy, video blocks show a play button. Keep it that way.
 
+## Films
+
+The speaking reel and the first video on `/writings-media/` are a film we host
+ourselves (`closingRemarksFilm` in `content/media.ts`, played by `FilmPlayer`).
+**The video files are not in this repository and must never be** — it is public
+and they are large. They live in the Vercel Blob store `stevewelch-media`,
+connected to this project. Upload with `vercel blob put … --access public`, under
+a new pathname each time; never overwrite one in place (30-day cache).
+
+Every other video is still a click-to-load YouTube embed (`VideoEmbed`).
+
 ## Design
 
 Palette and typeface came from the WordPress theme, not from taste: Poppins,

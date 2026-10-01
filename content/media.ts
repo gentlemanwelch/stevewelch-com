@@ -10,7 +10,32 @@
 export const mediaIntro =
   "Learn about Steve through his appearances in expert talks, podcasts, and other media.";
 
-export type Video = {
+/**
+ * A film we host ourselves, played by the browser's own player (FilmPlayer).
+ *
+ * The files are NOT in this repository — it is public, and they are large. They
+ * live in the Vercel Blob store `stevewelch-media`, connected to this project;
+ * a URL here is a pointer, not a secret. `hd` is 1920x1080 at about 2.5 Mbps,
+ * `sd` is 1280x720 at about 1.1 Mbps and is what a phone-width screen is given.
+ *
+ * To replace a film, upload under a NEW pathname (`v2-…`) and change the URLs:
+ * the store serves each file with a 30-day cache, so overwriting one in place
+ * leaves returning visitors with the old cut.
+ */
+export type HostedFilm = { hd: string; sd: string };
+
+/**
+ * Steve's closing remarks at DreamIt Health Philadelphia, 2013 — re-cut in
+ * October 2026 from the original recording (reframed, captioned, sound
+ * cleaned, picture upscaled). It replaced the uncut upload on YouTube
+ * (m5oykqwZjUU) both here and as the speaking reel.
+ */
+export const closingRemarksFilm: HostedFilm = {
+  hd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v1-1080p.mp4",
+  sd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v1-720p.mp4",
+};
+
+type YouTubeVideo = {
   title: string;
   youtubeId: string;
   url: string;
@@ -23,12 +48,25 @@ export type Video = {
   poster?: string;
 };
 
+type HostedVideo = {
+  title: string;
+  film: HostedFilm;
+  /**
+   * Required, and it must have the play button drawn into it: the browser's
+   * player shows no play affordance of its own on a desktop poster, and an
+   * overlay that hides itself on play would need client JavaScript.
+   */
+  poster: string;
+};
+
+export type Video = YouTubeVideo | HostedVideo;
+
 export const videos: Video[] = [
   {
     title: "DreamIt Health Philadelphia 2013: Closing Remarks",
-    youtubeId: "m5oykqwZjUU",
-    url: "https://www.youtube.com/watch?v=m5oykqwZjUU",
-    poster: "/media/speaking-bg-m.png",
+    film: closingRemarksFilm,
+    // speaking-bg-m.png — the poster this entry always had — with the play button drawn in.
+    poster: "/media/closing-remarks-play.jpg",
   },
   {
     title: "Ted Mann 'DreamIt Impact'",
