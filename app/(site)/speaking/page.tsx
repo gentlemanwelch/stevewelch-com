@@ -16,7 +16,7 @@ import { LogoStrip } from "@/components/kit/LogoStrip";
 import { Testimonials } from "@/components/kit/Testimonials";
 import { FaqList } from "@/components/kit/FaqList";
 import { ClosingCta } from "@/components/kit/CtaBand";
-import { speakingServiceSchema } from "@/lib/jsonld";
+import { speakingServiceSchema, closingRemarksVideoSchema } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 
 /**
@@ -61,6 +61,7 @@ export default function SpeakingPage() {
   return (
     <>
       <JsonLd data={speakingServiceSchema()} />
+      <JsonLd data={closingRemarksVideoSchema()} />
 
       {/*
         Steve in a fireside conversation on stage at an Oura × Restore event —
@@ -171,7 +172,7 @@ export default function SpeakingPage() {
           <SectionHeading lines={speakingReel.heading} tone="dark" />
           <div className="mt-10 lg:mt-14">
             <VideoEmbed
-              youtubeId={speakingReel.youtubeId}
+              film={speakingReel.film}
               title={speakingReel.heading}
               poster={img.speakingReelPoster}
               trackLocation="speaking_reel"

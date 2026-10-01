@@ -22,6 +22,8 @@
  * read one sentence rather than two.
  */
 
+import { closingRemarksFilm } from "./media";
+
 /* §2 — Hero ------------------------------------------------------------- */
 
 export const hero = {
@@ -185,10 +187,13 @@ export const customization = {
 export const reel = {
   eyebrow: "SEE STEVE SPEAK",
   heading: "See the keynote, not just the résumé.",
-  /** "Use the existing speaking reel until a new Built for Change reel is
-      produced." No autoplay — the player loads only when pressed. */
-  overlay: "Watch Steve’s Keynote Reel",
-  youtubeId: "m5oykqwZjUU",
+  /** Steve's re-cut closing remarks, DreamIt Health Philadelphia 2013 — the
+      full 5½-minute talk, by his choice ("it tells a great story in just five
+      minutes"), so the label says talk length rather than "reel". Hosted by
+      us; see `closingRemarksFilm` in content/media.ts. Nothing loads until
+      it is pressed. */
+  overlay: "Watch Steve Speak · 5 min",
+  film: closingRemarksFilm,
 };
 
 /* §8 — Built for the Room ----------------------------------------------- */

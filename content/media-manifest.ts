@@ -51,6 +51,11 @@ export const img = {
   aboutHimself: `${base}/IMG_1659-scaled-aspect-ratio-800-600-scaled.jpg`,
   aboutWork: `${base}/Restore-36-scaled-aspect-ratio-800-600-2.jpg`,
 
+  /*
+    The reel's poster since the WordPress site. VideoEmbed draws the play
+    button over it, so the film needs no baked-in button (main's
+    speaking-reel-play.jpg did, for the old design's bare <video>).
+  */
   speakingReelPoster: `${base}/DSC_0503-scaled.jpg`,
 
   /*

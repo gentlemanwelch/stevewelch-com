@@ -32,6 +32,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { buttonClasses, type ButtonVariant } from "@/lib/buttonStyles";
+import type { HostedFilm } from "@/content/media";
 
 /** Standard page gutter. One value, one place. */
 export function Container({
@@ -238,42 +239,56 @@ export function JsonLd({ data }: { data: object }) {
 }
 
 /**
- * A YouTube embed that does not load YouTube until it is clicked.
+ * A video that loads nothing until it is pressed: the poster, a play button and
+ * the title, and only then the player.
  *
- * The naive `<iframe>` pulls roughly a megabyte of player JavaScript and sets
- * third-party cookies on every page view, whether or not anyone presses play —
- * which costs Core Web Vitals on a page whose job is ranking. This renders the
- * poster frame and swaps in the real player on click.
+ * Two sources, one look:
+ *
+ *   youtubeId — a YouTube embed. The naive `<iframe>` pulls roughly a megabyte
+ *     of player JavaScript and sets third-party cookies on every page view,
+ *     whether or not anyone presses play — which costs Core Web Vitals on a
+ *     page whose job is ranking. So the iframe exists only once opened.
+ *
+ *   film — a film we host (`HostedFilm` in content/media.ts), played by the
+ *     browser's own <video>. `preload="none"`, so not one byte of video before
+ *     the press; the narrow-screen source comes first so a phone is not sent
+ *     the larger file. Captions are part of the picture, so there is no
+ *     <track>. One press opens it AND starts it: TrackEvents calls play()
+ *     inside the click (`data-film`), which is what iOS requires for sound.
+ *     Without JavaScript it still opens to a working player.
+ *
+ * It is a <details>, so it needs no client component of its own; opening it
+ * fires `watch_speaking_reel` when `trackLocation` is set.
  */
 export function VideoEmbed({
-  youtubeId,
   title,
   poster,
   trackLocation,
+  ...source
 }: {
-  youtubeId: string;
   title: string;
   poster?: string;
   /** Fires `watch_speaking_reel` when opened — see components/TrackEvents.tsx. */
   trackLocation?: string;
-}) {
+} & ({ youtubeId: string; film?: never } | { film: HostedFilm; youtubeId?: never })) {
   /*
      Prefer a local poster. The i.ytimg.com fallback still works, but it is a
      third-party request on page load for an image we usually already own, and
      it is the only thing on the site that reaches outside our own origin
      before someone has asked for a video.
   */
-  const thumb = poster ?? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
+  const thumb = poster ?? (source.youtubeId ? `https://i.ytimg.com/vi/${source.youtubeId}/hqdefault.jpg` : undefined);
   return (
     <div className="overflow-hidden rounded-[var(--radius-base)] bg-navy">
       <details
         className="group"
+        {...(source.film ? { "data-film": "" } : {})}
         {...(trackLocation
           ? { "data-track-open": "watch_speaking_reel", "data-track-location": trackLocation }
           : {})}
       >
-        <summary className="relative flex aspect-video cursor-pointer list-none items-center justify-center">
-          {thumb.startsWith("/media/") ? (
+        <summary className="relative flex aspect-video cursor-pointer list-none items-center justify-center group-open:hidden">
+          {thumb?.startsWith("/media/") ? (
             <Image
               src={thumb}
               alt=""
@@ -282,7 +297,7 @@ export function VideoEmbed({
               sizes="(min-width: 1320px) 1224px, 100vw"
               className="object-cover opacity-70 transition-opacity group-open:hidden"
             />
-          ) : (
+          ) : thumb ? (
             <picture>
               <img
                 src={thumb}
@@ -292,7 +307,7 @@ export function VideoEmbed({
                 className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity group-open:hidden"
               />
             </picture>
-          )}
+          ) : null}
           <span className="relative z-10 flex flex-col items-center gap-3 group-open:hidden">
             <span className="flex h-16 w-16 items-center justify-center rounded-[var(--radius-base)] bg-action transition-colors group-hover:bg-action-dark sm:h-20 sm:w-20">
               <svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true">
@@ -303,13 +318,21 @@ export function VideoEmbed({
           </span>
         </summary>
         <div className="aspect-video">
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1`}
-            title={title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="h-full w-full"
-          />
+          {source.film ? (
+            <video controls playsInline preload="none" aria-label={title} className="h-full w-full bg-black">
+              <source src={source.film.sd} type="video/mp4" media="(max-width: 767px)" />
+              <source src={source.film.hd} type="video/mp4" />
+              <a href={source.film.hd}>{title}</a>
+            </video>
+          ) : (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${source.youtubeId}?autoplay=1`}
+              title={title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="h-full w-full"
+            />
+          )}
         </div>
       </details>
     </div>

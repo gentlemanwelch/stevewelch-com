@@ -292,7 +292,7 @@ export default async function HomePage() {
         <Container>
           <SectionHeading eyebrow={reel.eyebrow} lines={reel.heading} tone="dark" />
           <div className="mt-10 lg:mt-14">
-            <VideoEmbed youtubeId={reel.youtubeId} title={reel.overlay} poster={bfc.reelPoster} trackLocation="reel" />
+            <VideoEmbed film={reel.film} title={reel.overlay} poster={bfc.reelPoster} trackLocation="reel" />
           </div>
         </Container>
       </section>

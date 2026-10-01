@@ -14,6 +14,7 @@
  */
 
 import { bfc } from "./media-manifest";
+import { closingRemarksFilm } from "./media";
 
 /*
  * "Entrepreneur. Investor. Disruptor." was the WordPress-era headline. The
@@ -300,6 +301,5 @@ export const anvilQuote =
 
 export const speakingReel = {
   heading: "Speaking Reel",
-  url: "https://www.youtube.com/watch?v=m5oykqwZjUU",
-  youtubeId: "m5oykqwZjUU",
+  film: closingRemarksFilm,
 };

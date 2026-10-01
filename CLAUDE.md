@@ -160,6 +160,21 @@ before assuming a missing file can be re-fetched.
 Nothing breaks when a file is absent: logo cards render the organization's name,
 heroes fall back to navy, video blocks show a play button. Keep it that way.
 
+## Films
+
+The video behind "Watch Steve Speak" — the homepage `#reel`, the /speaking/ reel
+and the first video on `/writings-media/` — is a film we host ourselves
+(`closingRemarksFilm` in `content/media.ts`), played by `VideoEmbed` with a
+`film` prop: the same poster and play button as the YouTube embeds, opening to
+the browser's own player. **The video files are not in this repository and must
+never be** — it is public and they are large. They live in the Vercel Blob store
+`stevewelch-media`, connected to this project. Upload with
+`vercel blob put … --access public`, under a new pathname each time; never
+overwrite one in place (30-day cache).
+
+Every other video is still a click-to-load YouTube embed (`VideoEmbed` with
+`youtubeId`).
+
 ## Design — "Built for Change"
 
 Redesigned from scratch in September 2026 from a handoff packet (positioning,

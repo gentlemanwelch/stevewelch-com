@@ -160,15 +160,16 @@ export const site = {
   /**
    * Links the booking auto-reply offers, when they exist.
    *
-   * Both are EMPTY until the real thing is ready, and the auto-reply simply
+   * Each stays EMPTY until the real thing is ready, and the auto-reply simply
    * omits whatever is missing. An email promising a showreel that 404s is
    * worse than an email that never mentions one.
    *
-   *   reelUrl      — the 90-second keynote reel, once cut
+   *   reelUrl      — Steve on stage: the re-cut 2013 closing remarks, on
+   *                  /speaking/ (set 2026-10-01, once the film was hosted)
    *   calendarUrl  — a Calendly/Cal.com link to a 15-minute inquiry call
    */
   booking: {
-    reelUrl: "",
+    reelUrl: "https://www.stevewelch.com/speaking/#reel",
     calendarUrl: "",
   },
 

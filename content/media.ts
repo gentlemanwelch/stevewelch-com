@@ -30,7 +30,39 @@ export const mediaLabels = {
 export const mediaIntro =
   "Learn about Steve through his appearances in expert talks, podcasts, and other media.";
 
-export type Video = {
+/**
+ * A film we host ourselves, played by the browser's own player (VideoEmbed
+ * with a `film`).
+ *
+ * The files are NOT in this repository — it is public, and they are large. They
+ * live in the Vercel Blob store `stevewelch-media`, connected to this project;
+ * a URL here is a pointer, not a secret. `hd` is the full-size file; `sd` is a
+ * smaller one, and is what a phone-width screen is given.
+ *
+ * To replace a film, upload under a NEW pathname (`v2-…`) and change the URLs:
+ * the store serves each file with a 30-day cache, so overwriting one in place
+ * leaves returning visitors with the old cut.
+ */
+export type HostedFilm = { hd: string; sd: string };
+
+/**
+ * Steve's closing remarks at DreamIt Health Philadelphia, 2013 — re-cut in
+ * October 2026 from the original recording (reframed, captioned, sound
+ * cleaned). It replaced the uncut upload on YouTube (m5oykqwZjUU) both here
+ * and as the speaking reel.
+ *
+ * `hd` is 1280x720 at about 1.4 Mbps (58 MB), `sd` is 960x540 at about
+ * 0.6 Mbps (24 MB). 720p is all there is: the recording is 720p, and the
+ * picture is deliberately NOT upscaled. v1 was built from an AI-upscaled
+ * master and was rejected before it went live — the upscaler gave him a
+ * different face from one moment to the next in every zoomed shot.
+ */
+export const closingRemarksFilm: HostedFilm = {
+  hd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v2-720p.mp4",
+  sd: "https://zhblv2nrewcljo1w.public.blob.vercel-storage.com/see-steve-speak/v2-540p.mp4",
+};
+
+type YouTubeVideo = {
   title: string;
   youtubeId: string;
   url: string;
@@ -43,11 +75,19 @@ export type Video = {
   poster?: string;
 };
 
+type HostedVideo = {
+  title: string;
+  film: HostedFilm;
+  /** The still shown before play; VideoEmbed draws the play button over it. */
+  poster: string;
+};
+
+export type Video = YouTubeVideo | HostedVideo;
+
 export const videos: Video[] = [
   {
     title: "DreamIt Health Philadelphia 2013: Closing Remarks",
-    youtubeId: "m5oykqwZjUU",
-    url: "https://www.youtube.com/watch?v=m5oykqwZjUU",
+    film: closingRemarksFilm,
     poster: "/media/speaking-bg-m.png",
   },
   {

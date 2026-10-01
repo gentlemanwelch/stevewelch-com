@@ -72,8 +72,12 @@ export default async function WritingsMediaPage() {
           <SectionHeading lines={mediaLabels.videos} />
           <ul className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:mt-14 lg:grid-cols-3">
             {videos.map((video) => (
-              <li key={video.youtubeId}>
-                <VideoEmbed youtubeId={video.youtubeId} title={video.title} poster={video.poster} />
+              <li key={video.title}>
+                {"film" in video ? (
+                  <VideoEmbed film={video.film} title={video.title} poster={video.poster} />
+                ) : (
+                  <VideoEmbed youtubeId={video.youtubeId} title={video.title} poster={video.poster} />
+                )}
                 <p className="mt-4 text-lg font-bold leading-snug text-navy">{video.title}</p>
               </li>
             ))}
