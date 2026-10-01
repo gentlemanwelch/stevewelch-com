@@ -48,7 +48,12 @@ export const img = {
   aboutHimself: `${base}/IMG_1659-scaled-aspect-ratio-800-600-scaled.jpg`,
   aboutWork: `${base}/Restore-36-scaled-aspect-ratio-800-600-2.jpg`,
 
-  speakingReelPoster: `${base}/DSC_0503-scaled.jpg`,
+  /*
+    DSC_0503-scaled.jpg — the reel's poster since the WordPress site — at
+    1280x720 with the play button drawn in, because the reel is now a film we
+    host and FilmPlayer needs the affordance in the image (see content/media.ts).
+  */
+  speakingReelPoster: `${base}/speaking-reel-play.jpg`,
 
   /*
     Book feature artwork. Each is a full-bleed background: a pale-blue field
