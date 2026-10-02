@@ -1,8 +1,10 @@
 import { site } from "@/content/site";
 import { bioShort } from "@/content/bio";
 import { talks } from "@/content/speaking";
-import { faqs } from "@/content/faq";
+import { faqs, type Faq } from "@/content/faq";
 import { books } from "@/content/books";
+import { closingRemarksFilm } from "@/content/media";
+import { img } from "@/content/media-manifest";
 
 /**
  * Structured data (JSON-LD).
@@ -129,12 +131,16 @@ export function speakingServiceSchema() {
  * disproportionately valuable here: an organizer who gets "how do I book him"
  * answered in the result page arrives already knowing there is no agency in
  * the middle.
+ *
+ * Pass the questions the page actually SHOWS. The markup must describe
+ * visible content; components/kit/FaqList.tsx renders both from one list so
+ * they cannot drift apart.
  */
-export function faqSchema() {
+export function faqSchema(list: readonly Faq[] = faqs) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
+    mainEntity: list.map((f) => ({
       "@type": "Question",
       name: f.question,
       acceptedAnswer: { "@type": "Answer", text: f.answer },
@@ -184,5 +190,27 @@ export function breadcrumbSchema(trail: { name: string; path: string }[]) {
       name: crumb.name,
       item: `${site.url}${crumb.path === "/" ? "" : crumb.path}`,
     })),
+  };
+}
+
+/**
+ * The hosted film on /speaking/ (`#reel`), as a VideoObject — what makes it
+ * eligible for Google's video results. Every field is true of the file:
+ * re-cut and published 2026-10-01, 5:31 long, 720p at `contentUrl`.
+ */
+export function closingRemarksVideoSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "@id": `${site.url}/speaking/#reel`,
+    name: `${site.name} — Closing Remarks, DreamIt Health Philadelphia 2013`,
+    description:
+      "Steve Welch's closing remarks at the DreamIt Health Philadelphia 2013 Demo Day, re-cut in 2026: reframed, captioned and with the sound cleaned.",
+    thumbnailUrl: `${site.url}${img.speakingReelPoster}`,
+    contentUrl: closingRemarksFilm.hd,
+    uploadDate: "2026-10-01",
+    duration: "PT5M31S",
+    inLanguage: "en",
+    publisher: { "@id": PERSON_ID },
   };
 }

@@ -1,0 +1,95 @@
+"use client";
+
+import { useEffect } from "react";
+import { track, type EngagementEvent } from "@/lib/analytics";
+
+/**
+ * Every tracked interaction on the site, through two delegated listeners.
+ *
+ * WHY DELEGATION. The alternative — an onClick on each tracked button — needs
+ * each of those buttons, and therefore each SECTION they sit in, to be a
+ * client component. That would move the homepage's content out of the static
+ * HTML and into hydration, where GPTBot, ClaudeBot and PerplexityBot cannot
+ * see it (they execute no JavaScript). So the buttons stay server-rendered and
+ * carry plain data attributes, and this one component reads them:
+ *
+ *   data-track="build_your_keynote_click"   on any link or button — fires on click
+ *   data-track-open="watch_speaking_reel"   on a <details> — fires when opened
+ *   data-track-location="hero"              where on the page, sent as a param
+ *
+ * And one thing that is not tracking: a press on a video's poster starts it
+ * (see VideoEmbed). A hosted film (`<details data-film>`) gets play(); a
+ * YouTube embed (`<details data-youtube>`) gets its `src` from `data-src`,
+ * which is the only moment its player loads. Both happen inside the click
+ * itself — iOS refuses sound otherwise — so they live in this listener
+ * rather than in the later `toggle`.
+ *
+ * And one more: an in-page jump (`<a href="#reel">`) glides, nothing else
+ * does. The capture-phase listener marks <html> with `data-smooth-scroll`
+ * before the jump happens and clears it when the scroll ends — see the note
+ * on `html` in app/globals.css for why smoothness is not global.
+ *
+ * `toggle` does not bubble, so that listener is registered in the capture
+ * phase, which does reach the document.
+ */
+export function TrackEvents() {
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const summary = (e.target as Element | null)?.closest("summary");
+      const film = summary?.parentElement;
+      if (film instanceof HTMLDetailsElement && !film.open) {
+        if (film.hasAttribute("data-film")) {
+          film.querySelector("video")?.play().catch(() => {
+            /* Refused (autoplay policy): the native controls are right there. */
+          });
+        } else if (film.hasAttribute("data-youtube")) {
+          const frame = film.querySelector<HTMLIFrameElement>("iframe[data-src]");
+          if (frame && !frame.getAttribute("src")) frame.src = frame.dataset.src as string;
+        }
+      }
+
+      const el = (e.target as Element | null)?.closest<HTMLElement>("[data-track]");
+      if (!el) return;
+      const params: Record<string, string> = {};
+      if (el.dataset.trackLocation) params.location = el.dataset.trackLocation;
+      if (el.dataset.trackLabel) params.label = el.dataset.trackLabel;
+      track(el.dataset.track as EngagementEvent, params);
+    };
+
+    const onToggle = (e: Event) => {
+      const el = e.target as HTMLDetailsElement;
+      if (!el.open || !el.dataset?.trackOpen) return;
+      const params: Record<string, string> = { action: "play" };
+      if (el.dataset.trackLocation) params.location = el.dataset.trackLocation;
+      track(el.dataset.trackOpen as EngagementEvent, params);
+    };
+
+    const html = document.documentElement;
+    let clearSmooth: ReturnType<typeof setTimeout> | undefined;
+    const endSmooth = () => {
+      clearTimeout(clearSmooth);
+      delete html.dataset.smoothScroll;
+    };
+    const onJumpClick = (e: MouseEvent) => {
+      const a = (e.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!a) return;
+      html.dataset.smoothScroll = "";
+      window.addEventListener("scrollend", endSmooth, { once: true });
+      // Fallback for a browser without `scrollend`, or a jump that never moves.
+      clearTimeout(clearSmooth);
+      clearSmooth = setTimeout(endSmooth, 1500);
+    };
+
+    document.addEventListener("click", onJumpClick, true);
+    document.addEventListener("click", onClick);
+    document.addEventListener("toggle", onToggle, true);
+    return () => {
+      endSmooth();
+      document.removeEventListener("click", onJumpClick, true);
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("toggle", onToggle, true);
+    };
+  }, []);
+
+  return null;
+}
