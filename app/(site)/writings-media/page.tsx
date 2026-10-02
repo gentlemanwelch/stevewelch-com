@@ -70,9 +70,9 @@ export default async function WritingsMediaPage() {
       <Section>
         <Container>
           <SectionHeading lines={mediaLabels.videos} />
-          {/* Two across from md: four videos sit as an even 2 × 2 (three across
-              left one straggling on its own row). */}
-          <ul className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:mt-14 lg:gap-x-10">
+          {/* Three videos, three across from md: one even row, where two
+              across would leave the third on its own. */}
+          <ul className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-3 lg:mt-14 lg:gap-x-10">
             {videos.map((video) => (
               <li key={video.title}>
                 {"film" in video ? (

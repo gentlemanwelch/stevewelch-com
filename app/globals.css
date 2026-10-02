@@ -118,8 +118,15 @@
  * specificity bug and is not one. Keep these in the layer.
  */
 @layer base {
+  /*
+    NO global `scroll-behavior: smooth`. It also animates the browser's own
+    scroll restoration, so Back showed the top of the page and then glided
+    down to where you had been (Steve, 2026-10-02: "fix the back button").
+    Smooth scrolling is switched on only for an in-page jump — TrackEvents
+    sets `data-smooth-scroll` on <html> when a `#…` link is clicked — so
+    "Watch Steve Speak" still glides to the video, and Back is instant.
+  */
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
     /* The sticky header is ~4.5rem tall. Without this, an in-page jump
        (the hero's "Watch Steve Speak") lands with its heading underneath it. */
@@ -247,8 +254,11 @@
   transform: none;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html[data-smooth-scroll] { scroll-behavior: smooth; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;

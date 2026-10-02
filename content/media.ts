@@ -84,12 +84,12 @@ type HostedVideo = {
 
 export type Video = YouTubeVideo | HostedVideo;
 
+/*
+ * The Ideas page's videos. NOT the Dreamit closing remarks: that film is the
+ * homepage's and /speaking/'s "Watch Steve Speak", and a third copy here was
+ * one too many (Steve, 2026-10-02). SeatGeek, Ted Mann, Trendkite.
+ */
 export const videos: Video[] = [
-  {
-    title: "DreamIt Health Philadelphia 2013: Closing Remarks",
-    film: closingRemarksFilm,
-    poster: "/media/speaking-bg-m.png",
-  },
   {
     /* Added 2026-10-01 at Steve's request ("We're gonna add a video on
        SeatGeek"). REVIEW: the title is a placeholder — YouTube is blocked

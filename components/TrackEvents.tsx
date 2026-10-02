@@ -24,6 +24,11 @@ import { track, type EngagementEvent } from "@/lib/analytics";
  * itself — iOS refuses sound otherwise — so they live in this listener
  * rather than in the later `toggle`.
  *
+ * And one more: an in-page jump (`<a href="#reel">`) glides, nothing else
+ * does. The capture-phase listener marks <html> with `data-smooth-scroll`
+ * before the jump happens and clears it when the scroll ends — see the note
+ * on `html` in app/globals.css for why smoothness is not global.
+ *
  * `toggle` does not bubble, so that listener is registered in the capture
  * phase, which does reach the document.
  */
@@ -59,9 +64,28 @@ export function TrackEvents() {
       track(el.dataset.trackOpen as EngagementEvent, params);
     };
 
+    const html = document.documentElement;
+    let clearSmooth: ReturnType<typeof setTimeout> | undefined;
+    const endSmooth = () => {
+      clearTimeout(clearSmooth);
+      delete html.dataset.smoothScroll;
+    };
+    const onJumpClick = (e: MouseEvent) => {
+      const a = (e.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!a) return;
+      html.dataset.smoothScroll = "";
+      window.addEventListener("scrollend", endSmooth, { once: true });
+      // Fallback for a browser without `scrollend`, or a jump that never moves.
+      clearTimeout(clearSmooth);
+      clearSmooth = setTimeout(endSmooth, 1500);
+    };
+
+    document.addEventListener("click", onJumpClick, true);
     document.addEventListener("click", onClick);
     document.addEventListener("toggle", onToggle, true);
     return () => {
+      endSmooth();
+      document.removeEventListener("click", onJumpClick, true);
       document.removeEventListener("click", onClick);
       document.removeEventListener("toggle", onToggle, true);
     };
