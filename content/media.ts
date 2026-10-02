@@ -91,6 +91,15 @@ export const videos: Video[] = [
     poster: "/media/speaking-bg-m.png",
   },
   {
+    /* Added 2026-10-01 at Steve's request ("We're gonna add a video on
+       SeatGeek"). REVIEW: the title is a placeholder — YouTube is blocked
+       from the session that added it, so the video's own title was never
+       seen. No local poster yet, so VideoEmbed shows YouTube's thumbnail. */
+    title: "SeatGeek",
+    youtubeId: "sujwakeK04c",
+    url: "https://www.youtube.com/watch?v=sujwakeK04c",
+  },
+  {
     title: "Ted Mann 'DreamIt Impact'",
     youtubeId: "quMjtYvSMaw",
     url: "https://www.youtube.com/watch?v=quMjtYvSMaw",

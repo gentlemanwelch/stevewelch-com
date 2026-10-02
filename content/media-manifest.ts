@@ -140,15 +140,21 @@ export type LogoRef = { name: string; file: string };
  * every organization below is one the original site already lists.
  */
 export const speakingEngagementLogos: SizedLogo[] = [
-  /* Steve's five, in his order (2026-09-28) — cut from ten. IGNITE, storeRE,
+  /* Steve's five, in his order (2026-09-28) — cut from ten — and Blue Cross
+     Blue Shield added 2026-10-01. IGNITE, storeRE,
      Derma, Penn State and CBS are still in public/media if wanted back. */
   { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
   { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
   // The transparent cut of the same mark, so it sits on any band without a
   // white box. Same organization, same logo, as the original page.
   { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
-  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06 },
+  // The mark only says "nvca", so the name is set beneath it (Steve,
+  // 2026-10-01: "actual words underneath"). NVCA's logo itself is unaltered.
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06, caption: "National Venture Capital Association" },
   { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
+  // Added 2026-10-01 at Steve's request. The national mark, from the WordPress
+  // export (Blue_Cross_Blue_Shield-removebg-preview.png), cropped to the logo.
+  { name: "Blue Cross Blue Shield", file: `${base}/blue-cross-blue-shield-logo.png`, ratio: 4.89 },
 ];
 
 export const selectedInvestmentLogos: LogoRef[] = [
@@ -192,14 +198,23 @@ export const workedWithLogos: SizedLogo[] = [
  * object-fit, it matches them. Measure a new logo the same way: the bounding
  * box of its non-white, non-transparent pixels.
  */
-export type SizedLogo = LogoRef & { ratio: number };
+export type SizedLogo = LogoRef & {
+  ratio: number;
+  /** A line set under the mark, for a mark that does not say who it is. */
+  caption?: string;
+};
 
 export const selectedOrganizationLogos: SizedLogo[] = [
   { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
   { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
   { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
-  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06 },
+  // The mark only says "nvca", so the name is set beneath it (Steve,
+  // 2026-10-01: "actual words underneath"). NVCA's logo itself is unaltered.
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06, caption: "National Venture Capital Association" },
   { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
+  // Added 2026-10-01 at Steve's request. The national mark, from the WordPress
+  // export (Blue_Cross_Blue_Shield-removebg-preview.png), cropped to the logo.
+  { name: "Blue Cross Blue Shield", file: `${base}/blue-cross-blue-shield-logo.png`, ratio: 4.89 },
 ];
 
 /**

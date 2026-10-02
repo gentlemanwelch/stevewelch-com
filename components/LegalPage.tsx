@@ -34,7 +34,7 @@ export function LegalPage({
   }
 
   return (
-    <>
+    <div>
       <PageHero
         tone="light"
         title={title}
@@ -63,6 +63,6 @@ export function LegalPage({
           </div>
         </Container>
       </Section>
-    </>
+    </div>
   );
 }

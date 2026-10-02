@@ -74,7 +74,7 @@ export default async function LandingPageRoute({
   const location = `lp_${page.slug}`;
 
   return (
-    <>
+    <div>
       {/* Minimal header: the wordmark, and nothing to click away with. It is
           deliberately NOT a link — even "home" is an exit here. */}
       <header className="border-b border-line bg-white">
@@ -158,6 +158,6 @@ export default async function LandingPageRoute({
           </a>
         </Container>
       </footer>
-    </>
+    </div>
   );
 }

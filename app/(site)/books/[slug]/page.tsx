@@ -54,7 +54,7 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
   const endorsements = book.slug === "restore" ? testimonials : [];
 
   return (
-    <>
+    <div>
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -191,6 +191,6 @@ export default async function BookPage({ params }: { params: Promise<{ slug: str
         primary={{ label: freeChapter.cta, href: freeChapter.pdfHref }}
         location={`book_${book.slug}_free_chapter`}
       />
-    </>
+    </div>
   );
 }

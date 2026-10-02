@@ -32,7 +32,7 @@ const noteHeading = "eyebrow !text-[0.875rem] font-bold text-navy";
 
 export default function ContactPage() {
   return (
-    <>
+    <div>
       <PageHero
         eyebrow={contactPage.eyebrow}
         title={contactPage.heading}
@@ -103,6 +103,6 @@ export default function ContactPage() {
           </div>
         </Container>
       </Section>
-    </>
+    </div>
   );
 }

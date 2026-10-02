@@ -71,7 +71,7 @@ export default async function PillarPage({
   const location = `topic_${entry.slug}`;
 
   return (
-    <>
+    <div>
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -158,6 +158,6 @@ export default async function PillarPage({
       </Section>
 
       <ClosingCta location={location} />
-    </>
+    </div>
   );
 }

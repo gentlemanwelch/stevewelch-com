@@ -43,7 +43,7 @@ const label = "eyebrow !text-[0.875rem] font-bold text-navy";
 
 export default function EventPlannersPage() {
   return (
-    <>
+    <div>
       <PageHero
         eyebrow={ep.eyebrow}
         title={ep.heading}
@@ -137,6 +137,6 @@ export default function EventPlannersPage() {
       </Section>
 
       <ClosingCta location="event_planners_final_cta" />
-    </>
+    </div>
   );
 }

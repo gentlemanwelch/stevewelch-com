@@ -61,7 +61,7 @@ const bucketImages = [
 
 export default function AboutPage() {
   return (
-    <>
+    <div>
       <PageHero
         eyebrow={aboutHero.eyebrow}
         title={aboutHero.heading}
@@ -178,6 +178,6 @@ export default function AboutPage() {
         secondary={{ label: aboutLabels.closing.speakingLink, href: "/speaking/" }}
         location="about_final_cta"
       />
-    </>
+    </div>
   );
 }

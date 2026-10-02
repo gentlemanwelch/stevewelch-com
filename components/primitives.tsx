@@ -247,7 +247,12 @@ export function JsonLd({ data }: { data: object }) {
  *   youtubeId — a YouTube embed. The naive `<iframe>` pulls roughly a megabyte
  *     of player JavaScript and sets third-party cookies on every page view,
  *     whether or not anyone presses play — which costs Core Web Vitals on a
- *     page whose job is ranking. So the iframe exists only once opened.
+ *     page whose job is ranking. So the iframe has NO `src` until pressed:
+ *     TrackEvents copies `data-src` into `src` inside the click. A closed
+ *     <details> hides an iframe but does not stop it loading — until
+ *     2026-10-01 both players on /writings-media/ loaded on arrival with
+ *     `autoplay=1`, and after a click-through one could start playing,
+ *     unseen. Without JavaScript the opened body offers the YouTube link.
  *
  *   film — a film we host (`HostedFilm` in content/media.ts), played by the
  *     browser's own <video>. `preload="none"`, so not one byte of video before
@@ -282,7 +287,7 @@ export function VideoEmbed({
     <div className="overflow-hidden rounded-[var(--radius-base)] bg-navy">
       <details
         className="group"
-        {...(source.film ? { "data-film": "" } : {})}
+        {...(source.film ? { "data-film": "" } : { "data-youtube": "" })}
         {...(trackLocation
           ? { "data-track-open": "watch_speaking_reel", "data-track-location": trackLocation }
           : {})}
@@ -325,13 +330,23 @@ export function VideoEmbed({
               <a href={source.film.hd}>{title}</a>
             </video>
           ) : (
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${source.youtubeId}?autoplay=1`}
-              title={title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="h-full w-full"
-            />
+            <div className="relative h-full w-full">
+              {/* Under the player, so it shows only if the player never loads
+                  (no JavaScript). */}
+              <a
+                href={`https://www.youtube.com/watch?v=${source.youtubeId}`}
+                className="absolute inset-0 flex items-center justify-center font-bold text-white underline underline-offset-4"
+              >
+                Watch on YouTube
+              </a>
+              <iframe
+                data-src={`https://www.youtube-nocookie.com/embed/${source.youtubeId}?autoplay=1`}
+                title={title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="relative h-full w-full"
+              />
+            </div>
           )}
         </div>
       </details>

@@ -59,7 +59,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function SpeakingPage() {
   return (
-    <>
+    <div>
       <JsonLd data={speakingServiceSchema()} />
       <JsonLd data={closingRemarksVideoSchema()} />
 
@@ -95,7 +95,7 @@ export default function SpeakingPage() {
           <h2 className="eyebrow mb-12 text-center !text-[0.8125rem] !font-semibold !tracking-[0.18em] text-ink-faint lg:mb-14">
             {speakingLabels.engagements}
           </h2>
-          <LogoStrip logos={speakingEngagementLogos} size="large" />
+          <LogoStrip logos={speakingEngagementLogos} size="xl" layout="trio" />
         </Container>
       </Section>
 
@@ -196,6 +196,6 @@ export default function SpeakingPage() {
           this page's hero was the same stage picture; the hero is now the
           Oura × Restore photograph, so the two no longer repeat. */}
       <ClosingCta location="speaking_final_cta" />
-    </>
+    </div>
   );
 }

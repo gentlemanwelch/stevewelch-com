@@ -45,7 +45,7 @@ export const metadata: Metadata = buildMetadata({
 
 export default function BooksPage() {
   return (
-    <>
+    <div>
       <JsonLd data={booksSchema()} />
       <Breadcrumbs
         trail={[
@@ -96,6 +96,6 @@ export default function BooksPage() {
       />
 
       <ClosingCta location="books_final_cta" />
-    </>
+    </div>
   );
 }

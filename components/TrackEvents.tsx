@@ -17,10 +17,12 @@ import { track, type EngagementEvent } from "@/lib/analytics";
  *   data-track-open="watch_speaking_reel"   on a <details> — fires when opened
  *   data-track-location="hero"              where on the page, sent as a param
  *
- * And one thing that is not tracking: a press on a hosted film's poster
- * (`<details data-film>`, see VideoEmbed) also starts the film. play() has to
- * be called inside the click itself — iOS refuses sound otherwise — so it
- * lives in this click listener rather than in the later `toggle`.
+ * And one thing that is not tracking: a press on a video's poster starts it
+ * (see VideoEmbed). A hosted film (`<details data-film>`) gets play(); a
+ * YouTube embed (`<details data-youtube>`) gets its `src` from `data-src`,
+ * which is the only moment its player loads. Both happen inside the click
+ * itself — iOS refuses sound otherwise — so they live in this listener
+ * rather than in the later `toggle`.
  *
  * `toggle` does not bubble, so that listener is registered in the capture
  * phase, which does reach the document.
@@ -30,10 +32,15 @@ export function TrackEvents() {
     const onClick = (e: MouseEvent) => {
       const summary = (e.target as Element | null)?.closest("summary");
       const film = summary?.parentElement;
-      if (film instanceof HTMLDetailsElement && film.hasAttribute("data-film") && !film.open) {
-        film.querySelector("video")?.play().catch(() => {
-          /* Refused (autoplay policy): the native controls are right there. */
-        });
+      if (film instanceof HTMLDetailsElement && !film.open) {
+        if (film.hasAttribute("data-film")) {
+          film.querySelector("video")?.play().catch(() => {
+            /* Refused (autoplay policy): the native controls are right there. */
+          });
+        } else if (film.hasAttribute("data-youtube")) {
+          const frame = film.querySelector<HTMLIFrameElement>("iframe[data-src]");
+          if (frame && !frame.getAttribute("src")) frame.src = frame.dataset.src as string;
+        }
       }
 
       const el = (e.target as Element | null)?.closest<HTMLElement>("[data-track]");

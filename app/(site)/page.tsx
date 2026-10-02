@@ -79,7 +79,7 @@ export default async function HomePage() {
   const posts = await getSubstackPosts(3);
 
   return (
-    <>
+    <div>
       <JsonLd data={speakingServiceSchema()} />
 
       {/* ======================================================== §2 HERO */}
@@ -370,7 +370,7 @@ export default async function HomePage() {
       <Section>
         <Container>
           <p className="eyebrow mb-12 text-center text-ink-faint lg:mb-14">{organizations.eyebrow}</p>
-          <LogoStrip logos={selectedOrganizationLogos} />
+          <LogoStrip logos={selectedOrganizationLogos} size="xl" layout="trio" />
         </Container>
       </Section>
 
@@ -387,6 +387,6 @@ export default async function HomePage() {
       {/* The band every page closes on — see components/kit/CtaBand.tsx for
           the wash and its measurements. */}
       <ClosingCta location="final_cta" />
-    </>
+    </div>
   );
 }

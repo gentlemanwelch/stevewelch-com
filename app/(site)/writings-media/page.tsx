@@ -53,7 +53,7 @@ export default async function WritingsMediaPage() {
   const posts = await getSubstackPosts(3);
 
   return (
-    <>
+    <div>
       <PageHero
         eyebrow={mediaLabels.eyebrow}
         title={mediaLabels.heading}
@@ -70,7 +70,9 @@ export default async function WritingsMediaPage() {
       <Section>
         <Container>
           <SectionHeading lines={mediaLabels.videos} />
-          <ul className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+          {/* Two across from md: four videos sit as an even 2 × 2 (three across
+              left one straggling on its own row). */}
+          <ul className="mt-10 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:mt-14 lg:gap-x-10">
             {videos.map((video) => (
               <li key={video.title}>
                 {"film" in video ? (
@@ -106,6 +108,6 @@ export default async function WritingsMediaPage() {
         location="writings_media_final_cta"
         photo={false}
       />
-    </>
+    </div>
   );
 }

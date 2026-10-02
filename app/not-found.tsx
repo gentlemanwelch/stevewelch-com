@@ -27,7 +27,7 @@ import { LinkCard, LinkGrid } from "@/components/kit/LinkCard";
  */
 export default function NotFound() {
   return (
-    <>
+    <div>
       <SiteHeader />
       <main id="main">
         <PageHero tone="light" eyebrow={notFoundPage.eyebrow} title={notFoundPage.heading} lede={notFoundPage.body}>
@@ -62,6 +62,6 @@ export default function NotFound() {
         </Section>
       </main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

@@ -121,6 +121,12 @@ move the header back into the root layout.
 
 Route groups do not appear in URLs — `app/(site)/about/` still serves `/about/`.
 
+**Every page returns ONE root element (`<div>`), never a Fragment.** Next 16.3
+scrolls a newly navigated page into view through a Fragment ref, and that calls
+`scrollIntoView` on each top-level child in turn. With a page of eight sections
+it landed partway down: clicking "Speaking" opened on Speaking Engagements,
+below the hero (fixed 2026-10-01). One wrapper is one target, already in view.
+
 ## Landing pages (`/lp/`)
 
 `noindex, follow`, absent from the sitemap, disallowed in robots.txt. They

@@ -46,7 +46,7 @@ export default function FoundationPage() {
   }));
 
   return (
-    <>
+    <div>
       <PageHero
         title={foundation.heading}
         lede={foundation.storyBegins.body[0]}
@@ -122,6 +122,6 @@ export default function FoundationPage() {
           <LogoStrip logos={partners} />
         </Container>
       </Section>
-    </>
+    </div>
   );
 }
