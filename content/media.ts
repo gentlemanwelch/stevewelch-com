@@ -7,11 +7,32 @@
  * outbound links.
  */
 
+/** The words /writings-media/ puts around the lists below. */
+export const mediaLabels = {
+  /* The nav calls this page "Ideas" (the Built for Change packet's word). The
+     h1 keeps "Writings + Media", the indexed name; the eyebrow carries the
+     nav's. */
+  eyebrow: "Ideas",
+  heading: "Writings + Media",
+  newsletterEyebrow: "Newsletter",
+  newsletterHeading: "Steve writes on Substack",
+  subscribeTitle: "Subscribe to Steve Welch on Substack",
+  readAll: "Read every post on Substack",
+  videos: "Videos",
+  podcasts: "Podcast Interviews",
+  publications: "Media Publications",
+  expertTalks: "Expert Talks",
+  podcastHeading: "Hosting a podcast?",
+  /* Not a booking CTA, so not "Build Your Keynote": this one is for hosts. */
+  getInTouch: "Get in touch",
+};
+
 export const mediaIntro =
   "Learn about Steve through his appearances in expert talks, podcasts, and other media.";
 
 /**
- * A film we host ourselves, played by the browser's own player (FilmPlayer).
+ * A film we host ourselves, played by the browser's own player (VideoEmbed
+ * with a `film`).
  *
  * The files are NOT in this repository — it is public, and they are large. They
  * live in the Vercel Blob store `stevewelch-media`, connected to this project;
@@ -57,22 +78,26 @@ type YouTubeVideo = {
 type HostedVideo = {
   title: string;
   film: HostedFilm;
-  /**
-   * Required, and it must have the play button drawn into it: the browser's
-   * player shows no play affordance of its own on a desktop poster, and an
-   * overlay that hides itself on play would need client JavaScript.
-   */
+  /** The still shown before play; VideoEmbed draws the play button over it. */
   poster: string;
 };
 
 export type Video = YouTubeVideo | HostedVideo;
 
+/*
+ * The Ideas page's videos. NOT the Dreamit closing remarks: that film is the
+ * homepage's and /speaking/'s "Watch Steve Speak", and a third copy here was
+ * one too many (Steve, 2026-10-02). SeatGeek, Ted Mann, Trendkite.
+ */
 export const videos: Video[] = [
   {
-    title: "DreamIt Health Philadelphia 2013: Closing Remarks",
-    film: closingRemarksFilm,
-    // speaking-bg-m.png — the poster this entry always had — with the play button drawn in.
-    poster: "/media/closing-remarks-play.jpg",
+    /* Added 2026-10-01 at Steve's request ("We're gonna add a video on
+       SeatGeek"). REVIEW: the title is a placeholder — YouTube is blocked
+       from the session that added it, so the video's own title was never
+       seen. No local poster yet, so VideoEmbed shows YouTube's thumbnail. */
+    title: "SeatGeek",
+    youtubeId: "sujwakeK04c",
+    url: "https://www.youtube.com/watch?v=sujwakeK04c",
   },
   {
     title: "Ted Mann 'DreamIt Impact'",

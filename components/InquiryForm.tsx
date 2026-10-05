@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { site } from "@/content/site";
 import { buttonClasses } from "@/lib/buttonStyles";
-import { trackInquiry } from "@/lib/analytics";
+import { FIELD, LABEL, REQUIRED } from "@/lib/formStyles";
+import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
 
 /**
@@ -57,6 +58,15 @@ type Status = "idle" | "sending" | "sent" | "error";
 export function InquiryForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  // `contact_form_start` fires once, on the first focus anywhere in the form —
+  // the spec's measure of intent, and the denominator for the drop-off
+  // between starting the form and sending it.
+  const started = useRef(false);
+  const onStart = () => {
+    if (started.current) return;
+    started.current = true;
+    track("contact_form_start", { location: "contact" });
+  };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -96,13 +106,13 @@ export function InquiryForm() {
 
   if (status === "sent") {
     return (
-      <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-8">
-        <h2 className="text-2xl">Thank you — that went straight to Steve’s team.</h2>
-        <p className="mt-3 text-[var(--color-ink-soft)]">
+      <div role="status" className="border-t-2 border-navy bg-tint p-6 sm:p-8">
+        <h2 className="!text-[clamp(1.5rem,1.2rem+1vw,2rem)] font-extrabold">Thank you — that went straight to Steve’s team.</h2>
+        <p className="mt-3">
           A confirmation is already on its way to your inbox. Steve reads every one of
           these himself and will reply personally. If your event is on a
           tight timeline, reply to the confirmation or email{" "}
-          <a className="text-[var(--color-accent)] underline underline-offset-4" href={`mailto:${site.email}`}>
+          <a className="font-semibold text-action underline underline-offset-4" href={`mailto:${site.email}`}>
             {site.email}
           </a>{" "}
           directly and say so.
@@ -112,18 +122,16 @@ export function InquiryForm() {
   }
 
   /*
-   * 16px is a floor, not a preference. iOS Safari force-zooms the page when a
-   * field's text is under 16px and does not zoom back out, so an organizer
-   * tapping "Your name" on an iPhone gets a magnified page they have to pinch
-   * their way out of, halfway through the one form on this site that earns
-   * anything. This was 0.95rem and did exactly that. Do not shrink it.
+   * Field styles are shared with the other two forms — lib/formStyles.ts. The
+   * 16px text size in there is a floor, not a preference: iOS Safari
+   * force-zooms the page when a field's text is under 16px and does not zoom
+   * back out. This form was 0.95rem once and did exactly that. Do not shrink it.
    */
-  const field =
-    "w-full rounded-lg border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-base text-[var(--color-ink)] transition-colors placeholder:text-[var(--color-ink-faint)] focus:border-[var(--color-accent)]";
-  const label = "mb-1.5 block text-sm font-medium text-[var(--color-ink)]";
+  const field = FIELD;
+  const label = LABEL;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} onFocusCapture={onStart} className="space-y-5">
       {/*
         Honeypot. Named to look like a real field to a naive bot but hidden from
         people and from screen readers. Anything that fills it in is rejected
@@ -136,20 +144,41 @@ export function InquiryForm() {
         <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
+      {/*
+        THE OUTCOME QUESTION COMES FIRST. The Built for Change spec: "The
+        inquiry destination should foreground this question… it should not be
+        buried at the bottom of the form." It is the philosophical
+        differentiator — every keynote is built from the answer — and it used
+        to be the last field, after nine logistics questions.
+      */}
+      <div>
+        <label className={label} htmlFor="message">
+          What do you need this session to accomplish? <span className={REQUIRED}>*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows={5}
+          placeholder="Who is in the room, what moment is the organization in, and what should be different when they walk out."
+          className={field}
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={label} htmlFor="name">Your name <span className="text-[var(--color-accent)]">*</span></label>
+          <label className={label} htmlFor="name">Your name <span className={REQUIRED}>*</span></label>
           <input id="name" name="name" type="text" required autoComplete="name" className={field} />
         </div>
         <div>
-          <label className={label} htmlFor="email">Email <span className="text-[var(--color-accent)]">*</span></label>
+          <label className={label} htmlFor="email">Email <span className={REQUIRED}>*</span></label>
           <input id="email" name="email" type="email" required autoComplete="email" className={field} />
         </div>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={label} htmlFor="organization">Organization <span className="text-[var(--color-accent)]">*</span></label>
+          <label className={label} htmlFor="organization">Organization <span className={REQUIRED}>*</span></label>
           <input id="organization" name="organization" type="text" required autoComplete="organization" className={field} />
         </div>
         <div>
@@ -190,24 +219,10 @@ export function InquiryForm() {
         </div>
       </div>
 
-      <div>
-        <label className={label} htmlFor="message">
-          What do you need this session to accomplish? <span className="text-[var(--color-accent)]">*</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={5}
-          placeholder="Who is in the room, what moment is the organization in, and what should be different when they walk out."
-          className={field}
-        />
-      </div>
-
       {error && (
-        <p role="alert" className="rounded-lg bg-[var(--color-accent-soft)] px-4 py-3 text-sm text-[var(--color-accent)]">
+        <p role="alert" className="border-l-4 border-action bg-tint px-4 py-3 text-[0.9375rem] text-navy">
           {error}{" "}
-          <a className="underline underline-offset-2" href={`mailto:${site.email}`}>
+          <a className="font-semibold underline underline-offset-2" href={`mailto:${site.email}`}>
             Email {site.email} instead
           </a>
           .
@@ -222,7 +237,7 @@ export function InquiryForm() {
         {status === "sending" ? "Sending…" : "Send inquiry"}
       </button>
 
-      <p className="text-xs text-[var(--color-ink-faint)]">
+      <p className="text-[0.875rem] text-ink-faint">
         Your details are used only to answer this inquiry. No list, no newsletter signup, no third party.
       </p>
     </form>

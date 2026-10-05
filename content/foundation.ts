@@ -45,9 +45,11 @@ export const foundation = {
     rendered and read, not inferred from the file.
   */
   partners: [
-    { name: "Destination Imagination Texas", image: "foundationLogoDestinationImagination" },
-    { name: "UATX", image: "foundationLogoUatx" },
-    { name: "The International School of Texas", image: "foundationLogoIsTexas" },
+    /* `ratio`: width ÷ height of the mark as drawn, measured from the pixels —
+       see the note on SizedLogo in content/media-manifest.ts. */
+    { name: "Destination Imagination Texas", image: "foundationLogoDestinationImagination", ratio: 8.28 },
+    { name: "UATX", image: "foundationLogoUatx", ratio: 3.73 },
+    { name: "The International School of Texas", image: "foundationLogoIsTexas", ratio: 1 },
   ],
 
   /*
@@ -76,6 +78,12 @@ export const foundation = {
       postalCode: "ZIP / postal code",
       country: "Country",
     },
+    addressLegend: "Mailing address",
+    about: "What are you building?",
     submit: "Send to the Foundation",
+    thanksHeading: "Thank you — that reached us.",
+    thanksBody: "This goes straight to the Foundation. You will hear back.",
   },
+
+  partnersHeading: "Organizations the Foundation supports",
 } as const;

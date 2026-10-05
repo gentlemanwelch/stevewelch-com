@@ -9,9 +9,24 @@
 
 export const aboutHero = {
   eyebrow: "About",
-  heading:
-    "A successful entrepreneur and investor who lives the hyper wellness lifestyle every day.",
+  /* Leads with the building story (the revision brief's §11). The old
+     headline, "A successful entrepreneur and investor who lives the hyper
+     wellness lifestyle every day.", framed the page around lifestyle; its
+     lifestyle sentence now opens the Family / Himself / Work section. */
+  heading: "Founder. CEO. Investor. Twenty-five years of building through change.",
   body: "Steve is passionate and committed to maximizing his health which is essential to his 3 buckets life strategy that has led to his professional and personal success.",
+};
+
+/** The words /about/ puts around the content in this file. */
+export const aboutLabels = {
+  bioHeading: "The story",
+  numbersHeading: "By the numbers",
+  storyHeading: "Steve Welch’s story, in order",
+  closing: {
+    heading: "Looking for a speaker?",
+    body: "Purpose, People, Process — delivered on multiple continents.",
+    speakingLink: "See the speaking page",
+  },
 };
 
 export type Stat = {
@@ -20,7 +35,7 @@ export type Stat = {
   label: string;
   /**
    * The same fact as one self-contained sentence, for screen readers and for
-   * models extracting facts from the markup. Without it, "225+" and "studios
+   * models extracting facts from the markup. Without it, "200+" and "studios
    * nationwide" reach a parser as two unrelated fragments.
    */
   sentence?: string;
@@ -43,7 +58,7 @@ export const byTheNumbers: Stat[] = [
 
 /** The Restore "Today" counter block. */
 export const restoreToday: Stat[] = [
-  { value: "225+", to: 225, label: "studios nationwide", sentence: "Restore Hyper Wellness operates more than 225 studios nationwide." },
+  { value: "200+", to: 200, label: "studios nationwide", sentence: "Restore Hyper Wellness operates more than 200 studios nationwide." },
   { value: "57,000", to: 57000, label: "members", sentence: "Restore Hyper Wellness serves 57,000 members." },
   { value: "3M+", to: 3, label: "therapies delivered in 2024", sentence: "Restore Hyper Wellness delivered more than 3 million therapies in 2024." },
 ];
@@ -105,7 +120,7 @@ export const timeline: TimelineEntry[] = [
   {
     image: "timelineDreamitTeam",
     alt: "The Dreamit Ventures team on stage",
-    text: "After 15 years, Dreamit has invested in over 400 companies, and we developed a process to create value for companies through innovation. Today, the total market cap of Dreamit companies exceeds $10B.",
+    text: "After 15 years, Dreamit has invested in more than 350 companies, and we developed a process to create value for companies through innovation. Today, the total market cap of Dreamit companies exceeds $10B.",
   },
   {
     image: "timelineHealth",
@@ -114,13 +129,13 @@ export const timeline: TimelineEntry[] = [
   },
   {
     image: "timelineRestoreStart",
-    alt: "A ribbon-cutting outside an early Restore Hyper Wellness studio",
+    alt: "The Restore Hyper Wellness team celebrating a studio opening in a burst of confetti under a NOW OPEN banner",
     text: "I partnered with another great entrepreneur to start Restore Hyper Wellness because there was a clear problem that needed to be solved. People need a way to understand and invest in their health while they are healthy as opposed to waiting until they are sick.",
   },
   {
     image: "timelineRestoreScaled",
     alt: "An on-stage session under an \u014cURA and Restore Hyper Wellness banner",
-    text: "Scaled Restore by building an organization aligned around purpose with the right people who were process driven. Restore is the largest retail health wellness business in the world with over 225 locations.",
+    text: "Scaled Restore by building an organization aligned around purpose with the right people who were process driven. Restore is the largest retail health wellness business in the world with over 200 locations.",
   },
   {
     image: "timelineFamilyToday",
@@ -190,7 +205,7 @@ export const investmentVehicles = {
     {
       stage: "Early stage",
       name: "Dreamit Ventures",
-      logo: "/media/dreamIT_logo.svg",
+      logo: "/media/dreamit-logo.webp",
       body: "Dreamit Ventures invests in transformative early-stage companies focused on scaling revenues.",
       href: "https://www.dreamit.com",
       linkLabel: "www.dreamit.com",
@@ -205,26 +220,59 @@ export const investmentVehicles = {
       */
       logo: "/media/shark-skin_ventures.svg",
       body: "Shark Skin Ventures invests capital to scale companies in the healthcare and consumer spaces. The model is designed as short sprints to achieve significant value creation. Shark Skin looks to invest when capital and expertise can drive value, leading to a larger institutional investment round.",
+      href: "https://www.thesharkskin.com",
+      linkLabel: "www.thesharkskin.com",
     },
   ] as Vehicle[],
 };
 
 /* ------------------------------------------------------------------ bios --- */
 
+/*
+ * RESTORE, IN THE PAST TENSE. Until 2026-09-23 all three bios below said Steve
+ * "is currently CEO of Restore Hyper Wellness". Steve stepped down as CEO of Restore effective 10 February 2025 (Matt Vonderahe succeeded him) and remains on the board — BusinessWire, 23 January 2025.
+ * bioShort feeds the Person schema and llms.txt, so the error was in the
+ * machine-readable layer that AI assistants quote, not only on the page.
+ * The wording is the Built for Change packet's own, Steve-approved: "helped
+ * build Restore Hyper Wellness into a national brand and later returned as
+ * CEO".
+ */
+
 /** One line — run of show, and the search-result subtitle. */
 export const bioOneLine =
-  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries, and is currently CEO of Restore Hyper Wellness.";
+  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries, and helped build Restore Hyper Wellness into a national brand.";
+
+/**
+ * The one-liner organizers copy from the Event Planners page (/press-kit/).
+ * STEVE'S OWN WORDS, 2026-09-28 — he took Restore off this line. It is for the
+ * Event Planners page only, by his choice: /about/ keeps `bioOneLine` above.
+ */
+export const bioOneLineForOrganizers =
+  "Steve Welch is a founder, CEO and investor who has spent twenty-five years driving change in companies and industries — and speaks to leadership teams about doing it through purpose, people and process.";
 
 /** ~60 words — printed programs and speaker introductions. */
-export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in over 400 companies. He is currently CEO of Restore Hyper Wellness and the author of "We Are All Born Entrepreneurs."`;
+export const bioShort = `Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. He sold Mitos at the age of 30 to Parker (NYSE: PH), then co-founded Dreamit Ventures, which has invested in more than 350 companies. He helped build Restore Hyper Wellness into a national brand, returned as its CEO from 2023 to 2025, and remains on its board. He is the author of "We Are All Born Entrepreneurs."`;
 
-/** Long form — the press kit, and the paragraph organizers paste elsewhere. */
+/**
+ * Long form — the About page's "The story", the press kit, and the paragraph
+ * organizers paste elsewhere.
+ *
+ * STEVE'S OWN TEXT, 2026-09-28, replacing the WordPress-era version. As
+ * written, with three mechanical fixes only: "help grow" → "helped grow",
+ * "direct to consumer" → "direct-to-consumer", and a dash before "and it was
+ * a niche product". One figure corrected at his word the same day: Dreamit
+ * is "more than 350", not "almost 400".
+ *
+ * THE COMPANY COUNT, everywhere on the site (Steve, 2026-09-28): Steve
+ * personally, his own investments included, is 400+. Dreamit Ventures alone
+ * is 350+. The $10B+ market cap belongs to Dreamit's companies.
+ */
 export const bioLong: string[] = [
-  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 350 companies.",
+  "Steve Welch is a successful entrepreneur and investor who has founded and exited businesses in the healthcare and consumer industries. Over the last twenty-five years he has built from scratch, or been the first investor in, more than 400 companies.",
   "He founded Mitos in 2001 and built it into a global company in biotech manufacturing, developing innovations and patents that changed how biological drugs and vaccines are made. He sold it at the age of 30 to Parker (NYSE: PH).",
-  "He then partnered with two mentors and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After fifteen years, Dreamit has invested in over 400 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures, which scales later-stage healthcare and consumer companies in short sprints.",
-  "Steve is currently CEO of Restore Hyper Wellness, which began with a problem he had himself: while training for a triathlon, he and Jim Donnelly started using cryotherapy for recovery, liked how it felt, and did not like the customer experience. Restore now runs 225+ studios nationwide, has 57,000 members, and delivered more than three million therapies in 2024.",
-  'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness" with Jim Donnelly. He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
+  "He then partnered with two exited entrepreneurs and started Dreamit Ventures, wanting to help young entrepreneurs turn their ideas into businesses. After nearly twenty years, Dreamit has invested in more than 350 companies whose combined market capitalization exceeds $10 billion. He also invests through Shark Skin Ventures.",
+  "Restore Hyper Wellness began with a problem Steve had himself: while training for a triathlon, he started using cryotherapy for recovery, liked how it felt, and did not like the customer experience — and it was a niche product. Steve co-founded Restore and helped grow it into the largest direct-to-consumer retail healthcare company in the country. He returned as its CEO to lead it through a period of intense change, and remains on its board.",
+  'He is the author of "We Are All Born Entrepreneurs" and co-author of "Restore: The Life-Changing Power of Right-Away Wellness". He and his wife Nicole have four children and run the Welch Family Foundation. He has been a guest speaker on multiple continents.',
 ];
 
 export type Credential = { label: string; detail: string };
@@ -235,15 +283,15 @@ export type Credential = { label: string; detail: string };
   something that had wandered in. A press kit is where a journalist goes
   looking for exactly this, so it stays there.
 
-  Every figure is his own, from his own site: "350+ companies over the last 25
-  years" is the homepage's Investor card; "the total market cap of Dreamit
-  companies exceeds $10B" and the 400+ investments are the About page timeline,
-  which also carries a stat counter labelled "Invested Companies Market Cap";
-  the Restore numbers are the Restore section. Nothing here was inferred.
+  Every figure is his own. The company counts follow his rule of 2026-09-28:
+  400+ is Steve personally, built from scratch or first investor, his own
+  investments included; 350+ is Dreamit Ventures alone. "The total market cap
+  of Dreamit companies exceeds $10B" is the About page timeline, and the
+  Restore numbers are the Restore section. Nothing here was inferred.
 */
 export const credentials: Credential[] = [
-  { label: "350+ companies", detail: "Built from scratch or first investor, over 25 years" },
+  { label: "400+ companies", detail: "Built from scratch or first investor, over 25 years" },
   { label: "Sold Mitos at 30", detail: "Acquired by Parker (NYSE: PH)" },
-  { label: "CEO, Restore Hyper Wellness", detail: "225+ studios, 57,000 members" },
-  { label: "$10B+ market cap", detail: "Across 400+ Dreamit Ventures investments" },
+  { label: "Restore Hyper Wellness", detail: "Helped build it to 200+ studios; CEO 2023–2025" },
+  { label: "$10B+ market cap", detail: "Across 350+ Dreamit Ventures companies" },
 ];

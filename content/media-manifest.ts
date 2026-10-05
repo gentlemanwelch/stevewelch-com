@@ -25,6 +25,9 @@
 const base = "/media";
 
 export const img = {
+  /* The lowercase "steve welch" drawings. Unused since 2026-09-25: the
+     wordmark is set type now (components/Wordmark.tsx), as Steve's mockup
+     draws it. Kept for anything off-site that still wants the old mark. */
   logo: `${base}/steve_welch_logo.svg`,
   logoWhite: `${base}/steve_welch_logo_white.svg`,
   favicon: `${base}/steve_welch_favicon.png`,
@@ -49,11 +52,11 @@ export const img = {
   aboutWork: `${base}/Restore-36-scaled-aspect-ratio-800-600-2.jpg`,
 
   /*
-    DSC_0503-scaled.jpg — the reel's poster since the WordPress site — at
-    1280x720 with the play button drawn in, because the reel is now a film we
-    host and FilmPlayer needs the affordance in the image (see content/media.ts).
+    The reel's poster since the WordPress site. VideoEmbed draws the play
+    button over it, so the film needs no baked-in button (main's
+    speaking-reel-play.jpg did, for the old design's bare <video>).
   */
-  speakingReelPoster: `${base}/speaking-reel-play.jpg`,
+  speakingReelPoster: `${base}/DSC_0503-scaled.jpg`,
 
   /*
     Book feature artwork. Each is a full-bleed background: a pale-blue field
@@ -94,7 +97,10 @@ export const img = {
   timelineDreamitStart: `${base}/DSC_0503-scaled.jpg`,
   timelineDreamitTeam: `${base}/Dreamit-Team-e1723084112124.jpg`,
   timelineHealth: `${base}/SDW_8971.jpg`,
-  timelineRestoreStart: `${base}/W16_3327-scaled.jpg`,
+  /* Supplied by Steve 2026-09-28: the confetti "NOW OPEN" celebration, in
+     place of the WordPress ribbon-cutting (W16_3327-scaled.jpg, left in
+     public/ unreferenced). */
+  timelineRestoreStart: `${base}/restore-now-open-celebration.webp`,
   timelineRestoreScaled: `${base}/DSC_0119-scaled.jpg`,
   timelineFamilyToday: `${base}/W19_2980-scaled.jpg`,
 
@@ -108,8 +114,10 @@ export const img = {
      simply the wrong file — the original's hero is this one. */
   aboutHero: `${base}/W19_5845-scaled.jpg`,
 
-  /* Investment vehicle marks, for the two cards on /about/. */
-  dreamitLogo: `${base}/dreamIT_logo.svg`,
+  /* Investment vehicle marks, for the two cards on /about/. The Dreamit mark
+     is Steve's crisp file of 2026-09-28, trimmed to the logo; the old
+     dreamIT_logo.svg was the same mark, blurred, inside a white box. */
+  dreamitLogo: `${base}/dreamit-logo.webp`,
   sharkSkinLogo: `${base}/shark-skin_ventures.svg`,
 
   /* Sits beside the "sparks off an anvil" quote on /speaking/, which is where
@@ -131,17 +139,22 @@ export type LogoRef = { name: string; file: string };
  * fastest way to lose a booking when someone checks. The export settled it —
  * every organization below is one the original site already lists.
  */
-export const speakingEngagementLogos: LogoRef[] = [
-  { name: "Singtel", file: `${base}/Singtel_logo.svg` },
-  { name: "IGNITE", file: `${base}/IGNITElogo.svg` },
-  { name: "storeRE", file: `${base}/storeRE-1.svg` },
-  { name: "Derma", file: `${base}/derma_green_new.svg` },
-  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg` },
-  { name: "Penn State", file: `${base}/penn_state.svg` },
-  { name: "CNBC", file: `${base}/cnbc_logo.png` },
-  { name: "CBS", file: `${base}/cbs_logo.svg` },
-  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo.jpg` },
-  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg` },
+export const speakingEngagementLogos: SizedLogo[] = [
+  /* Steve's five, in his order (2026-09-28) — cut from ten — and Blue Cross
+     Blue Shield added 2026-10-01. IGNITE, storeRE,
+     Derma, Penn State and CBS are still in public/media if wanted back. */
+  { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
+  { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
+  // The transparent cut of the same mark, so it sits on any band without a
+  // white box. Same organization, same logo, as the original page.
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
+  // The mark only says "nvca", so the name is set beneath it (Steve,
+  // 2026-10-01: "actual words underneath"). NVCA's logo itself is unaltered.
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06, caption: "National Venture Capital Association" },
+  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
+  // Added 2026-10-01 at Steve's request. The national mark, from the WordPress
+  // export (Blue_Cross_Blue_Shield-removebg-preview.png), cropped to the logo.
+  { name: "Blue Cross Blue Shield", file: `${base}/blue-cross-blue-shield-logo.png`, ratio: 4.89 },
 ];
 
 export const selectedInvestmentLogos: LogoRef[] = [
@@ -153,10 +166,120 @@ export const selectedInvestmentLogos: LogoRef[] = [
   { name: "TrendKite", file: `${base}/Trendkite.png` },
 ];
 
-export const workedWithLogos: LogoRef[] = [
-  { name: "Singtel", file: `${base}/Singtel_logo.svg` },
-  { name: "Comcast", file: `${base}/Comcast.png` },
-  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png` },
-  { name: "Blue Cross Blue Shield", file: `${base}/Blue_Cross_Blue_Shield-removebg-preview.png` },
-  { name: "Parker Hannifin", file: `${base}/Parker-Hannifan.png` },
+export const workedWithLogos: SizedLogo[] = [
+  { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
+  { name: "Comcast", file: `${base}/Comcast.png`, ratio: 2.89 },
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
+  { name: "Blue Cross Blue Shield", file: `${base}/Blue_Cross_Blue_Shield-removebg-preview.png`, ratio: 5.14 },
+  { name: "Parker Hannifin", file: `${base}/Parker-Hannifan.png`, ratio: 4.76 },
 ];
+
+/**
+ * BUILT FOR CHANGE — the homepage's "Selected Audiences & Organizations"
+ * strip, in the packet's order (01_HOMEPAGE_COPY §10): Singtel, Texas Medical
+ * Center, Children's Hospital of Philadelphia, NVCA, CNBC.
+ *
+ * All five are the official files already on the site — nothing redrawn,
+ * nothing generated, as the packet requires. CHOP uses the transparent PNG
+ * rather than the JPEG so it can sit on any background without a white box.
+ * CNBC, CHOP and NVCA are raster; SVGs would be sharper and are worth asking
+ * each organization for, but these are genuine.
+ *
+ * `ratio` is width ÷ height of the MARK AS DRAWN — measured from the pixels,
+ * not read off the file. The strip uses it to normalise OPTICAL size —
+ * "normalize optical height, not literal pixel height" — by giving every logo
+ * the same visual area rather than the same height. At equal heights a 3:1
+ * wordmark looks three times the size of a square badge.
+ *
+ * The distinction matters because several of these files are mostly empty.
+ * The CHOP cut-out is 690×361 with the mark in the middle 40% of its height;
+ * sized by the file (1.91) it came out at well under half the size of its
+ * neighbours. Sized by the mark (4.76), and cropped to it by LogoStrip's
+ * object-fit, it matches them. Measure a new logo the same way: the bounding
+ * box of its non-white, non-transparent pixels.
+ */
+export type SizedLogo = LogoRef & {
+  ratio: number;
+  /** A line set under the mark, for a mark that does not say who it is. */
+  caption?: string;
+};
+
+export const selectedOrganizationLogos: SizedLogo[] = [
+  { name: "Singtel", file: `${base}/Singtel_logo.svg`, ratio: 1.82 },
+  { name: "Texas Medical Center", file: `${base}/texas_medical_center_logo-1.svg`, ratio: 3.16 },
+  { name: "Children's Hospital of Philadelphia", file: `${base}/Childrens_Hospital_of_Philadelphia_1_Logo-removebg-preview.png`, ratio: 4.76 },
+  // The mark only says "nvca", so the name is set beneath it (Steve,
+  // 2026-10-01: "actual words underneath"). NVCA's logo itself is unaltered.
+  { name: "National Venture Capital Association", file: `${base}/National-Venture-Capital-Association.jpg`, ratio: 3.06, caption: "National Venture Capital Association" },
+  { name: "CNBC", file: `${base}/cnbc_logo.png`, ratio: 1.31 },
+  // Added 2026-10-01 at Steve's request. The national mark, from the WordPress
+  // export (Blue_Cross_Blue_Shield-removebg-preview.png), cropped to the logo.
+  { name: "Blue Cross Blue Shield", file: `${base}/blue-cross-blue-shield-logo.png`, ratio: 4.89 },
+];
+
+/**
+ * BUILT FOR CHANGE — photography for the new homepage.
+ *
+ * STAND-INS. The packet names its own images (01–07 in 03_ASSET_MANIFEST) and
+ * none of them have been received yet. Until they are, each slot uses the
+ * best REAL photograph already on the site — never a stock image, never a
+ * generated one, per the packet's asset hierarchy: "1. Real Steve photography.
+ * 2. Approved AI-enhanced Steve photography. 3. No stock substitute."
+ *
+ * Swapping in the packet's file is one line here. The slot each packet file
+ * belongs to is noted against it.
+ */
+export const bfc = {
+  /* The homepage hero: Steve on stage in front of his slide, "The
+     fundamentals haven't changed. Their leverage has." — Purpose, People,
+     Process, then "AI · Amplifies everything." Supplied by Steve on
+     2026-09-28, replacing the 2026-09-25 frame for "slightly better
+     alignment on the screen behind it". 1536×1024. The homepage crops it
+     with a fixed offset; see the hero's note in app/(site)/page.tsx, which
+     records the measurements it depends on. */
+  hero: `${base}/steve-welch-keynote-hero-fundamentals.webp`,
+  heroAlt:
+    "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” — Purpose, People, Process, then AI: Amplifies Everything",
+
+  /* THE CAREER TILES. The Mitos logo, the Restore opening and the Nasdaq
+     photograph were supplied by Steve on 2026-09-25, replacing the real
+     stand-ins the site launched with. Dreamit's is still its stand-in — an
+     actual Dreamit stage photograph. */
+
+  /* The Mitos Technologies logo (the packet's 03_mitos_logo_REAL). A JPEG on
+     white: the tile shows it as a logo — contained, and multiplied onto the
+     tile's pale panel so the white disappears. See `logo` on Chapter. */
+  mitos: `${base}/mitos-technologies-logo.webp`,
+  mitosAlt: "Mitos Technologies logo",
+
+  /* → 04_dreamit_stage_REAL.jpeg. Stand-in: Steve on the Dreamit Ventures
+     stage — already a real Dreamit stage photograph. */
+  dreamit: `${base}/dreamit-video-poster.png`,
+  dreamitAlt: "Steve Welch on stage at a Dreamit Ventures event",
+
+  /* A Restore studio opening: the team, champagne, OPEN balloons, the NOW
+     OPEN sign. Steve's pick for "200+ locations" — the celebration, not the
+     ribbon. The alt text describes the team: it does not say Steve is in
+     the frame. */
+  restore: `${base}/restore-studio-opening-celebration.webp`,
+  restoreAlt: "The Restore Hyper Wellness team celebrating a studio opening with champagne under silver OPEN balloons",
+
+  /* Steve at the Nasdaq podium beneath the Restore Hyper Wellness logo —
+     for "every seat at the table". Nothing is claimed about the occasion
+     beyond what the photograph shows. */
+  portrait: `${base}/steve-welch-nasdaq-restore.webp`,
+  portraitAlt: "Steve Welch at the Nasdaq podium beneath the Restore Hyper Wellness logo",
+
+  /* The Hyper Wellness keynote page's photograph: Steve in a fireside
+     conversation on stage under "ŌURA × restore HYPER WELLNESS". Supplied
+     2026-09-25. The other speaker is not named — the photograph doesn't. */
+  ouraStage: `${base}/steve-welch-oura-restore-stage.webp`,
+  ouraStageAlt: "Steve Welch in a fireside conversation on stage at an Oura × Restore Hyper Wellness event",
+
+  /* The reel poster: a real speaking frame with the audience in it. Planners
+     are told to watch the audience, not the speaker. */
+  reelPoster: `${base}/LI-4-scaled.jpg`,
+
+  /* The final CTA band: stage and audience, full width, under a dark wash. */
+  closing: `${base}/speaking_hero-1.png`,
+} as const;

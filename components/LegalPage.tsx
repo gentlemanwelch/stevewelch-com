@@ -1,5 +1,6 @@
-import { Container, Section, JsonLd } from "@/components/primitives";
-import { breadcrumbSchema } from "@/lib/jsonld";
+import { Container, Section } from "@/components/primitives";
+import { PageHero } from "@/components/kit/PageHero";
+import { SquareList } from "@/components/kit/SquareList";
 import type { LegalBlock } from "@/content/legal";
 
 /**
@@ -33,39 +34,26 @@ export function LegalPage({
   }
 
   return (
-    <>
-      <JsonLd
-        data={breadcrumbSchema([
+    <div>
+      <PageHero
+        tone="light"
+        title={title}
+        breadcrumbs={[
           { name: "Home", path: "/" },
           { name: title, path },
-        ])}
+        ]}
       />
-
-      <section className="border-b border-[var(--color-line)] bg-[var(--color-tint)]">
-        <Container className="py-16 sm:py-20">
-          <h1>{title}</h1>
-        </Container>
-      </section>
 
       <Section>
         <Container size="measure">
           <div className="space-y-5 leading-relaxed">
             {grouped.map((block, i) => {
               if ("items" in block) {
-                return (
-                  <ul key={i} className="space-y-2 pl-1">
-                    {block.items.map((item, j) => (
-                      <li key={j} className="flex gap-3">
-                        <span aria-hidden="true" className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-blue)]" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                );
+                return <SquareList key={i} items={block.items} />;
               }
               if (block.kind === "heading") {
                 return (
-                  <h2 key={i} className="pt-6 text-xl sm:text-2xl">
+                  <h2 key={i} className="pt-6 !text-[clamp(1.375rem,1.15rem+0.9vw,1.75rem)] font-bold">
                     {block.text}
                   </h2>
                 );
@@ -75,6 +63,6 @@ export function LegalPage({
           </div>
         </Container>
       </Section>
-    </>
+    </div>
   );
 }
