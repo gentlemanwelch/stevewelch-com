@@ -38,6 +38,12 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: GtagArgs) => void;
+    /**
+     * True in a browser the owner marked with `?internal=on`. Set by the init
+     * script in components/Analytics.tsx, so it is undefined until the tag has
+     * loaded — and always undefined when no measurement IDs are configured.
+     */
+    swcInternal?: boolean;
   }
 }
 
@@ -55,6 +61,13 @@ declare global {
  * BOOKING inquiries only — nothing else may call this, because it is the
  * number the ad spend is measured by. The Foundation form used to, which
  * counted school partnerships as keynote bookings.
+ *
+ * INTERNAL VISITS: a browser marked with `?internal=on` (the switch is in
+ * components/Analytics.tsx) never sends the Google Ads conversion. Ads has no
+ * counterpart to GA4's internal-traffic filter, so a conversion sent is a
+ * conversion counted, and Smart Bidding would learn from the owner's own form
+ * tests. The GA4 event still fires from such a browser — it carries
+ * `traffic_type: 'internal'`, and GA4's data filter removes it there.
  */
 export function trackInquiry(source: "contact" | "landing") {
   if (typeof window === "undefined" || !window.gtag) return;
@@ -65,8 +78,9 @@ export function trackInquiry(source: "contact" | "landing") {
   }
 
   // Google Ads: the conversion action itself. Both halves of the identifier
-  // are required — an ID without a label silently records nothing.
-  if (ADS_ID && ADS_CONVERSION_LABEL) {
+  // are required — an ID without a label silently records nothing. Skipped
+  // entirely for an internal visit; see above.
+  if (ADS_ID && ADS_CONVERSION_LABEL && !window.swcInternal) {
     window.gtag("event", "conversion", {
       send_to: `${ADS_ID}/${ADS_CONVERSION_LABEL}`,
     });

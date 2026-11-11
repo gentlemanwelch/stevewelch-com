@@ -103,6 +103,21 @@ export async function POST(request: Request) {
     ["Referrer", clean(body.referrer, 300)],
   ].filter(([, value]) => value.length > 0) as [string, string][];
 
+  /*
+   * The "[Ads] " prefix on the notification subject.
+   *
+   * Added ONLY when a Google click identifier is present — gclid, wbraid or
+   * gbraid — because Google appends those to an ad click and nothing else
+   * does. It used to key on `landingPage`, which is also recorded for any
+   * utm-tagged arrival (a newsletter link, a social post), so those inquiries
+   * were labelled as paid when no ad had been clicked. An inquiry with no
+   * click identifier is unlabelled wherever it was submitted; the "Where this
+   * came from" block in the body still names the page.
+   */
+  const fromAdClick = Boolean(
+    clean(body.gclid, 300) || clean(body.wbraid, 300) || clean(body.gbraid, 300),
+  );
+
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.INQUIRY_TO_EMAIL ?? site.email;
   const from = process.env.INQUIRY_FROM_EMAIL;
@@ -154,7 +169,7 @@ export async function POST(request: Request) {
       // Replying to the notification replies to the organizer, which removes a
       // copy-paste from every response Steve sends.
       reply_to: email,
-      subject: `${clean(body.landingPage, 100) ? "[Ads] " : ""}Speaking inquiry — ${organization}${
+      subject: `${fromAdClick ? "[Ads] " : ""}Speaking inquiry — ${organization}${
         clean(body.eventName, 200) ? ` (${clean(body.eventName, 200)})` : ""
       }`,
       html,
