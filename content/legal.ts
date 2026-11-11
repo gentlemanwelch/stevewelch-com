@@ -11,18 +11,20 @@
  * fourteen headings with nothing under them, and never named who operates the
  * site. All 29 paragraphs were restored that day from the same export.
  *
- * FOUR THINGS DIFFER FROM THE ORIGINAL TERMS, all on Steve's instruction of
- * 2026-11-11 that the operating entity is Shark Skin Management, LLC:
- *   1. The opening names Shark Skin Management, LLC. The original read "Welch
- *      Phoenixville, LLC, a Pennsylvania limited liability company"; the state
- *      clause was dropped rather than guessed for the new entity.
+ * SEVEN THINGS DIFFER FROM THE ORIGINAL TERMS, all on Steve's instructions of
+ * 2026-11-11:
+ *   1. The opening names Shark Skin Management, LLC, a Texas limited liability
+ *      company. The original named Welch Phoenixville, LLC, of Pennsylvania.
  *   2. "LAST MODIFIED" is the date of that change.
  *   3. The copyright line names the new entity, without the old "2007".
  *   4. "(LOCATED HERE)" was a link; it now spells out the privacy page's address.
- *
- * REVIEW: the governing-law clause still names Pennsylvania and its courts,
- * and the contact line still gives info@stevewelch.com. Both are as the
- * original had them and neither has been confirmed for the new entity.
+ *   5. The Terms are governed by the laws of Texas, not Pennsylvania.
+ *   6. Venue is "the state and federal courts located in the State of Texas".
+ *      The original named a Pennsylvania federal district and a Philadelphia
+ *      court. Steve gave the governing law; no Texas district or county was
+ *      given, so none is named. Name one here if he supplies it.
+ *   7. The contact address is steve@stevewelch.com, the only address the site
+ *      has. The original gave info@.
  *
  * REVIEW: `privacyPolicy` below has the same defect — list items only — and is
  * dated 1 July 2024. It is being replaced by a full rewrite rather than
@@ -153,7 +155,7 @@ export const privacyPolicy: LegalBlock[] = [
 export const termsAndConditions: LegalBlock[] = [
   {
     "kind": "p",
-    "text": "The website you have entered (stevewelch.com, its sub-domains, affiliated websites and applications, any mobile versions) and any services or Content (as defined below) available therefrom (the “Site”) is a copyrighted work owned and operated by Shark Skin Management, LLC (“Steve,” “we” or “us”)."
+    "text": "The website you have entered (stevewelch.com, its sub-domains, affiliated websites and applications, any mobile versions) and any services or Content (as defined below) available therefrom (the “Site”) is a copyrighted work owned and operated by Shark Skin Management, LLC, a Texas limited liability company (“Steve,” “we” or “us”)."
   },
   {
     "kind": "p",
@@ -341,7 +343,7 @@ export const termsAndConditions: LegalBlock[] = [
   },
   {
     "kind": "p",
-    "text": "The Site is controlled and managed by Steve from its offices in the United States and is targeted to the United States. These Terms shall be governed by and construed in accordance with the laws of the State of Pennsylvania, without reference to its conflicts of laws principles. By accessing or using the Site, you submit to the exclusive jurisdiction of and venue in the Federal District Court located in the Eastern District of Pennsylvania and the Supreme Court of the State of Pennsylvania for Philadelphia County to resolve any dispute arising out of or in connection with these Terms, the Site or the Content, and waive any objections thereto including those of inconvenient forum or similar defenses."
+    "text": "The Site is controlled and managed by Steve from its offices in the United States and is targeted to the United States. These Terms shall be governed by and construed in accordance with the laws of the State of Texas, without reference to its conflicts of laws principles. By accessing or using the Site, you submit to the exclusive jurisdiction of and venue in the state and federal courts located in the State of Texas to resolve any dispute arising out of or in connection with these Terms, the Site or the Content, and waive any objections thereto including those of inconvenient forum or similar defenses."
   },
   {
     "kind": "p",
@@ -385,6 +387,6 @@ export const termsAndConditions: LegalBlock[] = [
   },
   {
     "kind": "p",
-    "text": "If you have questions or comments, please contact us at: info@stevewelch.com"
+    "text": "If you have questions or comments, please contact us at: steve@stevewelch.com"
   }
 ];
