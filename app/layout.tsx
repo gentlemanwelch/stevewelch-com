@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { JsonLd } from "@/components/primitives";
-import { Analytics } from "@/components/Analytics";
-import { AttributionCapture } from "@/components/AttributionCapture";
-import { TrackEvents } from "@/components/TrackEvents";
-import { personSchema, websiteSchema } from "@/lib/jsonld";
 import { site } from "@/content/site";
 
 /*
@@ -73,14 +68,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={body.variable}>
       <body>
-        {/*
-          Person and WebSite schema go in the layout rather than on the
-          homepage, so that every page confirms the same entity. Page-specific
-          schema is added by each page on top of this.
-        */}
-        <JsonLd data={personSchema()} />
-        <JsonLd data={websiteSchema()} />
-
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-[var(--radius-base)] focus:bg-navy focus:px-5 focus:py-3 focus:text-[0.9375rem] focus:font-bold focus:text-white"
@@ -91,21 +78,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/*
           No header or footer here on purpose. Site chrome lives in
           app/(site)/layout.tsx so that /lp/ landing pages can render without
-          it — see that file. The root layout carries only what every page
-          needs: fonts, the entity markup, and the skip link.
+          it — see that file.
+
+          And no entity markup, analytics or click tracking either. Those are
+          for PUBLIC pages only and live in components/SiteScripts.tsx, which
+          each public layout renders. This layout also wraps the private CRM
+          at /admin, where analytics would report a lead's name to Google.
+
+          The root layout carries only what EVERY page needs: fonts and the
+          skip link.
         */}
         {children}
-
-        {/* Renders nothing until the measurement IDs are set in Vercel. */}
-        <Analytics />
-
-        {/* Records a paid click on arrival, on any page, so it survives the
-            walk to the booking form. Renders nothing. */}
-        <AttributionCapture />
-
-        {/* One delegated listener for every tracked CTA on the site. Renders
-            nothing, and no-ops until GA4 is configured. */}
-        <TrackEvents />
       </body>
     </html>
   );

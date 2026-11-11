@@ -1,13 +1,15 @@
 /*
- * Stand-ins for the two services the inquiry route calls.
+ * Stand-ins for the outside services the site's server calls.
  *
- * Loaded into `next start` by scripts/test-inquiry-route.mjs, through
+ * Loaded into `next start` by the scripts/test-*.mjs checks, through
  * NODE_OPTIONS=--import, before Next.js itself. It replaces `fetch` for
- * exactly two destinations — Resend, and the pretend CRM address the test
- * sets as SUPABASE_URL — and passes everything else through untouched.
+ * exactly three destinations — Resend, the pretend CRM address the tests set
+ * as SUPABASE_URL, and Google's token endpoint — and passes everything else
+ * through untouched.
  *
- * The point is to run the REAL route, built the way a deploy builds it, with
- * no key for either service and no email sent to anyone.
+ * The point is to run the REAL routes, built the way a deploy builds them,
+ * with no key for any service, no email sent to anyone, and nobody's Google
+ * account involved.
  *
  * Every intercepted call is appended to MOCK_LOG as one line of JSON. What
  * each service answers is read from MOCK_CONTROL on every call, so the test
@@ -44,12 +46,47 @@ if (LOG && CONTROL) {
       typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
     const toResend = url.startsWith("https://api.resend.com/");
     const toCrm = url.startsWith("http://crm.mock/");
-    if (!toResend && !toCrm) return real(input, init);
+    const toGoogle = url.startsWith("https://oauth2.googleapis.com/token");
+    if (!toResend && !toCrm && !toGoogle) return real(input, init);
 
     const now = control();
     const headers = Object.fromEntries(new Headers(init.headers ?? {}).entries());
-    const body = typeof init.body === "string" ? JSON.parse(init.body) : null;
+    // Google's token endpoint takes a form, the other two take JSON.
+    const body =
+      typeof init.body !== "string"
+        ? null
+        : toGoogle
+          ? Object.fromEntries(new URLSearchParams(init.body))
+          : JSON.parse(init.body);
     fs.appendFileSync(LOG, JSON.stringify({ url, headers, body }) + "\n");
+
+    if (toGoogle) {
+      /*
+       * Google, answering the exchange of a sign-in code. `now.google.claims`
+       * overrides any claim, so a test can make "Google" vouch for a stranger,
+       * an unverified address, the wrong client, or an expired statement.
+       * The signature is a placeholder: the site trusts this token because of
+       * where it came from, not because of how it is signed.
+       */
+      const google = now.google ?? {};
+      if (google.mode === "throw") throw new TypeError("fetch failed");
+      if (google.mode === "refuse") return json(400, { error: "invalid_grant" });
+      if (google.mode === "garbage") return json(200, { id_token: "not-a-token" });
+      const part = (value) => Buffer.from(JSON.stringify(value)).toString("base64url");
+      const claims = {
+        iss: "https://accounts.google.com",
+        aud: "test-client-id",
+        exp: Math.floor(Date.now() / 1000) + 3600,
+        email: "owner@example.test",
+        email_verified: true,
+        nonce: google.nonce,
+        ...(google.claims ?? {}),
+      };
+      return json(200, {
+        access_token: "unused",
+        id_token: `${part({ alg: "RS256", typ: "JWT" })}.${part(claims)}.placeholder`,
+      });
+    }
 
     if (toCrm) {
       if (!url.endsWith("/rpc/crm_record_inquiry")) return json(200, true);

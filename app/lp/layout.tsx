@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SiteScripts } from "@/components/SiteScripts";
 
 /**
  * Landing pages get their own layout with NO site header or footer.
@@ -8,9 +9,16 @@ import type { ReactNode } from "react";
  * foundation page is a visitor whose click cost money and produced nothing.
  * These pages carry one action.
  *
- * The root layout still wraps this (fonts, JSON-LD, skip link), so the entity
- * markup and typography stay consistent — only the chrome is removed.
+ * The root layout still wraps this (fonts, skip link), and SiteScripts adds
+ * the entity markup and the analytics that every public page carries — the
+ * attribution capture in it is the reason these pages exist. Only the chrome
+ * is removed.
  */
 export default function LandingLayout({ children }: { children: ReactNode }) {
-  return <main id="main" className="min-h-screen">{children}</main>;
+  return (
+    <>
+      <main id="main" className="min-h-screen">{children}</main>
+      <SiteScripts />
+    </>
+  );
 }

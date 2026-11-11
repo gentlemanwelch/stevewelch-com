@@ -3,6 +3,7 @@ import { talks } from "@/content/speaking";
 import { notFoundPage } from "@/content/not-found";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SiteScripts } from "@/components/SiteScripts";
 import { Container, Section, Button } from "@/components/primitives";
 import { PageHero } from "@/components/kit/PageHero";
 import { LinkCard, LinkGrid } from "@/components/kit/LinkCard";
@@ -62,6 +63,9 @@ export default function NotFound() {
         </Section>
       </main>
       <SiteFooter />
+      {/* For the same reason it draws its own chrome: it sits outside the
+          (site) layout, which is where these normally come from. */}
+      <SiteScripts />
     </div>
   );
 }

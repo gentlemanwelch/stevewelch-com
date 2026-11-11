@@ -34,7 +34,8 @@ those crawlers — it is invisible.
 So: server components by default. `"use client"` only for genuine interaction
 (the two forms). If a change would move content behind hydration, it is the
 wrong change. Check `npm run build` output — every route should be `○` or `●`,
-never `ƒ`, except the routes under `/api/`.
+never `ƒ`, except the routes under `/api/` and the private CRM under `/admin/`,
+whose pages depend on who is asking.
 
 ## Before you push
 
@@ -165,6 +166,39 @@ Every booking inquiry is saved to a Supabase database as well as emailed
   route against stand-ins for Supabase and Resend and checks each rule above.
   Run it after any change to the route, a form's payload, or `lib/crm/`.
 - Lead data never goes in this repository, in a URL, or in Analytics.
+
+## The private CRM at /admin
+
+One Google account may open it: the address in `ADMIN_GOOGLE_EMAIL`. Sign-in
+is hand-written ("Sign in with Google", `lib/crm/google.ts`), the session is a
+signed cookie (`lib/crm/session.ts`), and there is no auth library and no
+`proxy.ts`.
+
+- **Every admin page, route handler and server action calls `requireAdmin()`
+  (or `adminSession()`) ITSELF.** A layout is not a guard: Next.js does not
+  re-run a layout when moving between its pages. A new page without the call
+  is a public page.
+- **Half-configured means shut.** With any of the four settings missing,
+  `adminConfig()` is null and nothing opens. Never add a fallback that lets a
+  missing setting mean "allow".
+- **No analytics, ever, on `/admin`.** A lead's page is titled with the lead's
+  name, and analytics reports page titles. The tag, the click tracking and the
+  entity markup live in `components/SiteScripts.tsx`, rendered by the PUBLIC
+  layouts only — `app/(site)/layout.tsx`, `app/lp/layout.tsx`,
+  `app/not-found.tsx`. Do not move them back into the root layout, and render
+  `SiteScripts` in any new public layout.
+- **Build an absolute address from `requestOrigin(request)`, never from
+  `request.url`.** Behind a proxy the latter can carry the server's own
+  hostname. Sign-in broke on exactly that in testing.
+- **A page beside a layout does not get that layout's title template.**
+  `app/admin/page.tsx` sets its title with `absolute`; pages in folders below
+  it use the template.
+- **The screens are drawn to mockups Steve signed off** (11 November 2026).
+  Their words are in `content/admin.ts`. A new screen gets a mockup and his
+  sign-off before it gets code.
+- **`npm run build && node scripts/test-admin-door.mjs`** tries every way in
+  that should fail, and the one that should work. Run it after any change
+  here.
 
 ## AIO
 
