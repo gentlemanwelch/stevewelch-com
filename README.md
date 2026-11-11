@@ -170,6 +170,24 @@ A database change is a new file in `supabase/migrations/`, applied to the
 project **before** the code that needs it is merged. Structure only: no lead
 data, no keys and no addresses belong in this repository.
 
+### The door at /admin
+
+The CRM's screens live at `/admin`, behind "Sign in with Google" for **one**
+account. Today the door is all there is: a sign-in page, a page for the wrong
+account, and an empty Leads page behind it.
+
+- **Who gets in:** the Google account named in `ADMIN_GOOGLE_EMAIL`, and nobody
+  else. There are no users, roles or passwords to manage.
+- **Switching it on:** the four settings under "The door" in `.env.example`,
+  on Production and Preview, plus the return addresses on the Google sign-in
+  client. With any one missing the door is shut and the sign-in page says so.
+- **How long a sign-in lasts:** seven days. Changing `ADMIN_GOOGLE_EMAIL` or
+  `ADMIN_SESSION_SECRET` signs everyone out at once.
+- **Kept away from search engines and from analytics.** The pages are
+  `noindex`, disallowed in robots.txt, and sent with `X-Robots-Tag`. They load
+  no analytics: the tag lives in `components/SiteScripts.tsx`, which only the
+  public layouts render.
+
 ## AIO — being cited by AI answers
 
 `robots.ts` names GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot,
@@ -208,6 +226,18 @@ npm run build && node scripts/test-inquiry-route.mjs
 That runs the real, built route against stand-ins for Supabase and Resend and
 checks that a failed save, a failed reply or a double send never costs an
 inquiry. It needs no keys and sends no email.
+
+After any change under `app/admin/`, `app/api/admin/` or to `lib/crm/session.ts`
+or `lib/crm/google.ts`:
+
+```bash
+npm run build && node scripts/test-admin-door.mjs
+```
+
+That tries every way into `/admin` that should fail — a forged or expired
+cookie, another Google account, an unverified address, a return from Google
+that this browser never started, a half-configured deployment — and the one
+way that should work. It needs nobody's Google account.
 
 `npm run build` is not optional. Type-checking alone passes on code that fails
 to build, because bundling errors only surface when the bundler runs.

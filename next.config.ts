@@ -60,6 +60,20 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
         ],
       },
+      /*
+       * The private CRM. Said in a header as well as in each page's robots
+       * tag, so it holds for anything served under the path, including a
+       * redirect. `no-store` because these pages show a lead's details to
+       * one signed-in person: nothing between the server and that browser
+       * should keep a copy.
+       */
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "Cache-Control", value: "no-store" },
+        ],
+      },
     ];
   },
 };

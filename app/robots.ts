@@ -50,12 +50,16 @@ export default function robots(): MetadataRoute.Robots {
         // noindex tag — this is belt and braces, and the tag is what actually
         // governs, since a Disallow alone can still leave a URL indexed
         // without a snippet.
-        disallow: ["/api/", "/lp/"],
+        //
+        // /admin/ is the private CRM. Its pages carry noindex too, and need a
+        // sign-in to show anything; this keeps well-behaved crawlers from
+        // knocking on the door at all.
+        disallow: ["/api/", "/lp/", "/admin/"],
       },
       ...AI_CRAWLERS.map((userAgent) => ({
         userAgent,
         allow: "/",
-        disallow: ["/api/", "/lp/"],
+        disallow: ["/api/", "/lp/", "/admin/"],
       })),
     ],
     sitemap: `${site.url}/sitemap.xml`,

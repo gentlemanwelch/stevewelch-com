@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SiteScripts } from "@/components/SiteScripts";
 
 /**
  * Chrome for the public site: header, main landmark, footer.
@@ -19,6 +20,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
+      {/* Entity markup, analytics, click tracking: public pages only. */}
+      <SiteScripts />
     </>
   );
 }
