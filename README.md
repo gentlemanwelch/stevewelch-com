@@ -114,7 +114,8 @@ They differ from the organic site in four deliberate ways:
    cost-per-click, so a matching, fast page buys the same position for less.
 4. **Attribution.** `gclid`, `wbraid`, `gbraid` and `utm_*` are captured from
    the click and sent with the inquiry, so a booking traces back to the keyword
-   that produced it. Paid inquiries are subject-tagged `[Ads]`.
+   that produced it. An inquiry that carries a Google click identifier is
+   subject-tagged `[Ads]`.
 
 To add a campaign: append an object to `content/landing-pages.ts`. That is all.
 
@@ -142,6 +143,32 @@ browser is remembered: its visits reach GA4 marked `traffic_type=internal`, and
 it never fires the Google Ads conversion. `?internal=off` undoes it. It is per
 browser, so do it on each device — and GA4 only drops the marked visits once
 its Internal Traffic data filter is switched from Testing to Active.
+
+## The CRM record
+
+Every booking inquiry is saved to a Supabase database as well as emailed. It
+is the first piece of a CRM that will live at `/admin`; today there are no
+screens, only the record.
+
+- **Where:** three tables, `leads` (one per person), `inquiries` (one per form
+  submission) and `lead_events` (the timeline). Their definition is
+  `supabase/migrations/001_crm_storage.sql`.
+- **Switching it on:** set `SUPABASE_URL` and `SUPABASE_SECRET_KEY` in Vercel,
+  on Production and Preview. Without them the form works and saves nothing.
+- **The email comes first.** A save that fails never fails the form. The
+  inquiry email to Steve opens with a red line saying it was not saved.
+- **One submission, one record.** The form gives each submission an id and
+  reuses it on a retry, so a double click is one inquiry, one email to Steve
+  and one reply to the organizer.
+- **Tests are marked.** An inquiry sent from a preview, or from the address
+  inquiries are delivered to, is saved as a test and its subject starts
+  `[Test]`. On a preview the organizer's reply goes to Steve, never to the
+  address typed.
+- **Closed to browsers.** The tables refuse every key except the secret one.
+
+A database change is a new file in `supabase/migrations/`, applied to the
+project **before** the code that needs it is merged. Structure only: no lead
+data, no keys and no addresses belong in this repository.
 
 ## AIO — being cited by AI answers
 
@@ -171,6 +198,16 @@ npm run build        # the only check that catches what a deploy catches
 npm run lint         # must be clean — zero warnings, not just zero errors
 npm run typecheck
 ```
+
+After any change to the booking form, `app/api/inquiry/route.ts` or `lib/crm/`:
+
+```bash
+npm run build && node scripts/test-inquiry-route.mjs
+```
+
+That runs the real, built route against stand-ins for Supabase and Resend and
+checks that a failed save, a failed reply or a double send never costs an
+inquiry. It needs no keys and sends no email.
 
 `npm run build` is not optional. Type-checking alone passes on code that fails
 to build, because bundling errors only surface when the bundler runs.

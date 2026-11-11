@@ -6,6 +6,7 @@ import { buttonClasses } from "@/lib/buttonStyles";
 import { FIELD, LABEL, REQUIRED } from "@/lib/formStyles";
 import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
+import { newSubmissionId } from "@/lib/submissionId";
 
 /**
  * The booking inquiry form.
@@ -67,6 +68,13 @@ export function InquiryForm() {
     started.current = true;
     track("contact_form_start", { location: "contact" });
   };
+  // One id for this form for as long as it is on screen, so a double click or
+  // a retry after an error is the same inquiry. See lib/submissionId.ts.
+  const submissionId = useRef<string | undefined>(undefined);
+  // Counts the times this form has been sent and FAILED. A double click is the
+  // same attempt and is sent once; "Send" pressed again after an error is a new
+  // attempt and is sent for real. See `sendOnce` in lib/crm/resend.ts.
+  const attempt = useRef(1);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -79,7 +87,14 @@ export function InquiryForm() {
       because an ad click almost never lands directly on /contact/ — it lands
       on a landing page or the homepage and walks here. See lib/attribution.ts.
     */
-    const payload = { ...Object.fromEntries(formData.entries()), ...readAttribution() };
+    submissionId.current ??= newSubmissionId();
+    const payload = {
+      ...Object.fromEntries(formData.entries()),
+      ...readAttribution(),
+      form: "contact",
+      ...(submissionId.current ? { submission_id: submissionId.current } : {}),
+      attempt: attempt.current,
+    };
 
     try {
       // Trailing slash on purpose: next.config sets trailingSlash, so posting
@@ -99,6 +114,7 @@ export function InquiryForm() {
       // Fires only here — on a confirmed 200 from the API, never on page load.
       trackInquiry("contact");
     } catch (err) {
+      attempt.current += 1;
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong.");
     }
