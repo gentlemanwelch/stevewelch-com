@@ -250,6 +250,18 @@ repeated.
 
 ## Outstanding: the email records
 
+> **Note, 10 November 2026.** Part of this section is stale; it is left as
+> written because it is the record of what was found. The live records were
+> checked on 9–10 November 2026:
+>
+> - **SPF (item 1, and the appendix):** the root record now reads
+>   `v=spf1 include:_spf-us.ionos.com ~all`. It no longer authorises HubSpot.
+> - **DKIM:** IONOS's selectors — `s1-ionos`, `s2-ionos`, `s42582890` — are
+>   published under `_domainkey`. On 10 November the first two resolved to
+>   keys; `s42582890` is a CNAME to `s42582890.dkim.ionos.com`, which returned
+>   no record that day.
+> - **DMARC (item 4):** still `v=DMARC1; p=none;` with no reporting address.
+
 None of this was caused by the cutover. All of it was found while reading the
 zone, and all of it predates the rebuild. State verified against IONOS's
 authoritative nameservers on 2026-09-16.

@@ -137,6 +137,12 @@ it, and the landing form fired a second conversion from it on top of the one
 above, so setting both would have counted every paid inquiry twice. That second
 path is removed; the name is recorded here so nobody re-adds it.
 
+**Your own visits.** Open the live site once with `?internal=on` and that
+browser is remembered: its visits reach GA4 marked `traffic_type=internal`, and
+it never fires the Google Ads conversion. `?internal=off` undoes it. It is per
+browser, so do it on each device — and GA4 only drops the marked visits once
+its Internal Traffic data filter is switched from Testing to Active.
+
 ## AIO — being cited by AI answers
 
 `robots.ts` names GPTBot, OAI-SearchBot, ClaudeBot, PerplexityBot,
