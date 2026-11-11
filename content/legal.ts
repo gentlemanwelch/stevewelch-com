@@ -1,9 +1,10 @@
 /**
- * Legal pages — transcribed from the WordPress export.
+ * Legal pages.
  *
- * These carry real obligations, so nothing here was paraphrased, summarised, or
- * "improved": the text is the site's own, flattened into headings, paragraphs
- * and list items so it can be rendered without injecting raw HTML.
+ * THE TERMS are transcribed from the WordPress export. They carry real
+ * obligations, so nothing was paraphrased, summarised, or "improved": the text
+ * is the site's own, flattened into headings, paragraphs and list items so it
+ * can be rendered without injecting raw HTML.
  *
  * THE TERMS WERE MISSING THEIR PARAGRAPHS UNTIL 2026-11-11. The export stores
  * each paragraph as a bare <span> between blank lines, not a <p>, and the first
@@ -26,129 +27,249 @@
  *   7. The contact address is steve@stevewelch.com, the only address the site
  *      has. The original gave info@.
  *
- * REVIEW: `privacyPolicy` below has the same defect — list items only — and is
- * dated 1 July 2024. It is being replaced by a full rewrite rather than
- * restored; do not restore the old text.
+ * THE PRIVACY POLICY IS A REWRITE, NOT A TRANSCRIPTION (2026-11-11). The
+ * WordPress one was dated 1 July 2024, had lost its headings and paragraphs
+ * in the same way, and described sweepstakes, text messages and lookalike
+ * audiences that this site has never used. Steve settled the facts in the new
+ * one that day: the operator (Shark Skin Management, LLC, of Texas), Supabase
+ * as the store, three years' retention, and that the Foundation form follows
+ * the same rules.
+ *
+ * It describes the site as it will work once inquiries are stored and the
+ * speaking campaign runs. Three statements are ahead of the build on purpose
+ * and must stay true as it lands: the booking step (Google Calendar and Meet),
+ * the two follow-up emails and their stop rules, and the hashed email address
+ * sent to Google for advertising measurement ("may").
+ *
+ * It makes two promises in Steve's name: an answer to a request about
+ * someone's information within 30 days, and deletion on request.
+ *
+ * NOT IN IT YET: a mailing address. Add it to "Who we are" and "Contact" when
+ * the PO box exists.
  */
 
 export type LegalBlock = { kind: "heading" | "p" | "li"; text: string };
 
 export const privacyPolicy: LegalBlock[] = [
   {
-    "kind": "li",
-    "text": "Collection of Data"
+    "kind": "p",
+    "text": "Effective November 11, 2026"
+  },
+  {
+    "kind": "heading",
+    "text": "Who we are"
+  },
+  {
+    "kind": "p",
+    "text": "This website, www.stevewelch.com, is operated by Shark Skin Management, LLC, a Texas limited liability company (“we”, “us”). It is the site of Steve Welch, an entrepreneur, investor and keynote speaker. You can reach us at steve@stevewelch.com."
+  },
+  {
+    "kind": "heading",
+    "text": "What we collect"
+  },
+  {
+    "kind": "p",
+    "text": "What you give us:"
   },
   {
     "kind": "li",
-    "text": "Use of Collected Data"
+    "text": "When you send an inquiry: your name, email address, organization, the details of your event, your budget, and anything else you write."
   },
   {
     "kind": "li",
-    "text": "Fulfill our obligations with respect to the reason you voluntarily provided the data (such as responding to an inquiry or provide you with information, products, or services that you request from us or that may be of interest to you);"
+    "text": "When you book a call: your name, your email address and the time you choose. Booking is handled by Google Calendar, and calls take place on Google Meet."
   },
   {
     "kind": "li",
-    "text": "Allow you to participate in certain features of the Site;"
+    "text": "When you email us: your message and your email address."
   },
   {
     "kind": "li",
-    "text": "Improve the Site or our products, events, and services and for other business or commercial purposes;"
+    "text": "When you write to the Welch Family Foundation through this site: your organization, your name, email address, phone number, website and mailing address, and what you tell us about your work."
+  },
+  {
+    "kind": "p",
+    "text": "What is collected automatically:"
   },
   {
     "kind": "li",
-    "text": "Optimize your experience on the Site (such as troubleshooting technical programs or storing your preferences);"
+    "text": "How the site is used: the pages you view, roughly where you are, the kind of device and browser you use, and the site that sent you here. We use Google Analytics for this, which sets cookies."
   },
   {
     "kind": "li",
-    "text": "Provide co-branded services and features (such as contests, sweepstakes, or other promotions);"
+    "text": "Advertising details: if you arrive by clicking one of our Google advertisements, the ad-click identifier and campaign tags in the link are stored in your browser for up to 90 days and sent to us with your inquiry."
   },
   {
     "kind": "li",
-    "text": "Notify you about changes to the Site (including this Privacy Policy);"
+    "text": "Technical records: our hosting provider records your IP address and browser type when you visit."
+  },
+  {
+    "kind": "heading",
+    "text": "How we use it"
   },
   {
     "kind": "li",
-    "text": "Carry out any other purpose described to you at the time the data was collected; and"
+    "text": "To answer your inquiry, whether about a speaking engagement or the Foundation, and to arrange a call with Steve."
   },
   {
     "kind": "li",
-    "text": "Carry out any other purpose with your consent or as permitted by law."
+    "text": "To send you up to two follow-up emails about a speaking inquiry. They stop when you reply, book a call, or ask us to stop."
   },
   {
     "kind": "li",
-    "text": "Provide you with additional information regarding products, events, promotions, and services from Steve and third parties that may be of interest to you via email, text message, or through advertising on various social media platforms or websites (both desktop and mobile) that you may visit; and"
+    "text": "To keep a record of your inquiry and what followed."
   },
   {
     "kind": "li",
-    "text": "Develop, improve, and target our promotional messaging to you and others via retargeting, online behavioral advertising, and use of social media platform tools for advertising (such as creation of Facebook Lookalike Audiences)."
+    "text": "To learn which pages and advertisements lead to inquiries and bookings."
   },
   {
     "kind": "li",
-    "text": "Third-Party Websites and Services"
+    "text": "To keep the site working and secure, and to meet legal obligations."
+  },
+  {
+    "kind": "p",
+    "text": "We do not sell personal information. We do not add you to a newsletter or any other mailing list unless you ask us to."
+  },
+  {
+    "kind": "heading",
+    "text": "Automatic replies and artificial intelligence"
+  },
+  {
+    "kind": "p",
+    "text": "The first reply to an inquiry is sent automatically. We may use artificial-intelligence software to help read and answer emails about scheduling. Steve takes every call himself, and decisions about engagements are made by a person."
+  },
+  {
+    "kind": "heading",
+    "text": "Who we share it with"
+  },
+  {
+    "kind": "p",
+    "text": "We share personal information only with companies that provide services to us, and only so that they can provide those services:"
   },
   {
     "kind": "li",
-    "text": "Sharing of Collected Data"
+    "text": "Vercel hosts the website."
   },
   {
     "kind": "li",
-    "text": "With our current and future parents, affiliates, subsidiaries, and other companies under common control and ownership;"
+    "text": "Resend sends our email."
   },
   {
     "kind": "li",
-    "text": "With our service providers that perform services for us (such as e-mail and mobile marketing, analytics, and web hosting);"
+    "text": "Google provides website analytics, advertising measurement, and the calendar and video calls used for booking."
   },
   {
     "kind": "li",
-    "text": "With our sponsors, promotional partners, or event partners in connection with certain contests, sweepstakes, promotions, or ticketed events;"
+    "text": "IONOS hosts our mailbox."
   },
   {
     "kind": "li",
-    "text": "With our third-party vendors and partners that sell items, offer promotions, or provide services to you through our services (either alone or jointly with us);"
+    "text": "Supabase stores inquiries."
+  },
+  {
+    "kind": "p",
+    "text": "Advertising measurement. To learn which advertisement led to an inquiry or a booking, we may send Google the ad-click identifier from your visit and a scrambled (“hashed”) version of your email address. Google uses these to match the result to the advertisement, under its own privacy policy at policies.google.com/privacy."
+  },
+  {
+    "kind": "p",
+    "text": "We may also disclose information when the law requires it, to protect our rights or the safety of others, or as part of a sale or transfer of the business."
+  },
+  {
+    "kind": "heading",
+    "text": "Cookies and similar technologies"
   },
   {
     "kind": "li",
-    "text": "To comply with a court order or other legal obligation, to enforce the Site terms of use, and to protect the rights, property, or safety of our users and other third parties;"
+    "text": "Google Analytics sets cookies to tell one visit from another."
   },
   {
     "kind": "li",
-    "text": "With government or law enforcement officials or private parties (including our legal or other professional advisors) as we determine, in our sole and absolute discretion, is necessary or appropriate to respond to claims or to comply with legal processes, laws, regulations, or ordinances, or to prevent or stop illegal, unethical, or actionable activity;"
+    "text": "Your browser stores the details of an ad click for up to 90 days, as described above."
+  },
+  {
+    "kind": "p",
+    "text": "You can block or delete cookies in your browser settings, and Google offers a browser add-on that turns Google Analytics off, at tools.google.com/dlpage/gaoptout. The site works without them. This site does not respond to “Do Not Track” signals."
+  },
+  {
+    "kind": "heading",
+    "text": "How long we keep it"
   },
   {
     "kind": "li",
-    "text": "In connection with, or during negotiations of, any merger, acquisition by another company, or sale of all or substantially all of our business or assets; and"
+    "text": "Inquiries, bookings and correspondence: three years after our last contact with you."
   },
   {
     "kind": "li",
-    "text": "With your consent or at your direction."
+    "text": "Ad-click details in your browser: up to 90 days."
   },
   {
     "kind": "li",
-    "text": "Transfer of Collected Data"
+    "text": "Analytics data: up to 14 months."
   },
   {
     "kind": "li",
-    "text": "Data Security"
+    "text": "Hosting records: as set by our hosting provider."
+  },
+  {
+    "kind": "heading",
+    "text": "Your choices"
   },
   {
     "kind": "li",
-    "text": "Data Retention"
+    "text": "Follow-up emails. Every follow-up email includes a way to stop them, or you can reply and say so."
   },
   {
     "kind": "li",
-    "text": "Children and Parents"
+    "text": "Your information. You can ask us for a copy of what we hold about you, to correct it, or to delete it. Email steve@stevewelch.com. We honor these requests wherever you live, and we answer within 30 days."
   },
   {
     "kind": "li",
-    "text": "Our “Do Not Track” (DNT) Policy"
+    "text": "Where you live. Depending on where you live, the law may give you further rights, including the right to complain to a privacy regulator."
   },
   {
     "kind": "li",
-    "text": "Your Data Preferences"
+    "text": "Canada. If you are in Canada, we email you about your inquiry because you sent it. You can withdraw that consent at any time."
   },
   {
-    "kind": "li",
-    "text": "Contact Us"
+    "kind": "heading",
+    "text": "Where your information is processed"
+  },
+  {
+    "kind": "p",
+    "text": "We are based in the United States. Our service providers process information in the United States and in other countries."
+  },
+  {
+    "kind": "heading",
+    "text": "Security"
+  },
+  {
+    "kind": "p",
+    "text": "Access to inquiries is limited to Steve and those who work with him on engagements. We use established providers and reasonable safeguards. No method of storage or transmission is completely secure."
+  },
+  {
+    "kind": "heading",
+    "text": "Children"
+  },
+  {
+    "kind": "p",
+    "text": "This site is for business audiences. It is not directed to children under 16, and we do not knowingly collect their information."
+  },
+  {
+    "kind": "heading",
+    "text": "Changes"
+  },
+  {
+    "kind": "p",
+    "text": "If we change this policy, we will post the new version here and update the date at the top."
+  },
+  {
+    "kind": "heading",
+    "text": "Contact"
+  },
+  {
+    "kind": "p",
+    "text": "Shark Skin Management, LLC. Email: steve@stevewelch.com"
   }
 ];
 

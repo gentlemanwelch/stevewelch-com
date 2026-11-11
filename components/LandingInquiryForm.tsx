@@ -198,7 +198,7 @@ export function LandingInquiryForm({
       </button>
 
       <p className="text-[0.875rem] text-ink-faint">
-        Used only to answer this inquiry. No list, no newsletter, no third party.
+        Used only to answer this inquiry. No list, no newsletter.
       </p>
     </form>
   );

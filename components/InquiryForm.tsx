@@ -238,7 +238,7 @@ export function InquiryForm() {
       </button>
 
       <p className="text-[0.875rem] text-ink-faint">
-        Your details are used only to answer this inquiry. No list, no newsletter signup, no third party.
+        Your details are used only to answer this inquiry. No list, no newsletter signup.
       </p>
     </form>
   );
