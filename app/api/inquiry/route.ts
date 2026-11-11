@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import { site } from "@/content/site";
 import { autoReplySubject, autoReplyText, autoReplyHtml } from "@/content/auto-reply";
+import {
+  environmentName,
+  isTestInquiry,
+  noteInquiryEmail,
+  recordInquiry,
+  submissionIdFrom,
+} from "@/lib/crm/inquiries";
+import { leadRecipient, sendOnce } from "@/lib/crm/resend";
 
 /**
  * Booking inquiry endpoint.
@@ -18,6 +26,24 @@ import { autoReplySubject, autoReplyText, autoReplyHtml } from "@/content/auto-r
  *
  * Resend is called over plain fetch rather than the SDK to keep this app's
  * dependency list at three packages. The API is one POST.
+ *
+ * THE CRM RECORD. Each inquiry is also saved to the CRM database (lib/crm/),
+ * when SUPABASE_URL and SUPABASE_SECRET_KEY are set. Three things about that:
+ *
+ *   1. It is a copy. The email to Steve is the transaction, and nothing about
+ *      the save may cost it: a save that fails is logged, announced at the top
+ *      of that email, and never shown to the organizer.
+ *   2. It happens FIRST, so the email can say whether it worked. A record that
+ *      exists with no email sent is the useful kind of inconsistency — the CRM
+ *      knows about an inquiry the inbox missed. The reverse would be silent.
+ *   3. Without the two settings nothing is saved, and nothing else in this
+ *      route waits on them: both emails go out as they always have.
+ *
+ * ONE SUBMISSION, ONE OF EACH EMAIL. The form sends an id with every
+ * submission and reuses it on a retry (lib/submissionId.ts), so the record is
+ * one row however many times it is sent. Both sends below are keyed on that
+ * id and the attempt number, so a double click produces one inquiry email and
+ * one acknowledgement — see `sendOnce` in lib/crm/resend.ts.
  */
 
 export const runtime = "nodejs";
@@ -67,16 +93,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "That email address does not look right." }, { status: 400 });
   }
 
+  const eventName = clean(body.eventName, 200);
+  const eventDate = clean(body.eventDate, 40);
+  const location = clean(body.location, 200);
+  const audienceSize = clean(body.audienceSize, 40);
+  const format = clean(body.format, 100);
+  const budget = clean(body.budget, 100);
+
   const details: [string, string][] = [
     ["Name", name],
     ["Email", email],
     ["Organization", organization],
-    ["Event", clean(body.eventName, 200)],
-    ["Date", clean(body.eventDate, 40)],
-    ["Location", clean(body.location, 200)],
-    ["Audience size", clean(body.audienceSize, 40)],
-    ["Format", clean(body.format, 100)],
-    ["Budget", clean(body.budget, 100)],
+    ["Event", eventName],
+    ["Date", eventDate],
+    ["Location", location],
+    ["Audience size", audienceSize],
+    ["Format", format],
+    ["Budget", budget],
   ].filter(([, value]) => value.length > 0) as [string, string][];
 
   /*
@@ -89,18 +122,30 @@ export async function POST(request: Request) {
    * revenue. One $15,000 booking can justify a year of ad spend, and without
    * this you cannot tell which campaign produced it.
    */
+  const source = clean(body.source, 200);
+  const landingPage = clean(body.landingPage, 100);
+  const gclid = clean(body.gclid, 300);
+  const wbraid = clean(body.wbraid, 300);
+  const gbraid = clean(body.gbraid, 300);
+  const utmSource = clean(body.utm_source, 100);
+  const utmMedium = clean(body.utm_medium, 100);
+  const utmCampaign = clean(body.utm_campaign, 200);
+  const utmTerm = clean(body.utm_term, 200);
+  const utmContent = clean(body.utm_content, 200);
+  const referrer = clean(body.referrer, 300);
+
   const attribution: [string, string][] = [
-    ["Source", clean(body.source, 200)],
-    ["Landing page", clean(body.landingPage, 100)],
-    ["Google click ID (gclid)", clean(body.gclid, 300)],
-    ["wbraid", clean(body.wbraid, 300)],
-    ["gbraid", clean(body.gbraid, 300)],
-    ["utm_source", clean(body.utm_source, 100)],
-    ["utm_medium", clean(body.utm_medium, 100)],
-    ["utm_campaign", clean(body.utm_campaign, 200)],
-    ["utm_term (keyword)", clean(body.utm_term, 200)],
-    ["utm_content", clean(body.utm_content, 200)],
-    ["Referrer", clean(body.referrer, 300)],
+    ["Source", source],
+    ["Landing page", landingPage],
+    ["Google click ID (gclid)", gclid],
+    ["wbraid", wbraid],
+    ["gbraid", gbraid],
+    ["utm_source", utmSource],
+    ["utm_medium", utmMedium],
+    ["utm_campaign", utmCampaign],
+    ["utm_term (keyword)", utmTerm],
+    ["utm_content", utmContent],
+    ["Referrer", referrer],
   ].filter(([, value]) => value.length > 0) as [string, string][];
 
   /*
@@ -114,13 +159,65 @@ export async function POST(request: Request) {
    * click identifier is unlabelled wherever it was submitted; the "Where this
    * came from" block in the body still names the page.
    */
-  const fromAdClick = Boolean(
-    clean(body.gclid, 300) || clean(body.wbraid, 300) || clean(body.gbraid, 300),
-  );
+  const fromAdClick = Boolean(gclid || wbraid || gbraid);
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.INQUIRY_TO_EMAIL ?? site.email;
   const from = process.env.INQUIRY_FROM_EMAIL;
+
+  /*
+   * Save it to the CRM before anything is sent — see "THE CRM RECORD" above.
+   *
+   * `submissionId` is what makes a second send of the same form the same
+   * inquiry, in the record here and in both emails below.
+   *
+   * A test is an inquiry sent anywhere but the live site, or sent from the
+   * address inquiries are delivered to. It is saved and marked, its subject
+   * says so, and it stays out of every report.
+   */
+  const submissionId = submissionIdFrom(body.submission_id);
+  /*
+   * Which try this is. The form starts at 1 and adds one each time it shows
+   * the organizer an error, so "Send" pressed again after a failure is a new
+   * attempt with its own send key and is really sent, while a double click is
+   * the same attempt and is sent once. Anything else is treated as the first.
+   */
+  const attempt =
+    typeof body.attempt === "number" && Number.isInteger(body.attempt) && body.attempt >= 1 && body.attempt <= 50
+      ? body.attempt
+      : 1;
+  const environment = environmentName();
+  const isTest = isTestInquiry(email, to, environment);
+
+  const saved = await recordInquiry({
+    submission_id: submissionId,
+    // Both forms name themselves. A copy of the form cached from before they
+    // did is told apart by the one thing only the landing form ever sent.
+    form: clean(body.form, 60) || (source.startsWith("Google Ads landing page") ? "landing" : "contact"),
+    environment,
+    is_test: isTest,
+    name,
+    email,
+    organization,
+    message,
+    event_name: eventName,
+    event_date: eventDate,
+    location,
+    audience_size: audienceSize,
+    format,
+    budget_band: budget,
+    source,
+    landing_page: landingPage,
+    gclid,
+    wbraid,
+    gbraid,
+    utm_source: utmSource,
+    utm_medium: utmMedium,
+    utm_campaign: utmCampaign,
+    utm_term: utmTerm,
+    utm_content: utmContent,
+    referrer,
+  });
 
   if (!apiKey || !from) {
     console.error(
@@ -128,6 +225,7 @@ export async function POST(request: Request) {
         "INQUIRY_FROM_EMAIL. Inquiry received from:",
       email,
     );
+    await noteInquiryEmail(saved, "notify", false, { error: "Email delivery is not configured." });
     return NextResponse.json(
       { error: "The form is not connected to email yet." },
       { status: 503 },
@@ -135,6 +233,26 @@ export async function POST(request: Request) {
   }
 
   const html = [
+    /*
+     * Said first, in the one email that is certain to be read. Without this
+     * line a database outage would look like nothing at all: inquiries would
+     * keep arriving and the CRM would quietly stop knowing about them.
+     */
+    ...(saved.status === "failed"
+      ? [
+          `<p style="margin:0 0 16px;padding:10px 12px;border-left:4px solid #b91c1c;background:#fef2f2;color:#7f1d1d">` +
+            `<strong>This inquiry was not saved to the CRM.</strong> It exists only in this email. ` +
+            `The database said: ${escapeHtml(saved.reason.slice(0, 300))}</p>`,
+        ]
+      : []),
+    ...(isTest
+      ? [
+          `<p style="margin:0 0 16px;padding:10px 12px;border-left:4px solid #a16207;background:#fefce8;color:#713f12">` +
+            `<strong>Test inquiry.</strong> Sent from ${escapeHtml(environment)}` +
+            `${environment === "production" ? ", from the address inquiries are delivered to" : ""}.` +
+            `${saved.status === "saved" ? " It is marked as a test in the CRM and left out of the reports." : ""}</p>`,
+        ]
+      : []),
     `<h2>New speaking inquiry</h2>`,
     `<table cellpadding="6" style="border-collapse:collapse">`,
     ...details.map(
@@ -157,28 +275,29 @@ export async function POST(request: Request) {
       : []),
   ].join("");
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+  const notified = await sendOnce(
+    apiKey,
+    {
       from,
       to: [to],
       // Replying to the notification replies to the organizer, which removes a
       // copy-paste from every response Steve sends.
       reply_to: email,
-      subject: `${fromAdClick ? "[Ads] " : ""}Speaking inquiry — ${organization}${
-        clean(body.eventName, 200) ? ` (${clean(body.eventName, 200)})` : ""
+      subject: `${isTest ? "[Test] " : ""}${fromAdClick ? "[Ads] " : ""}Speaking inquiry — ${organization}${
+        eventName ? ` (${eventName})` : ""
       }`,
       html,
-    }),
-  });
+    },
+    `inquiry-notify/${submissionId}/${attempt}`,
+  );
 
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    console.error("[inquiry] Resend rejected the send:", response.status, detail);
+  if (!notified.ok) {
+    console.error("[inquiry] Resend rejected the send:", notified.status, notified.detail);
+    // The record now knows what the inbox does not: an inquiry arrived and
+    // Steve was never told. The organizer is shown the direct address.
+    await noteInquiryEmail(saved, "notify", false, {
+      error: `Resend ${notified.status}: ${notified.detail}`.slice(0, 500),
+    });
     return NextResponse.json({ error: "The message could not be sent." }, { status: 502 });
   }
 
@@ -198,26 +317,39 @@ export async function POST(request: Request) {
    *
    * Sent FROM Steve with reply_to Steve, so a reply lands in his inbox and the
    * thread is already started when he answers.
+   *
+   * OFF THE LIVE SITE IT GOES TO STEVE, NOT TO THE ADDRESS TYPED. See
+   * `leadRecipient`: a preview build must never email whoever's address was
+   * typed into it while testing.
    */
-  const ack = { name, organization, eventName: clean(body.eventName, 200), eventDate: clean(body.eventDate, 40) };
-  try {
-    const ackRes = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
+  const ack = { name, organization, eventName, eventDate };
+  const recipient = leadRecipient(email, to, environment);
+
+  const [, acknowledged] = await Promise.all([
+    noteInquiryEmail(saved, "notify", true, notified.id ? { resend_id: notified.id } : {}),
+    sendOnce(
+      apiKey,
+      {
         from: `${site.name} <${from}>`,
-        to: [email],
+        to: [recipient.to],
         reply_to: to,
-        subject: autoReplySubject(ack),
+        subject: `${
+          recipient.redirectedFrom ? `[Test: would go to ${recipient.redirectedFrom}] ` : ""
+        }${autoReplySubject(ack)}`,
         text: autoReplyText(ack),
         html: autoReplyHtml(ack),
-      }),
+      },
+      `inquiry-ack/${submissionId}/${attempt}`,
+    ),
+  ]);
+
+  if (acknowledged.ok) {
+    await noteInquiryEmail(saved, "ack", true, acknowledged.id ? { resend_id: acknowledged.id } : {});
+  } else {
+    console.error("[inquiry] auto-reply not sent:", acknowledged.status, acknowledged.detail);
+    await noteInquiryEmail(saved, "ack", false, {
+      error: `Resend ${acknowledged.status}: ${acknowledged.detail}`.slice(0, 500),
     });
-    if (!ackRes.ok) {
-      console.error("[inquiry] auto-reply not sent:", ackRes.status, await ackRes.text().catch(() => ""));
-    }
-  } catch (err) {
-    console.error("[inquiry] auto-reply threw:", err instanceof Error ? err.message : err);
   }
 
   return NextResponse.json({ ok: true });

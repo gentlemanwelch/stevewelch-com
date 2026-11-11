@@ -140,6 +140,32 @@ produced it. **Do not remove that capture** — without it, campaign performance
 gets measured in form fills, which is the wrong unit when one booking pays for a
 year of spend.
 
+## The CRM record
+
+Every booking inquiry is saved to a Supabase database as well as emailed
+(`lib/crm/`, called from `app/api/inquiry/route.ts`). The CRM's screens at
+`/admin` are being built on top of this record, a step at a time.
+
+- **The email to Steve is the transaction; the record is a copy.** Nothing in
+  `lib/crm/` may throw into the inquiry route. A failed save is announced at
+  the top of that email and never shown to the organizer.
+- **One submission, one record, one of each email.** The form sends a
+  `submission_id` and reuses it on a retry (`lib/submissionId.ts`); the save
+  and both sends key on it (`sendOnce` in `lib/crm/resend.ts`).
+- **Off the live site, no email reaches the address typed.** `leadRecipient`
+  in `lib/crm/resend.ts` is the one place that rule lives. Every email written
+  for a lead takes its recipient from it.
+- **The database is closed to browsers.** Row-level security on, a
+  refuse-everything policy, no grants to `anon` or `authenticated`, and execute
+  revoked on every function — a function in `public` is callable through the
+  API by default. Every new table and function gets all four.
+- **A migration is a file in `supabase/migrations/`, applied BEFORE the code
+  that needs it is merged.** Structure only: no data, no keys, no addresses.
+- **`npm run build && node scripts/test-inquiry-route.mjs`** runs the real
+  route against stand-ins for Supabase and Resend and checks each rule above.
+  Run it after any change to the route, a form's payload, or `lib/crm/`.
+- Lead data never goes in this repository, in a URL, or in Analytics.
+
 ## AIO
 
 `robots.ts` names GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others

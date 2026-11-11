@@ -6,6 +6,7 @@ import { buttonClasses } from "@/lib/buttonStyles";
 import { FIELD } from "@/lib/formStyles";
 import { track, trackInquiry } from "@/lib/analytics";
 import { readAttribution } from "@/lib/attribution";
+import { newSubmissionId } from "@/lib/submissionId";
 
 /**
  * The paid-search inquiry form.
@@ -49,6 +50,13 @@ export function LandingInquiryForm({
     started.current = true;
     track("contact_form_start", { location: `lp_${campaign}` });
   };
+  // One id for this form for as long as it is on screen, so a double click or
+  // a retry after an error is the same inquiry. See lib/submissionId.ts.
+  const submissionId = useRef<string | undefined>(undefined);
+  // Counts the times this form has been sent and FAILED. A double click is the
+  // same attempt and is sent once; "Send" pressed again after an error is a new
+  // attempt and is sent for real. See `sendOnce` in lib/crm/resend.ts.
+  const attempt = useRef(1);
 
   /*
    * Read the click identifiers once on mount.
@@ -83,12 +91,16 @@ export function LandingInquiryForm({
     setStatus("sending");
     setError(null);
 
+    submissionId.current ??= newSubmissionId();
     const form = new FormData(event.currentTarget);
     const payload = {
       ...Object.fromEntries(form.entries()),
       ...readAttribution(),
       ...attribution.current,
       source: `Google Ads landing page: ${campaign}`,
+      form: `landing:${campaign}`,
+      ...(submissionId.current ? { submission_id: submissionId.current } : {}),
+      attempt: attempt.current,
     };
 
     try {
@@ -115,6 +127,7 @@ export function LandingInquiryForm({
        * Bidding learns from exactly that number. Removed; do not add another.
        */
     } catch (err) {
+      attempt.current += 1;
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong.");
     }
