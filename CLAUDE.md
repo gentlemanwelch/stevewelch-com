@@ -199,6 +199,20 @@ signed cookie (`lib/crm/session.ts`), and there is no auth library and no
 - **`npm run build && node scripts/test-admin-door.mjs`** tries every way in
   that should fail, and the one that should work. Run it after any change
   here.
+- **A screen asks the database only for what it shows.** The Leads list never
+  selects an email address, and nothing selects `reply_token`. Lead reads are
+  in `lib/crm/leads.ts`; `scripts/test-admin-leads.mjs` checks the queries.
+- **A value from an address is checked before it goes near a query**:
+  `isRecordId()` in the page AND in `getLead()`. A lead's address is its
+  record id; no name or email ever goes in a link, and every lead's tab title
+  is the same.
+- **An unreadable database must never look like an empty list.** The reads
+  return `{ ok: false, reason }`; the screens say the records could not be
+  read.
+- **`lib/crm/format.ts` imports nothing**, so its wording can be checked by
+  `scripts/test-crm-format.mjs` with no site running. Times are Central.
+- **`app/admin/not-found.tsx` exists so a missing lead does not fall through
+  to the public 404**, which loads analytics.
 
 ## AIO
 
