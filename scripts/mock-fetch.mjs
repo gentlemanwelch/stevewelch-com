@@ -89,6 +89,18 @@ if (LOG && CONTROL) {
     }
 
     if (toCrm) {
+      /*
+       * A read of the leads table, for the CRM screens. `now.leads` is the
+       * table; an `id=eq.` filter picks one row, as the real service would.
+       * `now.leadsMode` makes the read fail or hang.
+       */
+      if (url.includes("/rest/v1/leads?")) {
+        if (now.leadsMode === "error") return new Response('{"message":"permission denied for table leads"}', { status: 401 });
+        if (now.leadsMode === "garbage") return json(200, { not: "a list" });
+        const wanted = new URL(url).searchParams.get("id");
+        const rows = now.leads ?? [];
+        return json(200, wanted ? rows.filter((row) => `eq.${row.id}` === wanted) : rows);
+      }
       if (!url.endsWith("/rpc/crm_record_inquiry")) return json(200, true);
       if (now.crm === "error") {
         return new Response('relation "public.leads" does not exist', { status: 500 });

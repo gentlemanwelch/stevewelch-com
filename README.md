@@ -173,8 +173,7 @@ data, no keys and no addresses belong in this repository.
 ### The door at /admin
 
 The CRM's screens live at `/admin`, behind "Sign in with Google" for **one**
-account. Today the door is all there is: a sign-in page, a page for the wrong
-account, and an empty Leads page behind it.
+account. Behind the door today: the Leads list, and a page for each lead.
 
 - **Who gets in:** the Google account named in `ADMIN_GOOGLE_EMAIL`, and nobody
   else. There are no users, roles or passwords to manage.
@@ -187,6 +186,24 @@ account, and an empty Leads page behind it.
   `noindex`, disallowed in robots.txt, and sent with `X-Robots-Tag`. They load
   no analytics: the tag lives in `components/SiteScripts.tsx`, which only the
   public layouts render.
+
+### The Leads list and a lead's page
+
+`/admin/` lists everyone who has inquired, newest activity first: their budget
+answer, stage, where they came from, the event, and the last thing that
+happened. `/admin/leads/<id>/` is one lead: the brief to read before calling
+them, and the timeline.
+
+- **What needs you is at the top.** Today that is an inquiry that was saved
+  while the email about it failed: the one case where the CRM knows something
+  the inbox does not.
+- **Tests are hidden** unless asked for (`?tests=1`). An inquiry sent from a
+  preview, or from the address inquiries are delivered to, is a test.
+- **A lead is addressed by its record id**, never a name or an email, and the
+  list never asks the database for an email address.
+- **Times are shown in Central time**, whatever the server's clock says.
+- **"Send a test inquiry to myself"**, on the empty list, sends a real inquiry
+  through the real form from the owner's own address.
 
 ## AIO — being cited by AI answers
 
@@ -238,6 +255,18 @@ That tries every way into `/admin` that should fail — a forged or expired
 cookie, another Google account, an unverified address, a return from Google
 that this browser never started, a half-configured deployment — and the one
 way that should work. It needs nobody's Google account.
+
+After any change to the lead screens, `lib/crm/leads.ts` or `lib/crm/format.ts`:
+
+```bash
+npm run build && node scripts/test-admin-leads.mjs
+node --no-warnings scripts/test-crm-format.mjs
+```
+
+The first runs the Leads list and a lead's page against a stand-in for the
+database, with made-up people: who can see them, what they ask the database
+for, and that what they show is right. The second checks the CRM's wording —
+sources, budgets, dates, "3 hours ago" — one small function at a time.
 
 `npm run build` is not optional. Type-checking alone passes on code that fails
 to build, because bundling errors only surface when the bundler runs.

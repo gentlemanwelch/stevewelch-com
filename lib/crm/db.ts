@@ -33,6 +33,13 @@ import "server-only";
  */
 const TIMEOUT_MS = 4000;
 
+/*
+ * A screen may wait a little longer than a visitor's form. Past this the
+ * screen says the records could not be read, which is true and more useful
+ * than a page that never arrives.
+ */
+const READ_TIMEOUT_MS = 8000;
+
 function config(): { url: string; key: string } | null {
   const url = process.env.SUPABASE_URL?.trim().replace(/\/+$/, "");
   const key = process.env.SUPABASE_SECRET_KEY?.trim();
@@ -76,3 +83,35 @@ export async function crmRpc<T>(fn: string, args: Record<string, unknown>): Prom
   if (res.status === 204) return undefined as T;
   return (await res.json()) as T;
 }
+
+/**
+ * Reads rows from one table, with a PostgREST query string.
+ *
+ * `query` is everything after the `?`: which columns, which related rows,
+ * which filters, what order. The caller builds it from fixed text and from
+ * values it has already checked, never from raw input — an id is tested with
+ * `isRecordId` before it gets anywhere near here.
+ *
+ * Throws on anything other than success, like `crmRpc`. A screen that reads
+ * leads catches that and says the records could not be read; it never shows a
+ * half-empty list as if it were the whole one.
+ */
+export async function crmSelect<T>(table: string, query: string): Promise<T[]> {
+  const c = config();
+  if (!c) throw new Error("The CRM database is not configured.");
+
+  const res = await fetch(`${c.url}/rest/v1/${table}?${query}`, {
+    headers: { apikey: c.key, Authorization: `Bearer ${c.key}`, Accept: "application/json" },
+    cache: "no-store",
+    signal: AbortSignal.timeout(READ_TIMEOUT_MS),
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`reading ${table} answered ${res.status}: ${detail.slice(0, 300)}`);
+  }
+  const rows: unknown = await res.json();
+  if (!Array.isArray(rows)) throw new Error(`reading ${table} did not return a list`);
+  return rows as T[];
+}
+

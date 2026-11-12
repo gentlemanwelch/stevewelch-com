@@ -156,7 +156,7 @@ await withServer("Sign-in set up", DOOR_ON, async (site) => {
     assert.equal(site.where(res), "/admin/sign-in/");
     const body = await res.text();
     assert.ok(!body.includes("Signed in as"), "the frame leaked into the redirect");
-    assert.ok(!body.includes("Every inquiry sent through the site"), "the page leaked into the redirect");
+    assert.ok(!/<h1[^>]*>Leads<\/h1>/.test(body), "the page leaked into the redirect");
   });
 
   await check("the sign-in page offers one button and tells search engines to stay out", async () => {
@@ -257,7 +257,10 @@ await withServer("Sign-in set up", DOOR_ON, async (site) => {
     assert.equal(page.status, 200);
     const html = await page.text();
     assert.ok(html.includes("Signed in as Steve"));
-    assert.ok(html.includes("Every inquiry sent through the site is being saved."));
+    // The Leads page itself. What it lists is scripts/test-admin-leads.mjs's
+    // business; here it only has to be the page, and not the sign-in card.
+    assert.match(html, /<h1[^>]*>Leads<\/h1>/);
+    assert.ok(!html.includes("Only Steve’s account can sign in."));
     assert.ok(html.includes('action="/api/admin/auth/sign-out/"'));
     assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
     assert.ok((page.headers.get("cache-control") ?? "").includes("no-store"));
