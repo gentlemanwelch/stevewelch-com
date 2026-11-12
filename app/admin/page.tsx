@@ -3,31 +3,40 @@ import Link from "next/link";
 import { adminCopy } from "@/content/admin";
 import { requireAdmin } from "@/lib/crm/session";
 import { crmConfigured } from "@/lib/crm/db";
-import { LIST_LIMIT, type LeadRow, leadNeedsYou, listLeads } from "@/lib/crm/leads";
+import { LIST_LIMIT, type LeadRow, leadEmailFailed, leadStepDue, listLeads } from "@/lib/crm/leads";
 import {
   activityLabel,
   budgetLabel,
   countOf,
+  dayLabel,
   eventLabel,
+  nextStepLine,
   sourceLabel,
-  stageLabel,
+  stageChipLabel,
+  stageTone,
   timeAgo,
 } from "@/lib/crm/format";
 import { AdminHeading, AdminShell } from "@/components/admin/AdminShell";
-import { Chip, Panel, StatusRow, adminButtonOutline, adminButtonPrimary } from "@/components/admin/LeadBits";
+import {
+  Chip,
+  Panel,
+  StatusRow,
+  adminButtonOutline,
+  adminButtonPrimary,
+  filterTab,
+} from "@/components/admin/LeadBits";
 
 /**
  * /admin/ — Leads: everyone who has inquired, newest activity first.
  *
  * Drawn to the Leads mockup Steve signed off (11 November 2026), with the
- * columns this step has data for. "Next step", and the tabs for booked calls
- * and closed leads, arrive with the steps that create those things; a column
- * of dashes would only teach the eye to skip it.
+ * columns and filters there is data for. "Waiting", and the stages that only
+ * the follow-up emails create, arrive with those emails.
  *
- * WHAT NEEDS THE OWNER COMES FIRST. Today that is one thing: an inquiry that
- * was saved here while the email about it failed. It is the one case where
- * this screen knows something the inbox does not, so it is not left to be
- * noticed in a table.
+ * WHAT NEEDS THE OWNER COMES FIRST. Two things do today: an inquiry that was
+ * saved here while the email about it failed (the one case where this screen
+ * knows something the inbox does not), and an open lead whose next step has
+ * come due. Neither is left to be noticed in a table.
  *
  * TESTS ARE KEPT OUT unless asked for (?tests=1). A list that mixes the
  * owner's own form tests in with prospects stops being a list of prospects.
@@ -45,23 +54,44 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const COLUMNS =
-  "grid grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_minmax(0,1.2fr)_minmax(0,1.7fr)_minmax(0,1fr)_minmax(0,1.9fr)] gap-3.5";
+  "grid grid-cols-[minmax(0,2fr)_minmax(0,1.3fr)_minmax(0,1.75fr)_minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1.8fr)_minmax(0,1.7fr)] gap-3.5";
 
 /** What one row shows, worked out once for both the table and the phone cards. */
 function summarize(lead: LeadRow, now: Date) {
+  const { leads: copy } = adminCopy;
   const latest = lead.inquiries[0];
   const last = lead.lead_events[0];
+  const due = leadStepDue(lead, now);
+  const step = nextStepLine(lead.next_step, lead.next_step_due, now);
+
+  // Why this lead needs the owner, most pressing first.
+  const reasons: { label: string; body: string }[] = [];
+  if (leadEmailFailed(lead)) reasons.push({ label: copy.needsYouLabel, body: copy.needsYouBody });
+  if (due) {
+    reasons.push({
+      label: due === "today" ? copy.dueTodayLabel : copy.overdueLabel,
+      body: lead.next_step
+        ? `${lead.next_step}${due === "overdue" && lead.next_step_due ? ` · was due ${dayLabel(lead.next_step_due, now)}` : ""}`
+        : copy.dueNoStep,
+    });
+  }
+
   return {
     id: lead.id,
     name: lead.name || "No name given",
     organization: lead.organization,
     isTest: lead.is_test,
-    needsYou: leadNeedsYou(lead),
+    reasons,
+    needsYou: reasons.length > 0,
+    callBooked: lead.stage === "call_booked",
+    closed: lead.stage === "closed",
     budget: budgetLabel(latest ?? {}),
-    stage: stageLabel(lead.stage),
+    stage: stageChipLabel(lead),
+    stageTone: stageTone(lead.stage),
     source: latest ? sourceLabel(latest) : "",
     event: eventLabel(latest?.event_date),
-    activity: last ? `${activityLabel(last.kind)} · ${timeAgo(new Date(last.at), now)}` : "",
+    activity: last ? `${activityLabel(last.kind, lead)} · ${timeAgo(new Date(last.at), now)}` : "",
+    nextStep: step,
   };
 }
 
@@ -74,7 +104,6 @@ export default async function LeadsPage({
   const { leads: copy } = adminCopy;
   const { tests, show, sent } = await searchParams;
   const showTests = tests === "1";
-  const onlyNeedsYou = show === "needs";
 
   const read = await listLeads();
   const now = new Date();
@@ -84,7 +113,20 @@ export default async function LeadsPage({
   const testCount = all.length - real.length;
   const inScope = (showTests ? all : real).map((lead) => summarize(lead, now));
   const needsYou = inScope.filter((row) => row.needsYou);
-  const rows = onlyNeedsYou ? needsYou : inScope;
+
+  const withTests = (query: string) => `/admin/${showTests ? `?tests=1${query ? `&${query}` : ""}` : query ? `?${query}` : ""}`;
+
+  // The filters. "All" is always there; another is offered once it would
+  // show something, or while it is the one being looked at.
+  const filters = [
+    { key: "", label: copy.filterAll, rows: inScope },
+    { key: "needs", label: copy.filterNeedsYou, rows: needsYou },
+    { key: "booked", label: copy.filterCallBooked, rows: inScope.filter((row) => row.callBooked) },
+    { key: "closed", label: copy.filterClosed, rows: inScope.filter((row) => row.closed) },
+  ];
+  const active = filters.find((filter) => filter.key !== "" && filter.key === show) ?? filters[0];
+  const offered = filters.filter((filter) => filter.key === "" || filter.rows.length > 0 || filter === active);
+  const rows = active.rows;
 
   const summary = !read.ok
     ? undefined
@@ -93,8 +135,6 @@ export default async function LeadsPage({
       : `${countOf(real.length, "inquiry", "inquiries")}.${
           needsYou.length > 0 ? ` ${needsYou.length} ${needsYou.length === 1 ? "needs" : "need"} you.` : ""
         }`;
-
-  const withTests = (query: string) => `/admin/${showTests ? `?tests=1${query ? `&${query}` : ""}` : query ? `?${query}` : ""}`;
 
   return (
     <AdminShell current="/admin/">
@@ -121,43 +161,40 @@ export default async function LeadsPage({
         <>
           {needsYou.length > 0 ? (
             <div className="mb-6 flex flex-wrap gap-4">
-              {needsYou.map((row) => (
-                <div
-                  key={row.id}
-                  className="flex min-w-0 flex-[1_1_380px] flex-wrap items-center justify-between gap-3 rounded-[var(--radius-base)] border border-line border-t-[3px] border-t-warn bg-white px-[18px] py-4"
-                >
-                  <div className="min-w-0 flex-[1_1_240px]">
-                    <p className="text-[12px] font-semibold uppercase leading-normal tracking-[0.08em] text-warn-ink">
-                      {copy.needsYouLabel}
-                    </p>
-                    <p className="mt-1 text-[15px] font-bold text-navy">
-                      {[row.name, row.organization].filter(Boolean).join(", ")}
-                    </p>
-                    <p className="mt-0.5 text-[13px] leading-[1.5] text-ink-faint">{copy.needsYouBody}</p>
+              {needsYou.flatMap((row) =>
+                row.reasons.map((reason) => (
+                  <div
+                    key={`${row.id}-${reason.label}`}
+                    className="flex min-w-0 flex-[1_1_380px] flex-wrap items-center justify-between gap-3 rounded-[var(--radius-base)] border border-line border-t-[3px] border-t-warn bg-white px-[18px] py-4"
+                  >
+                    <div className="min-w-0 flex-[1_1_240px]">
+                      <p className="text-[12px] font-semibold uppercase leading-normal tracking-[0.08em] text-warn-ink">
+                        {reason.label}
+                      </p>
+                      <p className="mt-1 text-[15px] font-bold text-navy">
+                        {[row.name, row.organization].filter(Boolean).join(", ")}
+                      </p>
+                      <p className="mt-0.5 break-words text-[13px] leading-[1.5] text-ink-faint">{reason.body}</p>
+                    </div>
+                    <Link href={`/admin/leads/${row.id}/`} prefetch={false} className={adminButtonPrimary}>
+                      {copy.open}
+                    </Link>
                   </div>
-                  <Link href={`/admin/leads/${row.id}/`} prefetch={false} className={adminButtonPrimary}>
-                    {copy.open}
-                  </Link>
-                </div>
-              ))}
+                )),
+              )}
             </div>
           ) : null}
 
-          {inScope.length > 0 && needsYou.length > 0 ? (
+          {inScope.length > 0 && offered.length > 1 ? (
             <div className="mb-4 flex flex-wrap gap-2">
-              {[
-                { label: `${copy.filterAll} ${inScope.length}`, href: withTests(""), on: !onlyNeedsYou },
-                { label: `${copy.filterNeedsYou} ${needsYou.length}`, href: withTests("show=needs"), on: onlyNeedsYou },
-              ].map((tab) => (
+              {offered.map((filter) => (
                 <Link
-                  key={tab.label}
-                  href={tab.href}
-                  aria-current={tab.on ? "true" : undefined}
-                  className={`inline-flex min-h-10 items-center rounded-[var(--radius-base)] border-[1.5px] px-3.5 py-2 text-[14px] font-semibold ${
-                    tab.on ? "border-navy bg-navy text-white" : "border-line-strong bg-white text-ink-soft"
-                  }`}
+                  key={filter.key}
+                  href={withTests(filter.key ? `show=${filter.key}` : "")}
+                  aria-current={filter === active ? "true" : undefined}
+                  className={filterTab(filter === active)}
                 >
-                  {tab.label}
+                  {filter.label} {filter.rows.length}
                 </Link>
               ))}
             </div>
@@ -167,7 +204,7 @@ export default async function LeadsPage({
             <>
               {/* Wide screens: the table. */}
               <div className="hidden overflow-x-auto rounded-[var(--radius-base)] border border-line bg-white md:block">
-                <div className="min-w-[900px]">
+                <div className="min-w-[980px]">
                   <div
                     className={`${COLUMNS} px-[18px] py-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink-faint`}
                   >
@@ -186,16 +223,25 @@ export default async function LeadsPage({
                         <strong className="block text-[15px] text-navy">{row.name}</strong>
                         <span className="text-[13px] leading-[1.5] text-ink-faint">{row.organization}</span>
                       </span>
-                      <span>
-                        <Chip tone={row.budget.tone}>{row.budget.label}</Chip>
+                      <span className="min-w-0">
+                        <Chip tone={row.budget.tone} wrap>
+                          {row.budget.label}
+                        </Chip>
                       </span>
-                      <span className="flex flex-wrap gap-1.5">
-                        <Chip tone={row.needsYou ? "warn" : "neutral"}>{row.stage}</Chip>
+                      <span className="flex min-w-0 flex-wrap gap-1.5">
+                        <Chip tone={row.needsYou ? "warn" : row.stageTone} wrap>
+                          {row.stage}
+                        </Chip>
                         {row.isTest ? <Chip tone="warn">{copy.testChip}</Chip> : null}
                       </span>
                       <span>{row.source}</span>
                       <span>{row.event}</span>
                       <span>{row.activity}</span>
+                      {row.nextStep ? (
+                        <span className="min-w-0 break-words font-semibold text-navy">{row.nextStep}</span>
+                      ) : (
+                        <span className="text-ink-faint">{copy.noNextStep}</span>
+                      )}
                     </Link>
                   ))}
                 </div>
@@ -215,18 +261,24 @@ export default async function LeadsPage({
                         <strong className="block text-[15px] text-navy">{row.name}</strong>
                         <span className="text-[13px] leading-[1.5] text-ink-faint">{row.organization}</span>
                       </span>
-                      <Chip tone={row.needsYou || row.isTest ? "warn" : "neutral"}>
+                      <Chip tone={row.needsYou || row.isTest ? "warn" : row.stageTone}>
                         {row.isTest ? copy.testChip : row.stage}
                       </Chip>
                     </div>
                     <p className="mt-2 text-[13px]">
                       <Chip tone={row.budget.tone}>{row.budget.label}</Chip> &nbsp;{row.event}
                     </p>
-                    <p className="mt-1.5 text-[13px] leading-[1.5] text-ink-faint">{row.activity}</p>
+                    {row.nextStep ? (
+                      <p className="mt-1.5 break-words text-[13px] font-semibold leading-[1.5] text-navy">{row.nextStep}</p>
+                    ) : (
+                      <p className="mt-1.5 text-[13px] leading-[1.5] text-ink-faint">{row.activity}</p>
+                    )}
                   </Link>
                 ))}
               </div>
             </>
+          ) : inScope.length > 0 ? (
+            <p className="text-[15px] leading-[1.6] text-ink-faint">{copy.noneInFilter}</p>
           ) : (
             <div className="flex max-w-[620px] flex-col gap-6">
               <div className="rounded-[var(--radius-base)] border border-line bg-white px-6 py-7">

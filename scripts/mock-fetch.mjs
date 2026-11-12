@@ -3,7 +3,7 @@
  *
  * Loaded into `next start` by the scripts/test-*.mjs checks, through
  * NODE_OPTIONS=--import, before Next.js itself. It replaces `fetch` for
- * exactly three destinations — Resend, the pretend CRM address the tests set
+ * exactly three destinations: Resend, the pretend CRM address the tests set
  * as SUPABASE_URL, and Google's token endpoint — and passes everything else
  * through untouched.
  *
@@ -97,9 +97,27 @@ if (LOG && CONTROL) {
       if (url.includes("/rest/v1/leads?")) {
         if (now.leadsMode === "error") return new Response('{"message":"permission denied for table leads"}', { status: 401 });
         if (now.leadsMode === "garbage") return json(200, { not: "a list" });
-        const wanted = new URL(url).searchParams.get("id");
-        const rows = now.leads ?? [];
+        const asked = new URL(url).searchParams;
+        const wanted = asked.get("id");
+        // The reports ask for real leads only, as a filter, and the real
+        // service applies it. So does this one.
+        const rows = (now.leads ?? []).filter((row) => asked.get("is_test") !== "is.false" || !row.is_test);
         return json(200, wanted ? rows.filter((row) => `eq.${row.id}` === wanted) : rows);
+      }
+      /* The ad numbers as last typed in: `now.adWeeks`, newest first. */
+      if (url.includes("/rest/v1/ad_weeks?")) {
+        if (now.adMode === "error") return new Response('{"message":"permission denied for table ad_weeks"}', { status: 401 });
+        return json(200, (now.adWeeks ?? []).slice(0, 1));
+      }
+      /*
+       * Something the owner did to a lead, or the ad numbers being saved.
+       * `now.action` / `now.adSave` is what the database answers;
+       * `now.writeMode: "error"` makes it fail outright.
+       */
+      if (url.endsWith("/rpc/crm_lead_action") || url.endsWith("/rpc/crm_save_ad_numbers")) {
+        if (now.writeMode === "error") return new Response("the database is unavailable", { status: 503 });
+        const answer = url.endsWith("/rpc/crm_lead_action") ? now.action : now.adSave;
+        return json(200, answer ?? { ok: true, changed: true });
       }
       if (!url.endsWith("/rpc/crm_record_inquiry")) return json(200, true);
       if (now.crm === "error") {
