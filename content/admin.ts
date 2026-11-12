@@ -36,7 +36,11 @@ export const adminCopy = {
     signOut: "Sign out",
   },
 
-  sections: [{ href: "/admin/", label: "Leads" }],
+  sections: [
+    { href: "/admin/", label: "Leads" },
+    { href: "/admin/pipeline/", label: "Pipeline" },
+    { href: "/admin/reports/", label: "Reports" },
+  ],
 
   /* A CRM address with nothing behind it: a wrong or removed lead. */
   notFound: {
@@ -49,15 +53,23 @@ export const adminCopy = {
     title: "Leads",
     heading: "Leads",
     none: "No inquiries yet.",
-    columns: ["Lead", "Budget answer", "Stage", "Source", "Event", "Last activity"],
+    columns: ["Lead", "Budget answer", "Stage", "Source", "Event", "Last activity", "Next step"],
     filterAll: "All",
     filterNeedsYou: "Need you",
+    filterCallBooked: "Call booked",
+    filterClosed: "Closed",
+    noNextStep: "None",
+    noneInFilter: "No leads here.",
     open: "Open",
     testChip: "Test",
 
     /* A card at the top for each inquiry the inbox never received. */
     needsYouLabel: "The email to you failed",
     needsYouBody: "This inquiry was saved here, but the email telling you about it did not send.",
+    /* And one for each open lead whose next step has come due. */
+    dueTodayLabel: "Next step due today",
+    overdueLabel: "Next step overdue",
+    dueNoStep: "A date was set with no step written.",
 
     /* Before the first inquiry. */
     emptyHeading: "Nothing has come in yet.",
@@ -110,5 +122,127 @@ export const adminCopy = {
     earlierHeading: "Earlier inquiries",
     testNote: "This is a test, not a prospect. It is left out of every report.",
     noInquiry: "No inquiry is recorded for this lead.",
+
+    changeStage: "Change",
+
+    afterHeading: "After the call",
+    afterNote: "One press each. Nothing here emails the lead.",
+    callHeld: "Call held",
+    noShow: "No-show",
+    qualifiedQuestion: "Was it a qualified opportunity?",
+    qualified: "Qualified",
+    notAFit: "Not a fit",
+    nextStep: "Next step",
+    due: "Due",
+    fee: "Fee",
+    feeHint: "For example 25000",
+    notes: "Notes",
+    notesHint: "What you learned on the call",
+    save: "Save",
+
+    /* Shown at the top when a change did not go through, by what went wrong. */
+    problems: {
+      due: "The due date was not saved, because it was not a date. Everything else was.",
+      fee: "The fee was not saved. Type an amount, like 25000 or $25,000. Everything else was.",
+      save: "That change was not saved. The database did not answer. Please try again.",
+      refused: "That change was not understood, so nothing was saved.",
+    },
+  },
+
+  pipeline: {
+    title: "Pipeline",
+    heading: "Pipeline",
+    summary: "Where every open inquiry stands. A booked call is not a booked engagement.",
+    none: "None",
+    needsYou: "Needs you",
+    closed: "Closed:",
+    closedReasons: { below_floor: "below $20,000", not_a_fit: "not a fit", lost: "lost" },
+    showClosed: "Show",
+  },
+
+  reports: {
+    title: "Reports",
+    heading: "Reports",
+    summary: "Counted by stage, so a form fill is never mistaken for a booking.",
+    periods: [
+      { value: "30", label: "Last 30 days" },
+      { value: "90", label: "Last 90 days" },
+      { value: "all", label: "All time" },
+    ],
+
+    funnelHeading: "From inquiry to booking",
+    funnelRows: {
+      inquiries: "Inquiries",
+      budgetFit: "Budget fit or approval pending",
+      callBooked: "Call booked",
+      callHeld: "Call held",
+      proposalSent: "Proposal sent",
+      booked: "Booked",
+    },
+
+    sourceHeading: "By source",
+    sourceColumns: ["Source", "Inquiries", "Calls booked", "Calls held", "Booked"],
+    sourceNone: "No inquiries in this period.",
+
+    gatesHeading: "Spend gates",
+    gatesNote: "You apply these; the page only keeps count.",
+    gatesNoStart: "The campaign has no first day yet. Add it below and the days are counted from there.",
+    gatesNotBegun: "The campaign begins",
+    gates: [
+      {
+        name: "Gate 1",
+        when: "day 60 or 300 clicks",
+        byDay: 60,
+        byClicks: 300,
+        needs: 1,
+        counts: "inquiries",
+        one: "inquiry from an ad click",
+        many: "inquiries from ad clicks",
+      },
+      {
+        name: "Gate 2",
+        when: "day 90",
+        byDay: 90,
+        needs: 3,
+        counts: "qualified",
+        one: "qualified lead from an ad click",
+        many: "qualified leads from ad clicks",
+      },
+      {
+        name: "Gate 3",
+        when: "day 180",
+        byDay: 180,
+        needs: 1,
+        counts: "booked",
+        one: "booking from an ad click",
+        many: "bookings from ad clicks",
+      },
+    ],
+    gateMet: "Met",
+    gateNotYet: "Not yet",
+    gateNotMet: "Not met",
+
+    adsHeading: "This week, from Google Ads",
+    adsNote: "Typed in once a week until the two are connected.",
+    started: "First day of the campaign",
+    spend: "Spend to date",
+    clicks: "Clicks to date",
+    save: "Save",
+    lastSaved: "Last saved",
+    costHeading: "Cost per qualified call held",
+    costNone: "None so far from ads",
+    costNoSpend: "Type in the spend to see this",
+    costSoFar: "so far from ads",
+
+    problems: {
+      started: "The first day was not saved, because it was not a date. Everything else was.",
+      spend: "The spend was not saved. Type an amount, like 690 or $690. Everything else was.",
+      clicks: "The clicks were not saved. Type a whole number, like 96. Everything else was.",
+      save: "Those numbers were not saved. The database did not answer. Please try again.",
+    },
+
+    testsNote: "Test inquiries are never counted here.",
+    tooMany: "Only the 1,000 most recent leads are counted here, so these numbers are low.",
+    unreadableHeading: "The report could not be read.",
   },
 } as const;

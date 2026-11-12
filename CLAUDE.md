@@ -162,6 +162,10 @@ Every booking inquiry is saved to a Supabase database as well as emailed
   API by default. Every new table and function gets all four.
 - **A migration is a file in `supabase/migrations/`, applied BEFORE the code
   that needs it is merged.** Structure only: no data, no keys, no addresses.
+  Test it first on the real database in a single `do $$ … $$` block that runs
+  the migration, tries every case, and ends with `raise exception`, so all of
+  it rolls back. After applying, compare `md5(prosrc)` of each function with
+  the file: the text was pasted by hand, and the file is the record.
 - **`npm run build && node scripts/test-inquiry-route.mjs`** runs the real
   route against stand-ins for Supabase and Resend and checks each rule above.
   Run it after any change to the route, a form's payload, or `lib/crm/`.
@@ -213,6 +217,27 @@ signed cookie (`lib/crm/session.ts`), and there is no auth library and no
   `scripts/test-crm-format.mjs` with no site running. Times are Central.
 - **`app/admin/not-found.tsx` exists so a missing lead does not fall through
   to the public 404**, which loads analytics.
+- **A form fill is never a booked call; a booked call is never an
+  engagement.** A lead's `stage` (where it is now) and `reached` (how far it
+  got) change only through `crm_lead_action`, one fact per press, with the
+  timeline entry written in the same transaction. Never infer one fact from
+  another ("qualified" does not mean "call held"), and never move a lead
+  because time passed. The counts are in `lib/crm/reports.ts`.
+- **No CRM button emails anyone.** The lead page says so beside the buttons.
+  `scripts/test-admin-outcome.mjs` checks that a press makes exactly one call,
+  to the database.
+- **Every CRM control is a form that posts**, to a route that checks the
+  Origin and the session itself, validates what was typed, and answers with a
+  redirect. A field that fails validation is left as it was and named; the
+  fields that passed are saved.
+- **`lib/crm/reports.ts` imports only `./format.ts`, by its full file name**
+  (hence `allowImportingTsExtensions`), so Node can run both for
+  `scripts/test-crm-reports.mjs`. Keep counting rules there, not in a page.
+- **Write a Tailwind class out in full.** A class assembled from a variable
+  (`${WIDE}:grid`) is never generated, and nothing warns about it.
+- **A sentence a check must read is one string.** `{a} {b}.` renders as
+  separate text nodes with comments between them; build the sentence in a
+  template string instead.
 
 ## AIO
 

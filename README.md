@@ -150,9 +150,9 @@ Every booking inquiry is saved to a Supabase database as well as emailed. It
 is the first piece of a CRM that will live at `/admin`; today there are no
 screens, only the record.
 
-- **Where:** three tables, `leads` (one per person), `inquiries` (one per form
-  submission) and `lead_events` (the timeline). Their definition is
-  `supabase/migrations/001_crm_storage.sql`.
+- **Where:** `leads` (one per person), `inquiries` (one per form submission),
+  `lead_events` (the timeline) and `ad_weeks` (the ad numbers typed in by
+  hand). Their definitions are the files in `supabase/migrations/`.
 - **Switching it on:** set `SUPABASE_URL` and `SUPABASE_SECRET_KEY` in Vercel,
   on Production and Preview. Without them the form works and saves nothing.
 - **The email comes first.** A save that fails never fails the form. The
@@ -204,6 +204,34 @@ them, and the timeline.
 - **Times are shown in Central time**, whatever the server's clock says.
 - **"Send a test inquiry to myself"**, on the empty list, sends a real inquiry
   through the real form from the owner's own address.
+
+### After the inquiry: the outcome, the Pipeline and the Reports
+
+A lead's page has an "After the call" panel: **Call held**, **No-show**,
+**Qualified**, **Not a fit**, a stage menu, and the next step, its due date,
+the fee and notes. `/admin/pipeline/` shows every open lead in the column of
+its stage. `/admin/reports/` counts them.
+
+- **A form fill is never counted as a booked call, and a booked call is never
+  counted as an engagement.** A lead moves only when the owner says so, one
+  fact per press. "Qualified" does not mark the call as held. The counting
+  rules are in `lib/crm/reports.ts`, each one checked on its own.
+- **Where a lead is, and how far it got, are two things.** A no-show goes back
+  to being an inquiry without forgetting a call was booked; a closed lead
+  remembers the stage it reached. "Booked" counts only leads booked now.
+- **Nothing here emails the lead.** The buttons write to the database and do
+  nothing else.
+- **A change and its line on the timeline are saved together**, in one
+  database function (`crm_lead_action`), or not at all.
+- **A closed lead who inquires again is open again**, so nobody who writes
+  back is missing from the Pipeline.
+- **A next step that has come due is put at the top of the Leads list**, with
+  the inquiries whose email failed.
+- **The spend gates are kept count of, not applied.** Spend, clicks and the
+  campaign's first day are typed in on the Reports page. Nothing in the CRM
+  pauses or spends anything.
+- **Reports know no names.** That page asks the database for stages and
+  sources only, and never for a test.
 
 ## AIO — being cited by AI answers
 
@@ -267,6 +295,23 @@ The first runs the Leads list and a lead's page against a stand-in for the
 database, with made-up people: who can see them, what they ask the database
 for, and that what they show is right. The second checks the CRM's wording —
 sources, budgets, dates, "3 hours ago" — one small function at a time.
+
+After any change to the "After the call" panel, the Pipeline, the Reports,
+`app/api/admin/leads/`, `app/api/admin/reports/` or `lib/crm/reports.ts`:
+
+```bash
+npm run build && node scripts/test-admin-outcome.mjs
+node --no-warnings scripts/test-crm-reports.mjs
+```
+
+The first checks that only the owner can change a lead, that what is typed is
+checked before it is saved, that no press sends an email, and that the three
+screens show the right leads in the right places. The second checks every
+counting rule: what is an inquiry, a booked call, a held call, a booking.
+
+A change to a database function is checked against the real database before
+it is applied: the migration and a set of checks are run in one statement
+that ends by raising an error, so everything is rolled back.
 
 `npm run build` is not optional. Type-checking alone passes on code that fails
 to build, because bundling errors only surface when the bundler runs.
