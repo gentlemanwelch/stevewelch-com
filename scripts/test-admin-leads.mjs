@@ -344,12 +344,16 @@ await withServer("The lead screens", SETTINGS, async (site) => {
   await check("it asks the database for that one lead, and not for the reply token", async () => {
     site.database({ leads: LEADS });
     await site.page(`/admin/leads/${ID.dana}/`);
-    const reads = site.reads();
-    assert.equal(reads.length, 1);
-    const params = new URL(reads[0].url).searchParams;
-    assert.equal(params.get("id"), `eq.${ID.dana}`);
-    assert.ok(!params.get("select").includes("reply_token"));
-    assert.equal(reads[0].headers.apikey, "test-secret-not-a-key");
+    const reads = site.reads().map((read) => ({ ...read, params: new URL(read.url).searchParams }));
+    // Two reads: the lead, and the number beside "Leads" in the menu.
+    assert.equal(reads.length, 2);
+    const one = reads.filter((read) => read.params.get("id"));
+    assert.equal(one.length, 1, "more than one read asked for a lead by id");
+    assert.equal(one[0].params.get("id"), `eq.${ID.dana}`);
+    for (const read of reads) {
+      assert.ok(!read.params.get("select").includes("reply_token"));
+      assert.equal(read.headers.apikey, "test-secret-not-a-key");
+    }
   });
 
   await check("an address that is not a record id never reaches the database", async () => {
@@ -395,6 +399,121 @@ await withServer("The lead screens", SETTINGS, async (site) => {
     assert.ok(!/<script[^>]*type="application\/ld\+json"/.test(lead.html));
     assert.match(lead.html, /<meta name="robots" content="noindex, nofollow"/);
     assert.ok((lead.res.headers.get("cache-control") ?? "").includes("no-store"));
+  });
+
+  // -------------------------------------------------------------------------
+  console.log("  The number beside Leads in the menu");
+
+  // The menu is in every page twice, once for a phone and once for a desk,
+  // so the number is too.
+  const pills = (html) =>
+    [...html.matchAll(/Leads<span class="ml-auto[^"]*">(\d+)<span class="sr-only">([^<]*)<\/span><\/span>/g)].map(
+      (m) => `${m[1]}${m[2]}`,
+    );
+  // The leads above, with the columns the Pipeline and the Reports read.
+  const full = (lead, extra = {}) => ({
+    reached: lead.stage,
+    closed_reason: null,
+    qualified: null,
+    next_step: null,
+    next_step_due: null,
+    fee_cents: null,
+    ...lead,
+    ...extra,
+  });
+  const SCREENS = ["/admin/", "/admin/pipeline/", `/admin/leads/${ID.dana}/`, "/admin/reports/"];
+  const COUNT_SELECT = "stage,next_step_due,inquiries(notified_at,notify_error)";
+  const delivered = (lead) => ({
+    ...lead,
+    inquiries: lead.inquiries.map((i) => ({ ...i, notified_at: hoursAgo(1), notify_error: null })),
+  });
+  const failed = (lead) => ({
+    ...lead,
+    inquiries: lead.inquiries.map((i) => ({ ...i, notified_at: null, notify_error: "Resend 500: boom" })),
+  });
+
+  await check("every screen shows how many prospects need you", async () => {
+    for (const pathname of SCREENS) {
+      site.database({ leads: LEADS.map((l) => full(l)) });
+      const { status, html } = await site.page(pathname);
+      assert.equal(status, 200, pathname);
+      assert.deepEqual(pills(html), ["1 needs you", "1 needs you"], pathname);
+    }
+  });
+
+  await check("a next step that has come due counts, on an open lead only", async () => {
+    const leads = LEADS.map((l) =>
+      l.id === ID.dana
+        ? full(l, { next_step: "Send the proposal", next_step_due: "2026-01-05" })
+        : l.id === ID.priya
+          ? full(l, { stage: "closed", reached: "inquiry", closed_reason: "lost", next_step_due: "2026-01-05" })
+          : full(l),
+    );
+    for (const pathname of SCREENS) {
+      site.database({ leads });
+      assert.deepEqual(pills((await site.page(pathname)).html), ["2 need you", "2 need you"], pathname);
+    }
+    // A step that is not due yet is not a reason.
+    const later = LEADS.map((l) => (l.id === ID.dana ? full(l, { next_step_due: "2099-01-05" }) : full(l)));
+    site.database({ leads: later });
+    assert.deepEqual(pills((await site.page("/admin/")).html), ["1 needs you", "1 needs you"]);
+  });
+
+  await check("when nothing needs you there is no number at all, not a zero", async () => {
+    const leads = LEADS.map((l) => delivered(full(l)));
+    for (const pathname of SCREENS) {
+      site.database({ leads });
+      const { status, html } = await site.page(pathname);
+      assert.equal(status, 200, pathname);
+      assert.deepEqual(pills(html), [], pathname);
+      assert.ok(!/Leads<span/.test(html), `${pathname}: something is drawn beside Leads`);
+    }
+  });
+
+  await check("a test never counts, even while tests are being shown", async () => {
+    const leads = LEADS.map((l) => (l.is_test ? failed(full(l)) : delivered(full(l))));
+    for (const pathname of [...SCREENS, "/admin/?tests=1", "/admin/pipeline/?tests=1"]) {
+      site.database({ leads });
+      assert.deepEqual(pills((await site.page(pathname)).html), [], pathname);
+    }
+  });
+
+  await check("the list screens count from what they already read, and the others ask for nothing about a person", async () => {
+    for (const pathname of ["/admin/", "/admin/pipeline/"]) {
+      site.database({ leads: LEADS.map((l) => full(l)) });
+      await site.page(pathname);
+      assert.equal(site.reads().length, 1, `${pathname} read the table more than once`);
+    }
+    for (const pathname of [`/admin/leads/${ID.dana}/`, "/admin/reports/"]) {
+      site.database({ leads: LEADS.map((l) => full(l)) });
+      await site.page(pathname);
+      const counts = site
+        .reads()
+        .map((read) => new URL(read.url).searchParams)
+        .filter((params) => params.get("select").startsWith("stage,next_step_due"));
+      assert.equal(counts.length, 1, `${pathname} did not ask for the count exactly once`);
+      assert.equal(counts[0].get("select"), COUNT_SELECT, pathname);
+      assert.equal(counts[0].get("is_test"), "is.false", pathname);
+      assert.equal(counts[0].get("id"), null, pathname);
+    }
+  });
+
+  await check("when the count cannot be read the menu shows no number, and the screen is unharmed", async () => {
+    site.database({ leads: LEADS.map((l) => full(l)), countMode: "error" });
+    const lead = await site.page(`/admin/leads/${ID.dana}/`);
+    assert.equal(lead.status, 200);
+    assert.ok(words(lead.html).includes("Brief for the call"), "the lead's page did not draw");
+    assert.deepEqual(pills(lead.html), []);
+    site.database({ leads: LEADS.map((l) => full(l)), countMode: "error" });
+    const reports = await site.page("/admin/reports/");
+    assert.equal(reports.status, 200);
+    assert.ok(!words(reports.html).includes("could not be read"), "a failed count was shown as a failed report");
+    assert.deepEqual(pills(reports.html), []);
+    // And a table that cannot be read at all: the screen says so, with no number.
+    site.database({ leads: forList(LEADS), leadsMode: "error" });
+    const list = await site.page("/admin/");
+    assert.ok(words(list.html).includes("The lead records could not be read."));
+    assert.deepEqual(pills(list.html), []);
   });
 
   // -------------------------------------------------------------------------

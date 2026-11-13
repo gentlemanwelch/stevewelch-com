@@ -6,9 +6,9 @@ import type { ReportLead } from "@/lib/crm/reports";
 /*
  * Reading leads for the CRM screens.
  *
- * Three reads: every lead for the list and the pipeline, one lead with
- * everything about it for its own page, and the bare facts of every real
- * lead for the reports. Each answers with `ok: false` and a reason instead of
+ * Four reads: every lead for the list and the pipeline, one lead with
+ * everything about it for its own page, the bare facts of every real lead
+ * for the reports, and the count beside "Leads" in the menu. Each answers with `ok: false` and a reason instead of
  * throwing, so a screen can say "the records could not be read" in its own
  * layout rather than fall over.
  *
@@ -231,23 +231,72 @@ export async function saveAdNumbers(args: Record<string, unknown>): Promise<bool
   }
 }
 
+/*
+ * What "needs you" looks at, and nothing else: whether an email to the owner
+ * failed, and whether an open lead's next step has come due. Kept this narrow
+ * so the menu's number can be worked out from a read that names nobody.
+ */
+type NotifyFacts = Pick<InquiryRow, "notified_at" | "notify_error">;
+export type NeedsFacts = {
+  stage: string;
+  next_step_due: string | null;
+  is_test?: boolean;
+  inquiries: NotifyFacts[];
+};
+
 /** An inquiry the CRM holds that the inbox never got: saved, but not emailed. */
-export function inquiryNeedsYou(inquiry: InquiryRow): boolean {
+export function inquiryNeedsYou(inquiry: NotifyFacts): boolean {
   return !inquiry.notified_at && Boolean(inquiry.notify_error);
 }
 
 /** Whether the email about one of this lead's inquiries never reached the owner. */
-export function leadEmailFailed(lead: LeadRow): boolean {
+export function leadEmailFailed(lead: Pick<NeedsFacts, "inquiries">): boolean {
   return lead.inquiries.some(inquiryNeedsYou);
 }
 
 /** An open lead whose next step is due today, or was due before today. */
-export function leadStepDue(lead: LeadRow, now: Date): "today" | "overdue" | null {
+export function leadStepDue(lead: Pick<NeedsFacts, "stage" | "next_step_due">, now: Date): "today" | "overdue" | null {
   if (lead.stage === "closed") return null;
   const state = dueState(lead.next_step_due, now);
   return state === "today" || state === "overdue" ? state : null;
 }
 
-export function leadNeedsYou(lead: LeadRow, now: Date): boolean {
+export function leadNeedsYou(lead: NeedsFacts, now: Date): boolean {
   return leadEmailFailed(lead) || leadStepDue(lead, now) !== null;
+}
+
+/**
+ * The number beside "Leads" in the menu: how many prospects need the owner.
+ *
+ * A TEST NEVER COUNTS, whether or not the screen is showing tests. The number
+ * is about prospects, and it has to mean the same thing on every screen.
+ */
+export function countNeedsYou(leads: NeedsFacts[], now: Date): number {
+  return leads.filter((lead) => !lead.is_test && leadNeedsYou(lead, now)).length;
+}
+
+const NEEDS_QUERY = [
+  "select=stage,next_step_due,inquiries(notified_at,notify_error)",
+  "is_test=is.false",
+  `limit=${REPORT_LIMIT}`,
+].join("&");
+
+/**
+ * That number, for a screen that has not read the list itself (a lead's own
+ * page, the reports). It asks for no name, no organization and no address:
+ * a count needs none of them. The Leads list and the Pipeline already hold
+ * every lead and use `countNeedsYou` on what they have.
+ *
+ * NULL WHEN IT COULD NOT BE READ. The menu then shows no number, which is
+ * honest; a zero would say "nothing needs you" on no evidence. It never
+ * throws: a menu decoration must not take a screen down with it.
+ */
+export async function needsYouCount(now: Date): Promise<number | null> {
+  if (!crmConfigured()) return null;
+  try {
+    return countNeedsYou(await crmSelect<NeedsFacts>("leads", NEEDS_QUERY), now);
+  } catch (err) {
+    console.error("[admin] the menu's count could not be read:", reasonFrom(err));
+    return null;
+  }
 }
