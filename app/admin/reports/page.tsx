@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { adminCopy } from "@/content/admin";
 import { requireAdmin } from "@/lib/crm/session";
-import { REPORT_LIMIT, adNumbers, reportLeads } from "@/lib/crm/leads";
+import { REPORT_LIMIT, adNumbers, needsYouCount, reportLeads } from "@/lib/crm/leads";
 import { dayAndTime, dayLabel, money } from "@/lib/crm/format";
 import { adCounts, bySource, campaignDay, costPer, funnel, gateStatus, inPeriod, periodFrom } from "@/lib/crm/reports";
 import { AdminShell } from "@/components/admin/AdminShell";
@@ -60,8 +60,8 @@ export default async function ReportsPage({
     .filter((code) => Object.hasOwn(copy.problems, code))
     .map((code) => copy.problems[code as keyof typeof copy.problems]);
 
-  const [read, ads] = await Promise.all([reportLeads(), adNumbers()]);
   const now = new Date();
+  const [read, ads, needsYou] = await Promise.all([reportLeads(), adNumbers(), needsYouCount(now)]);
 
   const heading = (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
@@ -88,7 +88,7 @@ export default async function ReportsPage({
 
   if (!read.ok || !ads.ok) {
     return (
-      <AdminShell current="/admin/reports/">
+      <AdminShell current="/admin/reports/" needsYou={needsYou}>
         {heading}
         <div role="alert" className="max-w-[620px] rounded-[var(--radius-base)] border border-warn bg-white px-6 py-7">
           <h2 className="text-[18px] font-bold leading-[1.3] tracking-normal text-navy">{copy.unreadableHeading}</h2>
@@ -121,7 +121,7 @@ export default async function ReportsPage({
         : `Day ${day} of the campaign.`;
 
   return (
-    <AdminShell current="/admin/reports/">
+    <AdminShell current="/admin/reports/" needsYou={needsYou}>
       {heading}
 
       {problems.length > 0 ? (

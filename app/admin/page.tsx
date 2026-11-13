@@ -3,7 +3,7 @@ import Link from "next/link";
 import { adminCopy } from "@/content/admin";
 import { requireAdmin } from "@/lib/crm/session";
 import { crmConfigured } from "@/lib/crm/db";
-import { LIST_LIMIT, type LeadRow, leadEmailFailed, leadStepDue, listLeads } from "@/lib/crm/leads";
+import { LIST_LIMIT, type LeadRow, countNeedsYou, leadEmailFailed, leadStepDue, listLeads } from "@/lib/crm/leads";
 import {
   activityLabel,
   budgetLabel,
@@ -137,7 +137,7 @@ export default async function LeadsPage({
         }`;
 
   return (
-    <AdminShell current="/admin/">
+    <AdminShell current="/admin/" needsYou={read.ok ? countNeedsYou(all, now) : null}>
       <AdminHeading heading={copy.heading} summary={summary} />
 
       {sent ? (

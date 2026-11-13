@@ -34,6 +34,9 @@ export const adminCopy = {
     menu: "Menu",
     signedInAs: "Signed in as Steve",
     signOut: "Sign out",
+    /* Read out after the number beside "Leads": "Leads 2 need you". */
+    needsYouOne: "needs you",
+    needsYouMany: "need you",
   },
 
   sections: [

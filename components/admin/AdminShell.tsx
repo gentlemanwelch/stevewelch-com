@@ -18,10 +18,23 @@ import { adminCopy } from "@/content/admin";
  * `current` is the section the page belongs to, passed in by the page. A
  * lead's own page is still "Leads".
  *
+ * `needsYou` is the number beside "Leads": how many prospects need the owner
+ * (see `countNeedsYou` in lib/crm/leads.ts). The page works it out and hands
+ * it in, because this component reads nothing. No number is drawn for zero,
+ * and none when the page could not find out.
+ *
  * THIS IS NOT THE GUARD. It draws the frame; it does not check who is
  * looking. Each page calls `requireAdmin()` itself — see lib/crm/session.ts.
  */
-export function AdminShell({ current, children }: { current: string; children: ReactNode }) {
+export function AdminShell({
+  current,
+  needsYou,
+  children,
+}: {
+  current: string;
+  needsYou?: number | null;
+  children: ReactNode;
+}) {
   const { shell, sections, product } = adminCopy;
 
   const links = (onDark: string) =>
@@ -37,6 +50,12 @@ export function AdminShell({ current, children }: { current: string; children: R
           }`}
         >
           {section.label}
+          {section.href === "/admin/" && needsYou ? (
+            <span className="ml-auto min-w-[22px] rounded-[11px] bg-warn px-1.5 py-px text-center text-[12px] font-bold text-navy">
+              {needsYou}
+              <span className="sr-only">{` ${needsYou === 1 ? shell.needsYouOne : shell.needsYouMany}`}</span>
+            </span>
+          ) : null}
         </Link>
       );
     });

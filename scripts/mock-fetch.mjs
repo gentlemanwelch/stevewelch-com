@@ -98,6 +98,11 @@ if (LOG && CONTROL) {
         if (now.leadsMode === "error") return new Response('{"message":"permission denied for table leads"}', { status: 401 });
         if (now.leadsMode === "garbage") return json(200, { not: "a list" });
         const asked = new URL(url).searchParams;
+        // `now.countMode` fails the menu's count alone, and leaves every
+        // other read of the table working.
+        if (now.countMode === "error" && (asked.get("select") ?? "").startsWith("stage,next_step_due")) {
+          return new Response('{"message":"the count is unavailable"}', { status: 503 });
+        }
         const wanted = asked.get("id");
         // The reports ask for real leads only, as a filter, and the real
         // service applies it. So does this one.

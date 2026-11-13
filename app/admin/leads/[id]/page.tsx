@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { adminCopy } from "@/content/admin";
 import { requireAdmin } from "@/lib/crm/session";
-import { getLead, type InquiryRow, type LeadAction } from "@/lib/crm/leads";
+import { getLead, type InquiryRow, type LeadAction, needsYouCount } from "@/lib/crm/leads";
 import {
   arrivalSentence,
   budgetLabel,
@@ -70,11 +70,13 @@ export default async function LeadPage({
   if (!isRecordId(id)) notFound();
 
   const { lead: copy, leads: listCopy } = adminCopy;
-  const read = await getLead(id);
+  const now = new Date();
+  // The lead, and the number beside "Leads" in the menu, asked for together.
+  const [read, needsYou] = await Promise.all([getLead(id), needsYouCount(now)]);
 
   if (!read.ok) {
     return (
-      <AdminShell current="/admin/">
+      <AdminShell current="/admin/" needsYou={needsYou}>
         <AdminHeading heading={copy.title} />
         <div role="alert" className="max-w-[620px] rounded-[var(--radius-base)] border border-warn bg-white px-6 py-7">
           <h2 className="text-[18px] font-bold leading-[1.3] tracking-normal text-navy">
@@ -90,7 +92,6 @@ export default async function LeadPage({
   const lead = read.value;
   if (!lead) notFound();
 
-  const now = new Date();
   const action = `/api/admin/leads/${lead.id}/`;
   const { problem } = await searchParams;
   const problems = (problem ?? "")
@@ -149,7 +150,7 @@ export default async function LeadPage({
   const canBeNoShow = ["inquiry", "call_booked", "call_held"].includes(lead.stage);
 
   return (
-    <AdminShell current="/admin/">
+    <AdminShell current="/admin/" needsYou={needsYou}>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
         <div className="min-w-0">
           <h1 className="text-[24px] font-extrabold leading-[1.15] tracking-[-0.02em] text-navy md:text-[28px]">

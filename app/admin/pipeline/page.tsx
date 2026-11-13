@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { adminCopy } from "@/content/admin";
 import { requireAdmin } from "@/lib/crm/session";
-import { type LeadRow, leadNeedsYou, listLeads } from "@/lib/crm/leads";
+import { type LeadRow, countNeedsYou, leadNeedsYou, listLeads } from "@/lib/crm/leads";
 import {
   CLOSED_REASONS,
   OPEN_STAGES,
@@ -77,7 +77,7 @@ export default async function PipelinePage({ searchParams }: { searchParams: Pro
   }));
 
   return (
-    <AdminShell current="/admin/pipeline/">
+    <AdminShell current="/admin/pipeline/" needsYou={read.ok ? countNeedsYou(all, now) : null}>
       <AdminHeading heading={copy.heading} summary={copy.summary} />
 
       {!read.ok ? (

@@ -628,10 +628,14 @@ await withServer("After the inquiry", SETTINGS, async (site) => {
   await check("the report asks for no names, and never counts a test", async () => {
     site.database({ leads: LEADS, adWeeks: AD_WEEK(22) });
     const { html } = await site.page("/admin/reports/?period=all");
-    const reads = site.reads();
-    assert.equal(reads.length, 1);
-    const params = new URL(reads[0].url).searchParams;
-    assert.equal(params.get("is_test"), "is.false");
+    // Two reads: the report, and the number beside "Leads" in the menu.
+    // Both are of real leads only.
+    const reads = site.reads().map((read) => new URL(read.url).searchParams);
+    assert.equal(reads.length, 2);
+    for (const read of reads) assert.equal(read.get("is_test"), "is.false");
+    const report = reads.filter((read) => !read.get("select").startsWith("stage,next_step_due"));
+    assert.equal(report.length, 1);
+    const params = report[0];
     for (const column of ["name", "organization", "email", "message", "notes", "reply_token", "next_step"]) {
       assert.ok(!params.get("select").includes(column), `the report asked for ${column}`);
     }
@@ -698,7 +702,12 @@ await withServer("After the inquiry", SETTINGS, async (site) => {
     site.database({ leads: forList(LEADS), adWeeks: AD_WEEK(22) });
     for (const pathname of ["/admin/pipeline/", "/admin/reports/"]) {
       const { html, res } = await site.page(pathname);
-      const menu = [...html.matchAll(/<a[^>]*href="(\/admin\/[^"]*)"[^>]*>(Leads|Pipeline|Reports|Workflow|Settings)<\/a>/g)].map((m) => `${m[2]} ${m[1]}`);
+      // "Leads" may carry the number of prospects who need the owner.
+      const menu = [
+        ...html.matchAll(
+          /<a[^>]*href="(\/admin\/[^"]*)"[^>]*>(Leads|Pipeline|Reports|Workflow|Settings)(?:<span class="ml-auto[^"]*">\d+<span class="sr-only">[^<]*<\/span><\/span>)?<\/a>/g,
+        ),
+      ].map((m) => `${m[2]} ${m[1]}`);
       assert.deepEqual([...new Set(menu)], ["Leads /admin/", "Pipeline /admin/pipeline/", "Reports /admin/reports/"], pathname);
       assert.match(html, new RegExp(`<a[^>]*aria-current="page"[^>]*href="${pathname}"|<a[^>]*href="${pathname}"[^>]*aria-current="page"`), pathname);
       assert.ok(!/<script[^>]*type="application\/ld\+json"/.test(html), pathname);
