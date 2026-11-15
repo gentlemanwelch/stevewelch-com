@@ -110,30 +110,34 @@ export default async function HomePage() {
 
         WHAT SHOWS, measured on the 2026-11-15 photograph (1536×1024; Steve's
         hand at x=284, where it was in the frame before this one; the slide's
-        headline "BUILT ON PURPOSE" ends at x=1224; "stevewelch.com", in the
-        slide's bottom right corner, runs x=1319–1509): from 1536 wide the
-        whole picture; 1280–1535 shows the headline whole and CUTS THROUGH
-        "stevewelch.com" at the screen's edge (at 1280 a sliver of its "s",
-        at 1440 "stevewelch.c"); 1024–1279 shows Steve and the headline,
-        trimmed on the narrower of those. The glass ribbons run off the
-        slide's right edge by design, so a trim there does not read as one.
-        The web address does.
+        headline "BUILT ON PURPOSE" ends at x=1224): from 1536 wide the
+        whole picture; 1280–1535 shows Steve, the headline whole and the
+        funnel, and trims the ribbons at the right; 1024–1279 shows Steve
+        and the headline, trimmed on the narrower of those. The glass
+        ribbons run off the slide's right edge by design, so a trim there
+        does not read as one.
+
+        NOTHING AT THE FAR RIGHT MAY BE TEXT. The picture as supplied had
+        "stevewelch.com" at x=1319–1509, and from 1280 to 1535 wide the
+        screen's edge cut through it ("stevewelch.c" at 1440). It was taken
+        off the picture at Steve's choice (see content/media-manifest.ts),
+        because the layout cannot save it: the copy's height sets the
+        photograph's scale, and fitting x=1509 at 1440 needs a section
+        ≤ ~650px tall (it is 670), at 1280 ≤ ~585px (it is 661).
 
         THE COPY'S HEIGHT SETS THE PHOTOGRAPH'S SCALE, so it is budgeted: the
         xl headline clamp (75px at 1440, still reaching the 6rem cap only on
         very wide screens), 17px body and thesis, and the 44rem cap on the
-        min-height. That budget was set for the photograph before this one,
-        whose slide had to fit whole at 1440. It cannot do the same for this
-        one's web address: fitting x=1509 at 1440 needs a section ≤ ~650px
-        tall (it is 670), and at 1280 ≤ ~585px (it is 661). After ANY change
-        to the hero's copy or type sizes, re-measure: a point at picture x
-        sits at (photo box left − 104px + x × section height ÷ 1024)
-        whenever the box is narrower than 3:2.
+        min-height. After ANY change to the hero's copy or type sizes,
+        re-measure: a point at picture x sits at (photo box left − 104px +
+        x × section height ÷ 1024) whenever the box is narrower than 3:2,
+        and the headline's end (x=1224) must stay inside the viewport from
+        1280.
 
         Below lg the copy comes first and the photograph follows, whole
         across a tablet and cropped square on a phone on Steve and the slide
-        headline, which reads in full at 48% (the square ends at x=1270, so
-        the web address is outside it). No fade there: over the dark
+        headline, which reads in full at 48% (the square shows x=246–1270).
+        No fade there: over the dark
         stage rigging at the top of the frame a pale fade only turns grey.
       */}
       <section className="relative isolate overflow-hidden bg-tint-warm">
