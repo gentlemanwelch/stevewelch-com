@@ -230,16 +230,17 @@ export const selectedOrganizationLogos: SizedLogo[] = [
  * belongs to is noted against it.
  */
 export const bfc = {
-  /* The homepage hero: Steve on stage in front of his slide, "The
-     fundamentals haven't changed. Their leverage has." — Purpose, People,
-     Process, then "AI · Amplifies everything." Supplied by Steve on
-     2026-09-28, replacing the 2026-09-25 frame for "slightly better
-     alignment on the screen behind it". 1536×1024. The homepage crops it
-     with a fixed offset; see the hero's note in app/(site)/page.tsx, which
+  /* The homepage hero: Steve on stage in front of his slide, "BUILT ON
+     PURPOSE — Aligning what matters. Amplifying what's possible.", glass
+     ribbons braiding through a funnel, and "stevewelch.com" in the slide's
+     bottom right corner. Supplied by Steve on 2026-11-15, replacing the
+     2026-09-28 "The fundamentals haven't changed" frame. 1536×1024, and
+     Steve stands where he stood in that one. The homepage crops it with a
+     fixed offset; see the hero's note in app/(site)/page.tsx, which
      records the measurements it depends on. */
-  hero: `${base}/steve-welch-keynote-hero-fundamentals.webp`,
+  hero: `${base}/steve-welch-keynote-hero-built-on-purpose.webp`,
   heroAlt:
-    "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” — Purpose, People, Process, then AI: Amplifies Everything",
+    "Steve Welch on stage in front of a slide reading “Built on Purpose. Aligning what matters. Amplifying what’s possible.”",
 
   /* THE CAREER TILES. The Mitos logo, the Restore opening and the Nasdaq
      photograph were supplied by Steve on 2026-09-25, replacing the real
