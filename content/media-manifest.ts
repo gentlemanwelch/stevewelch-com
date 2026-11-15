@@ -230,16 +230,29 @@ export const selectedOrganizationLogos: SizedLogo[] = [
  * belongs to is noted against it.
  */
 export const bfc = {
-  /* The homepage hero: Steve on stage in front of his slide, "The
-     fundamentals haven't changed. Their leverage has." — Purpose, People,
-     Process, then "AI · Amplifies everything." Supplied by Steve on
-     2026-09-28, replacing the 2026-09-25 frame for "slightly better
-     alignment on the screen behind it". 1536×1024. The homepage crops it
-     with a fixed offset; see the hero's note in app/(site)/page.tsx, which
-     records the measurements it depends on. */
-  hero: `${base}/steve-welch-keynote-hero-fundamentals.webp`,
+  /* The homepage hero: Steve on stage in front of his slide, "BUILT ON
+     PURPOSE — Aligning what matters. Amplifying what's possible.", with
+     glass ribbons braiding through a funnel. Supplied by Steve on
+     2026-11-15, replacing the 2026-09-28 "The fundamentals haven't
+     changed" frame. 1536×1024, and Steve stands where he stood in that one.
+
+     ONE THING WAS TAKEN OFF IT, at Steve's choice the same day: the slide
+     had "stevewelch.com" in its bottom right corner (x=1319–1509), and on
+     most laptop screens the screen's edge cut through it. If a re-made
+     picture ever brings a web address back, put it left of x=1224 or expect
+     the same.
+
+     A CHANGED PICTURE NEEDS A CHANGED FILENAME. The image optimizer keeps
+     its resized copies by address, so a new picture saved over an old name
+     goes on showing the old one. That happened here on the way in: the
+     copy without the web address was first saved over the copy with it,
+     and the page kept the address.
+
+     The homepage crops it with a fixed offset; see the hero's note in
+     app/(site)/page.tsx, which records the measurements it depends on. */
+  hero: `${base}/steve-welch-keynote-built-on-purpose-stage.webp`,
   heroAlt:
-    "Steve Welch on stage in front of a slide reading “The fundamentals haven’t changed. Their leverage has.” — Purpose, People, Process, then AI: Amplifies Everything",
+    "Steve Welch on stage in front of a slide reading “Built on Purpose. Aligning what matters. Amplifying what’s possible.”",
 
   /* THE CAREER TILES. The Mitos logo, the Restore opening and the Nasdaq
      photograph were supplied by Steve on 2026-09-25, replacing the real

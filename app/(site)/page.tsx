@@ -108,26 +108,36 @@ export default async function HomePage() {
         box is wide enough to show the whole photograph, so there is never a
         gap at the right.
 
-        WHAT SHOWS, measured on the 2026-09-28 photograph (1536×1024; Steve's
-        hand at x=282, the AI circle's right edge at x=1457 — 1175px apart):
-        from about 1425 wide the whole slide, "AI · Amplifies everything"
-        included (at 1440 the circle ends at x=1430); 1280–1424 trims the AI
-        circle; 1024–1279 shows Steve and the slide's headline.
+        WHAT SHOWS, measured on the 2026-11-15 photograph (1536×1024; Steve's
+        hand at x=284, where it was in the frame before this one; the slide's
+        headline "BUILT ON PURPOSE" ends at x=1224): from 1536 wide the
+        whole picture; 1280–1535 shows Steve, the headline whole and the
+        funnel, and trims the ribbons at the right; 1024–1279 shows Steve
+        and the headline, trimmed on the narrower of those. The glass
+        ribbons run off the slide's right edge by design, so a trim there
+        does not read as one.
 
-        THE COPY'S HEIGHT SETS THE PHOTOGRAPH'S SCALE, so it is budgeted. To
-        fit the whole slide at 1440 the section must be ≤ ~669px tall there:
-        hence the xl headline clamp (75px at 1440, still reaching the 6rem
-        cap only on very wide screens), 17px body and thesis, and the 44rem
-        cap on the min-height — at 1680×1050 the old 48rem min-height, not
-        the copy, set the height and pushed the AI circle off the edge.
-        After ANY change to the hero's copy or type sizes, re-measure: the AI
-        circle's right edge sits at (photo box left − 104px + 1457 × section
-        height ÷ 1024) whenever the box is narrower than 3:2, and it must
-        stay inside the viewport at 1440.
+        NOTHING AT THE FAR RIGHT MAY BE TEXT. The picture as supplied had
+        "stevewelch.com" at x=1319–1509, and from 1280 to 1535 wide the
+        screen's edge cut through it ("stevewelch.c" at 1440). It was taken
+        off the picture at Steve's choice (see content/media-manifest.ts),
+        because the layout cannot save it: the copy's height sets the
+        photograph's scale, and fitting x=1509 at 1440 needs a section
+        ≤ ~650px tall (it is 670), at 1280 ≤ ~585px (it is 661).
+
+        THE COPY'S HEIGHT SETS THE PHOTOGRAPH'S SCALE, so it is budgeted: the
+        xl headline clamp (75px at 1440, still reaching the 6rem cap only on
+        very wide screens), 17px body and thesis, and the 44rem cap on the
+        min-height. After ANY change to the hero's copy or type sizes,
+        re-measure: a point at picture x sits at (photo box left − 104px +
+        x × section height ÷ 1024) whenever the box is narrower than 3:2,
+        and the headline's end (x=1224) must stay inside the viewport from
+        1280.
 
         Below lg the copy comes first and the photograph follows, whole
         across a tablet and cropped square on a phone on Steve and the slide
-        headline, which reads in full at 48%. No fade there: over the dark
+        headline, which reads in full at 48% (the square shows x=246–1270).
+        No fade there: over the dark
         stage rigging at the top of the frame a pale fade only turns grey.
       */}
       <section className="relative isolate overflow-hidden bg-tint-warm">
