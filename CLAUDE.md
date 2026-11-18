@@ -299,6 +299,11 @@ AI-speaker copy.
   type and marks, where it would fail 4.5:1 on the tint as small text.
 - **Wordmark:** STEVE WELCH set in type (`components/Wordmark.tsx`), as the
   mockup draws it. The old lowercase SVG logos are unused.
+- **Tab icon:** "SW" in the wordmark's Poppins ExtraBold, white on navy —
+  Steve's choice of three (2026-11-18). `app/icon.svg` is the drawing;
+  `app/favicon.ico` and `app/apple-icon.png` are made from it by
+  `scripts/make-icons.mjs` and never edited by hand. They sit in `app/`
+  itself, not in a route group, so every page gets them, `/admin` included.
 - **Homepage hero:** light, per the mockup, with the stage photograph beside
   the copy. Its crop is a fixed offset, not a percentage; read the note above
   §2 in `app/(site)/page.tsx` before touching the copy's length, because the
