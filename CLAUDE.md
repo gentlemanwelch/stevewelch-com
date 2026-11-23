@@ -280,6 +280,28 @@ overwrite one in place (30-day cache).
 Every other video is still a click-to-load YouTube embed (`VideoEmbed` with
 `youtubeId`).
 
+## The link-preview card
+
+`app/opengraph-image.tsx` draws the picture a chat or a feed shows when a link
+to the site is pasted: the homepage hero in miniature, with the stage
+photograph. Steve chose it from three (2026-11-23). Every page's `og:image`
+points at it, and it is built once, at build time (`○ /opengraph-image`).
+
+- **Its words come from `content/`** — the name, the hero's heading and
+  subhead, the address. None are written in the file.
+- **It has its own copy of the homepage photograph**, because next/og cannot
+  read WebP: `assets/card/<the hero's file name>.jpg`, made by
+  `scripts/make-card-photo.mjs`. After changing `bfc.hero`, run that script,
+  build, and look at the card. Until then the card is drawn without a
+  photograph, by design: plainer, never showing the old one.
+- **Under 600 KB, or WhatsApp shows no picture.** `lib/png.ts` repacks what
+  next/og writes (755 KB down to under 500, the same pixels). A card that is
+  still over is drawn without the photograph and the build says so.
+- **Its Poppins is two TTF files in `assets/card/`**, converted from the ones
+  next/font downloads, because next/og cannot read WOFF2 either.
+- **To see it:** `npm run build`, then open
+  `.next/server/app/opengraph-image.body` as a PNG.
+
 ## Design — "Built for Change"
 
 Redesigned from scratch in September 2026 from a handoff packet (positioning,

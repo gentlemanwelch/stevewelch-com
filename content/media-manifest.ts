@@ -249,7 +249,12 @@ export const bfc = {
      and the page kept the address.
 
      The homepage crops it with a fixed offset; see the hero's note in
-     app/(site)/page.tsx, which records the measurements it depends on. */
+     app/(site)/page.tsx, which records the measurements it depends on.
+
+     THE LINK-PREVIEW CARD KEEPS ITS OWN COPY of this picture, a JPEG named
+     after this file (app/opengraph-image.tsx says why). After changing the
+     line below, run `node scripts/make-card-photo.mjs` and look at the
+     card; until that is done the card is drawn without a photograph. */
   hero: `${base}/steve-welch-keynote-built-on-purpose-stage.webp`,
   heroAlt:
     "Steve Welch on stage in front of a slide reading “Built on Purpose. Aligning what matters. Amplifying what’s possible.”",
